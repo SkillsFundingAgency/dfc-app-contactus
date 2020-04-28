@@ -159,9 +159,6 @@
                     "appServiceType": {
                         "value": "app"
                     },
-                    "deployStagingSlot": {
-                        "value": false
-                    },
                     "appServiceAppSettings": {
                         "value": [
                             {
