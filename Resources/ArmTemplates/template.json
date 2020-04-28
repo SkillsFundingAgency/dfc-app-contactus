@@ -382,7 +382,7 @@
             "name": "[concat(variables('webAppInsightsName'), '-failure-anomaly-v2')]",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
-                "[variables('webAppInsightsName')]"
+                "[concat(variables('webAppInsightsName'), '-metric-exceptions')]"
             ],
             "properties": {
                 "mode": "Incremental",
