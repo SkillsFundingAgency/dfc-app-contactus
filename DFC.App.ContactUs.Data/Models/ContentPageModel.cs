@@ -19,7 +19,7 @@ namespace DFC.App.ContactUs.Data.Models
         [UrlPath]
         public string CanonicalName { get; set; }
 
-        public string PartitionKey => CanonicalName;
+        public string PartitionKey => "static-page";
 
         public long SequenceNumber { get; set; }
 
