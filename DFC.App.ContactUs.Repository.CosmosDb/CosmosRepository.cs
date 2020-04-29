@@ -78,11 +78,11 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
             return default;
         }
 
-        public async Task<T> GetAsync(string partitionKey, Expression<Func<T, bool>> where)
+        public async Task<T> GetAsync(string partitionKeyValue, Expression<Func<T, bool>> where)
         {
-            var pk = new PartitionKey(partitionKey.ToLowerInvariant());
+            var partitionKey = new PartitionKey(partitionKeyValue.ToLowerInvariant());
 
-            var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { MaxItemCount = 1, PartitionKey = pk })
+            var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { MaxItemCount = 1, PartitionKey = partitionKey })
                                       .Where(where)
                                       .AsDocumentQuery();
 
@@ -118,11 +118,11 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
             return models.Any() ? models : null;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(string partitionKey)
+        public async Task<IEnumerable<T>> GetAllAsync(string partitionKeyValue)
         {
-            var pk = new PartitionKey(partitionKey.ToLowerInvariant());
+            var partitionKey = new PartitionKey(partitionKeyValue.ToLowerInvariant());
 
-            var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { PartitionKey = pk })
+            var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { PartitionKey = partitionKey })
                                       .AsDocumentQuery();
 
             var models = new List<T>();
@@ -141,10 +141,10 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
         {
             await InitialiseDevEnvironment().ConfigureAwait(false);
 
-            var ac = new AccessCondition { Condition = model.Etag, Type = AccessConditionType.IfMatch };
-            var pk = new PartitionKey(model.PartitionKey);
+            var accessCondition = new AccessCondition { Condition = model.Etag, Type = AccessConditionType.IfMatch };
+            var partitionKey = new PartitionKey(model.PartitionKey);
 
-            var result = await documentClient.UpsertDocumentAsync(DocumentCollectionUri, model, new RequestOptions { AccessCondition = ac, PartitionKey = pk }).ConfigureAwait(false);
+            var result = await documentClient.UpsertDocumentAsync(DocumentCollectionUri, model, new RequestOptions { AccessCondition = accessCondition, PartitionKey = partitionKey }).ConfigureAwait(false);
 
             return result.StatusCode;
         }
@@ -157,10 +157,10 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
 
             if (model != null)
             {
-                var ac = new AccessCondition { Condition = model.Etag, Type = AccessConditionType.IfMatch };
-                var pk = new PartitionKey(model.PartitionKey);
+                var accessCondition = new AccessCondition { Condition = model.Etag, Type = AccessConditionType.IfMatch };
+                var partitionKey = new PartitionKey(model.PartitionKey);
 
-                var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions { AccessCondition = ac, PartitionKey = pk }).ConfigureAwait(false);
+                var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions { AccessCondition = accessCondition, PartitionKey = partitionKey }).ConfigureAwait(false);
 
                 return result.StatusCode;
             }
@@ -197,14 +197,14 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
             {
                 if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    var pkDef = new PartitionKeyDefinition
+                    var partitionKeyDefinition = new PartitionKeyDefinition
                     {
                         Paths = new Collection<string>() { cosmosDbConnection.PartitionKey },
                     };
 
                     await documentClient.CreateDocumentCollectionAsync(
                                 UriFactory.CreateDatabaseUri(cosmosDbConnection.DatabaseId),
-                                new DocumentCollection { Id = cosmosDbConnection.CollectionId, PartitionKey = pkDef },
+                                new DocumentCollection { Id = cosmosDbConnection.CollectionId, PartitionKey = partitionKeyDefinition },
                                 new RequestOptions { OfferThroughput = 1000 }).ConfigureAwait(false);
                 }
                 else

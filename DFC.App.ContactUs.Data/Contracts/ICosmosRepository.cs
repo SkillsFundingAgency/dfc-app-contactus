@@ -14,11 +14,11 @@ namespace DFC.App.ContactUs.Data.Contracts
 
         Task<T> GetAsync(Expression<Func<T, bool>> where);
 
-        Task<T> GetAsync(string partitionKey, Expression<Func<T, bool>> where);
+        Task<T> GetAsync(string partitionKeyValue, Expression<Func<T, bool>> where);
 
         Task<IEnumerable<T>> GetAllAsync();
 
-        Task<IEnumerable<T>> GetAllAsync(string partitionKey);
+        Task<IEnumerable<T>> GetAllAsync(string partitionKeyValue);
 
         Task<HttpStatusCode> UpsertAsync(T model);
 
