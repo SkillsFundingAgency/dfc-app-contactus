@@ -1,0 +1,18 @@
+﻿@model IndexViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    @if (Model.Documents?.Count() > 0)
+    {
+        <ul>
+            @foreach (var document in Model.Documents)
+            {
+                <li>
+                    <a href="/@Model.LocalPath/@document.CanonicalName">@document.CanonicalName</a>
+                </li>
+            }
+        </ul>
+    }
+</body>
+</html>
