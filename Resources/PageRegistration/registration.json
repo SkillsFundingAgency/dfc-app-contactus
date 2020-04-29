@@ -36,21 +36,9 @@
         "IsHealthy": true
       },
       {
-        "PageRegion": 5,
-        "HealthCheckRequired": true,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/{0}/sidebarright",
-        "IsHealthy": true
-      },
-      {
         "PageRegion": 7,
         "HealthCheckRequired": true,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/{0}/bodyfooter",
-        "IsHealthy": true
-      },
-      {
-        "PageRegion": 8,
-        "HealthCheckRequired": true,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/{0}/herobanner",
         "IsHealthy": true
       }
     ]
