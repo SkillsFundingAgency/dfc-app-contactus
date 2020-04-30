@@ -93,32 +93,17 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         private static async Task<IActionResult> RunControllerAction(PagesController controller, string article, string actionName)
         {
-            switch (actionName)
+            return actionName switch
             {
-                case nameof(PagesController.HtmlHead):
-                    return await controller.HtmlHead(article).ConfigureAwait(false);
-
-                case nameof(PagesController.Breadcrumb):
-                    return await controller.Breadcrumb(article).ConfigureAwait(false);
-
-                case nameof(PagesController.BodyTop):
-                    return controller.BodyTop(article);
-
-                case nameof(PagesController.HeroBanner):
-                    return controller.HeroBanner(article);
-
-                case nameof(PagesController.SidebarRight):
-                    return controller.SidebarRight(article);
-
-                case nameof(PagesController.SidebarLeft):
-                    return controller.SidebarLeft(article);
-
-                case nameof(PagesController.BodyFooter):
-                    return controller.BodyFooter(article);
-
-                default:
-                    return await controller.Body(article).ConfigureAwait(false);
-            }
+                nameof(PagesController.HtmlHead) => await controller.HtmlHead(article).ConfigureAwait(false),
+                nameof(PagesController.Breadcrumb) => await controller.Breadcrumb(article).ConfigureAwait(false),
+                nameof(PagesController.BodyTop) => controller.BodyTop(article),
+                nameof(PagesController.HeroBanner) => controller.HeroBanner(article),
+                nameof(PagesController.SidebarRight) => controller.SidebarRight(article),
+                nameof(PagesController.SidebarLeft) => controller.SidebarLeft(article),
+                nameof(PagesController.BodyFooter) => controller.BodyFooter(article),
+                _ => await controller.Body(article).ConfigureAwait(false),
+            };
         }
 
         private PagesController BuildController(string route)

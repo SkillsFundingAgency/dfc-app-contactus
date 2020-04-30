@@ -7,6 +7,7 @@
     <CodeAnalysisRuleSet>../DFC.Digital.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
     <ProjectGuid>{4a56181b-d10b-4ab1-8dfa-f30f3479c356}</ProjectGuid>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

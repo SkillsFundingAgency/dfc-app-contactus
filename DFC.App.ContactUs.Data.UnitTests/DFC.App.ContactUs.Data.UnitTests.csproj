@@ -5,6 +5,7 @@
     <CodeAnalysisRuleSet>../UnitTests.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <ProjectGuid>{795ab9c9-5acc-4d00-98e6-9cb5bfa224f3}</ProjectGuid>
     <AssemblyName>DFC.App.ContactUs.Data.UnitTests</AssemblyName>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

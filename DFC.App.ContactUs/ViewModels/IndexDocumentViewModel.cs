@@ -2,6 +2,6 @@
 {
     public class IndexDocumentViewModel
     {
-        public string CanonicalName { get; set; }
+        public string? CanonicalName { get; set; }
     }
 }

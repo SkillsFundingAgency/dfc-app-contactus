@@ -35,11 +35,12 @@ namespace DFC.App.ContactUs.PageService.UnitTests.ContentPageServiceTests
         public async System.Threading.Tasks.Task ContentPageServiceUpdateReturnsArgumentNullExceptionWhenNullIsUsed()
         {
             // arrange
+            ContentPageModel? contentPageModel = null;
             var repository = A.Fake<ICosmosRepository<ContentPageModel>>();
             var contentPageService = new ContentPageService(repository);
 
             // act
-            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.UpsertAsync(null).ConfigureAwait(false)).ConfigureAwait(false);
+            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.UpsertAsync(contentPageModel).ConfigureAwait(false)).ConfigureAwait(false);
 
             // assert
             Assert.Equal("Value cannot be null. (Parameter 'contentPageModel')", exceptionResult.Message);
@@ -72,7 +73,7 @@ namespace DFC.App.ContactUs.PageService.UnitTests.ContentPageServiceTests
             // arrange
             var repository = A.Dummy<ICosmosRepository<ContentPageModel>>();
             var contentPageModel = A.Fake<ContentPageModel>();
-            ContentPageModel expectedResult = null;
+            ContentPageModel? expectedResult = null;
 
             A.CallTo(() => repository.UpsertAsync(contentPageModel)).Returns(HttpStatusCode.FailedDependency);
 

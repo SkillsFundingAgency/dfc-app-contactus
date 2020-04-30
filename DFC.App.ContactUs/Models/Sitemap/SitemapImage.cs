@@ -6,16 +6,16 @@ namespace DFC.App.ContactUs.Models
     public class SitemapImage
     {
         [XmlElement("loc")]
-        public string Location { get; set; }
+        public string? Location { get; set; }
 
         [XmlElement("caption")]
-        public string Caption { get; set; }
+        public string? Caption { get; set; }
 
         [XmlElement("title")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [XmlElement("geo_location")]
-        public string GeoLocation { get; set; }
+        public string? GeoLocation { get; set; }
 
         public bool ShouldSerializeCaption()
         {

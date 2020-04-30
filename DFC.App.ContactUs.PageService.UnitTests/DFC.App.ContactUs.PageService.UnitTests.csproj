@@ -6,6 +6,7 @@
     <IsPackable>false</IsPackable>
     <CodeAnalysisRuleSet>../UnitTests.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <ProjectGuid>{ba08f896-ffc8-4dd8-bfd9-bf2377b51bf8}</ProjectGuid>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

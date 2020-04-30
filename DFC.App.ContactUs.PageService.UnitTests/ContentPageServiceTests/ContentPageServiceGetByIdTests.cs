@@ -36,7 +36,7 @@ namespace DFC.App.ContactUs.PageService.UnitTests.ContentPageServiceTests
             // arrange
             Guid documentId = Guid.NewGuid();
             var repository = A.Fake<ICosmosRepository<ContentPageModel>>();
-            ContentPageModel expectedResult = null;
+            ContentPageModel? expectedResult = null;
 
             A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns(expectedResult);
 

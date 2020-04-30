@@ -17,10 +17,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.Created;
+            ContentPageModel? expectedResult = null;
             var contentPageModel = A.Fake<ContentPageModel>();
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).Returns((ContentPageModel)null);
+            A.CallTo(() => FakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeContentPageService.UpsertAsync(A<ContentPageModel>.Ignored)).Returns(expectedResponse);
 
             // Act
@@ -64,10 +65,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public async Task PagesControllerPostReturnsBadResultWhenModelIsNull(string mediaTypeName)
         {
             // Arrange
+            ContentPageModel? contentPagesModel = null;
             var controller = BuildPagesController(mediaTypeName);
 
             // Act
-            var result = await controller.Create(null).ConfigureAwait(false);
+            var result = await controller.Create(contentPagesModel).ConfigureAwait(false);
 
             // Assert
             var statusResult = Assert.IsType<BadRequestResult>(result);
@@ -81,13 +83,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public async Task PagesControllerPostReturnsBadResultWhenModelIsInvalid(string mediaTypeName)
         {
             // Arrange
-            var relatedCareersPagesModel = new ContentPageModel();
+            var contentPagesModel = new ContentPageModel();
             var controller = BuildPagesController(mediaTypeName);
 
             controller.ModelState.AddModelError(string.Empty, "Model is not valid");
 
             // Act
-            var result = await controller.Create(relatedCareersPagesModel).ConfigureAwait(false);
+            var result = await controller.Create(contentPagesModel).ConfigureAwait(false);
 
             // Assert
             var statusResult = Assert.IsType<BadRequestObjectResult>(result);

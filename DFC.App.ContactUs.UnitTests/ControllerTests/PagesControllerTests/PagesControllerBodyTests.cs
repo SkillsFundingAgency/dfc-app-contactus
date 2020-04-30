@@ -71,7 +71,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public async Task PagesControllerBodyWithNullArticleHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            const string article = null;
+            const string? article = null;
             var expectedResult = new ContentPageModel() { Content = "<h1>A document</h1>" };
             var controller = BuildPagesController(mediaTypeName);
 
@@ -98,7 +98,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public async Task PagesControllerBodyWithNullArticleJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            const string article = null;
+            const string? article = null;
             var expectedResult = new ContentPageModel() { Content = "<h1>A document</h1>" };
             var controller = BuildPagesController(mediaTypeName);
 
@@ -127,7 +127,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             const string article = "an-article-name";
-            ContentPageModel expectedResult = null;
+            ContentPageModel? expectedResult = null;
             var expectedAlternativeResult = A.Fake<ContentPageModel>();
             var controller = BuildPagesController(mediaTypeName);
 
@@ -158,8 +158,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             const string article = "an-article-name";
-            ContentPageModel expectedResult = null;
-            ContentPageModel expectedAlternativeResult = null;
+            ContentPageModel? expectedResult = null;
+            ContentPageModel? expectedAlternativeResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);

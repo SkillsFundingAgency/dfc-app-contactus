@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <CodeAnalysisRuleSet>../DFC.Digital.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <ProjectGuid>{4608d1f9-5065-42fe-8159-32a1f78468d8}</ProjectGuid>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

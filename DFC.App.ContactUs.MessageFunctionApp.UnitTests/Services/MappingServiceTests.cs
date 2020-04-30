@@ -6,6 +6,7 @@ using DFC.App.ContactUs.MessageFunctionApp.Services;
 using FluentAssertions;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace DFC.App.ContactUs.MessageFunctionApp.UnitTests.Services
@@ -21,8 +22,7 @@ namespace DFC.App.ContactUs.MessageFunctionApp.UnitTests.Services
         private const string Description = "A description";
         private const string Keywords = "Some keywords";
         private const string Content = "<p>This is some content</p>";
-        private static readonly string[] AlternativeNames = new string[] { "alt-name-1", "alt-name-2" };
-
+        private static readonly IList<string> AlternativeNames = new string[] { "alt-name-1", "alt-name-2" };
         private static readonly DateTime LastModified = DateTime.UtcNow.AddDays(-1);
         private static readonly Guid ContentPageId = Guid.NewGuid();
 

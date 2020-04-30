@@ -10,7 +10,7 @@ namespace DFC.App.ContactUs.Data.Attributes
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class UrlPathAttribute : ValidationAttribute
     {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object? value, ValidationContext? validationContext)
         {
             if (value == null)
             {
@@ -23,16 +23,11 @@ namespace DFC.App.ContactUs.Data.Attributes
             }
 
             var validChars = "abcdefghijklmnopqrstuvwxyz01234567890_-";
-            var result = false;
-            switch (value)
+            var result = value switch
             {
-                case IEnumerable<string> list:
-                    result = list.All(x => x.Length > 0 && x.All(y => validChars.Contains(y, StringComparison.OrdinalIgnoreCase)));
-                    break;
-                default:
-                    result = value.ToString().All(x => validChars.Contains(x, StringComparison.OrdinalIgnoreCase));
-                    break;
-            }
+                IEnumerable<string> list => list.All(x => x.Length > 0 && x.All(y => validChars.Contains(y, StringComparison.OrdinalIgnoreCase))),
+                _ => value.ToString().All(x => validChars.Contains(x, StringComparison.OrdinalIgnoreCase)),
+            };
 
             return result ? ValidationResult.Success
                 : new ValidationResult(string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldNotUrlPath, validationContext.DisplayName, validChars), new[] { validationContext.MemberName });

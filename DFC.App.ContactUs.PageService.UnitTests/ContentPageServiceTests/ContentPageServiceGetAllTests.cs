@@ -34,7 +34,7 @@ namespace DFC.App.ContactUs.PageService.UnitTests.ContentPageServiceTests
         {
             // arrange
             var repository = A.Dummy<ICosmosRepository<ContentPageModel>>();
-            IEnumerable<ContentPageModel> expectedResults = null;
+            IEnumerable<ContentPageModel>? expectedResults = null;
 
             A.CallTo(() => repository.GetAllAsync()).Returns(expectedResults);
 

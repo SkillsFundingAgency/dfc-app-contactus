@@ -13,7 +13,7 @@ namespace DFC.App.ContactUs.Data.Models
         Guid DocumentId { get; set; }
 
         [JsonProperty(PropertyName = "_etag")]
-        string Etag { get; set; }
+        string? Etag { get; set; }
 
         [Required]
         string PartitionKey { get; }

@@ -6,7 +6,7 @@ namespace DFC.App.ContactUs.Extensions
 {
     public static class HttpRequestExtensions
     {
-        public static Uri GetBaseAddress(this HttpRequest request, IUrlHelper urlHelper = null)
+        public static Uri? GetBaseAddress(this HttpRequest request, IUrlHelper? urlHelper = null)
         {
             if (request != null)
             {
@@ -16,10 +16,10 @@ namespace DFC.App.ContactUs.Extensions
                     return new Uri($"{forwardedProtocol}://{originalHost}");
                 }
 
-                return string.IsNullOrWhiteSpace(request.Scheme) ? null : new Uri($"{request.Scheme}://{request.Host}{urlHelper?.Content("~")}");
+                return string.IsNullOrWhiteSpace(request.Scheme) ? default : new Uri($"{request.Scheme}://{request.Host}{urlHelper?.Content("~")}");
             }
 
-            return null;
+            return default;
         }
     }
 }

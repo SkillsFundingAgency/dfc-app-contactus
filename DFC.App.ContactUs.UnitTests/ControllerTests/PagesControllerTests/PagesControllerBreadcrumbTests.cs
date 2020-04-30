@@ -34,7 +34,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(viewResult.ViewData.Model);
 
-            model.Paths.Count.Should().BeGreaterThan(0);
+            model.Paths?.Count.Should().BeGreaterThan(0);
 
             controller.Dispose();
         }
@@ -61,7 +61,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(jsonResult.Value);
 
-            model.Paths.Count.Should().BeGreaterThan(0);
+            model.Paths?.Count.Should().BeGreaterThan(0);
 
             controller.Dispose();
         }
@@ -72,7 +72,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             const string article = "an-article-name";
-            ContentPageModel expectedResult = null;
+            ContentPageModel? expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
@@ -86,7 +86,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(viewResult.ViewData.Model);
 
-            model.Paths.Count.Should().BeGreaterThan(0);
+            model.Paths?.Count.Should().BeGreaterThan(0);
 
             controller.Dispose();
         }
@@ -97,7 +97,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             const string article = "an-article-name";
-            ContentPageModel expectedResult = null;
+            ContentPageModel? expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
@@ -111,7 +111,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(jsonResult.Value);
 
-            model.Paths.Count.Should().BeGreaterThan(0);
+            model.Paths?.Count.Should().BeGreaterThan(0);
 
             controller.Dispose();
         }
