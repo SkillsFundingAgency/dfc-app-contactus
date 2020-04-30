@@ -2,7 +2,6 @@
 using DFC.App.ContactUs.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -22,17 +21,17 @@ namespace DFC.App.ContactUs.PageService
             return await repository.PingAsync().ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<ContentPageModel>> GetAllAsync()
+        public async Task<IEnumerable<ContentPageModel>?> GetAllAsync()
         {
             return await repository.GetAllAsync().ConfigureAwait(false);
         }
 
-        public async Task<ContentPageModel> GetByIdAsync(Guid documentId)
+        public async Task<ContentPageModel?> GetByIdAsync(Guid documentId)
         {
             return await repository.GetAsync(d => d.DocumentId == documentId).ConfigureAwait(false);
         }
 
-        public async Task<ContentPageModel> GetByNameAsync(string canonicalName)
+        public async Task<ContentPageModel?> GetByNameAsync(string? canonicalName)
         {
             if (string.IsNullOrWhiteSpace(canonicalName))
             {
@@ -42,17 +41,17 @@ namespace DFC.App.ContactUs.PageService
             return await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
         }
 
-        public async Task<ContentPageModel> GetByAlternativeNameAsync(string alternativeName)
+        public async Task<ContentPageModel?> GetByAlternativeNameAsync(string? alternativeName)
         {
             if (string.IsNullOrWhiteSpace(alternativeName))
             {
                 throw new ArgumentNullException(nameof(alternativeName));
             }
 
-            return await repository.GetAsync(d => d.AlternativeNames.Contains(alternativeName.ToLowerInvariant())).ConfigureAwait(false);
+            return await repository.GetAsync(d => d.AlternativeNames!.Contains(alternativeName.ToLowerInvariant())).ConfigureAwait(false);
         }
 
-        public async Task<HttpStatusCode> UpsertAsync(ContentPageModel contentPageModel)
+        public async Task<HttpStatusCode> UpsertAsync(ContentPageModel? contentPageModel)
         {
             if (contentPageModel == null)
             {

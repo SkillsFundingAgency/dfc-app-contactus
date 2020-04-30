@@ -40,9 +40,10 @@ namespace DFC.App.ContactUs.PageService.UnitTests.ContentPageServiceTests
         public async Task ContentPageServiceGetByNameReturnsArgumentNullExceptionWhenNullNameIsUsed()
         {
             // arrange
+            string? canonicalName = null;
 
             // act
-            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.GetByNameAsync(null).ConfigureAwait(false)).ConfigureAwait(false);
+            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.GetByNameAsync(canonicalName).ConfigureAwait(false)).ConfigureAwait(false);
 
             // assert
             Assert.Equal("Value cannot be null. (Parameter 'canonicalName')", exceptionResult.Message);
@@ -52,7 +53,9 @@ namespace DFC.App.ContactUs.PageService.UnitTests.ContentPageServiceTests
         public async Task ContentPageServiceGetByNameReturnsNullWhenMissingRepository()
         {
             // arrange
-            A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns((ContentPageModel)null);
+            ContentPageModel? expectedResult = null;
+
+            A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns(expectedResult);
 
             // act
             var result = await contentPageService.GetByNameAsync(CanonicalName).ConfigureAwait(false);

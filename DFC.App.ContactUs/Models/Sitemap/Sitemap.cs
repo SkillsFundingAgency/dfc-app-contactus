@@ -17,7 +17,7 @@ namespace DFC.App.ContactUs.Models
         }
 
         [XmlIgnore]
-        public IEnumerable<SitemapLocation> Mappings => map as IEnumerable<SitemapLocation>;
+        public IEnumerable<SitemapLocation>? Mappings => map as IEnumerable<SitemapLocation>;
 
         [XmlElement("url")]
         public SitemapLocation[] Locations
@@ -67,27 +67,23 @@ namespace DFC.App.ContactUs.Models
 
         public void WriteSitemapToFile(string path)
         {
-            using (FileStream fs = new FileStream(path, FileMode.Create))
-            {
-                XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-                ns.Add("image", "http://www.google.com/schemas/sitemap-image/1.1");
+            using var fs = new FileStream(path, FileMode.Create);
+            var ns = new XmlSerializerNamespaces();
+            ns.Add("image", "http://www.google.com/schemas/sitemap-image/1.1");
 
-                XmlSerializer xs = new XmlSerializer(typeof(Sitemap));
-                xs.Serialize(fs, this, ns);
-            }
+            var xs = new XmlSerializer(typeof(Sitemap));
+            xs.Serialize(fs, this, ns);
         }
 
         public string WriteSitemapToString()
         {
-            using (StringWriter sw = new StringWriter())
-            {
-                XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-                ns.Add("image", "http://www.google.com/schemas/sitemap-image/1.1");
+            using var sw = new StringWriter();
+            var ns = new XmlSerializerNamespaces();
+            ns.Add("image", "http://www.google.com/schemas/sitemap-image/1.1");
 
-                XmlSerializer xs = new XmlSerializer(typeof(Sitemap));
-                xs.Serialize(sw, this, ns);
-                return sw.GetStringBuilder().ToString();
-            }
+            var xs = new XmlSerializer(typeof(Sitemap));
+            xs.Serialize(sw, this, ns);
+            return sw.GetStringBuilder().ToString();
         }
     }
 }

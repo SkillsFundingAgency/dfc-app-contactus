@@ -14,7 +14,7 @@ namespace DFC.App.ContactUs.Controllers
     {
         private readonly ILogger<HealthController> logger;
         private readonly IContentPageService contentPageService;
-        private readonly string resourceName = typeof(Program).Namespace;
+        private readonly string resourceName = typeof(Program).Namespace!;
 
         public HealthController(ILogger<HealthController> logger, IContentPageService contentPageService)
         {

@@ -70,14 +70,17 @@ namespace DFC.App.ContactUs.Controllers
                 return this.NegotiateContentResult(viewModel);
             }
 
-            var alternateContentPageModel = await GetAlternativeContentPageAsync(article).ConfigureAwait(false);
-
-            if (alternateContentPageModel != null)
+            if (!string.IsNullOrWhiteSpace(article))
             {
-                var alternateUrl = $"{Request.GetBaseAddress()}{LocalPath}/{alternateContentPageModel.CanonicalName}";
-                logger.LogWarning($"{nameof(Document)} has been redirected for: {article} to {alternateUrl}");
+                var alternateContentPageModel = await GetAlternativeContentPageAsync(article).ConfigureAwait(false);
 
-                return RedirectPermanentPreserveMethod(alternateUrl);
+                if (alternateContentPageModel != null)
+                {
+                    var alternateUrl = $"{Request.GetBaseAddress()}{LocalPath}/{alternateContentPageModel.CanonicalName}";
+                    logger.LogWarning($"{nameof(Document)} has been redirected for: {article} to {alternateUrl}");
+
+                    return RedirectPermanentPreserveMethod(alternateUrl);
+                }
             }
 
             logger.LogWarning($"{nameof(Document)} has returned no content for: {article}");
@@ -88,7 +91,7 @@ namespace DFC.App.ContactUs.Controllers
         [HttpGet]
         [Route("pages/{article}/htmlhead")]
         [Route("pages/htmlhead")]
-        public async Task<IActionResult> HtmlHead(string article)
+        public async Task<IActionResult> HtmlHead(string? article)
         {
             var viewModel = new HtmlHeadViewModel();
             var contentPageModel = await GetContentPageAsync(article).ConfigureAwait(false);
@@ -97,7 +100,7 @@ namespace DFC.App.ContactUs.Controllers
             {
                 mapper.Map(contentPageModel, viewModel);
 
-                viewModel.CanonicalUrl = $"{Request.GetBaseAddress()}{RegistrationPath}/{contentPageModel.CanonicalName}";
+                viewModel.CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}/{contentPageModel.CanonicalName}", UriKind.RelativeOrAbsolute);
             }
 
             logger.LogInformation($"{nameof(HtmlHead)} has returned content for: {article}");
@@ -107,7 +110,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [Route("pages/{article}/breadcrumb")]
         [Route("pages/breadcrumb")]
-        public async Task<IActionResult> Breadcrumb(string article)
+        public async Task<IActionResult> Breadcrumb(string? article)
         {
             var contentPageModel = await GetContentPageAsync(article).ConfigureAwait(false);
             var viewModel = BuildBreadcrumb(contentPageModel);
@@ -120,7 +123,7 @@ namespace DFC.App.ContactUs.Controllers
         [HttpGet]
         [Route("pages/{article}/bodytop")]
         [Route("pages/bodytop")]
-        public IActionResult BodyTop(string article)
+        public IActionResult BodyTop(string? article)
         {
             return NoContent();
         }
@@ -128,7 +131,7 @@ namespace DFC.App.ContactUs.Controllers
         [HttpGet]
         [Route("pages/{article}/herobanner")]
         [Route("pages/herobanner")]
-        public IActionResult HeroBanner(string article)
+        public IActionResult HeroBanner(string? article)
         {
             return NoContent();
         }
@@ -136,7 +139,7 @@ namespace DFC.App.ContactUs.Controllers
         [HttpGet]
         [Route("pages/{article}/body")]
         [Route("pages/body")]
-        public async Task<IActionResult> Body(string article)
+        public async Task<IActionResult> Body(string? article)
         {
             var viewModel = new BodyViewModel();
             var contentPageModel = await GetContentPageAsync(article).ConfigureAwait(false);
@@ -149,14 +152,17 @@ namespace DFC.App.ContactUs.Controllers
                 return this.NegotiateContentResult(viewModel, contentPageModel);
             }
 
-            var alternateContentPageModel = await GetAlternativeContentPageAsync(article).ConfigureAwait(false);
-
-            if (alternateContentPageModel != null)
+            if (!string.IsNullOrWhiteSpace(article))
             {
-                var alternateUrl = $"{Request.GetBaseAddress()}{RegistrationPath}/{alternateContentPageModel.CanonicalName}";
-                logger.LogWarning($"{nameof(Body)} has been redirected for: {article} to {alternateUrl}");
+                var alternateContentPageModel = await GetAlternativeContentPageAsync(article).ConfigureAwait(false);
 
-                return RedirectPermanentPreserveMethod(alternateUrl);
+                if (alternateContentPageModel != null)
+                {
+                    var alternateUrl = $"{Request.GetBaseAddress()}{RegistrationPath}/{alternateContentPageModel.CanonicalName}";
+                    logger.LogWarning($"{nameof(Body)} has been redirected for: {article} to {alternateUrl}");
+
+                    return RedirectPermanentPreserveMethod(alternateUrl);
+                }
             }
 
             logger.LogWarning($"{nameof(Body)} has not returned any content for: {article}");
@@ -166,7 +172,7 @@ namespace DFC.App.ContactUs.Controllers
         [HttpGet]
         [Route("pages/{article}/sidebarright")]
         [Route("pages/sidebarright")]
-        public IActionResult SidebarRight(string article)
+        public IActionResult SidebarRight(string? article)
         {
             return NoContent();
         }
@@ -174,7 +180,7 @@ namespace DFC.App.ContactUs.Controllers
         [HttpGet]
         [Route("pages/{article}/sidebarleft")]
         [Route("pages/sidebarleft")]
-        public IActionResult SidebarLeft(string article)
+        public IActionResult SidebarLeft(string? article)
         {
             return NoContent();
         }
@@ -182,14 +188,14 @@ namespace DFC.App.ContactUs.Controllers
         [HttpGet]
         [Route("pages/{article}/bodyfooter")]
         [Route("pages/bodyfooter")]
-        public IActionResult BodyFooter(string article)
+        public IActionResult BodyFooter(string? article)
         {
             return NoContent();
         }
 
         [HttpPost]
         [Route("pages")]
-        public async Task<IActionResult> Create([FromBody]ContentPageModel upsertContentPageModel)
+        public async Task<IActionResult> Create([FromBody]ContentPageModel? upsertContentPageModel)
         {
             if (upsertContentPageModel == null)
             {
@@ -216,7 +222,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPut]
         [Route("pages")]
-        public async Task<IActionResult> Update([FromBody]ContentPageModel upsertContentPageModel)
+        public async Task<IActionResult> Update([FromBody]ContentPageModel? upsertContentPageModel)
         {
             if (upsertContentPageModel == null)
             {
@@ -267,7 +273,7 @@ namespace DFC.App.ContactUs.Controllers
 
         #region Define helper methods
 
-        private static BreadcrumbViewModel BuildBreadcrumb(ContentPageModel contentPageModel)
+        private static BreadcrumbViewModel BuildBreadcrumb(ContentPageModel? contentPageModel)
         {
             var viewModel = new BreadcrumbViewModel
             {
@@ -300,7 +306,7 @@ namespace DFC.App.ContactUs.Controllers
             return viewModel;
         }
 
-        private async Task<ContentPageModel> GetContentPageAsync(string article)
+        private async Task<ContentPageModel?> GetContentPageAsync(string? article)
         {
             const string defaultArticleName = "home";
             var articleName = string.IsNullOrWhiteSpace(article) ? defaultArticleName : article;
@@ -310,7 +316,7 @@ namespace DFC.App.ContactUs.Controllers
             return contentPageModel;
         }
 
-        private async Task<ContentPageModel> GetAlternativeContentPageAsync(string article)
+        private async Task<ContentPageModel?> GetAlternativeContentPageAsync(string article)
         {
             var contentPageModel = await contentPageService.GetByAlternativeNameAsync(article).ConfigureAwait(false);
 

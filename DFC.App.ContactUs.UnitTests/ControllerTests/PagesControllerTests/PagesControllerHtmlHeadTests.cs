@@ -36,7 +36,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<HtmlHeadViewModel>(viewResult.ViewData.Model);
 
-            model.CanonicalUrl.Should().NotBeNullOrWhiteSpace();
+            model.CanonicalUrl.Should().NotBeNull();
 
             controller.Dispose();
         }
@@ -65,7 +65,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<HtmlHeadViewModel>(jsonResult.Value);
 
-            model.CanonicalUrl.Should().NotBeNullOrWhiteSpace();
+            model.CanonicalUrl.Should().NotBeNull();
 
             controller.Dispose();
         }
@@ -75,8 +75,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public async Task PagesControllerHtmlHeadWithNullArticleHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            const string article = null;
-            ContentPageModel expectedResult = null;
+            const string? article = null;
+            ContentPageModel? expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
@@ -99,8 +99,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public async Task PagesControllerHtmlHeadHtmlWithNullArticleJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            const string article = null;
-            ContentPageModel expectedResult = null;
+            const string? article = null;
+            ContentPageModel? expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
@@ -124,7 +124,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             const string article = "an-article-name";
-            ContentPageModel expectedResult = null;
+            ContentPageModel? expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
@@ -149,7 +149,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             const string article = "an-article-name";
-            ContentPageModel expectedResult = null;
+            ContentPageModel? expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);

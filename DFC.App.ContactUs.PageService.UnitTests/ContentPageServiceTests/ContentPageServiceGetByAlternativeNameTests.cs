@@ -34,11 +34,12 @@ namespace DFC.App.ContactUs.PageService.UnitTests.ContentPageServiceTests
         public async System.Threading.Tasks.Task ContentPageServiceGetByAlternativeNameReturnsArgumentNullExceptionWhenNullNameIsUsed()
         {
             // arrange
+            string? alternativeName = null;
             var repository = A.Fake<ICosmosRepository<ContentPageModel>>();
             var contentPageService = new ContentPageService(repository);
 
             // act
-            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.GetByAlternativeNameAsync(null).ConfigureAwait(false)).ConfigureAwait(false);
+            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.GetByAlternativeNameAsync(alternativeName).ConfigureAwait(false)).ConfigureAwait(false);
 
             // assert
             Assert.Equal("Value cannot be null. (Parameter 'alternativeName')", exceptionResult.Message);
@@ -50,7 +51,7 @@ namespace DFC.App.ContactUs.PageService.UnitTests.ContentPageServiceTests
             // arrange
             const string alternativeName = "name1";
             var repository = A.Dummy<ICosmosRepository<ContentPageModel>>();
-            ContentPageModel expectedResult = null;
+            ContentPageModel? expectedResult = null;
 
             A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns(expectedResult);
 

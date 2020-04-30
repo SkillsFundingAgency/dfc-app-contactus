@@ -73,7 +73,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             const int resultsCount = 0;
-            IEnumerable<ContentPageModel> expectedResults = null;
+            IEnumerable<ContentPageModel>? expectedResults = null;
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => FakeContentPageService.GetAllAsync()).Returns(expectedResults);
@@ -100,7 +100,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             const int resultsCount = 0;
-            IEnumerable<ContentPageModel> expectedResults = null;
+            IEnumerable<ContentPageModel>? expectedResults = null;
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => FakeContentPageService.GetAllAsync()).Returns(expectedResults);
@@ -127,7 +127,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             const int resultsCount = 0;
-            IEnumerable<ContentPageModel> expectedResults = null;
+            IEnumerable<ContentPageModel>? expectedResults = null;
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => FakeContentPageService.GetAllAsync()).Returns(expectedResults);

@@ -10,7 +10,7 @@ namespace DFC.App.ContactUs.Data.Attributes
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class LowerCaseAttribute : ValidationAttribute
     {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object? value, ValidationContext? validationContext)
         {
             if (value == null)
             {
@@ -27,10 +27,11 @@ namespace DFC.App.ContactUs.Data.Attributes
             switch (value)
             {
                 case IEnumerable<string> list:
-                    result = list.All(s => s.Equals(s.ToLowerInvariant(), StringComparison.InvariantCulture));
+                    result = list.All(s => s.Equals(s, StringComparison.OrdinalIgnoreCase));
                     break;
                 default:
-                    result = value.ToString().Equals(value.ToString().ToLowerInvariant(), StringComparison.InvariantCulture);
+                    string item = value.ToString() ?? string.Empty;
+                    result = item.Equals(item, StringComparison.OrdinalIgnoreCase);
                     break;
             }
 

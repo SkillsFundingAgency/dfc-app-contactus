@@ -10,15 +10,15 @@ namespace DFC.App.ContactUs.PageService
     {
         Task<bool> PingAsync();
 
-        Task<IEnumerable<ContentPageModel>> GetAllAsync();
+        Task<IEnumerable<ContentPageModel>?> GetAllAsync();
 
-        Task<ContentPageModel> GetByIdAsync(Guid documentId);
+        Task<ContentPageModel?> GetByIdAsync(Guid documentId);
 
-        Task<ContentPageModel> GetByNameAsync(string canonicalName);
+        Task<ContentPageModel?> GetByNameAsync(string? canonicalName);
 
-        Task<ContentPageModel> GetByAlternativeNameAsync(string alternativeName);
+        Task<ContentPageModel?> GetByAlternativeNameAsync(string? alternativeName);
 
-        Task<HttpStatusCode> UpsertAsync(ContentPageModel contentPageModel);
+        Task<HttpStatusCode> UpsertAsync(ContentPageModel? contentPageModel);
 
         Task<bool> DeleteAsync(Guid documentId);
     }

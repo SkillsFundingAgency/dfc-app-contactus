@@ -67,8 +67,32 @@ namespace DFC.App.ContactUs.MessageFunctionApp.UnitTests.Functions
         [Fact]
         public async Task MessageHandlerReturnsExceptionWhenNullServiceBusMessageSupplied()
         {
+            // arrange
+            Message? serviceBusMessage = null;
+
             // act
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await MessageHandler.Run(null, messageProcessor, messagePropertiesService, logger).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await MessageHandler.Run(serviceBusMessage, messageProcessor, messagePropertiesService, logger).ConfigureAwait(false)).ConfigureAwait(false);
+        }
+
+        [Fact]
+        public async Task MessageHandlerReturnsExceptionWhenNullMessageProcessorSupplied()
+        {
+            // arrange
+            var serviceBusMessage = new Message(Encoding.ASCII.GetBytes(string.Empty));
+
+            // act
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await MessageHandler.Run(serviceBusMessage, null, messagePropertiesService, logger).ConfigureAwait(false)).ConfigureAwait(false);
+        }
+
+        [Fact]
+        public async Task MessageHandlerReturnsExceptionWhenNullMessagePropertiesServiceSupplied()
+        {
+            // arrange
+            var serviceBusMessage = new Message(Encoding.ASCII.GetBytes(string.Empty));
+            IMessagePropertiesService? nullMessagePropertiesService = null;
+
+            // act
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await MessageHandler.Run(serviceBusMessage, messageProcessor, nullMessagePropertiesService, logger).ConfigureAwait(false)).ConfigureAwait(false);
         }
 
         [Fact]

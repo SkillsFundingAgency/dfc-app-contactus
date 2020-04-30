@@ -53,7 +53,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
 
             var client = factory?.CreateClient();
 
-            client.DefaultRequestHeaders.Accept.Clear();
+            client?.DefaultRequestHeaders.Accept.Clear();
 
             contentPageModels.ForEach(f => client.PostAsync(url, f, new JsonMediaTypeFormatter()).GetAwaiter().GetResult());
         }

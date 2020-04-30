@@ -1,13 +1,15 @@
-﻿namespace DFC.App.ContactUs.ViewModels
+﻿using System;
+
+namespace DFC.App.ContactUs.ViewModels
 {
     public class HtmlHeadViewModel
     {
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
-        public string CanonicalUrl { get; set; }
+        public Uri? CanonicalUrl { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
-        public string Keywords { get; set; }
+        public string? Keywords { get; set; }
     }
 }

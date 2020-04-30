@@ -17,7 +17,7 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
 {
     [ExcludeFromCodeCoverage]
     public class CosmosRepository<T> : ICosmosRepository<T>
-        where T : IDataModel
+        where T : class, IDataModel
     {
         private readonly CosmosDbConnection cosmosDbConnection;
         private readonly IDocumentClient documentClient;
@@ -57,7 +57,7 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
             return firstModel != null;
         }
 
-        public async Task<T> GetAsync(Expression<Func<T, bool>> where)
+        public async Task<T?> GetAsync(Expression<Func<T, bool>> where)
         {
             var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { MaxItemCount = 1, EnableCrossPartitionQuery = true })
                                       .Where(where)
@@ -78,7 +78,7 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
             return default;
         }
 
-        public async Task<T> GetAsync(string partitionKeyValue, Expression<Func<T, bool>> where)
+        public async Task<T?> GetAsync(string partitionKeyValue, Expression<Func<T, bool>> where)
         {
             var partitionKey = new PartitionKey(partitionKeyValue.ToLowerInvariant());
 
@@ -101,7 +101,7 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
             return default;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>?> GetAllAsync()
         {
             var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { EnableCrossPartitionQuery = true })
                                       .AsDocumentQuery();
@@ -115,10 +115,10 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
                 models.AddRange(result);
             }
 
-            return models.Any() ? models : null;
+            return models.Any() ? models : default;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(string partitionKeyValue)
+        public async Task<IEnumerable<T>?> GetAllAsync(string partitionKeyValue)
         {
             var partitionKey = new PartitionKey(partitionKeyValue.ToLowerInvariant());
 
@@ -134,7 +134,7 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
                 models.AddRange(result);
             }
 
-            return models.Any() ? models : null;
+            return models.Any() ? models : default;
         }
 
         public async Task<HttpStatusCode> UpsertAsync(T model)
@@ -199,7 +199,7 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
                 {
                     var partitionKeyDefinition = new PartitionKeyDefinition
                     {
-                        Paths = new Collection<string>() { cosmosDbConnection.PartitionKey },
+                        Paths = new Collection<string>() { cosmosDbConnection.PartitionKey! },
                     };
 
                     await documentClient.CreateDocumentCollectionAsync(

@@ -65,11 +65,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
         [MemberData(nameof(JsonMediaTypes))]
-        public async Task PagesControllerBodyReturnsRedirectWhenAlternateArticleExists(string mediaTypeName)
+        public async Task PagesControllerDocumentReturnsRedirectWhenAlternateArticleExists(string mediaTypeName)
         {
             // Arrange
             const string article = "an-article-name";
-            ContentPageModel expectedResult = null;
+            ContentPageModel? expectedResult = null;
             var expectedAlternativeResult = A.Fake<ContentPageModel>();
             var controller = BuildPagesController(mediaTypeName);
 
@@ -100,7 +100,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             const string article = "an-article-name";
-            ContentPageModel expectedResult = null;
+            ContentPageModel? expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);

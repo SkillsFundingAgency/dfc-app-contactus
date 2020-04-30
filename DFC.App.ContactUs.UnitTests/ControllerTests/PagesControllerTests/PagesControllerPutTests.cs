@@ -72,11 +72,12 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.NotFound;
+            ContentPageModel? expectedResult = null;
             var modelToUpsert = A.Fake<ContentPageModel>();
 
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).Returns((ContentPageModel)null);
+            A.CallTo(() => FakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.Update(modelToUpsert).ConfigureAwait(false);
@@ -95,10 +96,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.BadRequest;
+            ContentPageModel? contentPagesModel = null;
             var controller = BuildPagesController(mediaTypeName);
 
             // Act
-            var result = await controller.Update(null).ConfigureAwait(false);
+            var result = await controller.Update(contentPagesModel).ConfigureAwait(false);
 
             // Assert
             var statusResult = Assert.IsType<BadRequestResult>(result);

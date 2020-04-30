@@ -18,7 +18,7 @@ namespace DFC.App.ContactUs.Models
         }
 
         [XmlElement("loc")]
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
         [XmlElement("changefreq")]
         public ChangeFrequencies? ChangeFrequency { get; set; }
@@ -30,7 +30,7 @@ namespace DFC.App.ContactUs.Models
         public double? Priority { get; set; }
 
         [XmlElement("image", Namespace = "http://www.google.com/schemas/sitemap-image/1.1")]
-        public List<SitemapImage> Images { get; set; }
+        public List<SitemapImage>? Images { get; set; }
 
         public bool ShouldSerializeChangeFrequency()
         {

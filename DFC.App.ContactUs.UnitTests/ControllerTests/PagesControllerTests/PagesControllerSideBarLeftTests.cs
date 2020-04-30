@@ -32,7 +32,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public void PagesControllerSidebarLeftWithNullArticleJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            const string article = null;
+            const string? article = null;
             var controller = BuildPagesController(mediaTypeName);
 
             // Act

@@ -9,7 +9,7 @@ namespace DFC.App.ContactUs.Extensions
 {
     public static class ControllerExtensions
     {
-        public static IActionResult NegotiateContentResult(this Controller controller, object viewModel, object dataModel = null)
+        public static IActionResult NegotiateContentResult(this Controller controller, object viewModel, object? dataModel = null)
         {
             if (controller == null)
             {
@@ -18,18 +18,18 @@ namespace DFC.App.ContactUs.Extensions
 
             if (controller.Request.Headers.Keys.Contains(HeaderNames.Accept))
             {
-                var acceptHeaders = controller.Request.Headers[HeaderNames.Accept].ToString().ToLowerInvariant().Split(';');
+                var acceptHeaders = controller.Request.Headers[HeaderNames.Accept].ToString().Split(';');
 
                 foreach (var acceptHeader in acceptHeaders)
                 {
                     var items = acceptHeader.Split(',');
 
-                    if (items.Contains(MediaTypeNames.Application.Json))
+                    if (items.Contains(MediaTypeNames.Application.Json, StringComparer.OrdinalIgnoreCase))
                     {
                         return controller.Ok(dataModel ?? viewModel);
                     }
 
-                    if (items.Contains(MediaTypeNames.Text.Html) || items.Contains("*/*"))
+                    if (items.Contains(MediaTypeNames.Text.Html, StringComparer.OrdinalIgnoreCase) || items.Contains("*/*"))
                     {
                         return controller.View(viewModel);
                     }

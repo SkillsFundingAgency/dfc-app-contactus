@@ -8,7 +8,7 @@ namespace DFC.App.ContactUs.Data.Attributes
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class GuidAttribute : ValidationAttribute
     {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object? value, ValidationContext? validationContext)
         {
             if (value == null)
             {
