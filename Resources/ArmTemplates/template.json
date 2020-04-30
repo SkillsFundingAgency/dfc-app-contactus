@@ -37,6 +37,12 @@
         "cosmosDbKey": {
             "type": "securestring"
         },
+        "cosmosDbCollectionName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the collection to create"
+            }
+        },
         "environment": {
             "type": "string"
         },
@@ -47,12 +53,6 @@
         "sharedAppServicePlanResourceGroup": {
             "type": "string",
             "defaultValue": ""
-        },
-        "cosmosDbCollectionName": {
-            "type": "string",
-            "metadata": {
-                "description": "The name of the collection to create"
-            }
         },
         "contactusAppDatabaseNeedsCreation": {
             "type": "bool"
@@ -176,6 +176,26 @@
                             {
                                 "name": "Logging__ApplicationInsights__LogLevel__Default",
                                 "value": "Information"
+                            },
+                            {
+                                "name": "CosmosDbConnections__AccessKey",
+                                "value": "[parameters('cosmosDbKey')]"
+                            },
+                            {
+                                "name": "CosmosDbConnections__EndpointUrl",
+                                "value": "[variables('cosmosDbEndpoint')]"
+                            },
+                            {
+                                "name": "CosmosDbConnections__DatabaseId",
+                                "value": "[variables('cosmosDbDatabaseName')]"
+                            },
+                            {
+                                "name": "CosmosDbConnections__CollectionId",
+                                "value": "[parameters('cosmosDbCollectionName')]"
+                            },
+                            {
+                                "name": "CosmosDbConnections__PartitionKey",
+                                "value": "[variables('cosmosDbCollectionPartitionKey')]"
                             }
                         ]
                     }
