@@ -178,23 +178,23 @@
                                 "value": "Information"
                             },
                             {
-                                "name": "CosmosDbConnections__AccessKey",
+                                "name": "Configuration__CosmosDbConnections__ContentPages__AccessKey",
                                 "value": "[parameters('cosmosDbKey')]"
                             },
                             {
-                                "name": "CosmosDbConnections__EndpointUrl",
+                                "name": "Configuration__CosmosDbConnections__ContentPages__EndpointUrl",
                                 "value": "[variables('cosmosDbEndpoint')]"
                             },
                             {
-                                "name": "CosmosDbConnections__DatabaseId",
+                                "name": "Configuration__CosmosDbConnections__ContentPages__DatabaseId",
                                 "value": "[variables('cosmosDbDatabaseName')]"
                             },
                             {
-                                "name": "CosmosDbConnections__CollectionId",
+                                "name": "Configuration__CosmosDbConnections__ContentPages__CollectionId",
                                 "value": "[parameters('cosmosDbCollectionName')]"
                             },
                             {
-                                "name": "CosmosDbConnections__PartitionKey",
+                                "name": "Configuration__CosmosDbConnections__ContentPages__PartitionKey",
                                 "value": "[variables('cosmosDbCollectionPartitionKey')]"
                             }
                         ]
