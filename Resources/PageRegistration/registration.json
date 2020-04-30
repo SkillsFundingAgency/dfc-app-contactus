@@ -1,7 +1,7 @@
 [
   {
     "Path": "contact-us",
-    "TopNavigationText": "Contact Us",
+    "TopNavigationText": "Contact us",
     "TopNavigationOrder": 703,
     "Layout": 1,
     "IsOnline": true,
@@ -42,5 +42,5 @@
         "IsHealthy": true
       }
     ]
-  },
+  }
 ]
