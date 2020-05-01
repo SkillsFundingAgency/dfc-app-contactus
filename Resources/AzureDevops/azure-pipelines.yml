@@ -31,6 +31,12 @@ stages:
             ArmTemplateRoot: '${{ variables.ArmTemplateRoot }}'
             SolutionBaseName: '${{ variables.SolutionBaseName }}'
 
+        - task: PublishPipelineArtifact@0
+          displayName: Publish Page Registration artifact
+          inputs:
+            targetPath: '$(Build.SourcesDirectory)/Resources/PageRegistration'
+            artifactName: ${{ variables.SolutionBaseName }}.PageRegistrations
+
     #Build and test application
     - job: BuildDotNetCore
       displayName: Build-DotNetCore
