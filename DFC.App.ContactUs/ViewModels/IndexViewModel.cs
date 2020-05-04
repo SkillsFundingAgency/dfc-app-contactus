@@ -6,6 +6,6 @@ namespace DFC.App.ContactUs.ViewModels
     {
         public string? LocalPath { get; set; }
 
-        public IEnumerable<IndexDocumentViewModel>? Documents { get; set; }
+        public IList<IndexDocumentViewModel>? Documents { get; set; }
     }
 }

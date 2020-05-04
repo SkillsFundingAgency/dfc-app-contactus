@@ -1,5 +1,6 @@
 ﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
+using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.PageService;
 using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace DFC.App.ContactUs.Controllers
     public class PagesController : Controller
     {
         public const string RegistrationPath = "contact-us";
+        public const string WebchatRegistrationPath = "webchat";
         public const string LocalPath = "pages";
 
         private readonly ILogger<PagesController> logger;
@@ -43,6 +45,9 @@ namespace DFC.App.ContactUs.Controllers
             {
                 viewModel.Documents = (from a in contentPageModels.OrderBy(o => o.CanonicalName)
                                        select mapper.Map<IndexDocumentViewModel>(a)).ToList();
+
+                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = "chat" });
+
                 logger.LogInformation($"{nameof(Index)} has succeeded");
             }
             else
@@ -62,8 +67,10 @@ namespace DFC.App.ContactUs.Controllers
             if (contentPageModel != null)
             {
                 var viewModel = mapper.Map<DocumentViewModel>(contentPageModel);
+                var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(contentPageModel);
 
-                viewModel.Breadcrumb = BuildBreadcrumb(contentPageModel);
+                viewModel.HtmlHead = mapper.Map<HtmlHeadViewModel>(contentPageModel);
+                viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
 
                 logger.LogInformation($"{nameof(Document)} has succeeded for: {article}");
 
@@ -89,6 +96,30 @@ namespace DFC.App.ContactUs.Controllers
         }
 
         [HttpGet]
+        [Route("pages/chat")]
+        public IActionResult ChatView()
+        {
+            var breadcrumbItemModel = new BreadcrumbItemModel
+            {
+                CanonicalName = "chat",
+                BreadcrumbTitle = "Chat",
+            };
+            var viewModel = new ChatViewModel()
+            {
+                HtmlHead = new HtmlHeadViewModel
+                {
+                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/chat", UriKind.RelativeOrAbsolute),
+                    Title = "Webchat | Contact us | National Careers Service",
+                },
+                Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
+            };
+
+            logger.LogWarning($"{nameof(ChatView)} has returned content");
+
+            return this.NegotiateContentResult(viewModel);
+        }
+
+        [HttpGet]
         [Route("pages/{article}/htmlhead")]
         [Route("pages/htmlhead")]
         public async Task<IActionResult> HtmlHead(string? article)
@@ -108,14 +139,45 @@ namespace DFC.App.ContactUs.Controllers
             return this.NegotiateContentResult(viewModel);
         }
 
+        [HttpGet]
+        [Route("pages/chat/htmlhead")]
+        public IActionResult ChatHtmlHead()
+        {
+            var viewModel = new HtmlHeadViewModel()
+            {
+                CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{WebchatRegistrationPath}/chat", UriKind.RelativeOrAbsolute),
+                Title = "Webchat | Contact us | National Careers Service",
+            };
+
+            logger.LogInformation($"{nameof(ChatHtmlHead)} has returned content");
+
+            return this.NegotiateContentResult(viewModel);
+        }
+
         [Route("pages/{article}/breadcrumb")]
         [Route("pages/breadcrumb")]
         public async Task<IActionResult> Breadcrumb(string? article)
         {
             var contentPageModel = await GetContentPageAsync(article).ConfigureAwait(false);
-            var viewModel = BuildBreadcrumb(contentPageModel);
+            var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(contentPageModel);
+            var viewModel = BuildBreadcrumb(RegistrationPath, breadcrumbItemModel);
 
             logger.LogInformation($"{nameof(Breadcrumb)} has returned content for: {article}");
+
+            return this.NegotiateContentResult(viewModel);
+        }
+
+        [Route("pages/chat/breadcrumb")]
+        public IActionResult ChatBreadcrumb()
+        {
+            var breadcrumbItemModel = new BreadcrumbItemModel
+            {
+                CanonicalName = "chat",
+                BreadcrumbTitle = "Chat",
+            };
+            var viewModel = BuildBreadcrumb(WebchatRegistrationPath, breadcrumbItemModel);
+
+            logger.LogInformation($"{nameof(ChatBreadcrumb)} has returned content");
 
             return this.NegotiateContentResult(viewModel);
         }
@@ -167,6 +229,15 @@ namespace DFC.App.ContactUs.Controllers
 
             logger.LogWarning($"{nameof(Body)} has not returned any content for: {article}");
             return NotFound();
+        }
+
+        [HttpGet]
+        [Route("pages/chat/body")]
+        public IActionResult ChatBody()
+        {
+            logger.LogInformation($"{nameof(ChatBody)} has returned content");
+
+            return this.NegotiateContentResult(default);
         }
 
         [HttpGet]
@@ -273,8 +344,9 @@ namespace DFC.App.ContactUs.Controllers
 
         #region Define helper methods
 
-        private static BreadcrumbViewModel BuildBreadcrumb(ContentPageModel? contentPageModel)
+        private static BreadcrumbViewModel BuildBreadcrumb(string segmentPath, BreadcrumbItemModel? breadcrumbItemModel)
         {
+            const string BradcrumbTitle = "Contact us";
             var viewModel = new BreadcrumbViewModel
             {
                 Paths = new List<BreadcrumbPathViewModel>()
@@ -284,24 +356,29 @@ namespace DFC.App.ContactUs.Controllers
                         Route = "/",
                         Title = "Home",
                     },
+                    new BreadcrumbPathViewModel()
+                    {
+                        Route = $"/{segmentPath}",
+                        Title = BradcrumbTitle,
+                    },
                 },
             };
 
-            if (contentPageModel != null)
+            if (breadcrumbItemModel!.BreadcrumbTitle != null && !breadcrumbItemModel.BreadcrumbTitle.Equals(BradcrumbTitle, StringComparison.OrdinalIgnoreCase))
             {
-                if (!string.IsNullOrWhiteSpace(contentPageModel.CanonicalName))
+                if (!string.IsNullOrWhiteSpace(breadcrumbItemModel.CanonicalName))
                 {
                     var articlePathViewModel = new BreadcrumbPathViewModel
                     {
-                        Route = $"/{contentPageModel.CanonicalName}",
-                        Title = contentPageModel.BreadcrumbTitle,
+                        Route = $"/{segmentPath}/{breadcrumbItemModel.CanonicalName}",
+                        Title = breadcrumbItemModel.BreadcrumbTitle,
                     };
 
                     viewModel.Paths.Add(articlePathViewModel);
                 }
-
-                viewModel.Paths.Last().AddHyperlink = false;
             }
+
+            viewModel.Paths.Last().AddHyperlink = false;
 
             return viewModel;
         }

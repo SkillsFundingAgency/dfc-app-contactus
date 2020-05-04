@@ -72,7 +72,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async Task PagesControllerHtmlHeadWithNullArticleHtmlReturnsSuccess(string mediaTypeName)
+        public async Task PagesControllerHtmlHeadHtmlWithNullArticleReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             const string? article = null;
@@ -96,7 +96,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async Task PagesControllerHtmlHeadHtmlWithNullArticleJsonReturnsSuccess(string mediaTypeName)
+        public async Task PagesControllerHtmlHeadJsonWithNullArticleReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             const string? article = null;

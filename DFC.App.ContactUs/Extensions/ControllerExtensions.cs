@@ -9,7 +9,7 @@ namespace DFC.App.ContactUs.Extensions
 {
     public static class ControllerExtensions
     {
-        public static IActionResult NegotiateContentResult(this Controller controller, object viewModel, object? dataModel = null)
+        public static IActionResult NegotiateContentResult(this Controller controller, object? viewModel, object? dataModel = null)
         {
             if (controller == null)
             {
