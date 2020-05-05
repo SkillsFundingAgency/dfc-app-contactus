@@ -3,22 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @if (!string.IsNullOrWhiteSpace(Model.Title))
-    {
-        ViewData["Title"] = Model.Title;
-
-        <title>@ViewData["Title"]</title>
-    }
-
-    @if (!string.IsNullOrWhiteSpace(Model.Description))
-    {
-        <meta name="description" content="@Model.Description">
-    }
-
-    @if (!string.IsNullOrWhiteSpace(Model.Description))
-    {
-        <meta name="keywords" content="@Model.Keywords">
-    }
+    <partial name="HtmlHead" model=@Model.HtmlHead />
 </head>
 <body>
     <partial name="Breadcrumb" model=@Model.Breadcrumb />
@@ -33,31 +18,38 @@
             </dd>
 
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.HtmlHead!.Description)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Description)
+                @Html.DisplayFor(model => model.HtmlHead!.Description)
             </dd>
 
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Keywords)
+                @Html.DisplayNameFor(model => model.HtmlHead!.Keywords)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Keywords)
+                @Html.DisplayFor(model => model.HtmlHead!.Keywords)
             </dd>
 
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.HtmlHead!.Title)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Title)
+                @Html.DisplayFor(model => model.HtmlHead!.Title)
             </dd>
 
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.CanonicalName)
+                @Html.DisplayNameFor(model => model.HtmlHead!.CanonicalUrl)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CanonicalName)
+                @Html.DisplayFor(model => model.HtmlHead!.CanonicalUrl)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.HtmlHead!.CanonicalName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.HtmlHead!.CanonicalName)
             </dd>
 
             <dt class="col-sm-2">

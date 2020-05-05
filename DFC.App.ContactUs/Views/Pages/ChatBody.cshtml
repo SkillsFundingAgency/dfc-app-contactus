@@ -1,0 +1,38 @@
+﻿<div id="chatcontainer" style="width:100%; height: 1200px; -webkit-overflow-scrolling:touch">
+    <noscript>
+        <iframe id="webchatframenoscript" src="https://cxdirect.serco.com/visitor/EntryPage.htm" title="webchat" scrolling="no" style="width: 100%; height:100%; border-width: 0px;"></iframe>
+    </noscript>
+</div>
+
+<script>
+    window.onload = function () {
+        //Have to inject the iFrame as we cant have html in the <script> block
+        //<noscript> iFrame in the markup is use when no JS
+        var iFrameContainer = document.getElementById('chatcontainer');
+        if (iFrameContainer) {
+            var iFrame = document.createElement('iframe');
+            iFrame.setAttribute('id', 'webchatframe');
+            iFrame.src = 'https://cxdirect.serco.com/visitor/EntryPage.htm?GAID=' + getCookie('_ga');
+            iFrame.style.cssText = 'width: 100%; height:100%; border-width: 0px;';
+            iFrame.scrolling = 'no';
+            iFrame.title = 'webchat';
+            iFrameContainer.appendChild(iFrame);
+        }
+    };
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+</script>
