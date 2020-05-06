@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.Controllers
             {
                 logger.LogInformation("Generating Sitemap");
 
-                var sitemapUrlPrefix = $"{Request.GetBaseAddress()}{PagesController.RegistrationPath}/";
+                var sitemapUrlPrefix = $"{Request.GetBaseAddress()}{PagesController.RegistrationPath}";
                 var sitemap = new Sitemap();
 
                 // add the defaults
@@ -55,14 +55,13 @@ namespace DFC.App.ContactUs.Controllers
                         {
                             sitemap.Add(new SitemapLocation
                             {
-                                Url = $"{sitemapUrlPrefix}{contentPageModel.CanonicalName}",
+                                Url = $"{sitemapUrlPrefix}/{contentPageModel.CanonicalName}",
                                 Priority = 1,
                             });
                         }
                     }
                 }
 
-                // extract the sitemap
                 var xmlString = sitemap.WriteSitemapToString();
 
                 logger.LogInformation("Generated Sitemap");
