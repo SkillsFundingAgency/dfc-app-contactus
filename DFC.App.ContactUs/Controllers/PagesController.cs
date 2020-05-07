@@ -364,7 +364,7 @@ namespace DFC.App.ContactUs.Controllers
                 },
             };
 
-            if (breadcrumbItemModel!.BreadcrumbTitle != null && !breadcrumbItemModel.BreadcrumbTitle.Equals(BradcrumbTitle, StringComparison.OrdinalIgnoreCase))
+            if (breadcrumbItemModel?.BreadcrumbTitle != null && !breadcrumbItemModel.BreadcrumbTitle.Equals(BradcrumbTitle, StringComparison.OrdinalIgnoreCase))
             {
                 if (!string.IsNullOrWhiteSpace(breadcrumbItemModel.CanonicalName))
                 {
