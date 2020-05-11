@@ -9,6 +9,7 @@ namespace DFC.App.ContactUs.Data.Models
     public class ContentPageModel : IDataModel
     {
         [Guid]
+        [Required]
         [JsonProperty(PropertyName = "id")]
         public Guid DocumentId { get; set; }
 
@@ -20,15 +21,24 @@ namespace DFC.App.ContactUs.Data.Models
         [UrlPath]
         public string? CanonicalName { get; set; }
 
+        [Required]
         public string PartitionKey => "static-page";
 
+        [Obsolete("May be removed once Service Bus and Message Function app removed from solution")]
         public long SequenceNumber { get; set; }
 
+        [Required]
+        public Guid? Version { get; set; }
+
+        [Required]
         [Display(Name = "Breadcrumb Title")]
         public string? BreadcrumbTitle { get; set; }
 
         [Display(Name = "Include In SiteMap")]
         public bool IncludeInSitemap { get; set; }
+
+        [Required]
+        public string? Url { get; set; }
 
         [UrlPath]
         [LowerCase]
@@ -36,8 +46,10 @@ namespace DFC.App.ContactUs.Data.Models
 
         public MetaTagsModel MetaTags { get; set; } = new MetaTagsModel();
 
+        [Required]
         public string? Content { get; set; }
 
+        [Required]
         [Display(Name = "Last Reviewed")]
         public DateTime LastReviewed { get; set; }
     }

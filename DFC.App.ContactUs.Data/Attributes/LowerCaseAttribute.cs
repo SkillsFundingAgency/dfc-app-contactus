@@ -27,11 +27,11 @@ namespace DFC.App.ContactUs.Data.Attributes
             switch (value)
             {
                 case IEnumerable<string> list:
-                    result = list.All(s => s.Equals(s, StringComparison.OrdinalIgnoreCase));
+                    result = list.All(s => s.Equals(s.ToLowerInvariant()));
                     break;
                 default:
                     string item = value.ToString() ?? string.Empty;
-                    result = item.Equals(item, StringComparison.OrdinalIgnoreCase);
+                    result = item.Equals(item.ToLowerInvariant());
                     break;
             }
 

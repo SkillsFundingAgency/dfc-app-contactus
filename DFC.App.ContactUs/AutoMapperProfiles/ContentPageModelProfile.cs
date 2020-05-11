@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Models;
+using DFC.App.ContactUs.PageService.EventProcessorServices.Models;
 using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Html;
 using System.Diagnostics.CodeAnalysis;
@@ -34,6 +35,17 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
                 ;
 
             CreateMap<ContentPageModel, BreadcrumbItemModel>()
+                ;
+
+            CreateMap<ContactUsApiDataModel, ContentPageModel>()
+                .ForMember(d => d.DocumentId, s => s.MapFrom(a => a.Id))
+                .ForMember(d => d.Etag, s => s.Ignore())
+                .ForMember(d => d.PartitionKey, s => s.Ignore())
+                .ForMember(d => d.SequenceNumber, s => s.Ignore())
+                .ForPath(d => d.LastReviewed, s => s.MapFrom(a => a.Published))
+                .ForPath(d => d.MetaTags.Title, s => s.MapFrom(a => a.Title))
+                .ForPath(d => d.MetaTags.Description, s => s.MapFrom(a => a.Description))
+                .ForPath(d => d.MetaTags.Keywords, s => s.MapFrom(a => a.Keywords))
                 ;
         }
     }

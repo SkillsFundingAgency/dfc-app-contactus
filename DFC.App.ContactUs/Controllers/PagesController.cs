@@ -364,18 +364,17 @@ namespace DFC.App.ContactUs.Controllers
                 },
             };
 
-            if (breadcrumbItemModel?.BreadcrumbTitle != null && !breadcrumbItemModel.BreadcrumbTitle.Equals(BradcrumbTitle, StringComparison.OrdinalIgnoreCase))
+            if (breadcrumbItemModel?.BreadcrumbTitle != null &&
+                !breadcrumbItemModel.BreadcrumbTitle.Equals(BradcrumbTitle, StringComparison.OrdinalIgnoreCase) &&
+                !string.IsNullOrWhiteSpace(breadcrumbItemModel.CanonicalName))
             {
-                if (!string.IsNullOrWhiteSpace(breadcrumbItemModel.CanonicalName))
+                var articlePathViewModel = new BreadcrumbPathViewModel
                 {
-                    var articlePathViewModel = new BreadcrumbPathViewModel
-                    {
-                        Route = $"/{segmentPath}/{breadcrumbItemModel.CanonicalName}",
-                        Title = breadcrumbItemModel.BreadcrumbTitle,
-                    };
+                    Route = $"/{segmentPath}/{breadcrumbItemModel.CanonicalName}",
+                    Title = breadcrumbItemModel.BreadcrumbTitle,
+                };
 
-                    viewModel.Paths.Add(articlePathViewModel);
-                }
+                viewModel.Paths.Add(articlePathViewModel);
             }
 
             viewModel.Paths.Last().AddHyperlink = false;
