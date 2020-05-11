@@ -35,7 +35,7 @@ namespace DFC.App.ContactUs.Controllers
                 // add the defaults
                 sitemap.Add(new SitemapLocation
                 {
-                    Url = $"{sitemapUrlPrefix}",
+                    Url = sitemapUrlPrefix,
                     Priority = 1,
                 });
 

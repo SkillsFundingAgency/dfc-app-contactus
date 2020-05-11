@@ -273,7 +273,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
                 BreadcrumbTitle = "An article",
                 IncludeInSitemap = true,
                 Version = Guid.NewGuid(),
-                Url = "https://localhost",
+                Url = new Uri("https://localhost"),
                 Content = "<h1>A document</h1>",
                 LastReviewed = DateTime.UtcNow,
             };

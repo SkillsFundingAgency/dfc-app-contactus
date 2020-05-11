@@ -17,29 +17,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
         protected const string ContentTypeContactUs = "contact-us";
 
-        public BaseWebhooksController()
+        protected BaseWebhooksController()
         {
             Logger = A.Fake<ILogger<WebhooksController>>();
             FakeEventMessageService = A.Fake<IEventMessageService>();
             FakeApiDataProcessorService = A.Fake<IApiDataProcessorService>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
         }
-
-        //public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
-        //{
-        //    new string[] { "*/*" },
-        //    new string[] { MediaTypeNames.Text.Html },
-        //};
-
-        //public static IEnumerable<object[]> InvalidMediaTypes => new List<object[]>
-        //{
-        //    new string[] { MediaTypeNames.Text.Plain },
-        //};
-
-        //public static IEnumerable<object[]> JsonMediaTypes => new List<object[]>
-        //{
-        //    new string[] { MediaTypeNames.Application.Json },
-        //};
 
         protected ILogger<WebhooksController> Logger { get; }
 

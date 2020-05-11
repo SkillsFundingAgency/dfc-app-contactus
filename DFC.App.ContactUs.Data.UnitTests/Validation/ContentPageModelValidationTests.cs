@@ -95,7 +95,7 @@ namespace DFC.App.ContactUs.Data.UnitTests.Validation
                 CanonicalName = canonicalName,
                 BreadcrumbTitle = canonicalName,
                 Version = Guid.NewGuid(),
-                Url = "https://localhost",
+                Url = new Uri("https://localhost"),
                 Content = content,
                 AlternativeNames = alternativeNames.ToArray(),
                 LastReviewed = DateTime.UtcNow,

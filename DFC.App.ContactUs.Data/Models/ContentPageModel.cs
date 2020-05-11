@@ -38,7 +38,7 @@ namespace DFC.App.ContactUs.Data.Models
         public bool IncludeInSitemap { get; set; }
 
         [Required]
-        public string? Url { get; set; }
+        public Uri? Url { get; set; }
 
         [UrlPath]
         [LowerCase]

@@ -141,7 +141,7 @@ namespace DFC.App.ContactUs.PageService.UnitTests.EventProcessorServicesTests
         public async Task EventMessageServiceUpdateAsyncReturnsnotFoundWhenNotExists()
         {
             // arrange
-            ContentPageModel existingContentPageModel = null;
+            ContentPageModel? existingContentPageModel = null;
             var contentPageModel = A.Fake<ContentPageModel>();
             var expectedResult = HttpStatusCode.AlreadyReported;
 
