@@ -38,8 +38,8 @@ namespace DFC.App.ContactUs.Models
                 string openTimeFromString = OpenTimeFrom.Minutes != 0 ? openTimeFromAsDate.ToString("h:mm tt", CultureInfo.InvariantCulture) : openTimeFromAsDate.ToString("h tt", CultureInfo.InvariantCulture);
                 string openTimeToString = OpenTimeTo.Minutes != 0 ? openTimeToAsDate.ToString("h:mm tt", CultureInfo.InvariantCulture) : openTimeToAsDate.ToString("h tt", CultureInfo.InvariantCulture);
 
-                openTimeFromString = openTimeFromString.Replace(" ", string.Empty).ToLowerInvariant();
-                openTimeToString = openTimeToString.Replace(" ", string.Empty).ToLowerInvariant();
+                openTimeFromString = openTimeFromString.Replace(" ", string.Empty, StringComparison.Ordinal).ToLowerInvariant();
+                openTimeToString = openTimeToString.Replace(" ", string.Empty, StringComparison.Ordinal).ToLowerInvariant();
 
                 return $"{openTimeFromString} to {openTimeToString}";
             }
