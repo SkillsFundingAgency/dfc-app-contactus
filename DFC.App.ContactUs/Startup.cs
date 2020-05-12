@@ -7,6 +7,7 @@ using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Filters;
 using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.HttpClientPolicies;
+using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.PageService;
 using DFC.App.ContactUs.PageService.EventProcessorServices;
 using DFC.App.ContactUs.Repository.CosmosDb;
@@ -83,6 +84,7 @@ namespace DFC.App.ContactUs
             services.AddApplicationInsightsTelemetry();
             services.AddHttpContextAccessor();
             services.AddCorrelationId();
+            services.AddSingleton(new ServiceOpenDetailModel());
             services.AddSingleton(cosmosDbConnection);
             services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<ICosmosRepository<ContentPageModel>, CosmosRepository<ContentPageModel>>();
@@ -93,11 +95,11 @@ namespace DFC.App.ContactUs
             services.AddTransient<CorrelationIdDelegatingHandler>();
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddDFCLogging(configuration["ApplicationInsights:InstrumentationKey"]);
-            services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>());
+            services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());
             services.AddHostedService<CacheReloadBackgroundService>();
 
             const string AppSettingsPolicies = "Policies";
-            var policyOptions = configuration.GetSection(AppSettingsPolicies).Get<PolicyOptions>();
+            var policyOptions = configuration.GetSection(AppSettingsPolicies).Get<PolicyOptions>() ?? new PolicyOptions();
             var policyRegistry = services.AddPolicyRegistry();
 
             services

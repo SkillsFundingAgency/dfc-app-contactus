@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.PageService;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
@@ -18,17 +19,21 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
     [Trait("Category", "Pages Controller Unit Tests")]
     public class PagesControllerRouteTests
     {
+        private const string HomeArticleName = "home";
         private const string ChatArticleName = "chat";
+        private const string WhyContactUsArticleName = "why-do-you-want-to-contact-us";
 
         private readonly ILogger<PagesController> logger;
         private readonly IContentPageService fakeContentPageService;
         private readonly IMapper fakeMapper;
+        private readonly ServiceOpenDetailModel fakeServiceOpenDetailModel;
 
         public PagesControllerRouteTests()
         {
             logger = A.Fake<ILogger<PagesController>>();
             fakeContentPageService = A.Fake<IContentPageService>();
             fakeMapper = A.Fake<IMapper>();
+            fakeServiceOpenDetailModel = A.Fake<ServiceOpenDetailModel>();
         }
 
         public static IEnumerable<object[]> PagesRouteDataOk => new List<object[]>
@@ -46,10 +51,18 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         public static IEnumerable<object[]> PagesChatRouteDataOk => new List<object[]>
         {
-            new object[] { "/pages/chat", string.Empty, nameof(PagesController.ChatView) },
-            new object[] { "/pages/chat/htmlhead", ChatArticleName, nameof(PagesController.HtmlHead) },
-            new object[] { "/pages/chat/breadcrumb", ChatArticleName, nameof(PagesController.Breadcrumb) },
-            new object[] { "/pages/chat/body", ChatArticleName, nameof(PagesController.Body) },
+            new object[] { $"/pages/{HomeArticleName}", string.Empty, nameof(PagesController.HomeView) },
+            new object[] { $"/pages/{HomeArticleName}/htmlhead", HomeArticleName, nameof(PagesController.HtmlHead) },
+            new object[] { $"/pages/{HomeArticleName}/breadcrumb", HomeArticleName, nameof(PagesController.Breadcrumb) },
+            new object[] { $"/pages/{HomeArticleName}/body", HomeArticleName, nameof(PagesController.Body) },
+            new object[] { $"/pages/{ChatArticleName}", string.Empty, nameof(PagesController.ChatView) },
+            new object[] { $"/pages/{ChatArticleName}/htmlhead", ChatArticleName, nameof(PagesController.HtmlHead) },
+            new object[] { $"/pages/{ChatArticleName}/breadcrumb", ChatArticleName, nameof(PagesController.Breadcrumb) },
+            new object[] { $"/pages/{ChatArticleName}/body", ChatArticleName, nameof(PagesController.Body) },
+            new object[] { $"/pages/{WhyContactUsArticleName}", string.Empty, nameof(PagesController.WhyContactUsView) },
+            new object[] { $"/pages/{WhyContactUsArticleName}/htmlhead", WhyContactUsArticleName, nameof(PagesController.HtmlHead) },
+            new object[] { $"/pages/{WhyContactUsArticleName}/breadcrumb", WhyContactUsArticleName, nameof(PagesController.Breadcrumb) },
+            new object[] { $"/pages/{WhyContactUsArticleName}/body", WhyContactUsArticleName, nameof(PagesController.Body) },
         };
 
         public static IEnumerable<object[]> PagesRouteDataNoContent => new List<object[]>
@@ -131,20 +144,38 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
                     _ => controller.ChatBody(),
                 };
             }
-            else
+
+            if (article.Equals(HomeArticleName, System.StringComparison.OrdinalIgnoreCase))
             {
                 return actionName switch
                 {
-                    nameof(PagesController.HtmlHead) => await controller.HtmlHead(article).ConfigureAwait(false),
-                    nameof(PagesController.Breadcrumb) => await controller.Breadcrumb(article).ConfigureAwait(false),
-                    nameof(PagesController.BodyTop) => controller.BodyTop(article),
-                    nameof(PagesController.HeroBanner) => controller.HeroBanner(article),
-                    nameof(PagesController.SidebarRight) => controller.SidebarRight(article),
-                    nameof(PagesController.SidebarLeft) => controller.SidebarLeft(article),
-                    nameof(PagesController.BodyFooter) => controller.BodyFooter(article),
-                    _ => await controller.Body(article).ConfigureAwait(false),
+                    nameof(PagesController.HtmlHead) => controller.HomeHtmlHead(),
+                    nameof(PagesController.Breadcrumb) => controller.HomeBreadcrumb(),
+                    _ => controller.HomeBody(),
                 };
             }
+
+            if (article.Equals(WhyContactUsArticleName, System.StringComparison.OrdinalIgnoreCase))
+            {
+                return actionName switch
+                {
+                    nameof(PagesController.HtmlHead) => controller.WhyContactUsHtmlHead(),
+                    nameof(PagesController.Breadcrumb) => controller.WhyContactUsBreadcrumb(),
+                    _ => controller.WhyContactUsBody(),
+                };
+            }
+
+            return actionName switch
+            {
+                nameof(PagesController.HtmlHead) => await controller.HtmlHead(article).ConfigureAwait(false),
+                nameof(PagesController.Breadcrumb) => await controller.Breadcrumb(article).ConfigureAwait(false),
+                nameof(PagesController.BodyTop) => controller.BodyTop(article),
+                nameof(PagesController.HeroBanner) => controller.HeroBanner(article),
+                nameof(PagesController.SidebarRight) => controller.SidebarRight(article),
+                nameof(PagesController.SidebarLeft) => controller.SidebarLeft(article),
+                nameof(PagesController.BodyFooter) => controller.BodyFooter(article),
+                _ => await controller.Body(article).ConfigureAwait(false),
+            };
         }
 
         private PagesController BuildController(string route)
@@ -153,7 +184,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new PagesController(logger, fakeContentPageService, fakeMapper)
+            return new PagesController(logger, fakeContentPageService, fakeMapper, fakeServiceOpenDetailModel)
             {
                 ControllerContext = new ControllerContext
                 {

@@ -8,7 +8,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
 {
     public static class DataSeeding
     {
-        public const string DefaultArticleName = "home";
+        public const string SendUsLetterArticleName = "send-us-a-letter";
         public const string AlternativeArticleName = "alternative-name";
 
         public static void SeedDefaultArticles(CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory)
@@ -19,7 +19,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
                 new ContentPageModel()
                 {
                     DocumentId = Guid.Parse("5DDE75FF-8B32-4746-9712-2672E5C540DB"),
-                    CanonicalName = DefaultArticleName,
+                    CanonicalName = SendUsLetterArticleName,
                     BreadcrumbTitle = "Contact Us",
                     IncludeInSitemap = true,
                     Version = Guid.NewGuid(),

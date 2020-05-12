@@ -1,3 +1,4 @@
+using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -6,51 +7,51 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 {
     [Trait("Category", "Pages Controller Unit Tests")]
-    public class PagesControllerChatBodyTests : BasePagesController
+    public class PagesControllerHomeViewTests : BasePagesController
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void PagesControllerChatBodyHtmlReturnsSuccess(string mediaTypeName)
+        public void PagesControllerHomeViewHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildPagesController(mediaTypeName);
 
             // Act
-            var result = controller.ChatBody();
+            var result = controller.HomeView();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.Null(viewResult.ViewData.Model);
+            _ = Assert.IsAssignableFrom<HomeViewModel>(viewResult.ViewData.Model);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void PagesControllerChatBodyJsonReturnsSuccess(string mediaTypeName)
+        public void PagesControllerHomeViewJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildPagesController(mediaTypeName);
 
             // Act
-            var result = controller.ChatBody();
+            var result = controller.HomeView();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            Assert.NotNull(jsonResult.Value);
+            _ = Assert.IsAssignableFrom<HomeViewModel>(jsonResult.Value);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void PagesControllerChatBodyReturnsNotAcceptable(string mediaTypeName)
+        public void PagesControllerBHomeViewReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             var controller = BuildPagesController(mediaTypeName);
 
             // Act
-            var result = controller.ChatBody();
+            var result = controller.HomeView();
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

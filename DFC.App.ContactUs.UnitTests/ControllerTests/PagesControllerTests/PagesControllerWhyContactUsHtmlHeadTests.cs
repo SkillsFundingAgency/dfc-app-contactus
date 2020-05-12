@@ -1,4 +1,6 @@
+using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
@@ -6,51 +8,55 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 {
     [Trait("Category", "Pages Controller Unit Tests")]
-    public class PagesControllerChatBodyTests : BasePagesController
+    public class PagesControllerWhyContactUsHtmlHeadTests : BasePagesController
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void PagesControllerChatBodyHtmlReturnsSuccess(string mediaTypeName)
+        public void PagesControllerWhyContactUsHtmlHeadHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildPagesController(mediaTypeName);
 
             // Act
-            var result = controller.ChatBody();
+            var result = controller.WhyContactUsHtmlHead();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.Null(viewResult.ViewData.Model);
+            var model = Assert.IsAssignableFrom<HtmlHeadViewModel>(viewResult.ViewData.Model);
+
+            model.CanonicalUrl.Should().NotBeNull();
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void PagesControllerChatBodyJsonReturnsSuccess(string mediaTypeName)
+        public void PagesControllerWhyContactUsHtmlHeadJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildPagesController(mediaTypeName);
 
             // Act
-            var result = controller.ChatBody();
+            var result = controller.WhyContactUsHtmlHead();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            Assert.NotNull(jsonResult.Value);
+            var model = Assert.IsAssignableFrom<HtmlHeadViewModel>(jsonResult.Value);
+
+            model.CanonicalUrl.Should().NotBeNull();
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void PagesControllerChatBodyReturnsNotAcceptable(string mediaTypeName)
+        public void PagesControllerWhyContactUsHtmlHeadReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             var controller = BuildPagesController(mediaTypeName);
 
             // Act
-            var result = controller.ChatBody();
+            var result = controller.WhyContactUsHtmlHead();
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

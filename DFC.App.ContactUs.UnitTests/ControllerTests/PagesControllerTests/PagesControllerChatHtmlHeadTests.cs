@@ -12,7 +12,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void PagesControllerHtmlHeadHtmlReturnsSuccess(string mediaTypeName)
+        public void PagesControllerChatHtmlHeadHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildPagesController(mediaTypeName);
@@ -31,7 +31,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void PagesControllerHtmlHeadJsonReturnsSuccess(string mediaTypeName)
+        public void PagesControllerChatHtmlHeadJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildPagesController(mediaTypeName);
@@ -50,7 +50,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void PagesControllerHtmlHeadReturnsNotAcceptable(string mediaTypeName)
+        public void PagesControllerChatHtmlHeadReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             var controller = BuildPagesController(mediaTypeName);
