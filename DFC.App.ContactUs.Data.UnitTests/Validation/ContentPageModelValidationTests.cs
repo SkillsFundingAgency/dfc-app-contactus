@@ -48,6 +48,18 @@ namespace DFC.App.ContactUs.Data.UnitTests.Validation
             vr.Should().BeEmpty();
         }
 
+        [TestCase("ABCDEF")]
+        public void CanCheckIfCanonicalNameIsInvalid(string canonicalName)
+        {
+            var model = CreateModel(Guid.NewGuid(), canonicalName, "content", new List<string>());
+
+            var vr = Validate(model);
+
+            vr.Should().NotBeEmpty();
+            vr.Should().Contain(x => x.ErrorMessage == string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldNotLowercase, nameof(model.CanonicalName)));
+            vr.Should().HaveCount(1);
+        }
+
         [TestCase("abcdefghijklmnopqrstuvwxyz")]
         [TestCase("0123456789")]
         [TestCase("abc")]
@@ -63,15 +75,30 @@ namespace DFC.App.ContactUs.Data.UnitTests.Validation
             vr.Should().BeEmpty();
         }
 
+        [TestCase("ABCDEF")]
+        public void CanCheckIfAlternativeNameIsInvalid(string alternativeName)
+        {
+            var model = CreateModel(Guid.NewGuid(), "canonicalname1", "content1", new List<string>() { alternativeName });
+
+            var vr = Validate(model);
+
+            vr.Should().NotBeEmpty();
+            vr.Should().Contain(x => x.ErrorMessage == string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldNotLowercase, nameof(model.AlternativeNames)));
+            vr.Should().HaveCount(1);
+        }
+
         private ContentPageModel CreateModel(Guid documentId, string canonicalName, string content, List<string> alternativeNames)
         {
             var model = new ContentPageModel
             {
                 DocumentId = documentId,
                 CanonicalName = canonicalName,
-                LastReviewed = DateTime.UtcNow,
+                BreadcrumbTitle = canonicalName,
+                Version = Guid.NewGuid(),
+                Url = new Uri("https://localhost"),
                 Content = content,
                 AlternativeNames = alternativeNames.ToArray(),
+                LastReviewed = DateTime.UtcNow,
             };
 
             return model;

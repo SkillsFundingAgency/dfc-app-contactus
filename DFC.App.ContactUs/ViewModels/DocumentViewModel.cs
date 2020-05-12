@@ -20,6 +20,8 @@ namespace DFC.App.ContactUs.ViewModels
         [Display(Name = "Include In SiteMap")]
         public bool IncludeInSitemap { get; set; }
 
+        public Uri? Url { get; set; }
+
         public HtmlString? Content { get; set; }
 
         [Display(Name = "Last Reviewed")]

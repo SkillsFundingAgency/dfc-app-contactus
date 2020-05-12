@@ -1,4 +1,4 @@
-﻿using DFC.App.ContactUs.Framework;
+﻿using DFC.Logger.AppInsights.Contracts;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using System;
@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.Filters
                 throw new ArgumentNullException(nameof(next));
             }
 
-            var correlationId = correlationIdProvider.GetId();
+            var correlationId = correlationIdProvider.CorrelationId;
 
             logger.LogInformation($"CorrelationId:{correlationId} Executing {context.ActionDescriptor.DisplayName}");
 

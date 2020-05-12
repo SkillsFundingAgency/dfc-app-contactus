@@ -3,7 +3,6 @@ using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
@@ -35,7 +34,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<IndexViewModel>(viewResult.ViewData.Model);
 
-            A.Equals(resultsCount, model.Documents.Count());
+            A.Equals(resultsCount, model.Documents!.Count);
 
             controller.Dispose();
         }
@@ -62,7 +61,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<IndexViewModel>(jsonResult.Value);
 
-            A.Equals(resultsCount, model.Documents.Count());
+            A.Equals(resultsCount, model.Documents!.Count);
 
             controller.Dispose();
         }

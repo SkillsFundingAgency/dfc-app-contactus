@@ -1,10 +1,16 @@
 ﻿using AutoMapper;
+using CorrelationId;
+using DFC.App.ContactUs.ClientHandlers;
 using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Filters;
-using DFC.App.ContactUs.Framework;
+using DFC.App.ContactUs.HostedServices;
+using DFC.App.ContactUs.HttpClientPolicies;
 using DFC.App.ContactUs.PageService;
+using DFC.App.ContactUs.PageService.EventProcessorServices;
 using DFC.App.ContactUs.Repository.CosmosDb;
+using DFC.Logger.AppInsights.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,6 +38,13 @@ namespace DFC.App.ContactUs
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper)
         {
+            app.UseCorrelationId(new CorrelationIdOptions
+            {
+                Header = "DssCorrelationId",
+                UseGuidForCorrelationId = true,
+                UpdateTraceIdentifier = false,
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -69,12 +82,27 @@ namespace DFC.App.ContactUs
             var documentClient = new DocumentClient(cosmosDbConnection!.EndpointUrl, cosmosDbConnection!.AccessKey);
             services.AddApplicationInsightsTelemetry();
             services.AddHttpContextAccessor();
-            services.AddScoped<ICorrelationIdProvider, CorrelationIdProvider>();
+            services.AddCorrelationId();
             services.AddSingleton(cosmosDbConnection);
             services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<ICosmosRepository<ContentPageModel>, CosmosRepository<ContentPageModel>>();
-            services.AddScoped<IContentPageService, ContentPageService>();
+            services.AddTransient<IContentPageService, ContentPageService>();
+            services.AddTransient<IEventMessageService, EventMessageService>();
+            services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
+            services.AddTransient<ICacheReloadService, CacheReloadService>();
+            services.AddTransient<CorrelationIdDelegatingHandler>();
             services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddDFCLogging(configuration["ApplicationInsights:InstrumentationKey"]);
+            services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>());
+            services.AddHostedService<CacheReloadBackgroundService>();
+
+            const string AppSettingsPolicies = "Policies";
+            var policyOptions = configuration.GetSection(AppSettingsPolicies).Get<PolicyOptions>();
+            var policyRegistry = services.AddPolicyRegistry();
+
+            services
+                .AddPolicies(policyRegistry, nameof(CmsApiClientOptions), policyOptions)
+                .AddHttpClient<ICmsApiProcessorService, CmsApiProcessorService, CmsApiClientOptions>(configuration, nameof(CmsApiClientOptions), nameof(PolicyOptions.HttpRetry), nameof(PolicyOptions.HttpCircuitBreaker));
 
             services.AddMvc(config =>
                 {
