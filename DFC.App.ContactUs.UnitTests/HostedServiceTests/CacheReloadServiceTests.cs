@@ -7,6 +7,7 @@ using FakeItEasy;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -244,12 +245,66 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
             A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
         }
 
+        [Fact]
+        public async Task CacheReloadServiceDeleteStaleItemsIsSuccessful()
+        {
+            // arrange
+            const int NumberOfDeletions = 2;
+            var cancellationToken = new CancellationToken(false);
+            var fakeContentPageModels = BuldFakeContentPageModels(NumberOfDeletions);
+
+            A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
+
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+
+            // act
+            await cacheReloadService.DeleteStaleItemsAsync(fakeContentPageModels, cancellationToken).ConfigureAwait(false);
+
+            // assert
+            A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappened(NumberOfDeletions, Times.Exactly);
+        }
+
+        [Fact]
+        public async Task CacheReloadServiceDeleteStaleItemsIsUnsuccessful()
+        {
+            // arrange
+            const int NumberOfDeletions = 2;
+            var cancellationToken = new CancellationToken(false);
+            var fakeContentPageModels = BuldFakeContentPageModels(NumberOfDeletions);
+
+            A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.NotFound);
+
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+
+            // act
+            await cacheReloadService.DeleteStaleItemsAsync(fakeContentPageModels, cancellationToken).ConfigureAwait(false);
+
+            // assert
+            A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappened(NumberOfDeletions, Times.Exactly);
+        }
+
+        [Fact]
+        public async Task CacheReloadServiceDeleteStaleItemsIsCancelled()
+        {
+            // arrange
+            const int NumberOfDeletions = 2;
+            var cancellationToken = new CancellationToken(true);
+            var fakeContentPageModels = BuldFakeContentPageModels(NumberOfDeletions);
+
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+
+            // act
+            await cacheReloadService.DeleteStaleItemsAsync(fakeContentPageModels, cancellationToken).ConfigureAwait(false);
+
+            // assert
+            A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
+        }
+
         [Theory]
         [MemberData(nameof(TestValidationData))]
         public void CacheReloadServiceTryValidateModelForValidAndInvalid(ContentPageModel contentPageModel, bool expectedResult)
         {
             // arrange
-
             var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
 
             // act
@@ -309,7 +364,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
             return model;
         }
 
-        private IList<ContactUsSummaryItemModel> BuldFakeContactUsSummaryItemModel(int iemCount)
+        private List<ContactUsSummaryItemModel> BuldFakeContactUsSummaryItemModel(int iemCount)
         {
             var models = A.CollectionOfFake<ContactUsSummaryItemModel>(iemCount);
 
@@ -318,10 +373,10 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
                 item.CanonicalName = Guid.NewGuid().ToString();
             }
 
-            return models;
+            return models.ToList();
         }
 
-        private IList<ContentPageModel> BuldFakeContentPageModels(int iemCount)
+        private List<ContentPageModel> BuldFakeContentPageModels(int iemCount)
         {
             var models = A.CollectionOfFake<ContentPageModel>(iemCount);
 
@@ -330,7 +385,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
                 item.CanonicalName = Guid.NewGuid().ToString();
             }
 
-            return models;
+            return models.ToList();
         }
     }
 }

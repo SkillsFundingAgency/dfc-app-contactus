@@ -93,24 +93,7 @@ namespace DFC.App.ContactUs.Controllers
 
                     var result = await ProcessMessageAsync(eventType, id, url).ConfigureAwait(false);
 
-                    switch (result)
-                    {
-                        case HttpStatusCode.OK:
-                            logger.LogInformation($"{ClassFullName}: Content Page Id: {id}: Updated Content Page");
-                            break;
-
-                        case HttpStatusCode.Created:
-                            logger.LogInformation($"{ClassFullName}: Content Page Id: {id}: Created Content Page");
-                            break;
-
-                        case HttpStatusCode.AlreadyReported:
-                            logger.LogInformation($"{ClassFullName}: Content Page Id: {id}: Content Page previously updated");
-                            break;
-
-                        default:
-                            logger.LogWarning($"{ClassFullName}: Content Page Id: {id}: Content Page not Posted: Status: {result}");
-                            break;
-                    }
+                    LogResult(id, result);
                 }
             }
 
@@ -150,6 +133,28 @@ namespace DFC.App.ContactUs.Controllers
                 default:
                     logger.LogError($"Got unknown event type - {eventType}");
                     return HttpStatusCode.BadRequest;
+            }
+        }
+
+        private void LogResult(Guid id, HttpStatusCode result)
+        {
+            switch (result)
+            {
+                case HttpStatusCode.OK:
+                    logger.LogInformation($"{ClassFullName}: Content Page Id: {id}: Updated Content Page");
+                    break;
+
+                case HttpStatusCode.Created:
+                    logger.LogInformation($"{ClassFullName}: Content Page Id: {id}: Created Content Page");
+                    break;
+
+                case HttpStatusCode.AlreadyReported:
+                    logger.LogInformation($"{ClassFullName}: Content Page Id: {id}: Content Page previously updated");
+                    break;
+
+                default:
+                    logger.LogWarning($"{ClassFullName}: Content Page Id: {id}: Content Page not Posted: Status: {result}");
+                    break;
             }
         }
     }

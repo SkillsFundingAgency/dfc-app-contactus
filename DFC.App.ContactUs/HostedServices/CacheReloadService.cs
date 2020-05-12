@@ -180,32 +180,37 @@ namespace DFC.App.ContactUs.HostedServices
 
                 if (staleContentPages != null && staleContentPages.Any())
                 {
-                    foreach (var staleContentPage in staleContentPages)
-                    {
-                        if (stoppingToken.IsCancellationRequested)
-                        {
-                            logger.LogWarning("Delete stale cache items cancelled");
-
-                            return;
-                        }
-
-                        logger.LogInformation($"Deleting cache with {staleContentPage.CanonicalName} - {staleContentPage.DocumentId}");
-
-                        var deletionResult = await eventMessageService.DeleteAsync(staleContentPage.DocumentId).ConfigureAwait(false);
-
-                        if (deletionResult == HttpStatusCode.OK)
-                        {
-                            logger.LogInformation($"Deleted stale cache item {staleContentPage.CanonicalName} - {staleContentPage.DocumentId}");
-                        }
-                        else
-                        {
-                            logger.LogError($"Cache delete error status {deletionResult} from {staleContentPage.CanonicalName} - {staleContentPage.DocumentId}");
-                        }
-                    }
+                    await DeleteStaleItemsAsync(staleContentPages, stoppingToken).ConfigureAwait(false);
                 }
             }
 
             logger.LogInformation("Delete stale cache items completed");
+        }
+
+        public async Task DeleteStaleItemsAsync(List<ContentPageModel> staleItems, CancellationToken stoppingToken)
+        {
+            foreach (var staleContentPage in staleItems)
+            {
+                if (stoppingToken.IsCancellationRequested)
+                {
+                    logger.LogWarning("Delete stale cache items cancelled");
+
+                    return;
+                }
+
+                logger.LogInformation($"Deleting cache with {staleContentPage.CanonicalName} - {staleContentPage.DocumentId}");
+
+                var deletionResult = await eventMessageService.DeleteAsync(staleContentPage.DocumentId).ConfigureAwait(false);
+
+                if (deletionResult == HttpStatusCode.OK)
+                {
+                    logger.LogInformation($"Deleted stale cache item {staleContentPage.CanonicalName} - {staleContentPage.DocumentId}");
+                }
+                else
+                {
+                    logger.LogError($"Cache delete error status {deletionResult} from {staleContentPage.CanonicalName} - {staleContentPage.DocumentId}");
+                }
+            }
         }
 
         public bool TryValidateModel(ContentPageModel contentPageModel)
