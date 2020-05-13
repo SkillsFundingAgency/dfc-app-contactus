@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.PageService;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
@@ -18,8 +19,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
     [Trait("Category", "Pages Controller Unit Tests")]
     public class PagesControllerRouteTests
     {
-        private const string ChatArticleName = "chat";
-
         private readonly ILogger<PagesController> logger;
         private readonly IContentPageService fakeContentPageService;
         private readonly IMapper fakeMapper;
@@ -42,14 +41,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             new object[] { "/pages/breadcrumb", string.Empty, nameof(PagesController.Breadcrumb) },
             new object[] { "/pages/{article}/body", "SomeArticle", nameof(PagesController.Body) },
             new object[] { "/pages/body", string.Empty, nameof(PagesController.Body) },
-        };
-
-        public static IEnumerable<object[]> PagesChatRouteDataOk => new List<object[]>
-        {
-            new object[] { "/pages/chat", string.Empty, nameof(PagesController.ChatView) },
-            new object[] { "/pages/chat/htmlhead", ChatArticleName, nameof(PagesController.HtmlHead) },
-            new object[] { "/pages/chat/breadcrumb", ChatArticleName, nameof(PagesController.Breadcrumb) },
-            new object[] { "/pages/chat/body", ChatArticleName, nameof(PagesController.Body) },
         };
 
         public static IEnumerable<object[]> PagesRouteDataNoContent => new List<object[]>
@@ -87,22 +78,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         }
 
         [Theory]
-        [MemberData(nameof(PagesChatRouteDataOk))]
-        public async Task PagesControllerUsingPagesViewRouteForOkResult(string route, string article, string actionMethod)
-        {
-            // Arrange
-            var controller = BuildController(route);
-
-            // Act
-            var result = await RunControllerAction(controller, article, actionMethod).ConfigureAwait(false);
-
-            // Assert
-            Assert.IsType<OkObjectResult>(result);
-
-            controller.Dispose();
-        }
-
-        [Theory]
         [MemberData(nameof(PagesRouteDataNoContent))]
         public async Task PagesControllerCallsContentPageServiceUsingPagesRouteFornoContentResult(string route, string article, string actionMethod)
         {
@@ -122,29 +97,17 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         private static async Task<IActionResult> RunControllerAction(PagesController controller, string article, string actionName)
         {
-            if (article.Equals(ChatArticleName, System.StringComparison.OrdinalIgnoreCase))
+            return actionName switch
             {
-                return actionName switch
-                {
-                    nameof(PagesController.HtmlHead) => controller.ChatHtmlHead(),
-                    nameof(PagesController.Breadcrumb) => controller.ChatBreadcrumb(),
-                    _ => controller.ChatBody(),
-                };
-            }
-            else
-            {
-                return actionName switch
-                {
-                    nameof(PagesController.HtmlHead) => await controller.HtmlHead(article).ConfigureAwait(false),
-                    nameof(PagesController.Breadcrumb) => await controller.Breadcrumb(article).ConfigureAwait(false),
-                    nameof(PagesController.BodyTop) => controller.BodyTop(article),
-                    nameof(PagesController.HeroBanner) => controller.HeroBanner(article),
-                    nameof(PagesController.SidebarRight) => controller.SidebarRight(article),
-                    nameof(PagesController.SidebarLeft) => controller.SidebarLeft(article),
-                    nameof(PagesController.BodyFooter) => controller.BodyFooter(article),
-                    _ => await controller.Body(article).ConfigureAwait(false),
-                };
-            }
+                nameof(PagesController.HtmlHead) => await controller.HtmlHead(article).ConfigureAwait(false),
+                nameof(PagesController.Breadcrumb) => await controller.Breadcrumb(article).ConfigureAwait(false),
+                nameof(PagesController.BodyTop) => controller.BodyTop(article),
+                nameof(PagesController.HeroBanner) => controller.HeroBanner(article),
+                nameof(PagesController.SidebarRight) => controller.SidebarRight(article),
+                nameof(PagesController.SidebarLeft) => controller.SidebarLeft(article),
+                nameof(PagesController.BodyFooter) => controller.BodyFooter(article),
+                _ => await controller.Body(article).ConfigureAwait(false),
+            };
         }
 
         private PagesController BuildController(string route)

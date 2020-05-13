@@ -8,14 +8,13 @@ using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTests
 {
-    public abstract class BaseHomeController
+    public abstract class BaseWhyContactUsController
     {
-        protected BaseHomeController()
+        protected BaseWhyContactUsController()
         {
-            Logger = A.Fake<ILogger<HomeController>>();
-            FakeServiceOpenDetailModel = A.Fake<ServiceOpenDetailModel>();
+            Logger = A.Fake<ILogger<WhyContactUsController>>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -34,17 +33,15 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             new string[] { MediaTypeNames.Application.Json },
         };
 
-        protected ILogger<HomeController> Logger { get; }
+        protected ILogger<WhyContactUsController> Logger { get; }
 
-        protected ServiceOpenDetailModel FakeServiceOpenDetailModel { get; }
-
-        protected HomeController BuildHomeController(string mediaTypeName)
+        protected WhyContactUsController BuildWhyContactUsController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(Logger, FakeServiceOpenDetailModel)
+            var controller = new WhyContactUsController(Logger)
             {
                 ControllerContext = new ControllerContext()
                 {

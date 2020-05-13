@@ -10,9 +10,9 @@ using System.Net.Mime;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 {
-    public class BasePagesController
+    public abstract class BasePagesController
     {
-        public BasePagesController()
+        protected BasePagesController()
         {
             Logger = A.Fake<ILogger<PagesController>>();
             FakeContentPageService = A.Fake<IContentPageService>();

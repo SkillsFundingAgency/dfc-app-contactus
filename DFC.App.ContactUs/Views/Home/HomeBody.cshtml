@@ -1,0 +1,49 @@
+﻿@model HomeBodyViewModel
+
+<form asp-route="/contact-us/home" method="post">
+    <div class="govuk-form-group">
+        <partial name="_ErrorSummary" />
+
+        <fieldset class="govuk-fieldset" aria-describedby="form-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                <h1 class="govuk-fieldset__heading">Contact us</h1>
+            </legend>
+            <p>
+                Call @Model.ServiceOpenDetailModel.PhoneNumber to speak to an adviser. Lines are open from  @Model.ServiceOpenDetailModel.OpenTimes,  @Model.ServiceOpenDetailModel.OpenDays. Calls are free from landlines and most mobile numbers.
+                Find out more about <a href="https://www.gov.uk/call-charges">call charges and freephone numbers</a>
+            </p>
+            <p class="govuk-body">
+                If you do not want to call us, you can also:
+            </p>
+            <div class="govuk-form-group">
+                @Html.ValidationMessageFor(model => model.SelectedOption, string.Empty, new { @class = "govuk-error-message", @id = nameof(HomeBodyViewModel.SelectedOption) + "-error" })
+
+                <div class="govuk-radios">
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" name="@nameof(HomeBodyViewModel.SelectedOption)" id="option-webchat" type="radio" value="@HomeBodyViewModel.SelectOption.Webchat">
+                        <label class="govuk-label govuk-radios__label" for="option-webchat">Speak to an adviser using webchat</label>
+                    </div>
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" name="@nameof(HomeBodyViewModel.SelectedOption)" id="option-message" type="radio" value="@HomeBodyViewModel.SelectOption.SendAMessage">
+                        <label class="govuk-label govuk-radios__label" for="option-message">Send us an online message. We'll email you back</label>
+                    </div>
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" name="@nameof(HomeBodyViewModel.SelectedOption)" idr="option-callback" type="radio" value="@HomeBodyViewModel.SelectOption.Callback">
+                        <label class="govuk-label govuk-radios__label" for="option-callback">Ask us to call you back</label>
+                    </div>
+                    <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" name="@nameof(HomeBodyViewModel.SelectedOption)" id="option-letter" type="radio" value="@HomeBodyViewModel.SelectOption.Sendletter">
+                        <label class="govuk-label govuk-radios__label" for="option-letter">Send us a letter</label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <br />
+        <button class="govuk-button" data-module="govuk-button">
+            Continue
+            <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+            </svg>
+        </button>
+    </div>
+</form>

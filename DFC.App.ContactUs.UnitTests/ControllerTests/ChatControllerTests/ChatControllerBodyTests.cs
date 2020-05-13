@@ -1,19 +1,19 @@
-using FakeItEasy;
+﻿using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 {
-    [Trait("Category", "Pages Controller Unit Tests")]
-    public class PagesControllerChatBodyTests : BasePagesController
+    [Trait("Category", "Chat Controller Unit Tests")]
+    public class ChatControllerBodyTests : BaseChatController
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void PagesControllerBodyHtmlReturnsSuccess(string mediaTypeName)
+        public void ChatControllerBodyHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildChatController(mediaTypeName);
 
             // Act
             var result = controller.ChatBody();
@@ -27,27 +27,27 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void PagesControllerBodyJsonReturnsSuccess(string mediaTypeName)
+        public void ChatControllerBodyJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildChatController(mediaTypeName);
 
             // Act
             var result = controller.ChatBody();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            Assert.Null(jsonResult.Value);
+            Assert.NotNull(jsonResult.Value);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void PagesControllerBodyReturnsNotAcceptable(string mediaTypeName)
+        public void ChatControllerBodyReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildChatController(mediaTypeName);
 
             // Act
             var result = controller.ChatBody();

@@ -1,0 +1,17 @@
+﻿@model WhyContactUsViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <partial name="HtmlHead" model=@Model.HtmlHead />
+</head>
+<body>
+    <partial name="Breadcrumb" model=@Model.Breadcrumb />
+
+    <partial name="WhyContactUsBody" model="@Model.WhyContactUsBodyViewModel" />
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</body>
+</html>
