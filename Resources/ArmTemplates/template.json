@@ -203,15 +203,15 @@
                             },
                             {
                                 "name": "CmsApiClientOptions__ApiKey",
-                                "value": "null"
+                                "value": ""
                             },
                             {
                                 "name": "CmsApiClientOptions__BaseAddress",
-                                "value": "null"
+                                "value": ""
                             },
                             {
                                 "name": "CmsApiClientOptions__SummaryEndpoint",
-                                "value": "null"
+                                "value": ""
                             }
                         ]
                     }
