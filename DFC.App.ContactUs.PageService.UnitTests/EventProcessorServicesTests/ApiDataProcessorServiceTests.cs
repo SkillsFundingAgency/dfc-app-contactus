@@ -1,6 +1,7 @@
 ﻿using DFC.App.ContactUs.PageService.EventProcessorServices;
 using DFC.App.ContactUs.PageService.EventProcessorServices.Models;
 using FakeItEasy;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -22,7 +23,7 @@ namespace DFC.App.ContactUs.PageService.UnitTests.EventProcessorServicesTests
                 CanonicalName = "a-name",
                 Published = DateTime.Now,
             };
-            var jsonResponse = $"{{\"url\": \"{expectedResult.Url}\", \"CanonicalName\": \"{expectedResult.CanonicalName}\", \"Published\": \"{expectedResult.Published}\"}}";
+            var jsonResponse = JsonConvert.SerializeObject(expectedResult);
 
             A.CallTo(() => fakeCmsApiProcessorService.GetDataFromApiAsync(A<Uri>.Ignored, A<string>.Ignored)).Returns(jsonResponse);
 

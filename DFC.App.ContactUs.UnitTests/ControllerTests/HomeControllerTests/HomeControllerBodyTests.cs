@@ -1,40 +1,40 @@
-using DFC.App.ContactUs.ViewModels;
+﻿using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 {
-    [Trait("Category", "Pages Controller Unit Tests")]
-    public class PagesControllerWhyContactUsBodyTests : BasePagesController
+    [Trait("Category", "Home Controller Unit Tests")]
+    public class HomeControllerBodyTests : BaseHomeController
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void PagesControllerWhyContactUsBodyHtmlReturnsSuccess(string mediaTypeName)
+        public void HomeControllerBodyHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildHomeController(mediaTypeName);
 
             // Act
-            var result = controller.WhyContactUsBody();
+            var result = controller.HomeBody();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            _ = Assert.IsAssignableFrom<WhyContactUsBodyViewModel>(viewResult.ViewData.Model);
+            _ = Assert.IsAssignableFrom<HomeBodyViewModel>(viewResult.ViewData.Model);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void PagesControllerWhyContactUsBodyJsonReturnsSuccess(string mediaTypeName)
+        public void HomeControllerBodyJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildHomeController(mediaTypeName);
 
             // Act
-            var result = controller.WhyContactUsBody();
+            var result = controller.HomeBody();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
@@ -45,13 +45,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void PagesControllerWhyContactUsBodyReturnsNotAcceptable(string mediaTypeName)
+        public void HomeControllerBodyReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildHomeController(mediaTypeName);
 
             // Act
-            var result = controller.WhyContactUsBody();
+            var result = controller.HomeBody();
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

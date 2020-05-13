@@ -2,6 +2,6 @@
 {
     public class CmsApiClientOptions : ClientOptions
     {
-        public string SummaryEndpoint { get; set; } = "endpoint-is-missing-here";
+        public string? SummaryEndpoint { get; set; }
     }
 }

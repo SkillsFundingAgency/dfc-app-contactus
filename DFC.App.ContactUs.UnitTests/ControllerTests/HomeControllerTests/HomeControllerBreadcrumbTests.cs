@@ -1,24 +1,24 @@
-using DFC.App.ContactUs.ViewModels;
+﻿using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 {
-    [Trait("Category", "Pages Controller Unit Tests")]
-    public class PagesControllerChatBreadcrumbTests : BasePagesController
+    [Trait("Category", "Home Controller Unit Tests")]
+    public class HomeControllerBreadcrumbTests : BaseHomeController
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void PagesControllerChatBreadcrumbHtmlReturnsSuccess(string mediaTypeName)
+        public void HomeControllerBreadcrumbHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildHomeController(mediaTypeName);
 
             // Act
-            var result = controller.ChatBreadcrumb();
+            var result = controller.HomeBreadcrumb();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -31,13 +31,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void PagesControllerChatBreadcrumbJsonReturnsSuccess(string mediaTypeName)
+        public void HomeControllerBreadcrumbJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildHomeController(mediaTypeName);
 
             // Act
-            var result = controller.ChatBreadcrumb();
+            var result = controller.HomeBreadcrumb();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
@@ -50,13 +50,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void PagesControllerChatBreadcrumbReturnsNotAcceptable(string mediaTypeName)
+        public void HomeControllerBreadcrumbReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildHomeController(mediaTypeName);
 
             // Act
-            var result = controller.ChatBreadcrumb();
+            var result = controller.HomeBreadcrumb();
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

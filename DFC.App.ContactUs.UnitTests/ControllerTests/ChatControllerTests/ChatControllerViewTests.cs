@@ -1,23 +1,20 @@
-using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.ViewModels;
+﻿using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
-using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Threading.Tasks;
 using Xunit;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 {
-    [Trait("Category", "Pages Controller Unit Tests")]
-    public class PagesControllerChatViewTests : BasePagesController
+    [Trait("Category", "Chat Controller Unit Tests")]
+    public class ChatControllerViewTests : BaseChatController
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void PagesControllerChatViewHtmlReturnsSuccess(string mediaTypeName)
+        public void ChatControllerViewHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildChatController(mediaTypeName);
 
             // Act
             var result = controller.ChatView();
@@ -31,10 +28,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void PagesControllerChatViewJsonReturnsSuccess(string mediaTypeName)
+        public void ChatControllerViewJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildChatController(mediaTypeName);
 
             // Act
             var result = controller.ChatView();
@@ -48,10 +45,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void PagesControllerBChatViewReturnsNotAcceptable(string mediaTypeName)
+        public void ChatControllerBChatViewReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildChatController(mediaTypeName);
 
             // Act
             var result = controller.ChatView();

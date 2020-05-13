@@ -1,5 +1,6 @@
 ﻿using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
@@ -11,7 +12,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         public void HomeControllerErrorTestsReturnsSuccess()
         {
             // Arrange
-            var controller = BuildHomeController();
+            var controller = BuildHomeController(MediaTypeNames.Text.Html);
 
             // Act
             var result = controller.Error();

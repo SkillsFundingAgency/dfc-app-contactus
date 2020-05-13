@@ -38,11 +38,6 @@
   </ItemGroup>
 
 
-  <ItemGroup>
-    <Folder Include="Views\Home\" />
-  </ItemGroup>
-
-
 
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.ContactUs.PageService\DFC.App.ContactUs.PageService.csproj" />

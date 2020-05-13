@@ -1,20 +1,20 @@
-using DFC.App.ContactUs.ViewModels;
+﻿using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 {
-    [Trait("Category", "Pages Controller Unit Tests")]
-    public class PagesControllerHomeViewTests : BasePagesController
+    [Trait("Category", "Home Controller Unit Tests")]
+    public class HomeControllerViewTests : BaseHomeController
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void PagesControllerHomeViewHtmlReturnsSuccess(string mediaTypeName)
+        public void HomeControllerViewHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildHomeController(mediaTypeName);
 
             // Act
             var result = controller.HomeView();
@@ -28,10 +28,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void PagesControllerHomeViewJsonReturnsSuccess(string mediaTypeName)
+        public void HomeControllerViewJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildHomeController(mediaTypeName);
 
             // Act
             var result = controller.HomeView();
@@ -45,10 +45,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void PagesControllerBHomeViewReturnsNotAcceptable(string mediaTypeName)
+        public void HomeControllerBHomeViewReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildHomeController(mediaTypeName);
 
             // Act
             var result = controller.HomeView();

@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.Controllers
             {
                 logger.LogInformation("Generating Sitemap");
 
-                var sitemapUrlPrefix = $"{Request.GetBaseAddress()}{PagesController.RegistrationPath}";
+                var sitemapUrlPrefix = $"{Request.GetBaseAddress()}{BasePagesController<PagesController>.RegistrationPath}";
                 var sitemap = new Sitemap();
 
                 // add the defaults

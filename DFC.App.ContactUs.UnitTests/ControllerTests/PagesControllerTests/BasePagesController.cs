@@ -1,5 +1,4 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.PageService;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
@@ -11,14 +10,13 @@ using System.Net.Mime;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 {
-    public class BasePagesController
+    public abstract class BasePagesController
     {
-        public BasePagesController()
+        protected BasePagesController()
         {
             Logger = A.Fake<ILogger<PagesController>>();
             FakeContentPageService = A.Fake<IContentPageService>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
-            FakeServiceOpenDetailModel = A.Fake<ServiceOpenDetailModel>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -43,15 +41,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         protected AutoMapper.IMapper FakeMapper { get; }
 
-        protected ServiceOpenDetailModel FakeServiceOpenDetailModel { get; }
-
         protected PagesController BuildPagesController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new PagesController(Logger, FakeContentPageService, FakeMapper, FakeServiceOpenDetailModel)
+            var controller = new PagesController(Logger, FakeContentPageService, FakeMapper)
             {
                 ControllerContext = new ControllerContext()
                 {

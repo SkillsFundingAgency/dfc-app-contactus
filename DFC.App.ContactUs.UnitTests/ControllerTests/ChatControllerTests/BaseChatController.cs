@@ -1,5 +1,4 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using DFC.App.ContactUs.Models;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,14 +7,13 @@ using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 {
-    public abstract class BaseHomeController
+    public abstract class BaseChatController
     {
-        protected BaseHomeController()
+        protected BaseChatController()
         {
-            Logger = A.Fake<ILogger<HomeController>>();
-            FakeServiceOpenDetailModel = A.Fake<ServiceOpenDetailModel>();
+            Logger = A.Fake<ILogger<ChatController>>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -34,17 +32,15 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             new string[] { MediaTypeNames.Application.Json },
         };
 
-        protected ILogger<HomeController> Logger { get; }
+        protected ILogger<ChatController> Logger { get; }
 
-        protected ServiceOpenDetailModel FakeServiceOpenDetailModel { get; }
-
-        protected HomeController BuildHomeController(string mediaTypeName)
+        protected ChatController BuildChatController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(Logger, FakeServiceOpenDetailModel)
+            var controller = new ChatController(Logger)
             {
                 ControllerContext = new ControllerContext()
                 {

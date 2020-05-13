@@ -1,20 +1,20 @@
-using DFC.App.ContactUs.ViewModels;
+﻿using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTests
 {
-    [Trait("Category", "Pages Controller Unit Tests")]
-    public class PagesControllerWhyContactUsViewTests : BasePagesController
+    [Trait("Category", "WhyContactUs Controller Unit Tests")]
+    public class WhyContactUsControllersViewTests : BaseWhyContactUsController
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void PagesControllerWhyContactUsViewHtmlReturnsSuccess(string mediaTypeName)
+        public void WhyContactUsControllerViewHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildWhyContactUsController(mediaTypeName);
 
             // Act
             var result = controller.WhyContactUsView();
@@ -28,10 +28,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void PagesControllerWhyContactUsViewJsonReturnsSuccess(string mediaTypeName)
+        public void WhyContactUsControllersViewJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildWhyContactUsController(mediaTypeName);
 
             // Act
             var result = controller.WhyContactUsView();
@@ -45,10 +45,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void PagesControllerBWhyContactUsViewReturnsNotAcceptable(string mediaTypeName)
+        public void WhyContactUsControllerViewReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildWhyContactUsController(mediaTypeName);
 
             // Act
             var result = controller.WhyContactUsView();

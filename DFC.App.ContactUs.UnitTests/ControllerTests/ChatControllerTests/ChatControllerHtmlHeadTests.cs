@@ -1,24 +1,24 @@
-using DFC.App.ContactUs.ViewModels;
+﻿using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 {
-    [Trait("Category", "Pages Controller Unit Tests")]
-    public class PagesControllerWhyContactUsHtmlHeadTests : BasePagesController
+    [Trait("Category", "Chat Controller Unit Tests")]
+    public class ChatControllerHtmlHeadTests : BaseChatController
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void PagesControllerWhyContactUsHtmlHeadHtmlReturnsSuccess(string mediaTypeName)
+        public void ChatControllerHtmlHeadHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildChatController(mediaTypeName);
 
             // Act
-            var result = controller.WhyContactUsHtmlHead();
+            var result = controller.ChatHtmlHead();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -31,13 +31,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void PagesControllerWhyContactUsHtmlHeadJsonReturnsSuccess(string mediaTypeName)
+        public void ChatControllerHtmlHeadJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildChatController(mediaTypeName);
 
             // Act
-            var result = controller.WhyContactUsHtmlHead();
+            var result = controller.ChatHtmlHead();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
@@ -50,13 +50,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void PagesControllerWhyContactUsHtmlHeadReturnsNotAcceptable(string mediaTypeName)
+        public void ChatControllerHtmlHeadReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildPagesController(mediaTypeName);
+            var controller = BuildChatController(mediaTypeName);
 
             // Act
-            var result = controller.WhyContactUsHtmlHead();
+            var result = controller.ChatHtmlHead();
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);
