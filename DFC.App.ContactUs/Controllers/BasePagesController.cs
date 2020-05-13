@@ -12,7 +12,7 @@ namespace DFC.App.ContactUs.Controllers
         where TController : Controller
     {
         public const string RegistrationPath = "contact-us";
-        protected const string WebchatRegistrationPath = "webchat";
+        public const string WebchatRegistrationPath = "webchat";
         protected const string LocalPath = "pages";
 
         protected BasePagesController(ILogger<TController> logger)

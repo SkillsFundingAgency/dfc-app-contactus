@@ -106,7 +106,7 @@ namespace DFC.App.ContactUs.Controllers
                     case HomeBodyViewModel.SelectOption.SendAMessage:
                         return Redirect($"/{RegistrationPath}/why-do-you-want-to-contact-us");
                     case HomeBodyViewModel.SelectOption.Callback:
-                        return Redirect($"/{RegistrationPath}/request-callback");
+                        return Redirect($"/{RegistrationPath}/contact-us");
                     case HomeBodyViewModel.SelectOption.Sendletter:
                         return Redirect($"/{RegistrationPath}/send-us-a-letter");
                 }

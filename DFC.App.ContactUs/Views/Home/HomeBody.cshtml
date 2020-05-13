@@ -15,26 +15,20 @@
             <p class="govuk-body">
                 If you do not want to call us, you can also:
             </p>
-            <div class="govuk-form-group">
+            <div class="govuk-form-group @(ViewData.ModelState.Keys.Contains(nameof(HomeBodyViewModel.SelectedOption)) ? "govuk-form-group--error" : string.Empty)">
                 @Html.ValidationMessageFor(model => model.SelectedOption, string.Empty, new { @class = "govuk-error-message", @id = nameof(HomeBodyViewModel.SelectedOption) + "-error" })
 
                 <div class="govuk-radios">
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" name="@nameof(HomeBodyViewModel.SelectedOption)" id="option-webchat" type="radio" value="@HomeBodyViewModel.SelectOption.Webchat">
-                        <label class="govuk-label govuk-radios__label" for="option-webchat">Speak to an adviser using webchat</label>
-                    </div>
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" name="@nameof(HomeBodyViewModel.SelectedOption)" id="option-message" type="radio" value="@HomeBodyViewModel.SelectOption.SendAMessage">
-                        <label class="govuk-label govuk-radios__label" for="option-message">Send us an online message. We'll email you back</label>
-                    </div>
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" name="@nameof(HomeBodyViewModel.SelectedOption)" idr="option-callback" type="radio" value="@HomeBodyViewModel.SelectOption.Callback">
-                        <label class="govuk-label govuk-radios__label" for="option-callback">Ask us to call you back</label>
-                    </div>
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" name="@nameof(HomeBodyViewModel.SelectedOption)" id="option-letter" type="radio" value="@HomeBodyViewModel.SelectOption.Sendletter">
-                        <label class="govuk-label govuk-radios__label" for="option-letter">Send us a letter</label>
-                    </div>
+                    @foreach (var option in (HomeBodyViewModel.SelectOption[])Enum.GetValues(typeof(HomeBodyViewModel.SelectOption)))
+                    {
+                        if (option != HomeBodyViewModel.SelectOption.None)
+                        {
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" name="@nameof(HomeBodyViewModel.SelectedOption)" id="@option-option" type="radio" value="@option">
+                                <label class="govuk-label govuk-radios__label" for="@option-option">@option.GetDescription()</label>
+                            </div>
+                        }
+                    }
                 </div>
             </div>
         </fieldset>

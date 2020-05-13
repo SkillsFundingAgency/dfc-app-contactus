@@ -11,39 +11,24 @@
             <p class="govuk-body">
                 Please select an option from the list below. This helps us to send your enquiry to the right person.
             </p>
-            <div class="govuk-form-group">
+            <div class="govuk-form-group @(ViewData.ModelState.Keys.Contains(nameof(WhyContactUsBodyViewModel.SelectedCategory)) ? "govuk-form-group--error" : string.Empty)">
                 @Html.ValidationMessageFor(model => model.SelectedCategory, string.Empty, new { @class = "govuk-error-message", @id = nameof(WhyContactUsBodyViewModel.SelectedCategory) + "-error" })
 
                 <div class="govuk-radios">
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" name="@nameof(WhyContactUsBodyViewModel.SelectedCategory)" id="option-advice" type="radio" value="@WhyContactUsBodyViewModel.SelectCategory.AdviceGuidance">
-                        <label class="govuk-label govuk-radios__label" for="option-advice">Careers advice and guidance</label>
-                    </div>
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" name="@nameof(WhyContactUsBodyViewModel.SelectedCategory)" id="option-courses" type="radio" value="@WhyContactUsBodyViewModel.SelectCategory.Courses">
-                        <label class="govuk-label govuk-radios__label" for="option-courses">Courses, training and qualifications</label>
-                    </div>
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" name="@nameof(WhyContactUsBodyViewModel.SelectedCategory)" id="option-website" type="radio" value="@WhyContactUsBodyViewModel.SelectCategory.Website">
-                        <label class="govuk-label govuk-radios__label" for="option-website">Problems using the website</label>
-                    </div>
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" name="@nameof(WhyContactUsBodyViewModel.SelectedCategory)" id="option-feedback" type="radio" value="@WhyContactUsBodyViewModel.SelectCategory.Feedback">
-                        <label class="govuk-label govuk-radios__label" for="option-feedback">Give feedback</label>
-                    </div>
-                    <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" name="@nameof(WhyContactUsBodyViewModel.SelectedCategory)" id="option-something-else" type="radio" value="@WhyContactUsBodyViewModel.SelectCategory.SomethingElse">
-                        <label class="govuk-label govuk-radios__label" for="option-something-else">Something else</label>
-                    </div>
+                    @foreach (var category in (WhyContactUsBodyViewModel.SelectCategory[])Enum.GetValues(typeof(WhyContactUsBodyViewModel.SelectCategory)))
+                    {
+                        if (category != WhyContactUsBodyViewModel.SelectCategory.None)
+                        {
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" name="@nameof(WhyContactUsBodyViewModel.SelectedCategory)" id="@category-option" type="radio" value="@category">
+                                <label class="govuk-label govuk-radios__label" for="@category-option">@category.GetDescription()</label>
+                            </div>
+                        }
+                    }
                 </div>
             </div>
+
             @Html.EditorFor(model => model.MoreDetail)
-            @*<div class="govuk-form-group">
-                <label class="govuk-label" for="more-detail">
-                    Tell us more about why you want to contact us, in as much details as you can. Don't include any personal or account information.
-                </label>
-                <textarea class="govuk-textarea" name="@nameof(WhyContactUsBodyViewModel.MoreDetail)" id="more-detail" rows="5"></textarea>
-            </div>*@
         </fieldset>
         <button class="govuk-button" data-module="govuk-button">
             Next
