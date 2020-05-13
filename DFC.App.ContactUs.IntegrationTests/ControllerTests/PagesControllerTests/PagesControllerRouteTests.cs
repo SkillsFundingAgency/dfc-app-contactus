@@ -123,7 +123,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [Fact(Skip = "Need to supply anti-forgery token - see here for details")]
+        [Fact]
         public async Task DeletePagesEndpointsReturnNotFound()
         {
             // Arrange
@@ -131,8 +131,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             var client = factory.CreateClient();
 
             client.DefaultRequestHeaders.Accept.Clear();
-
-            //TODO: idc: Need to supply anti-forgery token for DELETE
 
             // Act
             var response = await client.DeleteAsync(uri).ConfigureAwait(false);
