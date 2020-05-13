@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
 namespace DFC.App.ContactUs.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class EnumExtensions
     {
         public static string GetDescription<T>(this T e)
