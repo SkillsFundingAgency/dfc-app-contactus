@@ -33,7 +33,7 @@ namespace DFC.App.ContactUs.ViewModels
         public override int? Year { get; set; }
 
         [Required(ErrorMessage = IsRequiredValidationError)]
-        [Range(0, 23, ErrorMessage = NumberRangeValidationError)]
+        [Range(8, 18, ErrorMessage = NumberRangeValidationError)]
         public override int? Hour { get; set; }
 
         [Required(ErrorMessage = IsRequiredValidationError)]

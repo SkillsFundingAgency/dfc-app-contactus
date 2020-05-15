@@ -16,7 +16,7 @@ namespace DFC.App.ContactUs.UnitTests
                 TelephoneNumber = "0123456789",
                 DateOfBirth = new DateOfBirthViewModel(DateTime.Today.AddYears(-13)),
                 Postcode = "CV1 2AB",
-                CallbackDateTime = new CallbackDateTimeViewModel(DateTime.Now.AddDays(1)),
+                CallbackDateTime = new CallbackDateTimeViewModel(DateTime.Today.AddDays(1).AddHours(10).AddMinutes(15)),
                 TermsAndConditionsAccepted = true,
                 SelectedCategory = Category.Callback,
             };
