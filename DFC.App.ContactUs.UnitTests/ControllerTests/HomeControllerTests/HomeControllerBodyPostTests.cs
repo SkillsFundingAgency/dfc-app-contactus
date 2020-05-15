@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +10,15 @@ using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 {
-    [Trait("Option", "Home Controller Unit Tests")]
+    [Trait("Category", "Home Controller Unit Tests")]
     public class HomeControllerBodyPostTests : BaseHomeController
     {
         public static IEnumerable<object[]> ValidSelectedOptions => new List<object[]>
         {
-            new object[] { HomeBodyViewModel.SelectOption.Webchat, $"/{HomeController.WebchatRegistrationPath}/chat", },
-            new object[] { HomeBodyViewModel.SelectOption.SendAMessage, $"/{HomeController.RegistrationPath}/why-do-you-want-to-contact-us", },
-            new object[] { HomeBodyViewModel.SelectOption.Callback, $"/{HomeController.RegistrationPath}/contact-us", },
-            new object[] { HomeBodyViewModel.SelectOption.Sendletter, $"/{HomeController.RegistrationPath}/send-us-a-letter", },
+            new object[] { HomeOption.Webchat, $"/{HomeController.WebchatRegistrationPath}/chat", },
+            new object[] { HomeOption.SendAMessage, $"/{HomeController.RegistrationPath}/{WhyContactUsController.ThisViewCanonicalName}", },
+            new object[] { HomeOption.Callback, $"/{HomeController.RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Callback}", },
+            new object[] { HomeOption.Sendletter, $"/{HomeController.RegistrationPath}/send-us-a-letter", },
         };
 
         [Theory]
@@ -29,7 +30,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             string expectedRedirectUrl = $"/{HomeController.WebchatRegistrationPath}/chat";
             var viewModel = new HomeBodyViewModel
             {
-                SelectedOption = HomeBodyViewModel.SelectOption.Webchat,
+                SelectedOption = HomeOption.Webchat,
             };
             var controller = BuildHomeController(mediaTypeName);
 
@@ -46,7 +47,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
         [Theory]
         [MemberData(nameof(ValidSelectedOptions))]
-        public void HomeControllerBodyPostReturnsSuccessForValidOptions(HomeBodyViewModel.SelectOption selectedOption, string expectedRedirectUrl)
+        public void HomeControllerBodyPostReturnsSuccessForValidOptions(HomeOption selectedOption, string expectedRedirectUrl)
         {
             // Arrange
             var viewModel = new HomeBodyViewModel
@@ -67,13 +68,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         }
 
         [Fact]
-        public void HomeControllerBodyPostReturnsErrorForInvalidOption()
+        public void HomeControllerBodyPostReturnsSameViewForInvalidModel()
         {
             // Arrange
-            var viewModel = new HomeBodyViewModel
-            {
-                SelectedOption = HomeBodyViewModel.SelectOption.None,
-            };
+            var viewModel = new HomeBodyViewModel();
             var controller = BuildHomeController(MediaTypeNames.Text.Html);
 
             controller.ModelState.AddModelError(nameof(HomeBodyViewModel.SelectedOption), "Fake error");
@@ -84,8 +82,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             _ = Assert.IsAssignableFrom<HomeBodyViewModel>(viewResult.ViewData.Model);
-            Assert.True(viewResult.ViewData.ModelState.ErrorCount > 0);
-            Assert.Contains(nameof(HomeBodyViewModel.SelectedOption), viewResult.ViewData.ModelState.Keys);
 
             controller.Dispose();
         }
@@ -97,7 +93,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             // Arrange
             var viewModel = new HomeBodyViewModel
             {
-                SelectedOption = HomeBodyViewModel.SelectOption.None,
+                SelectedOption = HomeOption.None,
             };
             var controller = BuildHomeController(mediaTypeName);
 

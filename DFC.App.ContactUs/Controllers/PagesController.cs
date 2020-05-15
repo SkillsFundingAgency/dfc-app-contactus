@@ -39,9 +39,10 @@ namespace DFC.App.ContactUs.Controllers
                 viewModel.Documents = (from a in contentPageModels.OrderBy(o => o.CanonicalName)
                                        select mapper.Map<IndexDocumentViewModel>(a)).ToList();
 
-                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = "home" });
-                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = "chat" });
-                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = "why-do-you-want-to-contact-us" });
+                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = HomeController.ThisViewCanonicalName });
+                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = ChatController.ThisViewCanonicalName });
+                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = WhyContactUsController.ThisViewCanonicalName });
+                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = EnterYourDetailsController.ThisViewCanonicalName });
 
                 Logger.LogInformation($"{nameof(Index)} has succeeded");
             }
@@ -275,7 +276,7 @@ namespace DFC.App.ContactUs.Controllers
 
         private async Task<ContentPageModel?> GetContentPageAsync(string? article)
         {
-            const string defaultArticleName = "home";
+            const string defaultArticleName = HomeController.ThisViewCanonicalName;
             var articleName = string.IsNullOrWhiteSpace(article) ? defaultArticleName : article;
 
             var contentPageModel = await contentPageService.GetByNameAsync(articleName).ConfigureAwait(false);

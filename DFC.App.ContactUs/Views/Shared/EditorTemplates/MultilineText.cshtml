@@ -1,13 +1,23 @@
 ﻿@model string
 @using System.ComponentModel.DataAnnotations
 
-<div class="govuk-form-group @(ViewData.ModelState.Keys.Contains(ViewData.ModelMetadata.PropertyName) ? "govuk-form-group--error" : string.Empty)">
-    @{
-        var hintId = "";
-        var member = ViewData.ModelMetadata.ContainerType.GetMember(ViewData.ModelMetadata.PropertyName);
-        var strLenAttr = member[0].GetCustomAttributes(typeof(StringLengthAttribute), false).Cast<StringLengthAttribute>().FirstOrDefault();
-    }
+@{
+    var hintId = string.Empty;
+    var member = ViewData.ModelMetadata.ContainerType.GetMember(ViewData.ModelMetadata.PropertyName);
+    var strLenAttr = member[0].GetCustomAttributes(typeof(StringLengthAttribute), false).Cast<StringLengthAttribute>().FirstOrDefault();
+    var showErrorClass = string.Empty;
+    var errorKey = ViewData.ModelMetadata.PropertyName;
 
+    if (ViewData.ModelState.Keys.Contains(errorKey))
+    {
+        if (ViewData.ModelState[errorKey] != null && ViewData.ModelState[errorKey].Errors.Any())
+        {
+            showErrorClass = "govuk-form-group--error";
+        }
+    }
+}
+
+<div class="govuk-form-group @showErrorClass">
     @Html.LabelFor(model => model, new { @class = "govuk-label" })
 
     @if (!string.IsNullOrWhiteSpace(ViewData.ModelMetadata.Description))

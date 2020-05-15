@@ -11,24 +11,10 @@
             <p class="govuk-body">
                 Please select an option from the list below. This helps us to send your enquiry to the right person.
             </p>
-            <div class="govuk-form-group @(ViewData.ModelState.Keys.Contains(nameof(WhyContactUsBodyViewModel.SelectedCategory)) ? "govuk-form-group--error" : string.Empty)">
-                @Html.ValidationMessageFor(model => model.SelectedCategory, string.Empty, new { @class = "govuk-error-message", @id = nameof(WhyContactUsBodyViewModel.SelectedCategory) + "-error" })
 
-                <div class="govuk-radios">
-                    @foreach (var category in (WhyContactUsBodyViewModel.SelectCategory[])Enum.GetValues(typeof(WhyContactUsBodyViewModel.SelectCategory)))
-                    {
-                        if (category != WhyContactUsBodyViewModel.SelectCategory.None)
-                        {
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" name="@nameof(WhyContactUsBodyViewModel.SelectedCategory)" id="@category-option" type="radio" value="@category">
-                                <label class="govuk-label govuk-radios__label" for="@category-option">@category.GetDescription()</label>
-                            </div>
-                        }
-                    }
-                </div>
-            </div>
-
+            @Html.EditorFor(model => model.SelectedCategory)
             @Html.EditorFor(model => model.MoreDetail)
+
         </fieldset>
         <button class="govuk-button" data-module="govuk-button">
             Next

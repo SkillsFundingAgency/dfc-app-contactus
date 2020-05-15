@@ -19,6 +19,8 @@ namespace DFC.App.ContactUs.Extensions
             string keyPrefix,
             PolicyOptions policyOptions)
         {
+            _ = policyOptions ?? throw new ArgumentNullException(nameof(policyOptions));
+
             policyRegistry?.Add(
                 $"{keyPrefix}_{nameof(PolicyOptions.HttpRetry)}",
                 HttpPolicyExtensions

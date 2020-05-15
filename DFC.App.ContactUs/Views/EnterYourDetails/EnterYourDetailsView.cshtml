@@ -1,0 +1,17 @@
+﻿@model EnterYourDetailsViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <partial name="HtmlHead" model=@Model.HtmlHead />
+</head>
+<body>
+    <partial name="Breadcrumb" model=@Model.Breadcrumb />
+
+    <partial name="EnterYourDetailsBody" model="@Model.EnterYourDetailsBodyViewModel" />
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</body>
+</html>

@@ -1,5 +1,4 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using DFC.App.ContactUs.Models;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,8 +13,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
     [Trait("Category", "Chat Controller Unit Tests")]
     public class ChatControllerRouteTests
     {
-        private const string ChatArticleName = "chat";
-
         private readonly ILogger<ChatController> logger;
 
         public ChatControllerRouteTests()
@@ -25,10 +22,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
-            new object[] { $"/pages/{ChatArticleName}",  nameof(ChatController.ChatView) },
-            new object[] { $"/pages/{ChatArticleName}/htmlhead",  nameof(ChatController.ChatHtmlHead) },
-            new object[] { $"/pages/{ChatArticleName}/breadcrumb",  nameof(ChatController.ChatBreadcrumb) },
-            new object[] { $"/pages/{ChatArticleName}/body",  nameof(ChatController.ChatBody) },
+            new object[] { $"/pages/{ChatController.ThisViewCanonicalName}",  nameof(ChatController.ChatView) },
+            new object[] { $"/pages/{ChatController.ThisViewCanonicalName}/htmlhead",  nameof(ChatController.ChatHtmlHead) },
+            new object[] { $"/pages/{ChatController.ThisViewCanonicalName}/breadcrumb",  nameof(ChatController.ChatBreadcrumb) },
+            new object[] { $"/pages/{ChatController.ThisViewCanonicalName}/body",  nameof(ChatController.ChatBody) },
         };
 
         [Theory]

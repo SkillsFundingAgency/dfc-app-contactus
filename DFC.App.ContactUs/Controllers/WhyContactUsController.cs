@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.Extensions;
+﻿using DFC.App.ContactUs.Enums;
+using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,8 @@ namespace DFC.App.ContactUs.Controllers
 {
     public class WhyContactUsController : BasePagesController<WhyContactUsController>
     {
+        public const string ThisViewCanonicalName = "why-do-you-want-to-contact-us";
+
         public WhyContactUsController(ILogger<WhyContactUsController> logger) : base(logger)
         {
         }
@@ -19,14 +22,14 @@ namespace DFC.App.ContactUs.Controllers
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = "why-do-you-want-to-contact-us",
+                CanonicalName = ThisViewCanonicalName,
                 BreadcrumbTitle = "Why do you want to contact us",
             };
             var viewModel = new WhyContactUsViewModel()
             {
                 HtmlHead = new HtmlHeadViewModel
                 {
-                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/why-do-you-want-to-contact-us", UriKind.RelativeOrAbsolute),
+                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                     Title = "Why do you want to contact us | Contact us | National Careers Service",
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
@@ -44,7 +47,7 @@ namespace DFC.App.ContactUs.Controllers
         {
             var viewModel = new HtmlHeadViewModel()
             {
-                CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}/why-do-you-want-to-contact-us", UriKind.RelativeOrAbsolute),
+                CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                 Title = "Why do you want to contact us | Contact us | National Careers Service",
             };
 
@@ -58,7 +61,7 @@ namespace DFC.App.ContactUs.Controllers
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = "why-do-you-want-to-contact-us",
+                CanonicalName = ThisViewCanonicalName,
                 BreadcrumbTitle = "Why do you want to contact us",
             };
             var viewModel = BuildBreadcrumb(RegistrationPath, breadcrumbItemModel);
@@ -87,16 +90,12 @@ namespace DFC.App.ContactUs.Controllers
             {
                 switch (viewModel.SelectedCategory)
                 {
-                    case WhyContactUsBodyViewModel.SelectCategory.AdviceGuidance:
-                        return Redirect($"/{RegistrationPath}");
-                    case WhyContactUsBodyViewModel.SelectCategory.Courses:
-                        return Redirect($"/{RegistrationPath}");
-                    case WhyContactUsBodyViewModel.SelectCategory.Website:
-                        return Redirect($"/{RegistrationPath}");
-                    case WhyContactUsBodyViewModel.SelectCategory.Feedback:
-                        return Redirect($"/{RegistrationPath}");
-                    case WhyContactUsBodyViewModel.SelectCategory.SomethingElse:
-                        return Redirect($"/{RegistrationPath}");
+                    case Category.AdviceGuidance:
+                    case Category.Courses:
+                    case Category.Website:
+                    case Category.Feedback:
+                    case Category.SomethingElse:
+                        return Redirect($"/{RegistrationPath}/enter-your-details?category={viewModel.SelectedCategory}");
                 }
             }
 

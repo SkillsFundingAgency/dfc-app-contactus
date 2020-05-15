@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.Extensions;
+﻿using DFC.App.ContactUs.Enums;
+using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,8 @@ namespace DFC.App.ContactUs.Controllers
 {
     public class HomeController : BasePagesController<HomeController>
     {
+        public const string ThisViewCanonicalName = "home";
+
         private readonly ServiceOpenDetailModel serviceOpenDetailModel;
 
         public HomeController(ILogger<HomeController> logger, ServiceOpenDetailModel serviceOpenDetailModel) : base(logger)
@@ -23,7 +26,7 @@ namespace DFC.App.ContactUs.Controllers
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = "home",
+                CanonicalName = ThisViewCanonicalName,
                 BreadcrumbTitle = "contact us",
             };
             var viewModel = new HomeViewModel()
@@ -67,7 +70,7 @@ namespace DFC.App.ContactUs.Controllers
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = "home",
+                CanonicalName = ThisViewCanonicalName,
                 BreadcrumbTitle = "Contact us",
             };
             var viewModel = BuildBreadcrumb(RegistrationPath, breadcrumbItemModel);
@@ -101,13 +104,13 @@ namespace DFC.App.ContactUs.Controllers
             {
                 switch (viewModel.SelectedOption)
                 {
-                    case HomeBodyViewModel.SelectOption.Webchat:
-                        return Redirect($"/{WebchatRegistrationPath}/chat");
-                    case HomeBodyViewModel.SelectOption.SendAMessage:
-                        return Redirect($"/{RegistrationPath}/why-do-you-want-to-contact-us");
-                    case HomeBodyViewModel.SelectOption.Callback:
-                        return Redirect($"/{RegistrationPath}/contact-us");
-                    case HomeBodyViewModel.SelectOption.Sendletter:
+                    case HomeOption.Webchat:
+                        return Redirect($"/{WebchatRegistrationPath}/{ChatController.ThisViewCanonicalName}");
+                    case HomeOption.SendAMessage:
+                        return Redirect($"/{RegistrationPath}/{WhyContactUsController.ThisViewCanonicalName}");
+                    case HomeOption.Callback:
+                        return Redirect($"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Callback}");
+                    case HomeOption.Sendletter:
                         return Redirect($"/{RegistrationPath}/send-us-a-letter");
                 }
             }
