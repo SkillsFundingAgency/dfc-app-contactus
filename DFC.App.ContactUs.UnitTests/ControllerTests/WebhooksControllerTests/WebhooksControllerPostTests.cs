@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.PageService.EventProcessorServices.Models;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +45,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             const HttpStatusCode expectedResponse = HttpStatusCode.OK;
             var expectedValidApiModel = BuildValidContactUsApiDataModel();
             var expectedValidModel = BuildValidContentPageModel();
-            var eventGridEvents = BuildValidEventGridEvent(eventType, "http://localhost");
+            var eventGridEvents = BuildValidEventGridEvent(eventType, new EventGridEventData { Api = "https://somewhere.com" });
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromEventGridEvents(eventGridEvents);
 
@@ -77,7 +78,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             const HttpStatusCode expectedResponse = HttpStatusCode.OK;
             var expectedValidApiModel = BuildValidContactUsApiDataModel();
             var expectedValidModel = BuildValidContentPageModel();
-            var eventGridEvents = BuildValidEventGridEvent(eventType, "http://localhost");
+            var eventGridEvents = BuildValidEventGridEvent(eventType, new EventGridEventData { Api = "https://somewhere.com" });
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromEventGridEvents(eventGridEvents);
 
@@ -106,7 +107,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.OK;
-            var eventGridEvents = BuildValidEventGridEvent(eventType, "http://localhost");
+            var eventGridEvents = BuildValidEventGridEvent(eventType, new EventGridEventData { Api = "https://somewhere.com" });
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromEventGridEvents(eventGridEvents);
 
@@ -134,7 +135,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.OK;
             var expectedValidApiModel = BuildValidContactUsApiDataModel();
-            var eventGridEvents = BuildValidEventGridEvent(eventType, "http://localhost");
+            var eventGridEvents = BuildValidEventGridEvent(eventType, new EventGridEventData { Api = "https://somewhere.com" });
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromEventGridEvents(eventGridEvents);
 
@@ -161,7 +162,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
         public async Task WebhooksControllerPostReturnsErrorForInvalidId(string id)
         {
             // Arrange
-            var eventGridEvents = BuildValidEventGridEvent(EventTypePublished, "http://localhost");
+            var eventGridEvents = BuildValidEventGridEvent(EventTypePublished, new EventGridEventData { Api = "https://somewhere.com" });
             var controller = BuildWebhooksController(MediaTypeNames.Application.Json);
             eventGridEvents.First().Id = id;
             controller.HttpContext.Request.Body = BuildStreamFromEventGridEvents(eventGridEvents);
@@ -170,21 +171,38 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
             // Act
             await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveContactUsEvents().ConfigureAwait(false)).ConfigureAwait(false);
+
+            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
+
             controller.Dispose();
         }
 
         [Fact]
-        public async Task WebhooksControllerPostReturnsErrorForInvalidEventType()
+        public async Task WebhooksControllerPostReturnsSuccessForUnknownEventType()
         {
             // Arrange
-            var eventGridEvents = BuildValidEventGridEvent("Unknown", "http://localhost");
+            const HttpStatusCode expectedResponse = HttpStatusCode.OK;
+            var eventGridEvents = BuildValidEventGridEvent("Unknown", new EventGridEventData { Api = "https://somewhere.com" });
             var controller = BuildWebhooksController(MediaTypeNames.Application.Json);
             controller.HttpContext.Request.Body = BuildStreamFromEventGridEvents(eventGridEvents);
 
             A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
 
             // Act
-            await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveContactUsEvents().ConfigureAwait(false)).ConfigureAwait(false);
+            var result = await controller.ReceiveContactUsEvents().ConfigureAwait(false);
+
+            // Assert
+            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
+            var okResult = Assert.IsType<OkResult>(result);
+
+            Assert.Equal((int)expectedResponse, okResult.StatusCode);
+
             controller.Dispose();
         }
 
@@ -192,25 +210,30 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
         public async Task WebhooksControllerPostReturnsErrorForInvalidUrl()
         {
             // Arrange
-            var eventGridEvents = BuildValidEventGridEvent(EventTypePublished, "http://localhost");
+            var eventGridEvents = BuildValidEventGridEvent(EventTypePublished, new EventGridEventData { Api = "http:http://badUrl" });
             var controller = BuildWebhooksController(MediaTypeNames.Application.Json);
-            eventGridEvents.First().Data = "http:http://badUrl";
             controller.HttpContext.Request.Body = BuildStreamFromEventGridEvents(eventGridEvents);
 
             A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
 
             // Act
             await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveContactUsEvents().ConfigureAwait(false)).ConfigureAwait(false);
+
+            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
+
             controller.Dispose();
         }
 
-        [Fact(Skip = "Unable to deserialise the SubscriptionValidationEventData object - not sure why as the code is working when run for real")]
+        [Fact]
         public async Task WebhooksControllerSubscriptionvalidationReturnsSuccess()
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.OK;
             string expectedValidationCode = Guid.NewGuid().ToString();
-            var eventGridEvents = BuildValidEventGridEvent(EventTypePublished, new SubscriptionValidationEventData(expectedValidationCode, "https://somewhere.com"));
+            var eventGridEvents = BuildValidEventGridEvent(Microsoft.Azure.EventGrid.EventTypes.EventGridSubscriptionValidationEvent, new SubscriptionValidationEventData(expectedValidationCode, "https://somewhere.com"));
             var controller = BuildWebhooksController(MediaTypeNames.Application.Json);
             controller.HttpContext.Request.Body = BuildStreamFromEventGridEvents(eventGridEvents);
 
@@ -223,26 +246,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
             Assert.Equal((int)expectedResponse, jsonResult.StatusCode);
             Assert.Equal(expectedValidationCode, response.ValidationResponse);
-
-            controller.Dispose();
-        }
-
-        [Fact(Skip = "Unable to deserialise the StorageBlobCreatedEventData object - not sure why as the code is working when run for real")]
-        public async Task WebhooksControllerStorageBlobCreatedEventReturnsSuccess()
-        {
-            // Arrange
-            const HttpStatusCode expectedResponse = HttpStatusCode.OK;
-            var eventGridEvents = BuildValidEventGridEvent(EventTypePublished, new StorageBlobCreatedEventData());
-            var controller = BuildWebhooksController(MediaTypeNames.Application.Json);
-            controller.HttpContext.Request.Body = BuildStreamFromEventGridEvents(eventGridEvents);
-
-            // Act
-            var result = await controller.ReceiveContactUsEvents().ConfigureAwait(false);
-
-            // Assert
-            var okResult = Assert.IsType<OkResult>(result);
-
-            Assert.Equal((int)expectedResponse, okResult.StatusCode);
 
             controller.Dispose();
         }
@@ -281,7 +284,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             return model;
         }
 
-        private static EventGridEvent[] BuildValidEventGridEvent(string eventType, object data)
+        private static EventGridEvent[] BuildValidEventGridEvent<TModel>(string eventType, TModel data)
         {
             var models = new EventGridEvent[]
             {

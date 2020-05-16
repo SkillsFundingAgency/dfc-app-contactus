@@ -1,5 +1,6 @@
 ﻿using DFC.App.ContactUs.Data.Enums;
 using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.PageService.EventProcessorServices;
 using DFC.App.ContactUs.PageService.EventProcessorServices.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,6 @@ namespace DFC.App.ContactUs.Controllers
         private const string EventTypePublished = "Published";
         private const string EventTypeDraft = "Draft";
         private const string EventTypeDeleted = "Deleted";
-        private static readonly string ClassFullName = typeof(WebhooksController).FullName!;
 
         private readonly ILogger<WebhooksController> logger;
         private readonly AutoMapper.IMapper mapper;
@@ -44,47 +44,41 @@ namespace DFC.App.ContactUs.Controllers
             logger.LogInformation($"Received events: {requestContent}");
 
             var eventGridSubscriber = new EventGridSubscriber();
-            eventGridSubscriber.AddOrUpdateCustomEventMapping(EventTypePublished, typeof(string));
-            eventGridSubscriber.AddOrUpdateCustomEventMapping(EventTypeDraft, typeof(string));
-            eventGridSubscriber.AddOrUpdateCustomEventMapping(EventTypeDeleted, typeof(string));
+            eventGridSubscriber.AddOrUpdateCustomEventMapping(EventTypePublished, typeof(EventGridEventData));
+            eventGridSubscriber.AddOrUpdateCustomEventMapping(EventTypeDraft, typeof(EventGridEventData));
+            eventGridSubscriber.AddOrUpdateCustomEventMapping(EventTypeDeleted, typeof(EventGridEventData));
             var eventGridEvents = eventGridSubscriber.DeserializeEventGridEvents(requestContent);
 
             foreach (var eventGridEvent in eventGridEvents)
             {
-                if (eventGridEvent.Data is SubscriptionValidationEventData)
+                if (!Guid.TryParse(eventGridEvent.Id, out Guid id))
                 {
-                    var eventData = eventGridEvent.Data as SubscriptionValidationEventData;
-                    logger.LogInformation($"Got SubscriptionValidation event data, validationCode: {eventData!.ValidationCode},  validationUrl: {eventData.ValidationUrl}, topic: {eventGridEvent.Topic}");
+                    throw new InvalidDataException($"Invalid Guid for EventGridEvent.Id '{eventGridEvent.Id}'");
+                }
+
+                if (eventGridEvent.Data is SubscriptionValidationEventData subscriptionValidationEventData)
+                {
+                    logger.LogInformation($"Got SubscriptionValidation event data, validationCode: {subscriptionValidationEventData!.ValidationCode},  validationUrl: {subscriptionValidationEventData.ValidationUrl}, topic: {eventGridEvent.Topic}");
 
                     // Do any additional validation (as required) such as validating that the Azure resource ID of the topic matches
                     // the expected topic and then return back the below response
                     var responseData = new SubscriptionValidationResponse()
                     {
-                        ValidationResponse = eventData.ValidationCode,
+                        ValidationResponse = subscriptionValidationEventData.ValidationCode,
                     };
 
                     return Ok(responseData);
                 }
-                else if (eventGridEvent.Data is StorageBlobCreatedEventData)
+                else if (eventGridEvent.Data is EventGridEventData eventGridEventData)
                 {
-                    var eventData = eventGridEvent.Data as StorageBlobCreatedEventData;
-                    logger.LogInformation($"Got BlobCreated event data, blob URI {eventData!.Url}");
-                }
-                else
-                {
-                    if (!Guid.TryParse(eventGridEvent.Id, out Guid id))
-                    {
-                        throw new InvalidDataException($"Invalid Guid for EventGridEvent.Id '{eventGridEvent.Id}'");
-                    }
-
                     if (!Enum.IsDefined(typeof(MessageAction), eventGridEvent.EventType))
                     {
                         throw new InvalidDataException($"Invalid event type '{eventGridEvent.EventType}' received for Event Id: {id}, should be one of '{string.Join(",", Enum.GetNames(typeof(MessageAction)))}'");
                     }
 
-                    if (!Uri.TryCreate((string)eventGridEvent.Data, UriKind.Absolute, out Uri? url))
+                    if (!Uri.TryCreate(eventGridEventData.Api, UriKind.Absolute, out Uri? url))
                     {
-                        throw new InvalidDataException($"Invalid Url '{(string)eventGridEvent.Data}' received for Event Id: {id}");
+                        throw new InvalidDataException($"Invalid Api url '{eventGridEventData.Api}' received for Event Id: {id}");
                     }
 
                     var eventType = Enum.Parse<MessageAction>(eventGridEvent.EventType, true);
@@ -94,6 +88,10 @@ namespace DFC.App.ContactUs.Controllers
                     var result = await ProcessMessageAsync(eventType, id, url).ConfigureAwait(false);
 
                     LogResult(id, result);
+                }
+                else
+                {
+                    logger.LogWarning($"Event Id: {eventGridEvent.Id} with event type: {eventGridEvent.EventType}, contains unrecognised event data object");
                 }
             }
 
@@ -141,19 +139,19 @@ namespace DFC.App.ContactUs.Controllers
             switch (result)
             {
                 case HttpStatusCode.OK:
-                    logger.LogInformation($"{ClassFullName}: Content Page Id: {id}: Updated Content Page");
+                    logger.LogInformation($"Content Page Id: {id}: Updated Content Page");
                     break;
 
                 case HttpStatusCode.Created:
-                    logger.LogInformation($"{ClassFullName}: Content Page Id: {id}: Created Content Page");
+                    logger.LogInformation($"Content Page Id: {id}: Created Content Page");
                     break;
 
                 case HttpStatusCode.AlreadyReported:
-                    logger.LogInformation($"{ClassFullName}: Content Page Id: {id}: Content Page previously updated");
+                    logger.LogInformation($"Content Page Id: {id}: Content Page previously updated");
                     break;
 
                 default:
-                    logger.LogWarning($"{ClassFullName}: Content Page Id: {id}: Content Page not Posted: Status: {result}");
+                    logger.LogWarning($"Content Page Id: {id}: Content Page not Posted: Status: {result}");
                     break;
             }
         }
