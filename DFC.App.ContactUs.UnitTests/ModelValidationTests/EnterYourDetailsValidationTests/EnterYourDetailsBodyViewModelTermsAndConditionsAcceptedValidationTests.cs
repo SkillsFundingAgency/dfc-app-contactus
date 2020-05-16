@@ -1,5 +1,4 @@
-﻿using DFC.App.ContactUs.ViewModels;
-using System;
+﻿using System;
 using System.Linq;
 using Xunit;
 
@@ -21,7 +20,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             // Assert
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
-            Assert.Contains("Please tick the", validationResults.First().ErrorMessage, StringComparison.Ordinal);
+            Assert.NotNull(validationResults.First(f => f.ErrorMessage.Contains("Please tick the", StringComparison.Ordinal)));
         }
     }
 }
