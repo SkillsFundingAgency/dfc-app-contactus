@@ -101,6 +101,8 @@ namespace DFC.App.ContactUs.HostedServices
 
         public async Task GetAndSaveItemAsync(ContactUsSummaryItemModel item, CancellationToken stoppingToken)
         {
+            _ = item ?? throw new ArgumentNullException(nameof(item));
+
             try
             {
                 logger.LogInformation($"Get details for {item.CanonicalName} - {item.Url}");
@@ -189,6 +191,8 @@ namespace DFC.App.ContactUs.HostedServices
 
         public async Task DeleteStaleItemsAsync(List<ContentPageModel> staleItems, CancellationToken stoppingToken)
         {
+            _ = staleItems ?? throw new ArgumentNullException(nameof(staleItems));
+
             foreach (var staleContentPage in staleItems)
             {
                 if (stoppingToken.IsCancellationRequested)
@@ -215,6 +219,8 @@ namespace DFC.App.ContactUs.HostedServices
 
         public bool TryValidateModel(ContentPageModel contentPageModel)
         {
+            _ = contentPageModel ?? throw new ArgumentNullException(nameof(contentPageModel));
+
             var validationContext = new ValidationContext(contentPageModel, null, null);
             var validationResults = new List<ValidationResult>();
             var isValid = Validator.TryValidateObject(contentPageModel, validationContext, validationResults, true);

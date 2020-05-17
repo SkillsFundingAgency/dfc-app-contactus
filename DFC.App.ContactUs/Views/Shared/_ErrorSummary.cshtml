@@ -19,7 +19,7 @@
                         else
                         {
                             <li>
-                                <a href="#@key">@error.ErrorMessage</a>
+                                <a href="#@key.Replace("." ,"_", StringComparison.Ordinal)">@error.ErrorMessage</a>
                             </li>
                         }
                     }

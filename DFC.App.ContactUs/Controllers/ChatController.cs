@@ -9,6 +9,8 @@ namespace DFC.App.ContactUs.Controllers
 {
     public class ChatController : BasePagesController<ChatController>
     {
+        public const string ThisViewCanonicalName = "chat";
+
         public ChatController(ILogger<ChatController> logger) : base(logger)
         {
         }
@@ -19,7 +21,7 @@ namespace DFC.App.ContactUs.Controllers
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = "chat",
+                CanonicalName = ThisViewCanonicalName,
                 BreadcrumbTitle = "Chat",
             };
             var viewModel = new ChatViewModel()
@@ -57,7 +59,7 @@ namespace DFC.App.ContactUs.Controllers
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = "chat",
+                CanonicalName = ThisViewCanonicalName,
                 BreadcrumbTitle = "Chat",
             };
             var viewModel = BuildBreadcrumb(WebchatRegistrationPath, breadcrumbItemModel);

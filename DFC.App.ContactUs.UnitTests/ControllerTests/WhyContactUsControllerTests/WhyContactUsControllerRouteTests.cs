@@ -1,5 +1,4 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using DFC.App.ContactUs.Models;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,8 +13,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
     [Trait("Category", "WhyContactUs Controller Unit Tests")]
     public class WhyContactUsControllerRouteTests
     {
-        private const string WhyContactUsArticleName = "why-do-you-want-to-contact-us";
-
         private readonly ILogger<WhyContactUsController> logger;
 
         public WhyContactUsControllerRouteTests()
@@ -25,10 +22,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
 
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
-            new object[] { $"/pages/{WhyContactUsArticleName}",  nameof(WhyContactUsController.WhyContactUsView) },
-            new object[] { $"/pages/{WhyContactUsArticleName}/htmlhead",  nameof(WhyContactUsController.WhyContactUsHtmlHead) },
-            new object[] { $"/pages/{WhyContactUsArticleName}/breadcrumb", nameof(WhyContactUsController.WhyContactUsBreadcrumb) },
-            new object[] { $"/pages/{WhyContactUsArticleName}/body", nameof(WhyContactUsController.WhyContactUsBody) },
+            new object[] { $"/pages/{WhyContactUsController.ThisViewCanonicalName}",  nameof(WhyContactUsController.WhyContactUsView) },
+            new object[] { $"/pages/{WhyContactUsController.ThisViewCanonicalName}/htmlhead",  nameof(WhyContactUsController.WhyContactUsHtmlHead) },
+            new object[] { $"/pages/{WhyContactUsController.ThisViewCanonicalName}/breadcrumb", nameof(WhyContactUsController.WhyContactUsBreadcrumb) },
+            new object[] { $"/pages/{WhyContactUsController.ThisViewCanonicalName}/body", nameof(WhyContactUsController.WhyContactUsBody) },
         };
 
         [Theory]

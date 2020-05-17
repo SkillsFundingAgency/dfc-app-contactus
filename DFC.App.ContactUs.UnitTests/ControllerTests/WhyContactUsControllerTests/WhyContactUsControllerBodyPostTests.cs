@@ -1,5 +1,7 @@
-﻿using DFC.App.ContactUs.ViewModels;
+﻿using DFC.App.ContactUs.Enums;
+using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net;
@@ -13,11 +15,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
     {
         public static IEnumerable<object[]> ValidSelectedCategories => new List<object[]>
         {
-            new object[] { WhyContactUsBodyViewModel.SelectCategory.AdviceGuidance, "/contact-us", },
-            new object[] { WhyContactUsBodyViewModel.SelectCategory.Courses, "/contact-us", },
-            new object[] { WhyContactUsBodyViewModel.SelectCategory.Website, "/contact-us", },
-            new object[] { WhyContactUsBodyViewModel.SelectCategory.Feedback, "/contact-us", },
-            new object[] { WhyContactUsBodyViewModel.SelectCategory.SomethingElse, "/contact-us", },
+            new object[] { Category.AdviceGuidance, },
+            new object[] { Category.Courses, },
+            new object[] { Category.Website, },
+            new object[] { Category.Feedback, },
+            new object[] { Category.SomethingElse, },
         };
 
         [Theory]
@@ -26,10 +28,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
         public void WhyContactUsControllerBodyPostReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            const string expectedRedirectUrl = "/contact-us";
+            const Category selectedCategory = Category.Website;
+            string expectedRedirectUrl = $"/contact-us/enter-your-details?category={selectedCategory}";
             var viewModel = new WhyContactUsBodyViewModel
             {
-                SelectedCategory = WhyContactUsBodyViewModel.SelectCategory.Website,
+                SelectedCategory = selectedCategory,
                 MoreDetail = "some more detail",
             };
             var controller = BuildWhyContactUsController(mediaTypeName);
@@ -47,9 +50,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
 
         [Theory]
         [MemberData(nameof(ValidSelectedCategories))]
-        public void WhyContactUsControllerBodyPostReturnsSuccessForValidCategories(WhyContactUsBodyViewModel.SelectCategory selectedCategory, string expectedRedirectUrl)
+        public void WhyContactUsControllerBodyPostReturnsSuccessForValidCategories(Category selectedCategory)
         {
             // Arrange
+            string expectedRedirectUrl = $"/contact-us/enter-your-details?category={selectedCategory}";
             var viewModel = new WhyContactUsBodyViewModel
             {
                 SelectedCategory = selectedCategory,
@@ -69,14 +73,34 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
         }
 
         [Fact]
-        public void WhyContactUsControllerBodyPostReturnsErrorForInvalidCategory()
+        public void WhyContactUsControllerBodyPostReturnsToSelfForInvalidCategory()
         {
             // Arrange
+            const Category selectedCategory = Category.None;
             var viewModel = new WhyContactUsBodyViewModel
             {
-                SelectedCategory = WhyContactUsBodyViewModel.SelectCategory.None,
+                SelectedCategory = selectedCategory,
                 MoreDetail = "some more detail",
             };
+            var controller = BuildWhyContactUsController(MediaTypeNames.Text.Html);
+
+            // Act
+            var result = controller.WhyContactUsBody(viewModel);
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<WhyContactUsBodyViewModel>(viewResult.ViewData.Model);
+
+            model.SelectedCategory.Should().Be(selectedCategory);
+
+            controller.Dispose();
+        }
+
+        [Fact]
+        public void WhyContactUsControllerBodyPostReturnsSameViewForInvalidModel()
+        {
+            // Arrange
+            var viewModel = new WhyContactUsBodyViewModel();
             var controller = BuildWhyContactUsController(MediaTypeNames.Text.Html);
 
             controller.ModelState.AddModelError(nameof(WhyContactUsBodyViewModel.SelectedCategory), "Fake error");
@@ -87,33 +111,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             _ = Assert.IsAssignableFrom<WhyContactUsBodyViewModel>(viewResult.ViewData.Model);
-            Assert.True(viewResult.ViewData.ModelState.ErrorCount > 0);
-            Assert.Contains(nameof(WhyContactUsBodyViewModel.SelectedCategory), viewResult.ViewData.ModelState.Keys);
-
-            controller.Dispose();
-        }
-
-        [Fact]
-        public void WhyContactUsControllerBodyPostReturnsErrorForInvalidMoreDetail()
-        {
-            // Arrange
-            var viewModel = new WhyContactUsBodyViewModel
-            {
-                SelectedCategory = WhyContactUsBodyViewModel.SelectCategory.Website,
-                MoreDetail = null,
-            };
-            var controller = BuildWhyContactUsController(MediaTypeNames.Text.Html);
-
-            controller.ModelState.AddModelError(nameof(WhyContactUsBodyViewModel.MoreDetail), "Fake error");
-
-            // Act
-            var result = controller.WhyContactUsBody(viewModel);
-
-            // Assert
-            var viewResult = Assert.IsType<ViewResult>(result);
-            _ = Assert.IsAssignableFrom<WhyContactUsBodyViewModel>(viewResult.ViewData.Model);
-            Assert.True(viewResult.ViewData.ModelState.ErrorCount > 0);
-            Assert.Contains(nameof(WhyContactUsBodyViewModel.MoreDetail), viewResult.ViewData.ModelState.Keys);
 
             controller.Dispose();
         }
@@ -125,7 +122,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             // Arrange
             var viewModel = new WhyContactUsBodyViewModel
             {
-                SelectedCategory = WhyContactUsBodyViewModel.SelectCategory.None,
+                SelectedCategory = Category.None,
             };
             var controller = BuildWhyContactUsController(mediaTypeName);
 

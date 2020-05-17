@@ -14,8 +14,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
     [Trait("Category", "Home Controller Unit Tests")]
     public class HomeControllerRouteTests
     {
-        private const string HomeArticleName = "home";
-
         private readonly ILogger<HomeController> logger;
         private readonly ServiceOpenDetailModel fakeServiceOpenDetailModel;
 
@@ -27,10 +25,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
-            new object[] { $"/pages/{HomeArticleName}", nameof(HomeController.HomeView) },
-            new object[] { $"/pages/{HomeArticleName}/htmlhead", nameof(HomeController.HomeHtmlHead) },
-            new object[] { $"/pages/{HomeArticleName}/breadcrumb", nameof(HomeController.HomeBreadcrumb) },
-            new object[] { $"/pages/{HomeArticleName}/body", nameof(HomeController.HomeBody) },
+            new object[] { $"/pages/{HomeController.ThisViewCanonicalName}", nameof(HomeController.HomeView) },
+            new object[] { $"/pages/{HomeController.ThisViewCanonicalName}/htmlhead", nameof(HomeController.HomeHtmlHead) },
+            new object[] { $"/pages/{HomeController.ThisViewCanonicalName}/breadcrumb", nameof(HomeController.HomeBreadcrumb) },
+            new object[] { $"/pages/{HomeController.ThisViewCanonicalName}/body", nameof(HomeController.HomeBody) },
         };
 
         [Theory]

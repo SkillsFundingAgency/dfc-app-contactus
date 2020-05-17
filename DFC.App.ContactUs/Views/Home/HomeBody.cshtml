@@ -15,22 +15,9 @@
             <p class="govuk-body">
                 If you do not want to call us, you can also:
             </p>
-            <div class="govuk-form-group @(ViewData.ModelState.Keys.Contains(nameof(HomeBodyViewModel.SelectedOption)) ? "govuk-form-group--error" : string.Empty)">
-                @Html.ValidationMessageFor(model => model.SelectedOption, string.Empty, new { @class = "govuk-error-message", @id = nameof(HomeBodyViewModel.SelectedOption) + "-error" })
 
-                <div class="govuk-radios">
-                    @foreach (var option in (HomeBodyViewModel.SelectOption[])Enum.GetValues(typeof(HomeBodyViewModel.SelectOption)))
-                    {
-                        if (option != HomeBodyViewModel.SelectOption.None)
-                        {
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" name="@nameof(HomeBodyViewModel.SelectedOption)" id="@option-option" type="radio" value="@option">
-                                <label class="govuk-label govuk-radios__label" for="@option-option">@option.GetDescription()</label>
-                            </div>
-                        }
-                    }
-                </div>
-            </div>
+            @Html.EditorFor(model => model.SelectedOption)
+
         </fieldset>
         <br />
         <button class="govuk-button" data-module="govuk-button">
