@@ -249,7 +249,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
         }
 
         [Fact]
-        public async Task WebhooksControllerSubscriptionvalidationReturnsSuccess()
+        public async Task WebhooksControllerSubscriptionValidationReturnsSuccess()
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.OK;

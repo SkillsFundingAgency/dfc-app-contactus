@@ -18,7 +18,7 @@ namespace DFC.App.ContactUs.PageService.EventProcessorServices
 
         public async Task<string?> GetDataFromApiAsync(Uri url, string acceptHeader)
         {
-            logger.LogInformation($"{nameof(GetDataFromApiAsync)}: Loading data from {url}");
+            logger.LogInformation($"Loading data from {url}");
 
             using var request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Accept.Clear();
