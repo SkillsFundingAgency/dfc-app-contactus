@@ -41,6 +41,36 @@ namespace DFC.App.ContactUs.Controllers
             return this.NegotiateContentResult(viewModel);
         }
 
+        [HttpPost]
+        [Route("pages/enter-your-details")]
+        public IActionResult EnterYourDetailsView(EnterYourDetailsBodyViewModel model)
+        {
+            if (model != null && ModelState.IsValid)
+            {
+                return Redirect($"/{LocalPath}");
+            }
+
+            var breadcrumbItemModel = new BreadcrumbItemModel
+            {
+                CanonicalName = ThisViewCanonicalName,
+                BreadcrumbTitle = "Enter your details",
+            };
+            var viewModel = new EnterYourDetailsViewModel()
+            {
+                HtmlHead = new HtmlHeadViewModel
+                {
+                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/enter-your-details", UriKind.RelativeOrAbsolute),
+                    Title = "Enter your details | Contact us | National Careers Service",
+                },
+                Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
+                EnterYourDetailsBodyViewModel = model,
+            };
+
+            Logger.LogInformation($"{nameof(EnterYourDetailsBody)} has returned content");
+
+            return this.NegotiateContentResult(viewModel);
+        }
+
         [HttpGet]
         [Route("pages/enter-your-details/htmlhead")]
         public IActionResult EnterYourDetailsHtmlHead()

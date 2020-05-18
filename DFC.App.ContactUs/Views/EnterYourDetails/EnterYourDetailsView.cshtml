@@ -8,10 +8,14 @@
 <body>
     <partial name="Breadcrumb" model=@Model.Breadcrumb />
 
-    <partial name="EnterYourDetailsBody" model="@Model.EnterYourDetailsBodyViewModel" />
+    <form asp-route="/pages/enter-your-details" method="post">
 
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
+        <partial name="EnterYourDetailsForm" model="@Model.EnterYourDetailsBodyViewModel" />
+
+        <div>
+            <a asp-controller="Pages" asp-action="Index">Back to List</a>
+        </div>
+
+    </form>
 </body>
 </html>

@@ -30,7 +30,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsErrorForFamilyNameMissing()
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.FamilyName = null;
 
             // Act
@@ -47,7 +47,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsErrorForFamilyNameTooLong()
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.FamilyName = string.Empty.PadLeft(101, 'a');
 
             // Act
@@ -65,7 +65,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsErrorForFamilyNameInvalid(string familyName)
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.FamilyName = familyName;
 
             // Act
@@ -83,7 +83,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsSuccessForValidFamilyName(string familyName)
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.FamilyName = familyName;
 
             // Act

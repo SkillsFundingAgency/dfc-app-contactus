@@ -38,7 +38,7 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
                 ;
 
             CreateMap<ContactUsApiDataModel, ContentPageModel>()
-                .ForMember(d => d.DocumentId, s => s.MapFrom(a => a.Id))
+                .ForMember(d => d.DocumentId, s => s.MapFrom(a => a.ItemId))
                 .ForMember(d => d.Etag, s => s.Ignore())
                 .ForMember(d => d.PartitionKey, s => s.Ignore())
                 .ForMember(d => d.SequenceNumber, s => s.Ignore())

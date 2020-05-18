@@ -1,23 +1,7 @@
 ﻿@model WhyContactUsBodyViewModel
 
 <form asp-route="/contact-us/why-do-you-want-to-contact-us" method="post">
-    <div class="govuk-form-group">
-        <partial name="_ErrorSummary" />
 
-        <fieldset class="govuk-fieldset" aria-describedby="form-hint">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                <h1 class="govuk-fieldset__heading">Why do you want to contact us</h1>
-            </legend>
-            <p class="govuk-body">
-                Please select an option from the list below. This helps us to send your enquiry to the right person.
-            </p>
+    <partial name="WhyContactUsForm" model="@Model" />
 
-            @Html.EditorFor(model => model.SelectedCategory)
-            @Html.EditorFor(model => model.MoreDetail)
-
-        </fieldset>
-        <button class="govuk-button" data-module="govuk-button">
-            Next
-        </button>
-    </div>
 </form>

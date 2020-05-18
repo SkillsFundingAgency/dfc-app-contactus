@@ -48,6 +48,36 @@ namespace DFC.App.ContactUs.Controllers
             return this.NegotiateContentResult(viewModel);
         }
 
+        [HttpPost]
+        [Route("pages/home")]
+        public IActionResult HomeView(HomeBodyViewModel model)
+        {
+            if (model != null && ModelState.IsValid)
+            {
+                return Redirect($"/{LocalPath}");
+            }
+
+            var breadcrumbItemModel = new BreadcrumbItemModel
+            {
+                CanonicalName = ThisViewCanonicalName,
+                BreadcrumbTitle = "contact us",
+            };
+            var viewModel = new HomeViewModel()
+            {
+                HtmlHead = new HtmlHeadViewModel
+                {
+                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}", UriKind.RelativeOrAbsolute),
+                    Title = "Contact us | National Careers Service",
+                },
+                Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
+                HomeBodyViewModel = model,
+            };
+
+            Logger.LogWarning($"{nameof(HomeView)} has returned content");
+
+            return this.NegotiateContentResult(viewModel);
+        }
+
         [HttpGet]
         [Route("pages/home/htmlhead")]
         [Route("pages/htmlhead")]

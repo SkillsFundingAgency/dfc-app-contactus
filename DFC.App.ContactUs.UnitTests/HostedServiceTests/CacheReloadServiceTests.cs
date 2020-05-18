@@ -330,7 +330,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
         {
             var model = new ContactUsApiDataModel()
             {
-                Id = Guid.NewGuid(),
+                ItemId = Guid.NewGuid(),
                 CanonicalName = "an-article",
                 Version = Guid.NewGuid(),
                 BreadcrumbTitle = "An article",

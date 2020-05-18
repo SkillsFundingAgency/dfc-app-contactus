@@ -8,10 +8,15 @@
 <body>
     <partial name="Breadcrumb" model=@Model.Breadcrumb />
 
-    <partial name="HomeBody" model="@Model.HomeBodyViewModel" />
+
+    <form asp-route="/pages/home" method="post">
+
+        <partial name="HomeForm" model="@Model.HomeBodyViewModel" />
+
+    </form>
 
     <div>
-        <a asp-action="Index">Back to List</a>
+        <a asp-controller="Pages" asp-action="Index">Back to List</a>
     </div>
 </body>
 </html>
