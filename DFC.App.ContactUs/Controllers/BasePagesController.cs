@@ -13,7 +13,7 @@ namespace DFC.App.ContactUs.Controllers
     {
         public const string RegistrationPath = "contact-us";
         public const string WebchatRegistrationPath = "webchat";
-        protected const string LocalPath = "pages";
+        public const string LocalPath = "pages";
 
         protected BasePagesController(ILogger<TController> logger)
         {

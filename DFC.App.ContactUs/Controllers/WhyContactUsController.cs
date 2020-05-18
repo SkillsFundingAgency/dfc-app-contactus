@@ -41,6 +41,36 @@ namespace DFC.App.ContactUs.Controllers
             return this.NegotiateContentResult(viewModel);
         }
 
+        [HttpPost]
+        [Route("pages/why-do-you-want-to-contact-us")]
+        public IActionResult WhyContactUsView(WhyContactUsBodyViewModel model)
+        {
+            if (model != null && ModelState.IsValid)
+            {
+                return Redirect($"/{LocalPath}");
+            }
+
+            var breadcrumbItemModel = new BreadcrumbItemModel
+            {
+                CanonicalName = ThisViewCanonicalName,
+                BreadcrumbTitle = "Why do you want to contact us",
+            };
+            var viewModel = new WhyContactUsViewModel()
+            {
+                HtmlHead = new HtmlHeadViewModel
+                {
+                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
+                    Title = "Why do you want to contact us | Contact us | National Careers Service",
+                },
+                Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
+                WhyContactUsBodyViewModel = model,
+            };
+
+            Logger.LogWarning($"{nameof(WhyContactUsView)} has returned content");
+
+            return this.NegotiateContentResult(viewModel);
+        }
+
         [HttpGet]
         [Route("pages/why-do-you-want-to-contact-us/htmlhead")]
         public IActionResult WhyContactUsHtmlHead()

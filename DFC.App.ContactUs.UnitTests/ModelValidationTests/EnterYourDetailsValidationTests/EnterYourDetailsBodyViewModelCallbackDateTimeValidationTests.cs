@@ -13,7 +13,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsSuccessCallbackNotRequired()
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.CallbackDateTime = null;
             viewModel.SelectedCategory = Category.AdviceGuidance;
 
@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsErrorForCallbackDateTimeMissing()
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.CallbackDateTime = null;
             viewModel.SelectedCategory = Category.Callback;
 
@@ -47,7 +47,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsErrorForCallbackDateTimeNotInTheFuture()
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.CallbackDateTime = new CallbackDateTimeViewModel(DateTime.Now);
             viewModel.SelectedCategory = Category.Callback;
 

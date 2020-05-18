@@ -6,7 +6,7 @@ namespace DFC.App.ContactUs.UnitTests
 {
     public static class ValidModelBuilders
     {
-        public static EnterYourDetailsBodyViewModel BuildValidModel()
+        public static EnterYourDetailsBodyViewModel BuildValidEnterYourDetailsBodyViewModel()
         {
             return new EnterYourDetailsBodyViewModel
             {

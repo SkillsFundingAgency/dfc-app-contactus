@@ -28,7 +28,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsErrorForPostcodeMissing()
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.Postcode = null;
 
             // Act
@@ -45,7 +45,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsErrorForPostcodeTooLong()
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.Postcode = string.Empty.PadLeft(9, '0');
 
             // Act
@@ -63,7 +63,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsErrorForPostcodeInvalid(string postcode)
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.Postcode = postcode;
 
             // Act
@@ -81,7 +81,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsSuccessForValidPostcode(string postcode)
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.Postcode = postcode;
 
             // Act

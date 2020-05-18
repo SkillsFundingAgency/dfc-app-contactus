@@ -5,7 +5,7 @@ namespace DFC.App.ContactUs.PageService.EventProcessorServices.Models
 {
     public class ContactUsApiDataModel : IApiDataModel
     {
-        public Guid? Id { get; set; }
+        public Guid? ItemId { get; set; }
 
         public string? CanonicalName { get; set; }
 

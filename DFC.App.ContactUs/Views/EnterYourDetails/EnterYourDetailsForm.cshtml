@@ -1,0 +1,40 @@
+﻿@model EnterYourDetailsBodyViewModel
+
+<div class="govuk-form-group">
+    <partial name="_ErrorSummary" />
+
+    <fieldset class="govuk-fieldset" aria-describedby="form-hint">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading">Enter your details</h1>
+        </legend>
+        <p class="govuk-body">
+            We need your details so that one of our advisers can contact you.
+        </p>
+        <p class="govuk-body">
+            Our advisers will use your date of birth and postcode to give you information that's relevant to you, for example on courses and funding.
+        </p>
+        @Html.EditorFor(model => model.FirstName)
+        @Html.EditorFor(model => model.FamilyName)
+        @Html.EditorFor(model => model.EmailAddress)
+        @Html.EditorFor(model => model.TelephoneNumber)
+        @Html.EditorFor(model => model.DateOfBirth)
+        @Html.EditorFor(model => model.Postcode)
+
+
+        @if (Model.SelectedCategory == Category.Callback)
+        {
+            @Html.EditorFor(model => model.CallbackDateTime)
+        }
+
+        @Html.EditorFor(model => model.TermsAndConditionsAccepted)
+
+        @Html.HiddenFor(model => model.SelectedCategory)
+        @Html.Hidden(nameof(Model.IsTrue), "true")
+    </fieldset>
+
+    <br />
+
+    <button class="govuk-button" data-module="govuk-button">
+        Next
+    </button>
+</div>

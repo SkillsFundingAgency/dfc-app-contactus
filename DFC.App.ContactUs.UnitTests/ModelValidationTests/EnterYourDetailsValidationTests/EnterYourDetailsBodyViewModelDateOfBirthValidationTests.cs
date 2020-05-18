@@ -12,7 +12,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsErrorForDateOfBirthMissingDateViewModel()
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.DateOfBirth = null;
 
             // Act
@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsErrorForDateOfBirthMissing()
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.DateOfBirth = new DateOfBirthViewModel();
 
             // Act
@@ -46,7 +46,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsErrorForDateOfBirthNotOver13YearsAgo()
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.DateOfBirth = new DateOfBirthViewModel(DateTime.Today.AddYears(-13).AddDays(1));
 
             // Act

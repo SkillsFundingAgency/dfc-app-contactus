@@ -1,19 +1,28 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.PageService.EventProcessorServices;
+using DFC.App.ContactUs.PageService.EventProcessorServices.Models;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.Azure.EventGrid.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Text;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 {
     public abstract class BaseWebhooksController
     {
-        protected const string EventTypePublished = "Published";
-        protected const string EventTypeDraft = "Draft";
-        protected const string EventTypeDeleted = "Deleted";
+        protected const string EventTypePublished = "published";
+        protected const string EventTypeDraft = "draft";
+        protected const string EventTypeDraftDiscarded = "draft-discarded";
+        protected const string EventTypeDeleted = "deleted";
+        protected const string EventTypeUnpublished = "unpublished";
 
         protected const string ContentTypeContactUs = "contact-us";
 
@@ -32,6 +41,67 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
         protected IApiDataProcessorService FakeApiDataProcessorService { get; }
 
         protected AutoMapper.IMapper FakeMapper { get; }
+
+        protected static ContactUsApiDataModel BuildValidContactUsApiDataModel()
+        {
+            var model = new ContactUsApiDataModel()
+            {
+                ItemId = Guid.NewGuid(),
+                CanonicalName = "an-article",
+                BreadcrumbTitle = "An article",
+                IncludeInSitemap = true,
+                Version = Guid.NewGuid(),
+                Url = new Uri("https://localhost"),
+                Content = "<h1>A document</h1>",
+                Published = DateTime.UtcNow,
+            };
+
+            return model;
+        }
+
+        protected static ContentPageModel BuildValidContentPageModel()
+        {
+            var model = new ContentPageModel()
+            {
+                DocumentId = Guid.NewGuid(),
+                CanonicalName = "an-article",
+                BreadcrumbTitle = "An article",
+                IncludeInSitemap = true,
+                Version = Guid.NewGuid(),
+                Url = new Uri("https://localhost"),
+                Content = "<h1>A document</h1>",
+                LastReviewed = DateTime.UtcNow,
+            };
+
+            return model;
+        }
+
+        protected static EventGridEvent[] BuildValidEventGridEvent<TModel>(string eventType, TModel data)
+        {
+            var models = new EventGridEvent[]
+            {
+                new EventGridEvent
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Subject = $"{ContentTypeContactUs}/a-canonical-name",
+                    Data = data,
+                    EventType = eventType,
+                    EventTime = DateTime.Now,
+                    DataVersion = "1.0",
+                },
+            };
+
+            return models;
+        }
+
+        protected static Stream BuildStreamFromModel<TModel>(TModel model)
+        {
+            var jsonData = JsonConvert.SerializeObject(model);
+            byte[] byteArray = Encoding.ASCII.GetBytes(jsonData);
+            MemoryStream stream = new MemoryStream(byteArray);
+
+            return stream;
+        }
 
         protected WebhooksController BuildWebhooksController(string mediaTypeName)
         {

@@ -1,5 +1,4 @@
-﻿using DFC.App.ContactUs.Data.Enums;
-using DFC.App.ContactUs.Data.Models;
+﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.PageService.EventProcessorServices;
 using DFC.App.ContactUs.PageService.EventProcessorServices.Models;
@@ -8,6 +7,7 @@ using Microsoft.Azure.EventGrid;
 using Microsoft.Azure.EventGrid.Models;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -18,9 +18,14 @@ namespace DFC.App.ContactUs.Controllers
     [Route("api/webhook")]
     public class WebhooksController : Controller
     {
-        private const string EventTypePublished = "Published";
-        private const string EventTypeDraft = "Draft";
-        private const string EventTypeDeleted = "Deleted";
+        private readonly Dictionary<string, CacheOperation> acceptedEventTypes = new Dictionary<string, CacheOperation>
+        {
+            { "draft", CacheOperation.CreateOrUpdate },
+            { "published", CacheOperation.CreateOrUpdate },
+            { "draft-discarded", CacheOperation.Delete },
+            { "unpublished", CacheOperation.Delete },
+            { "deleted", CacheOperation.Delete },
+        };
 
         private readonly ILogger<WebhooksController> logger;
         private readonly AutoMapper.IMapper mapper;
@@ -35,6 +40,13 @@ namespace DFC.App.ContactUs.Controllers
             this.apiDataProcessorService = apiDataProcessorService;
         }
 
+        private enum CacheOperation
+        {
+            None,
+            CreateOrUpdate,
+            Delete,
+        }
+
         [HttpPost]
         [Route("ReceiveContactUsEvents")]
         public async Task<IActionResult> ReceiveContactUsEvents()
@@ -44,14 +56,16 @@ namespace DFC.App.ContactUs.Controllers
             logger.LogInformation($"Received events: {requestContent}");
 
             var eventGridSubscriber = new EventGridSubscriber();
-            eventGridSubscriber.AddOrUpdateCustomEventMapping(EventTypePublished, typeof(EventGridEventData));
-            eventGridSubscriber.AddOrUpdateCustomEventMapping(EventTypeDraft, typeof(EventGridEventData));
-            eventGridSubscriber.AddOrUpdateCustomEventMapping(EventTypeDeleted, typeof(EventGridEventData));
+            foreach (var key in acceptedEventTypes.Keys)
+            {
+                eventGridSubscriber.AddOrUpdateCustomEventMapping(key, typeof(EventGridEventData));
+            }
+
             var eventGridEvents = eventGridSubscriber.DeserializeEventGridEvents(requestContent);
 
             foreach (var eventGridEvent in eventGridEvents)
             {
-                if (!Guid.TryParse(eventGridEvent.Id, out Guid id))
+                if (!Guid.TryParse(eventGridEvent.Id, out Guid eventId))
                 {
                     throw new InvalidDataException($"Invalid Guid for EventGridEvent.Id '{eventGridEvent.Id}'");
                 }
@@ -71,41 +85,40 @@ namespace DFC.App.ContactUs.Controllers
                 }
                 else if (eventGridEvent.Data is EventGridEventData eventGridEventData)
                 {
-                    if (!Enum.IsDefined(typeof(MessageAction), eventGridEvent.EventType))
+                    if (!Guid.TryParse(eventGridEventData.ItemId, out Guid contentPageId))
                     {
-                        throw new InvalidDataException($"Invalid event type '{eventGridEvent.EventType}' received for Event Id: {id}, should be one of '{string.Join(",", Enum.GetNames(typeof(MessageAction)))}'");
+                        throw new InvalidDataException($"Invalid Guid for EventGridEvent.Data.ItemId '{eventGridEventData.ItemId}'");
                     }
 
                     if (!Uri.TryCreate(eventGridEventData.Api, UriKind.Absolute, out Uri? url))
                     {
-                        throw new InvalidDataException($"Invalid Api url '{eventGridEventData.Api}' received for Event Id: {id}");
+                        throw new InvalidDataException($"Invalid Api url '{eventGridEventData.Api}' received for Event Id: {eventId}");
                     }
 
-                    var eventType = Enum.Parse<MessageAction>(eventGridEvent.EventType, true);
+                    var cacheOperation = acceptedEventTypes[eventGridEvent.EventType];
 
-                    logger.LogInformation($"Got Event Id: {id}: {eventType} {url}");
+                    logger.LogInformation($"Got Event Id: {eventId}: {eventGridEvent.EventType}: Cache operation: {cacheOperation} {url}");
 
-                    var result = await ProcessMessageAsync(eventType, id, url).ConfigureAwait(false);
+                    var result = await ProcessMessageAsync(cacheOperation, eventId, contentPageId, url).ConfigureAwait(false);
 
-                    LogResult(id, result);
+                    LogResult(eventId, contentPageId, result);
                 }
                 else
                 {
-                    logger.LogWarning($"Event Id: {eventGridEvent.Id} with event type: {eventGridEvent.EventType}, contains unrecognised event data object");
+                    throw new InvalidDataException($"Invalid event type '{eventGridEvent.EventType}' received for Event Id: {eventId}, should be one of '{string.Join(",", acceptedEventTypes.Keys)}'");
                 }
             }
 
             return Ok();
         }
 
-        private async Task<HttpStatusCode> ProcessMessageAsync(MessageAction eventType, Guid id, Uri url)
+        private async Task<HttpStatusCode> ProcessMessageAsync(CacheOperation cacheOperation, Guid eventId, Guid contentPageId, Uri url)
         {
-            switch (eventType)
+            switch (cacheOperation)
             {
-                case MessageAction.Deleted:
-                    return await eventMessageService.DeleteAsync(id).ConfigureAwait(false);
-                case MessageAction.Published:
-                case MessageAction.Draft:
+                case CacheOperation.Delete:
+                    return await eventMessageService.DeleteAsync(contentPageId).ConfigureAwait(false);
+                case CacheOperation.CreateOrUpdate:
                     var apiDataModel = await apiDataProcessorService.GetAsync<ContactUsApiDataModel>(url).ConfigureAwait(false);
                     var contentPageModel = mapper.Map<ContentPageModel>(apiDataModel);
 
@@ -129,29 +142,29 @@ namespace DFC.App.ContactUs.Controllers
                     return result;
 
                 default:
-                    logger.LogError($"Got unknown event type - {eventType}");
+                    logger.LogError($"Event Id: {eventId} got unknown cache operation - {cacheOperation}");
                     return HttpStatusCode.BadRequest;
             }
         }
 
-        private void LogResult(Guid id, HttpStatusCode result)
+        private void LogResult(Guid eventId, Guid contentPageId, HttpStatusCode result)
         {
             switch (result)
             {
                 case HttpStatusCode.OK:
-                    logger.LogInformation($"Content Page Id: {id}: Updated Content Page");
+                    logger.LogInformation($"Event Id: {eventId}, Content Page Id: {contentPageId}: Updated Content Page");
                     break;
 
                 case HttpStatusCode.Created:
-                    logger.LogInformation($"Content Page Id: {id}: Created Content Page");
+                    logger.LogInformation($"Event Id: {eventId}, Content Page Id: {contentPageId}: Created Content Page");
                     break;
 
                 case HttpStatusCode.AlreadyReported:
-                    logger.LogInformation($"Content Page Id: {id}: Content Page previously updated");
+                    logger.LogInformation($"Event Id: {eventId}, Content Page Id: {contentPageId}: Content Page previously updated");
                     break;
 
                 default:
-                    logger.LogWarning($"Content Page Id: {id}: Content Page not Posted: Status: {result}");
+                    logger.LogWarning($"Event Id: {eventId}, Content Page Id: {contentPageId}: Content Page not Posted: Status: {result}");
                     break;
             }
         }

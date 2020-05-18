@@ -47,8 +47,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
                 {
                     Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == fe)));
                     Assert.Contains("Enter your", validationResults.First(f => f.MemberNames.Any(a => a == fe)).ErrorMessage, StringComparison.Ordinal);
-                }
-            );
+                });
 
             Assert.NotNull(validationResults.First(f => f.ErrorMessage.Contains("Please tick the", StringComparison.Ordinal)));
         }
@@ -82,8 +81,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             {
                 Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == fe)));
                 Assert.Contains("Enter your", validationResults.First(f => f.MemberNames.Any(a => a == fe)).ErrorMessage, StringComparison.Ordinal);
-            }
-            );
+            });
 
             Assert.NotNull(validationResults.First(f => f.ErrorMessage.Contains("Please tick the", StringComparison.Ordinal)));
         }

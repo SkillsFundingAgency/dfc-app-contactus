@@ -10,7 +10,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelValidationReturnsSuccessForValidModel()
         {
             // Arrange
-            var viewModel = ValidModelBuilders.BuildValidModel();
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
 
             // Act
             var (isValid, validationResults) = ModelValidator.TryValidateModel(viewModel);
