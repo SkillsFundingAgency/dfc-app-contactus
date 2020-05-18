@@ -25,7 +25,7 @@ namespace DFC.App.ContactUs.MessageFunctionApp.UnitTests.Services
         }
 
         [Fact]
-        public async Task ProcessAsyncJobProfileCreatePublishedTestReturnsOk()
+        public async Task ProcessAsyncContentPageCreatePublishedTestReturnsOk()
         {
             // arrange
             const HttpStatusCode expectedResult = HttpStatusCode.Created;
@@ -46,7 +46,7 @@ namespace DFC.App.ContactUs.MessageFunctionApp.UnitTests.Services
         }
 
         [Fact]
-        public async Task ProcessAsyncJobProfileUpdatePublishedTestReturnsOk()
+        public async Task ProcessAsyncContentPageUpdatePublishedTestReturnsOk()
         {
             // arrange
             const HttpStatusCode expectedResult = HttpStatusCode.OK;
@@ -69,7 +69,7 @@ namespace DFC.App.ContactUs.MessageFunctionApp.UnitTests.Services
         }
 
         [Fact]
-        public async Task ProcessAsyncJobProfileDeletedTestReturnsOk()
+        public async Task ProcessAsyncContentPageDeletedTestReturnsOk()
         {
             // arrange
             const HttpStatusCode expectedResult = HttpStatusCode.OK;

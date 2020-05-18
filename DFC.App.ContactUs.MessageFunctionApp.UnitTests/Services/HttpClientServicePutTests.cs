@@ -28,7 +28,7 @@ namespace DFC.App.ContactUs.MessageFunctionApp.UnitTests.Services
         }
 
         [Fact]
-        public async Task PutFullJobProfileAsyncReturnsOkStatusCodeForExistingId()
+        public async Task PutFullContentPageAsyncReturnsOkStatusCodeForExistingId()
         {
             // arrange
             const HttpStatusCode expectedResult = HttpStatusCode.OK;
@@ -53,7 +53,7 @@ namespace DFC.App.ContactUs.MessageFunctionApp.UnitTests.Services
         }
 
         [Fact]
-        public async Task PutFullJobProfileAsyncReturnsNotFoundStatusCodeForExistingId()
+        public async Task PutFullContentPageAsyncReturnsNotFoundStatusCodeForExistingId()
         {
             // arrange
             const HttpStatusCode expectedResult = HttpStatusCode.NotFound;
@@ -78,7 +78,7 @@ namespace DFC.App.ContactUs.MessageFunctionApp.UnitTests.Services
         }
 
         [Fact]
-        public async Task PutFullJobProfileAsyncReturnsExceptionForBadStatus()
+        public async Task PutFullContentPageAsyncReturnsExceptionForBadStatus()
         {
             // arrange
             const HttpStatusCode expectedResult = HttpStatusCode.Forbidden;
