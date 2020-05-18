@@ -1,4 +1,5 @@
-﻿using FakeItEasy;
+﻿using DFC.App.ContactUs.ViewModels;
+using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
@@ -20,7 +21,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            Assert.Null(viewResult.ViewData.Model);
+            _ = Assert.IsAssignableFrom<ChatViewBodyModel>(viewResult.ViewData.Model);
 
             controller.Dispose();
         }
@@ -37,7 +38,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            Assert.NotNull(jsonResult.Value);
+            _ = Assert.IsAssignableFrom<ChatViewBodyModel>(jsonResult.Value);
 
             controller.Dispose();
         }
