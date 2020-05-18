@@ -96,6 +96,7 @@ namespace DFC.App.ContactUs
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddDFCLogging(configuration["ApplicationInsights:InstrumentationKey"]);
             services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());
+            services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
             services.AddHostedService<CacheReloadBackgroundService>();
 
             const string AppSettingsPolicies = "Policies";

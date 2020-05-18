@@ -10,9 +10,11 @@ namespace DFC.App.ContactUs.Controllers
     public class ChatController : BasePagesController<ChatController>
     {
         public const string ThisViewCanonicalName = "chat";
+        private readonly ChatOptions chatOptions;
 
-        public ChatController(ILogger<ChatController> logger) : base(logger)
+        public ChatController(ILogger<ChatController> logger, ChatOptions chatOptions) : base(logger)
         {
+            this.chatOptions = chatOptions;
         }
 
         [HttpGet]
@@ -32,6 +34,7 @@ namespace DFC.App.ContactUs.Controllers
                     Title = "Webchat | Contact us | National Careers Service",
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
+                ChatViewBodyModel = new ChatViewBodyModel { ChatUrl = chatOptions.ChatUrl },
             };
 
             Logger.LogWarning($"{nameof(ChatView)} has returned content");
@@ -73,9 +76,11 @@ namespace DFC.App.ContactUs.Controllers
         [Route("pages/chat/body")]
         public IActionResult ChatBody()
         {
+            var viewModel = new ChatViewBodyModel { ChatUrl = chatOptions.ChatUrl };
+
             Logger.LogInformation($"{nameof(ChatBody)} has returned content");
 
-            return this.NegotiateContentResult(default, new object());
+            return this.NegotiateContentResult(viewModel);
         }
     }
 }

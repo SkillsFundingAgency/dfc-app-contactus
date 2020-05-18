@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Models;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
     public class ChatControllerRouteTests
     {
         private readonly ILogger<ChatController> logger;
+        private readonly ChatOptions chatOptions = new ChatOptions { ChatUrl = new System.Uri("https://somewhere.com/webchat") };
 
         public ChatControllerRouteTests()
         {
@@ -60,7 +62,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new ChatController(logger)
+            return new ChatController(logger, chatOptions)
             {
                 ControllerContext = new ControllerContext
                 {

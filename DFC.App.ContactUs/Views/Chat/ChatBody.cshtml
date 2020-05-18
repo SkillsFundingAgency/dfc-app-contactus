@@ -1,8 +1,10 @@
-﻿<div id="chatcontainer" style="width:100%; height: 1200px; -webkit-overflow-scrolling:touch">
+﻿@model ChatViewBodyModel
+
+<div id="chatcontainer" style="width:100%; height: 1200px; -webkit-overflow-scrolling:touch">
     <noscript>
-        <iframe id="webchatframenoscript" src="https://cxdirect.serco.com/visitor/EntryPage.htm" title="webchat" scrolling="no" style="width: 100%; height:100%; border-width: 0px;"></iframe>
+        <iframe id="webchatframenoscript" src="@Model.ChatUrl" title="webchat" scrolling="no" style="width: 100%; height:100%; border-width: 0px;"></iframe>
     </noscript>
-    <iframe id="webchatframenoscript" src="https://cxdirect.serco.com/visitor/EntryPage.htm" title="webchat" scrolling="no" style="width: 100%; height:100%; border-width: 0px;"></iframe>
+    <iframe id="webchatframenoscript" src="@Model.ChatUrl" title="webchat" scrolling="no" style="width: 100%; height:100%; border-width: 0px;"></iframe>
 </div>
 
 @*<script>
@@ -13,7 +15,7 @@
         if (iFrameContainer) {
             var iFrame = document.createElement('iframe');
             iFrame.setAttribute('id', 'webchatframe');
-            iFrame.src = 'https://cxdirect.serco.com/visitor/EntryPage.htm?GAID=' + getCookie('_ga');
+            iFrame.src = '@Model.ChatUrl?GAID=' + getCookie('_ga');
             iFrame.style.cssText = 'width: 100%; height:100%; border-width: 0px;';
             iFrame.scrolling = 'no';
             iFrame.title = 'webchat';
