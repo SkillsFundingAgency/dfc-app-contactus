@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Models;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 {
     public abstract class BaseChatController
     {
+        private readonly ChatOptions chatOptions = new ChatOptions { ChatUrl = new System.Uri("https://somewhere.com/webchat") };
+
         protected BaseChatController()
         {
             Logger = A.Fake<ILogger<ChatController>>();
@@ -40,7 +43,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new ChatController(Logger)
+            var controller = new ChatController(Logger, chatOptions)
             {
                 ControllerContext = new ControllerContext()
                 {

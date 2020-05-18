@@ -5,5 +5,7 @@
         public HtmlHeadViewModel? HtmlHead { get; set; }
 
         public BreadcrumbViewModel? Breadcrumb { get; set; }
+
+        public ChatViewBodyModel? ChatViewBodyModel { get; set; }
     }
 }

@@ -8,7 +8,7 @@
 <body>
     <partial name="Breadcrumb" model=@Model.Breadcrumb />
 
-    <partial name="ChatBody" />
+    <partial name="ChatBody" model="@Model.ChatViewBodyModel" />
 
     <div>
         <a asp-controller="Pages" asp-action="Index">Back to List</a>
