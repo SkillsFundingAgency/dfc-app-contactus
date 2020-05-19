@@ -60,7 +60,10 @@
         "contactusAppDatabaseThroughput": {
             "type": "int"
         },
-
+        "chatOptionsChatUrl": {
+            "type": "string",
+            "defaultValue": ""
+        },
         "enableAlerts": {
             "type": "bool",
             "metadata": {
@@ -212,6 +215,10 @@
                             {
                                 "name": "CmsApiClientOptions__SummaryEndpoint",
                                 "value": ""
+                            },
+                            {
+                                "name": "ChatOptions__ChatUrl",
+                                "value": "[parameters('chatOptionsChatUrl')]"
                             }
                         ]
                     }

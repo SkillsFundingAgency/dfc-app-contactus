@@ -44,6 +44,9 @@
         "contactusAppDatabaseThroughput": {
             "value": __contactusAppDatabaseThroughput__
         },
+        "chatOptionsChatUrl": {
+            "value": "__chatOptionsChatUrl__"
+        },
         "enableAlerts": {
             "value": __EnableAzureMonitorAlerting__
         }
