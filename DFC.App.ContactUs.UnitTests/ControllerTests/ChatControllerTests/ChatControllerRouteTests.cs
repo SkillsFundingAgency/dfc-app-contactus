@@ -1,9 +1,6 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using DFC.App.ContactUs.Models;
-using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
@@ -12,16 +9,8 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 {
     [Trait("Category", "Chat Controller Unit Tests")]
-    public class ChatControllerRouteTests
+    public class ChatControllerRouteTests : BaseChatController
     {
-        private readonly ILogger<ChatController> logger;
-        private readonly ChatOptions chatOptions = new ChatOptions { ChatUrl = new System.Uri("https://somewhere.com/webchat") };
-
-        public ChatControllerRouteTests()
-        {
-            logger = A.Fake<ILogger<ChatController>>();
-        }
-
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
             new object[] { $"/pages/{ChatController.ThisViewCanonicalName}",  nameof(ChatController.ChatView) },
@@ -62,7 +51,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new ChatController(logger, chatOptions)
+            return new ChatController(Logger, ChatOptions, FakeMapper)
             {
                 ControllerContext = new ControllerContext
                 {

@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.ViewModels;
+﻿using DFC.App.ContactUs.Models;
+using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -16,6 +17,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
             // Arrange
             var controller = BuildChatController(mediaTypeName);
 
+            A.CallTo(() => FakeMapper.Map<ChatViewBodyModel>(A<ChatOptions>.Ignored)).Returns(A.Fake<ChatViewBodyModel>());
+
             // Act
             var result = controller.ChatView();
 
@@ -32,6 +35,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
         {
             // Arrange
             var controller = BuildChatController(mediaTypeName);
+
+            A.CallTo(() => FakeMapper.Map<ChatViewBodyModel>(A<ChatOptions>.Ignored)).Returns(A.Fake<ChatViewBodyModel>());
 
             // Act
             var result = controller.ChatView();

@@ -12,11 +12,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 {
     public abstract class BaseChatController
     {
-        private readonly ChatOptions chatOptions = new ChatOptions { ChatUrl = new System.Uri("https://somewhere.com/webchat") };
-
         protected BaseChatController()
         {
             Logger = A.Fake<ILogger<ChatController>>();
+            ChatOptions = new ChatOptions { ChatUrl = new System.Uri("https://somewhere.com/webchat") };
+            FakeMapper = A.Fake<AutoMapper.IMapper>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -37,13 +37,17 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 
         protected ILogger<ChatController> Logger { get; }
 
+        protected ChatOptions ChatOptions { get; }
+
+        protected AutoMapper.IMapper FakeMapper { get; }
+
         protected ChatController BuildChatController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new ChatController(Logger, chatOptions)
+            var controller = new ChatController(Logger, ChatOptions, FakeMapper)
             {
                 ControllerContext = new ControllerContext()
                 {
