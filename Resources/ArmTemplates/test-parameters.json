@@ -40,6 +40,9 @@
         },
         "enableAlerts": {
             "value": false
+        },
+        "chatOptionsHideProductionWarning": {
+            "value": false
         }
     }
 }

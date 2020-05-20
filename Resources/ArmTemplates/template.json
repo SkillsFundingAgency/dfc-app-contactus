@@ -69,6 +69,12 @@
             "metadata": {
                 "description": "Enable or disable alerting"
             }
+        },
+        "chatOptionsHideProductionWarning": {
+            "type": "bool",
+            "metadata": {
+                "description": "False for all environment except prodcution"
+            }
         }
     },
     "variables": {
@@ -219,6 +225,10 @@
                             {
                                 "name": "ChatOptions__ChatUrl",
                                 "value": "[parameters('chatOptionsChatUrl')]"
+                            },
+                            {
+                                "name": "ChatOptions__HideProductionWarning",
+                                "value": "[parameters('chatOptionsHideProductionWarning')]"
                             }
                         ]
                     }
