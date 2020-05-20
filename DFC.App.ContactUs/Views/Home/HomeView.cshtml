@@ -1,22 +1,22 @@
 ﻿@model HomeViewModel
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <partial name="HtmlHead" model=@Model.HtmlHead />
-</head>
-<body>
-    <partial name="Breadcrumb" model=@Model.Breadcrumb />
+@{
+    Layout = "_LocalLayout";
 
+    if (!string.IsNullOrWhiteSpace(Model.HtmlHead?.Title))
+    {
+        ViewData["Title"] = Model.HtmlHead.Title;
+    }
+}
 
-    <form asp-route="/pages/home" method="post">
+<partial name="Breadcrumb" model=@Model.Breadcrumb />
 
-        <partial name="HomeForm" model="@Model.HomeBodyViewModel" />
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <form asp-route="/pages/home" method="post">
 
-    </form>
+            <partial name="HomeForm" model="@Model.HomeBodyViewModel" />
 
-    <div>
-        <a asp-controller="Pages" asp-action="Index">Back to List</a>
+        </form>
     </div>
-</body>
-</html>
+</div>

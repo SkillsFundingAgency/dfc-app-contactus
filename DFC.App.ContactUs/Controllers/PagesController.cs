@@ -39,6 +39,7 @@ namespace DFC.App.ContactUs.Controllers
                 viewModel.Documents = (from a in contentPageModels.OrderBy(o => o.CanonicalName)
                                        select mapper.Map<IndexDocumentViewModel>(a)).ToList();
 
+                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = "health" });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = HomeController.ThisViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = ChatController.ThisViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = WhyContactUsController.ThisViewCanonicalName });

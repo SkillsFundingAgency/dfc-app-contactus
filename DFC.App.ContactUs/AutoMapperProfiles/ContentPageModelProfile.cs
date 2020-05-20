@@ -17,6 +17,9 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
                 .ForMember(d => d.Content, s => s.MapFrom(a => new HtmlString(a.Content)))
                 ;
 
+            CreateMap<ChatOptions, ChatViewBodyModel>()
+                ;
+
             CreateMap<ContentPageModel, DocumentViewModel>()
                 .ForMember(d => d.HtmlHead, s => s.Ignore())
                 .ForMember(d => d.Breadcrumb, s => s.Ignore())
