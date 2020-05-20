@@ -23,6 +23,15 @@ namespace DFC.App.ContactUs.Controllers
         }
 
         [HttpGet]
+        [Route("pages/health")]
+        public async Task<IActionResult> HealthView()
+        {
+            var result = await Health().ConfigureAwait(false);
+
+            return result;
+        }
+
+        [HttpGet]
         [Route("health")]
         public async Task<IActionResult> Health()
         {

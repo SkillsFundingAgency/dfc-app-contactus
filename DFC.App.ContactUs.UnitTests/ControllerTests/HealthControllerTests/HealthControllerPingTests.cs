@@ -1,6 +1,7 @@
 ﻿using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Net.Mime;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
@@ -12,7 +13,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
         public void HealthControllerPingReturnsSuccess()
         {
             // Arrange
-            var controller = BuildHealthController();
+            var controller = BuildHealthController(MediaTypeNames.Application.Json);
 
             // Act
             var result = controller.Ping();

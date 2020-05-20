@@ -32,6 +32,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             new object[] { "/pages/htmlhead" },
             new object[] { "/pages/breadcrumb" },
             new object[] { "/pages/body" },
+            new object[] { "/pages/health" },
             new object[] { "/pages/home" },
             new object[] { "/pages/home/htmlhead" },
             new object[] { "/pages/home/breadcrumb" },

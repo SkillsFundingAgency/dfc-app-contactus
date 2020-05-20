@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -15,11 +16,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
     public class HealthControllerHealthTests : BaseHealthController
     {
         [Fact]
-        public async Task HealthControllerHealthReturnsSuccessWhenhealthy()
+        public async Task HealthControllerHealthReturnsSuccessWhenHealthy()
         {
             // Arrange
             bool expectedResult = true;
-            var controller = BuildHealthController();
+            var controller = BuildHealthController(MediaTypeNames.Application.Json);
 
             A.CallTo(() => FakeContentPageService.PingAsync()).Returns(expectedResult);
 
@@ -44,7 +45,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
         {
             // Arrange
             bool expectedResult = false;
-            var controller = BuildHealthController();
+            var controller = BuildHealthController(MediaTypeNames.Application.Json);
 
             A.CallTo(() => FakeContentPageService.PingAsync()).Returns(expectedResult);
 
@@ -65,7 +66,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
         public async Task HealthControllerHealthReturnsServiceUnavailableWhenException()
         {
             // Arrange
-            var controller = BuildHealthController();
+            var controller = BuildHealthController(MediaTypeNames.Application.Json);
 
             A.CallTo(() => FakeContentPageService.PingAsync()).Throws<Exception>();
 

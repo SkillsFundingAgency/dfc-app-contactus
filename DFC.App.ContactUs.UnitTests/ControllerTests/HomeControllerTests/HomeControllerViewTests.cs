@@ -45,7 +45,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void HomeControllerBHomeViewReturnsNotAcceptable(string mediaTypeName)
+        public void HomeControllerHomeViewReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             var controller = BuildHomeController(mediaTypeName);

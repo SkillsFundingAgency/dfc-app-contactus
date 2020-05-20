@@ -1,41 +1,22 @@
 ﻿@model ChatViewBodyModel
 
-<div id="chatcontainer" style="width:100%; height: 1200px; -webkit-overflow-scrolling:touch">
+@if (!Model.HideProductionWarning)
+{
+    <div>
+        <div class="sfContentBlock sf-Long-text">
+            <h1 class="govuk-heading-l"><span class="DfcAppContactUs-IsProdWarning">PLEASE NOTE:</span></h1>
+            <p class="govuk-body">
+                This is connected to the
+                <strong><span class="DfcAppContactUs-IsProdHightlight">PROD</span></strong>
+                version of SERCO's webchat - as their test environment (<a href="https://smokefree.serco.com/visitor/EntryPage.htm">https://smokefree.serco.com/visitor/EntryPage.htm</a>) is only spun up when needed.
+            </p>
+        </div>
+    </div>
+}
+
+<div id="chatcontainer">
+    @Html.HiddenFor(model => model.ChatUrl)
     <noscript>
-        <iframe id="webchatframenoscript" src="@Model.ChatUrl" title="webchat" scrolling="no" style="width: 100%; height:100%; border-width: 0px;"></iframe>
+        <iframe id="webchatframenoscript" src="@Model.ChatUrl" title="webchat" scrolling="no" class="DfcAppContactUs-Webchat"></iframe>
     </noscript>
-    <iframe id="webchatframenoscript" src="@Model.ChatUrl" title="webchat" scrolling="no" style="width: 100%; height:100%; border-width: 0px;"></iframe>
 </div>
-
-@*<script>
-    window.onload = function () {
-        //Have to inject the iFrame as we cant have html in the <script> block
-        //<noscript> iFrame in the markup is use when no JS
-        var iFrameContainer = document.getElementById('chatcontainer');
-        if (iFrameContainer) {
-            var iFrame = document.createElement('iframe');
-            iFrame.setAttribute('id', 'webchatframe');
-            iFrame.src = '@Model.ChatUrl?GAID=' + getCookie('_ga');
-            iFrame.style.cssText = 'width: 100%; height:100%; border-width: 0px;';
-            iFrame.scrolling = 'no';
-            iFrame.title = 'webchat';
-            iFrameContainer.appendChild(iFrame);
-        }
-    };
-
-    function getCookie(cname) {
-        var name = cname + "=";
-        var decodedCookie = decodeURIComponent(document.cookie);
-        var ca = decodedCookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) === ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) === 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
-</script>*@
