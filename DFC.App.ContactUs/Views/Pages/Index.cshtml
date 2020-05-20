@@ -1,21 +1,23 @@
 ﻿@model IndexViewModel
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Documents</title>
-</head>
-<body>
-    @if (Model.Documents?.Count() > 0)
-    {
-        <ul>
-            @foreach (var document in Model.Documents)
-            {
-                <li>
-                    <a href="/@Model.LocalPath/@document.CanonicalName">@document.CanonicalName</a>
-                </li>
-            }
-        </ul>
-    }
-</body>
-</html>
+@{
+    Layout = "_LocalLayout";
+
+    ViewData["Title"] = "Index";
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        @if (Model.Documents?.Count() > 0)
+        {
+            <ul>
+                @foreach (var document in Model.Documents)
+                {
+                    <li>
+                        <a href="/@Model.LocalPath/@document.CanonicalName">@document.CanonicalName</a>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
