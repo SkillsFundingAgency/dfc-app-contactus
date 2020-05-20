@@ -60,11 +60,20 @@
         "contactusAppDatabaseThroughput": {
             "type": "int"
         },
-
+        "chatOptionsChatUrl": {
+            "type": "string",
+            "defaultValue": ""
+        },
         "enableAlerts": {
             "type": "bool",
             "metadata": {
                 "description": "Enable or disable alerting"
+            }
+        },
+        "chatOptionsHideProductionWarning": {
+            "type": "bool",
+            "metadata": {
+                "description": "False for all environment except prodcution"
             }
         }
     },
@@ -212,6 +221,14 @@
                             {
                                 "name": "CmsApiClientOptions__SummaryEndpoint",
                                 "value": ""
+                            },
+                            {
+                                "name": "ChatOptions__ChatUrl",
+                                "value": "[parameters('chatOptionsChatUrl')]"
+                            },
+                            {
+                                "name": "ChatOptions__HideProductionWarning",
+                                "value": "[parameters('chatOptionsHideProductionWarning')]"
                             }
                         ]
                     }

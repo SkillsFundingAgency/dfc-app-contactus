@@ -35,7 +35,13 @@
         "contactusAppDatabaseThroughput": {
             "value": 2
         },
+        "chatOptionsChatUrl": {
+            "value": "https://url"
+        },
         "enableAlerts": {
+            "value": false
+        },
+        "chatOptionsHideProductionWarning": {
             "value": false
         }
     }

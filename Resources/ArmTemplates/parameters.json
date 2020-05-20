@@ -44,8 +44,17 @@
         "contactusAppDatabaseThroughput": {
             "value": __contactusAppDatabaseThroughput__
         },
+        "chatOptionsChatUrl": {
+            "value": "__chatOptionsChatUrl__"
+        },
         "enableAlerts": {
             "value": __EnableAzureMonitorAlerting__
+        },
+        "chatOptionsHideProductionWarning": {
+            "value": __chatOptionsHideProductionWarning__,
+            "metadata": {
+                "comment": "False for all environment except prodcution"
+            }
         }
     }
 }
