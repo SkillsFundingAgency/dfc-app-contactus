@@ -1,18 +1,20 @@
 ﻿@model ChatViewBodyModel
 
-<div id="WebchatProductionWarning">
-    <div class="sfContentBlock sf-Long-text">
-        <h1 class="govuk-heading-l"><span class="DfcAppContactUs-IsProdWarning">PLEASE NOTE:</span></h1>
-        <p class="govuk-body">
-            This is connected to the
-            <strong><span class="DfcAppContactUs-IsProdHightlight">PROD</span></strong>
-            version of SERCO's webchat - as their test environment (<a href="https://smokefree.serco.com/visitor/EntryPage.htm">https://smokefree.serco.com/visitor/EntryPage.htm</a>) is only spun up when needed.
-        </p>
+@if (!Model.HideProductionWarning)
+{
+    <div>
+        <div class="sfContentBlock sf-Long-text">
+            <h1 class="govuk-heading-l"><span class="DfcAppContactUs-IsProdWarning">PLEASE NOTE:</span></h1>
+            <p class="govuk-body">
+                This is connected to the
+                <strong><span class="DfcAppContactUs-IsProdHightlight">PROD</span></strong>
+                version of SERCO's webchat - as their test environment (<a href="https://smokefree.serco.com/visitor/EntryPage.htm">https://smokefree.serco.com/visitor/EntryPage.htm</a>) is only spun up when needed.
+            </p>
+        </div>
     </div>
-</div>
+}
 
 <div id="chatcontainer">
-    @Html.HiddenFor(model => model.HideProductionWarning)
     @Html.HiddenFor(model => model.ChatUrl)
     <noscript>
         <iframe id="webchatframenoscript" src="@Model.ChatUrl" title="webchat" scrolling="no" class="DfcAppContactUs-Webchat"></iframe>
