@@ -6,7 +6,7 @@
 @if (Model.HealthItems.Any())
 {
     <ul class="list-service">
-        @foreach (var healthItem in Model.HealthItems)
+        @foreach (var healthItem in Model.HealthItems!)
         {
             <li>
                 <div class="grid-row">
