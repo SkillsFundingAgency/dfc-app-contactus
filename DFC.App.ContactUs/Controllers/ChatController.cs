@@ -33,7 +33,7 @@ namespace DFC.App.ContactUs.Controllers
                 HtmlHead = new HtmlHeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/chat", UriKind.RelativeOrAbsolute),
-                    Title = "Webchat | Contact us | National Careers Service",
+                    Title = "Webchat" + PageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
                 ChatViewBodyModel = mapper.Map<ChatViewBodyModel>(chatOptions),
@@ -51,7 +51,7 @@ namespace DFC.App.ContactUs.Controllers
             var viewModel = new HtmlHeadViewModel()
             {
                 CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{WebchatRegistrationPath}/chat", UriKind.RelativeOrAbsolute),
-                Title = "Webchat | Contact us | National Careers Service",
+                Title = "Webchat" + PageTitleSuffix,
             };
 
             Logger.LogInformation($"{nameof(ChatHtmlHead)} has returned content");
