@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.ViewModels;
+﻿using DFC.App.ContactUs.Models;
+using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -24,6 +25,7 @@ namespace DFC.App.ContactUs.Attributes
             NullDate,
             InvalidDate,
             OutOfRange,
+            ServiceOpenHours,
         }
 
         public void AddValidation(ClientModelValidationContext context)
@@ -38,6 +40,7 @@ namespace DFC.App.ContactUs.Attributes
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             ErrorType errorType = ErrorType.NullDate;
+            ServiceOpenDetailModel? serviceOpenDetailModel = null;
 
             _ = validationContext ?? throw new ArgumentNullException(nameof(validationContext));
 
@@ -56,7 +59,19 @@ namespace DFC.App.ContactUs.Attributes
 
                     if (dt!.Value > DateTime.Now && dt.Value <= DateTime.Now.AddMonths(monthsInFuture))
                     {
-                        return ValidationResult.Success;
+                        serviceOpenDetailModel = validationContext.GetService(typeof(ServiceOpenDetailModel)) as ServiceOpenDetailModel ?? new ServiceOpenDetailModel();
+
+                        if (serviceOpenDetailModel != null)
+                        {
+                            if (serviceOpenDetailModel.OpenTimeFrom <= dt!.Value.TimeOfDay && serviceOpenDetailModel.OpenTimeTo >= dt!.Value.TimeOfDay)
+                            {
+                                return ValidationResult.Success;
+                            }
+                            else
+                            {
+                                errorType = ErrorType.ServiceOpenHours;
+                            }
+                        }
                     }
                     else
                     {
@@ -73,6 +88,7 @@ namespace DFC.App.ContactUs.Attributes
             {
                 ErrorType.InvalidDate => string.Format(CultureInfo.InvariantCulture, "{0} is not a valid date", validationContext.DisplayName),
                 ErrorType.OutOfRange => string.Format(CultureInfo.InvariantCulture, "{0} must be within {1} months", validationContext.DisplayName, monthsInFuture),
+                ErrorType.ServiceOpenHours => string.Format(CultureInfo.InvariantCulture, "Service opening hours between {0} and {1}", serviceOpenDetailModel!.OpenTimeFromString, serviceOpenDetailModel!.OpenTimeToString),
                 _ => string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName),
             };
 

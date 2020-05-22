@@ -24,25 +24,43 @@ namespace DFC.App.ContactUs.Models
                     return "7 days a week";
                 }
 
-                return $"{WeekdayFrom.ToString()} to {WeekdayTo.ToString()}";
+                return $"{WeekdayFrom} to {WeekdayTo}";
             }
         }
 
-        public string OpenTimes
+        public string OpenTimesString
         {
             get
             {
-                var openTimeFromAsDate = DateTime.Today.Add(OpenTimeFrom);
-                var openTimeToAsDate = DateTime.Today.Add(OpenTimeTo);
-
-                string openTimeFromString = OpenTimeFrom.Minutes != 0 ? openTimeFromAsDate.ToString("h:mm tt", CultureInfo.InvariantCulture) : openTimeFromAsDate.ToString("h tt", CultureInfo.InvariantCulture);
-                string openTimeToString = OpenTimeTo.Minutes != 0 ? openTimeToAsDate.ToString("h:mm tt", CultureInfo.InvariantCulture) : openTimeToAsDate.ToString("h tt", CultureInfo.InvariantCulture);
-
-                openTimeFromString = openTimeFromString.Replace(" ", string.Empty, StringComparison.Ordinal).ToLowerInvariant();
-                openTimeToString = openTimeToString.Replace(" ", string.Empty, StringComparison.Ordinal).ToLowerInvariant();
-
-                return $"{openTimeFromString} to {openTimeToString}";
+                return $"{OpenTimeFromString} to {OpenTimeToString}";
             }
+        }
+
+        public string OpenTimeFromString
+        {
+            get
+            {
+                return FormatTimeToString(OpenTimeFrom);
+            }
+        }
+
+        public string OpenTimeToString
+        {
+            get
+            {
+                return FormatTimeToString(OpenTimeTo);
+            }
+        }
+
+        public static string FormatTimeToString(TimeSpan timeSpan)
+        {
+            var timeAsDate = DateTime.Today.Add(timeSpan);
+
+            string timeToString = timeSpan.Minutes != 0 ? timeAsDate.ToString("h:mm tt", CultureInfo.InvariantCulture) : timeAsDate.ToString("h tt", CultureInfo.InvariantCulture);
+
+            timeToString = timeToString.Replace(" ", string.Empty, StringComparison.Ordinal).ToLowerInvariant();
+
+            return timeToString;
         }
     }
 }

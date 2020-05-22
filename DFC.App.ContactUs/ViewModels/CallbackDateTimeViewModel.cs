@@ -1,5 +1,4 @@
-﻿using DFC.App.ContactUs.Attributes;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.ContactUs.ViewModels
@@ -9,8 +8,6 @@ namespace DFC.App.ContactUs.ViewModels
         private const string IsRequiredValidationError = "Enter callback {0}";
 
         private const string NumberRangeValidationError = "Callback {0} must be between {1} and {2}";
-
-        private const string ServiceOpenHoursRangeValidationError = "Service opening hours between {0} and {1}";
 
         public CallbackDateTimeViewModel() : base()
         {
@@ -35,7 +32,6 @@ namespace DFC.App.ContactUs.ViewModels
 
         [Required(ErrorMessage = IsRequiredValidationError)]
         [Range(0, 23, ErrorMessage = NumberRangeValidationError)]
-        [ServiceOpenHoursRange(nameof(Minute), ErrorMessage = ServiceOpenHoursRangeValidationError)]
         public override int? Hour { get; set; }
 
         [Required(ErrorMessage = IsRequiredValidationError)]
