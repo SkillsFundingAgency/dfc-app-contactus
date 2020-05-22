@@ -23,7 +23,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("/sitemap.xml")]
-        public async Task<ContentResult?> Sitemap()
+        public async Task<IActionResult> Sitemap()
         {
             try
             {
@@ -62,6 +62,11 @@ namespace DFC.App.ContactUs.Controllers
                     }
                 }
 
+                if (!sitemap.Locations.Any())
+                {
+                    return NoContent();
+                }
+
                 var xmlString = sitemap.WriteSitemapToString();
 
                 logger.LogInformation("Generated Sitemap");
@@ -73,7 +78,7 @@ namespace DFC.App.ContactUs.Controllers
                 logger.LogError(ex, $"{nameof(Sitemap)}: {ex.Message}");
             }
 
-            return default;
+            return BadRequest();
         }
     }
 }
