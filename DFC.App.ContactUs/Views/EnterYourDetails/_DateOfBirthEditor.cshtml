@@ -1,14 +1,15 @@
 ﻿@model EnterYourDetailsBodyViewModel
 
 @{
-    const string govukErrorClass = "govuk-form-group--error";
+    const string govukFormGroupErrorClass = "govuk-form-group--error";
+    const string govukInputErrorClass = "govuk-input--error";
     var showErrorClass = string.Empty;
-    var showErrorClassForDay = string.Empty;
-    var showErrorClassForMonth = string.Empty;
-    var showErrorClassForYear = string.Empty;
-    var nameFieldForDay = Html.NameFor(model => model.DateOfBirth.Day);
-    var nameFieldForMonth = Html.NameFor(model => model.DateOfBirth.Month);
-    var nameFieldForYear = Html.NameFor(model => model.DateOfBirth.Year);
+    var showErrorClassForDayInput = string.Empty;
+    var showErrorClassForMonthInput = string.Empty;
+    var showErrorClassForYearInput = string.Empty;
+    var nameFieldForDay = Html.NameFor(model => model.DateOfBirth!.Day);
+    var nameFieldForMonth = Html.NameFor(model => model.DateOfBirth!.Month);
+    var nameFieldForYear = Html.NameFor(model => model.DateOfBirth!.Year);
     var errorKeys = new[] { Html.NameFor(model => model.DateOfBirth), nameFieldForDay, nameFieldForMonth, nameFieldForYear, };
 
     foreach (var errorKey in errorKeys)
@@ -19,19 +20,25 @@
             {
                 if (errorKey.Equals(nameFieldForDay, StringComparison.OrdinalIgnoreCase))
                 {
-                    showErrorClassForDay = govukErrorClass;
+                    showErrorClassForDayInput = govukInputErrorClass;
+                    showErrorClass = govukFormGroupErrorClass;
                 }
                 else if (errorKey.Equals(nameFieldForMonth, StringComparison.OrdinalIgnoreCase))
                 {
-                    showErrorClassForMonth = govukErrorClass;
+                    showErrorClassForMonthInput = govukInputErrorClass;
+                    showErrorClass = govukFormGroupErrorClass;
                 }
                 else if (errorKey.Equals(nameFieldForYear, StringComparison.OrdinalIgnoreCase))
                 {
-                    showErrorClassForYear = govukErrorClass;
+                    showErrorClassForYearInput = govukInputErrorClass;
+                    showErrorClass = govukFormGroupErrorClass;
                 }
                 else
                 {
-                    showErrorClass = govukErrorClass;
+                    showErrorClassForDayInput = govukInputErrorClass;
+                    showErrorClassForMonthInput = govukInputErrorClass;
+                    showErrorClassForYearInput = govukInputErrorClass;
+                    showErrorClass = govukFormGroupErrorClass;
                 }
             }
         }
@@ -42,49 +49,43 @@
     @Html.LabelFor(model => model.DateOfBirth, new { @class = "govuk-label" })
 
     @Html.ValidationMessageFor(model => model.DateOfBirth, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.DateOfBirth) + "-error" })
-    @Html.ValidationMessageFor(model => model.DateOfBirth.Day, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.DateOfBirth.Day) + "-error" })
-    @Html.ValidationMessageFor(model => model.DateOfBirth.Month, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.DateOfBirth.Month) + "-error" })
-    @Html.ValidationMessageFor(model => model.DateOfBirth.Year, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.DateOfBirth.Year) + "-error" })
+    @Html.ValidationMessageFor(model => model.DateOfBirth!.Day, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.DateOfBirth!.Day) + "-error" })
+    @Html.ValidationMessageFor(model => model.DateOfBirth!.Month, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.DateOfBirth!.Month) + "-error" })
+    @Html.ValidationMessageFor(model => model.DateOfBirth!.Year, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.DateOfBirth!.Year) + "-error" })
 
     <div class="govuk-date-input" id="@Html.NameFor(model => model.DateOfBirth)">
         <div class="govuk-date-input__item">
-            <div class="govuk-form-group @showErrorClassForDay">
-                @Html.LabelFor(model => model.DateOfBirth.Day, new { @class = "govuk-label govuk-date-input__label" })
-                @Html.TextBoxFor(model => model.DateOfBirth.Day, new
-                {
-                    @class = "govuk-input govuk-date-input__input govuk-input--width-2",
-                    autocomplete = "off",
-                    type = "text",
-                    pattern = "[0-9]*",
-                    inputmode = "numeric"
-                })
-            </div>
+            @Html.LabelFor(model => model.DateOfBirth!.Day, new { @class = "govuk-label govuk-date-input__label" })
+            @Html.TextBoxFor(model => model.DateOfBirth!.Day, new
+            {
+                @class = "govuk-input govuk-date-input__input govuk-input--width-2 " + showErrorClassForDayInput,
+                autocomplete = "off",
+                type = "text",
+                pattern = "[0-9]*",
+                inputmode = "numeric"
+            })
         </div>
         <div class="govuk-date-input__item">
-            <div class="govuk-form-group @showErrorClassForMonth">
-                @Html.LabelFor(model => model.DateOfBirth.Month, new { @class = "govuk-label govuk-date-input__label" })
-                @Html.TextBoxFor(model => model.DateOfBirth.Month, new
-                {
-                    @class = "govuk-input govuk-date-input__input govuk-input--width-2",
-                    autocomplete = "off",
-                    type = "text",
-                    pattern = "[0-9]*",
-                    inputmode = "numeric"
-                })
-            </div>
+            @Html.LabelFor(model => model.DateOfBirth!.Month, new { @class = "govuk-label govuk-date-input__label" })
+            @Html.TextBoxFor(model => model.DateOfBirth!.Month, new
+            {
+                @class = "govuk-input govuk-date-input__input govuk-input--width-2 " + showErrorClassForMonthInput,
+                autocomplete = "off",
+                type = "text",
+                pattern = "[0-9]*",
+                inputmode = "numeric"
+            })
         </div>
         <div class="govuk-date-input__item">
-            <div class="govuk-form-group @showErrorClassForYear">
-                @Html.LabelFor(model => model.DateOfBirth.Year, new { @class = "govuk-label govuk-date-input__label" })
-                @Html.TextBoxFor(model => model.DateOfBirth.Year, new
-                {
-                    @class = "govuk-input govuk-date-input__input govuk-input--width-4",
-                    autocomplete = "off",
-                    type = "text",
-                    pattern = "[0-9]*",
-                    inputmode = "numeric"
-                })
-            </div>
+            @Html.LabelFor(model => model.DateOfBirth!.Year, new { @class = "govuk-label govuk-date-input__label" })
+            @Html.TextBoxFor(model => model.DateOfBirth!.Year, new
+            {
+                @class = "govuk-input govuk-date-input__input govuk-input--width-4 " + showErrorClassForYearInput,
+                autocomplete = "off",
+                type = "text",
+                pattern = "[0-9]*",
+                inputmode = "numeric"
+            })
         </div>
     </div>
 </div>

@@ -23,6 +23,7 @@ namespace DFC.App.ContactUs.Attributes
         private enum ErrorType
         {
             NullDate,
+            MissingField,
             InvalidDate,
             OutOfRange,
             ServiceOpenHours,
@@ -39,65 +40,80 @@ namespace DFC.App.ContactUs.Attributes
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            ErrorType errorType = ErrorType.NullDate;
-            ServiceOpenDetailModel? serviceOpenDetailModel = null;
-
             _ = validationContext ?? throw new ArgumentNullException(nameof(validationContext));
+
+            ErrorType errorType = ErrorType.NullDate;
+            string missingFieldName = string.Empty;
+            string validationFieldName = validationContext.MemberName;
+            ServiceOpenDetailModel? serviceOpenDetailModel = null;
 
             ErrorMessage = ErrorMessageString;
 
-            if (!IsRequired(validationContext))
+            if (!IsRequired(comparisonProperty, validationContext))
             {
                 return ValidationResult.Success;
             }
 
-            if (value is DateViewModel dateViewModel && !dateViewModel.IsNull)
+            if (value is DateViewModel dateViewModel)
             {
-                if (dateViewModel.IsValid)
+                if (!dateViewModel.ContainsNullValueFields)
                 {
-                    var dt = dateViewModel.Value;
-
-                    if (dt!.Value > DateTime.Now && dt.Value <= DateTime.Now.AddMonths(monthsInFuture))
+                    if (dateViewModel.IsValid)
                     {
-                        serviceOpenDetailModel = validationContext.GetService(typeof(ServiceOpenDetailModel)) as ServiceOpenDetailModel ?? new ServiceOpenDetailModel();
+                        var dt = dateViewModel.Value;
 
-                        if (serviceOpenDetailModel != null)
+                        if (dt!.Value > DateTime.Now && dt.Value <= DateTime.Now.AddMonths(monthsInFuture))
                         {
-                            if (serviceOpenDetailModel.OpenTimeFrom <= dt!.Value.TimeOfDay && serviceOpenDetailModel.OpenTimeTo >= dt!.Value.TimeOfDay)
+                            serviceOpenDetailModel = validationContext.GetService(typeof(ServiceOpenDetailModel)) as ServiceOpenDetailModel ?? new ServiceOpenDetailModel();
+
+                            if (serviceOpenDetailModel != null)
                             {
-                                return ValidationResult.Success;
+                                if (serviceOpenDetailModel.OpenTimeFrom <= dt!.Value.TimeOfDay && serviceOpenDetailModel.OpenTimeTo >= dt!.Value.TimeOfDay)
+                                {
+                                    return ValidationResult.Success;
+                                }
+                                else
+                                {
+                                    errorType = ErrorType.ServiceOpenHours;
+                                    validationFieldName = nameof(dateViewModel.Hour);
+                                }
                             }
-                            else
-                            {
-                                errorType = ErrorType.ServiceOpenHours;
-                            }
+                        }
+                        else
+                        {
+                            errorType = ErrorType.OutOfRange;
+                            validationFieldName = nameof(dateViewModel.Month);
                         }
                     }
                     else
                     {
-                        errorType = ErrorType.OutOfRange;
+                        errorType = ErrorType.InvalidDate;
+                        validationFieldName = nameof(dateViewModel.Day);
                     }
                 }
                 else
                 {
-                    errorType = ErrorType.InvalidDate;
+                    errorType = ErrorType.MissingField;
+                    missingFieldName = dateViewModel.FirstMissingFieldName;
+                    validationFieldName = missingFieldName;
                 }
             }
 
             string errorMessage = errorType switch
             {
                 ErrorType.InvalidDate => string.Format(CultureInfo.InvariantCulture, "{0} is not a valid date", validationContext.DisplayName),
+                ErrorType.MissingField => string.Format(CultureInfo.InvariantCulture, "{0} must include a {1}", validationContext.DisplayName, missingFieldName.ToLowerInvariant()),
                 ErrorType.OutOfRange => string.Format(CultureInfo.InvariantCulture, "{0} must be within {1} months", validationContext.DisplayName, monthsInFuture),
                 ErrorType.ServiceOpenHours => string.Format(CultureInfo.InvariantCulture, "Service opening hours between {0} and {1}", serviceOpenDetailModel!.OpenTimeFromString, serviceOpenDetailModel!.OpenTimeToString),
-                _ => string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName),
+                _ => ErrorMessage,
             };
 
-            return new ValidationResult(errorMessage, new[] { validationContext.MemberName });
+            return new ValidationResult(errorMessage, new[] { validationFieldName });
         }
 
-        private bool IsRequired(ValidationContext validationContext)
+        private static bool IsRequired(string propertyName, ValidationContext validationContext)
         {
-            var property = validationContext.ObjectType.GetProperty(comparisonProperty);
+            var property = validationContext.ObjectType.GetProperty(propertyName);
 
             if (property != null)
             {

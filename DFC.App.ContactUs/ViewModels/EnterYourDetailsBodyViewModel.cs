@@ -7,7 +7,8 @@ namespace DFC.App.ContactUs.ViewModels
     public class EnterYourDetailsBodyViewModel
     {
         public const string IsRequiredValidationError = "Enter your {0}";
-        public const string CallbackDateTimeRequiredValidationError = "{0}";
+        public const string DateOfBirthRequiredValidationError = "{0}";
+        public const string CallbackDateTimeRequiredValidationError = "Enter when you want us to contact you";
 
         private const string RegExForName = "^[a-zA-Z ]+(([',.\\-][a-zA-Z ])?[a-zA-Z ]*)*$";
         private const string RegExForPostcode = "([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z]))))\\s?[0-9][A-Za-z]{2})";
@@ -51,7 +52,7 @@ namespace DFC.App.ContactUs.ViewModels
         public string? TelephoneNumber { get; set; }
 
         [Display(Name = "Date of birth", Description = "Date of birth")]
-        [DateOfBirthValidation(13, ErrorMessage = IsRequiredValidationError)]
+        [DateOfBirthValidation(13, ErrorMessage = DateOfBirthRequiredValidationError)]
         public DateOfBirthViewModel? DateOfBirth { get; set; }
 
         [Display(Name = "Postcode")]

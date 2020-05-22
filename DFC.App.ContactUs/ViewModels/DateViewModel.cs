@@ -37,7 +37,7 @@ namespace DFC.App.ContactUs.ViewModels
             }
         }
 
-        public bool IsNull
+        public bool ContainsNullValueFields
         {
             get
             {
@@ -64,7 +64,7 @@ namespace DFC.App.ContactUs.ViewModels
         {
             get
             {
-                if (IsNull)
+                if (ContainsNullValueFields)
                 {
                     return false;
                 }
@@ -80,6 +80,41 @@ namespace DFC.App.ContactUs.ViewModels
                 }
 
                 return isValid;
+            }
+        }
+
+        public string FirstMissingFieldName
+        {
+            get
+            {
+                if (!Day.HasValue)
+                {
+                    return nameof(Day);
+                }
+
+                if (!Month.HasValue)
+                {
+                    return nameof(Month);
+                }
+
+                if (!Year.HasValue)
+                {
+                    return nameof(Year);
+                }
+
+                if (IncludeTimeValue)
+                {
+                    if (!Hour.HasValue)
+                    {
+                        return nameof(Hour);
+                    }
+
+                    if (!Minute.HasValue)
+                    {
+                        return nameof(Minute);
+                    }
+                }
+                return string.Empty;
             }
         }
 
