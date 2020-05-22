@@ -42,7 +42,7 @@ namespace DFC.App.ContactUs.Attributes
             }
         }
 
-        private void AddValidationsForViewModel(EnterYourDetailsBodyViewModel viewModel, ModelExplorer modelExplorer, IValidationAttributeAdapterProvider validationAttributeAdapterProvider, ClientModelValidationContext context)
+        private static void AddValidationsForViewModel(EnterYourDetailsBodyViewModel viewModel, ModelExplorer modelExplorer, IValidationAttributeAdapterProvider validationAttributeAdapterProvider, ClientModelValidationContext context)
         {
             var properties = new Dictionary<string, string>()
                 {

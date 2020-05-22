@@ -69,14 +69,14 @@ namespace DFC.App.ContactUs.ViewModels
                     return false;
                 }
 
-                bool isValid = Year.Value >= 1 && Year.Value <= 9999 &&
-                               Month.Value >= 1 && Month.Value <= 12 &&
-                               Day.Value >= 1 && Day.Value <= DateTime.DaysInMonth(Year.Value, Month.Value);
+                bool isValid = Year!.Value >= 1 && Year!.Value <= 9999 &&
+                               Month!.Value >= 1 && Month!.Value <= 12 &&
+                               Day!.Value >= 1 && Day!.Value <= DateTime.DaysInMonth(Year!.Value, Month!.Value);
 
                 if (isValid && IncludeTimeValue)
                 {
-                    isValid = Hour.Value >= 0 && Hour.Value < 24 &&
-                              Minute.Value >= 0 && Minute.Value < 60;
+                    isValid = Hour!.Value >= 0 && Hour!.Value < 24 &&
+                              Minute!.Value >= 0 && Minute!.Value < 60;
                 }
 
                 return isValid;
