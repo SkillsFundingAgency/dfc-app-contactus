@@ -17,13 +17,15 @@
         @Html.EditorFor(model => model.FamilyName)
         @Html.EditorFor(model => model.EmailAddress)
         @Html.EditorFor(model => model.TelephoneNumber)
-        @Html.EditorFor(model => model.DateOfBirth)
+
+        <partial name="_DateOfBirthEditor" />
+
         @Html.EditorFor(model => model.Postcode)
 
 
-        @if (Model.SelectedCategory == Category.Callback)
+        @if (Model.CallbackDateTimeIsRequired)
         {
-            @Html.EditorFor(model => model.CallbackDateTime)
+            <partial name="_CallbackDateTimeEditor" />
         }
 
         @Html.EditorFor(model => model.TermsAndConditionsAccepted)

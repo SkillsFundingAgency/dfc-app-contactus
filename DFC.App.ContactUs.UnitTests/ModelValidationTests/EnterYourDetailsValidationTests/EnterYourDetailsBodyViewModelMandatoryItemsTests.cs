@@ -10,10 +10,11 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
     [Trait("Category", "EnterYourDetailsBodyViewModel Validation Unit Tests")]
     public class EnterYourDetailsBodyViewModelMandatoryItemsTests
     {
-        public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
+        public static IEnumerable<object[]> Categories => new List<object[]>
         {
             new object[] { Category.AdviceGuidance },
             new object[] { Category.Courses },
+            new object[] { Category.Website },
             new object[] { Category.Feedback },
             new object[] { Category.SomethingElse },
         };
@@ -29,7 +30,6 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
                 nameof(EnterYourDetailsBodyViewModel.DateOfBirth),
                 nameof(EnterYourDetailsBodyViewModel.Postcode),
                 nameof(EnterYourDetailsBodyViewModel.TelephoneNumber),
-                nameof(EnterYourDetailsBodyViewModel.CallbackDateTime),
             };
             var viewModel = new EnterYourDetailsBodyViewModel
             {
@@ -41,7 +41,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
 
             // Assert
             Assert.False(isValid);
-            Assert.True(validationResults.Count == expectedErrorNames.Count + 1);
+            Assert.True(validationResults.Count == expectedErrorNames.Count + 2);
 
             expectedErrorNames.ForEach(fe =>
                 {
@@ -49,11 +49,12 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
                     Assert.Contains("Enter your", validationResults.First(f => f.MemberNames.Any(a => a == fe)).ErrorMessage, StringComparison.Ordinal);
                 });
 
+            Assert.NotNull(validationResults.First(f => f.ErrorMessage.Contains("When do you want us", StringComparison.Ordinal)));
             Assert.NotNull(validationResults.First(f => f.ErrorMessage.Contains("Please tick the", StringComparison.Ordinal)));
         }
 
         [Theory]
-        [MemberData(nameof(HtmlMediaTypes))]
+        [MemberData(nameof(Categories))]
         public void EnterYourDetailsBodyViewModelnonCallbackMandatoryTest(Category category)
         {
             // Arrange

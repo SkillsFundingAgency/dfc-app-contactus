@@ -43,7 +43,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPost]
         [Route("pages/enter-your-details")]
-        public IActionResult EnterYourDetailsView(EnterYourDetailsBodyViewModel model)
+        public IActionResult EnterYourDetailsView(EnterYourDetailsBodyViewModel? model)
         {
             if (model != null && ModelState.IsValid)
             {

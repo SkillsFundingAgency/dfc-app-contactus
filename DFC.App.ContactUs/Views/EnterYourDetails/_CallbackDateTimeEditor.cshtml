@@ -1,0 +1,132 @@
+﻿@model EnterYourDetailsBodyViewModel
+
+@{
+    const string govukErrorClass = "govuk-form-group--error";
+    var showErrorClass = string.Empty;
+    var showErrorClassForDay = string.Empty;
+    var showErrorClassForMonth = string.Empty;
+    var showErrorClassForYear = string.Empty;
+    var showErrorClassForHour = string.Empty;
+    var showErrorClassForMinute = string.Empty;
+    var nameFieldForDay = Html.NameFor(model => model.CallbackDateTime.Day);
+    var nameFieldForMonth = Html.NameFor(model => model.CallbackDateTime.Month);
+    var nameFieldForYear = Html.NameFor(model => model.CallbackDateTime.Year);
+    var nameFieldForHour = Html.NameFor(model => model.CallbackDateTime.Hour);
+    var nameFieldForMinute = Html.NameFor(model => model.CallbackDateTime.Minute);
+    var errorKeys = new[] { Html.NameFor(model => model.CallbackDateTime), nameFieldForDay, nameFieldForMonth, nameFieldForYear, nameFieldForHour, nameFieldForMinute, };
+
+    foreach (var errorKey in errorKeys)
+    {
+        if (ViewData.ModelState.Keys.Contains(errorKey))
+        {
+            if (ViewData.ModelState[errorKey] != null && ViewData.ModelState[errorKey].Errors.Any())
+            {
+                if (errorKey.Equals(nameFieldForDay, StringComparison.OrdinalIgnoreCase))
+                {
+                    showErrorClassForDay = govukErrorClass;
+                }
+                else if (errorKey.Equals(nameFieldForMonth, StringComparison.OrdinalIgnoreCase))
+                {
+                    showErrorClassForMonth = govukErrorClass;
+                }
+                else if (errorKey.Equals(nameFieldForHour, StringComparison.OrdinalIgnoreCase))
+                {
+                    showErrorClassForHour = govukErrorClass;
+                }
+                else if (errorKey.Equals(nameFieldForMinute, StringComparison.OrdinalIgnoreCase))
+                {
+                    showErrorClassForMinute = govukErrorClass;
+                }
+                else if (errorKey.Equals(nameFieldForYear, StringComparison.OrdinalIgnoreCase))
+                {
+                    showErrorClassForYear = govukErrorClass;
+                }
+                else
+                {
+                    showErrorClass = govukErrorClass;
+                }
+            }
+        }
+    }
+}
+
+<div class="govuk-form-group @showErrorClass">
+    <h2 class="govuk-heading-l">
+        @Html.DisplayNameFor(model => model.CallbackDateTime)
+    </h2>
+
+    @Html.ValidationMessageFor(model => model.CallbackDateTime, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.CallbackDateTime) + "-error" })
+    @Html.ValidationMessageFor(model => model.CallbackDateTime.Day, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.CallbackDateTime.Day) + "-error" })
+    @Html.ValidationMessageFor(model => model.CallbackDateTime.Month, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.CallbackDateTime.Month) + "-error" })
+    @Html.ValidationMessageFor(model => model.CallbackDateTime.Year, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.CallbackDateTime.Year) + "-error" })
+    @Html.ValidationMessageFor(model => model.CallbackDateTime.Hour, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.CallbackDateTime.Hour) + "-error" })
+    @Html.ValidationMessageFor(model => model.CallbackDateTime.Minute, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.CallbackDateTime.Minute) + "-error" })
+
+    <div class="govuk-date-input" id="@Html.NameFor(model => model.CallbackDateTime)">
+        <div class="govuk-date-input__item">
+            <div class="govuk-form-group @showErrorClassForDay">
+                @Html.LabelFor(model => model.CallbackDateTime.Day, new { @class = "govuk-label govuk-date-input__label" })
+                @Html.TextBoxFor(model => model.CallbackDateTime.Day, new
+                {
+                    @class = "govuk-input govuk-date-input__input govuk-input--width-2",
+                    autocomplete = "off",
+                    type = "text",
+                    pattern = "[0-9]*",
+                    inputmode = "numeric"
+                })
+            </div>
+        </div>
+        <div class="govuk-date-input__item">
+            <div class="govuk-form-group @showErrorClassForMonth">
+                @Html.LabelFor(model => model.CallbackDateTime.Month, new { @class = "govuk-label govuk-date-input__label" })
+                @Html.TextBoxFor(model => model.CallbackDateTime.Month, new
+                {
+                    @class = "govuk-input govuk-date-input__input govuk-input--width-2",
+                    autocomplete = "off",
+                    type = "text",
+                    pattern = "[0-9]*",
+                    inputmode = "numeric"
+                })
+            </div>
+        </div>
+        <div class="govuk-date-input__item">
+            <div class="govuk-form-group @showErrorClassForYear">
+                @Html.LabelFor(model => model.CallbackDateTime.Year, new { @class = "govuk-label govuk-date-input__label" })
+                @Html.TextBoxFor(model => model.CallbackDateTime.Year, new
+                {
+                    @class = "govuk-input govuk-date-input__input govuk-input--width-4",
+                    autocomplete = "off",
+                    type = "text",
+                    pattern = "[0-9]*",
+                    inputmode = "numeric"
+                })
+            </div>
+        </div>
+        <div class="govuk-date-input__item">
+            <div class="govuk-form-group @showErrorClassForHour">
+                @Html.LabelFor(model => model.CallbackDateTime.Hour, new { @class = "govuk-label govuk-date-input__label" })
+                @Html.TextBoxFor(model => model.CallbackDateTime.Hour, new
+                {
+                    @class = "govuk-input govuk-date-input__input govuk-input--width-2",
+                    autocomplete = "off",
+                    type = "text",
+                    pattern = "[0-9]*",
+                    inputmode = "numeric"
+                })
+            </div>
+        </div>
+        <div class="govuk-date-input__item">
+            <div class="govuk-form-group @showErrorClassForMinute">
+                @Html.LabelFor(model => model.CallbackDateTime.Minute, new { @class = "govuk-label govuk-date-input__label" })
+                @Html.TextBoxFor(model => model.CallbackDateTime.Minute, new
+                {
+                    @class = "govuk-input govuk-date-input__input govuk-input--width-2",
+                    autocomplete = "off",
+                    type = "text",
+                    pattern = "[0-9]*",
+                    inputmode = "numeric"
+                })
+            </div>
+        </div>
+    </div>
+</div>

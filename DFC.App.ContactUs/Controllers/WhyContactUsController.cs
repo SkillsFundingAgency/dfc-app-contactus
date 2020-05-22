@@ -43,7 +43,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPost]
         [Route("pages/why-do-you-want-to-contact-us")]
-        public IActionResult WhyContactUsView(WhyContactUsBodyViewModel model)
+        public IActionResult WhyContactUsView(WhyContactUsBodyViewModel? model)
         {
             if (model != null && ModelState.IsValid)
             {

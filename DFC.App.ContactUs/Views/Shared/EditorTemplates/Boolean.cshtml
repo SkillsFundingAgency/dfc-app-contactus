@@ -33,9 +33,6 @@
             @Html.CheckBoxFor(model => model, new
             {
                 @class = "govuk-checkboxes__input",
-                title = ViewData.ModelMetadata.Description,
-                data_toggle = "tooltip",
-                data_placement = "bottom",
                 autocomplete = "off",
                 aria_describedby = hintId
             })

@@ -34,10 +34,6 @@
     @Html.TextAreaFor(model => model, new
     {
         @class = "govuk-textarea govuk-js-character-count",
-        title = ViewData.ModelMetadata.Description,
-        placeholder = ViewData.ModelMetadata.Placeholder,
-        data_toggle = "tooltip",
-        data_placement = "bottom",
         autocomplete = "off",
         aria_describedby = hintId,
         rows = 5,

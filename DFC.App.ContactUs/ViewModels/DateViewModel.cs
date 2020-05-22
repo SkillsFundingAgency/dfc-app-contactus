@@ -37,11 +37,34 @@ namespace DFC.App.ContactUs.ViewModels
             }
         }
 
+        public bool IsNull
+        {
+            get
+            {
+                if (IncludeTimeValue)
+                {
+                    if (Day == null || Month == null || Year == null || Hour == null || Minute == null)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (Day == null || Month == null || Year == null)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
         public bool IsValid
         {
             get
             {
-                if (Day == null || Month == null || Year == null)
+                if (IsNull)
                 {
                     return false;
                 }
@@ -52,11 +75,6 @@ namespace DFC.App.ContactUs.ViewModels
 
                 if (isValid && IncludeTimeValue)
                 {
-                    if (Hour == null || Minute == null)
-                    {
-                        return false;
-                    }
-
                     isValid = Hour.Value >= 0 && Hour.Value < 24 &&
                               Minute.Value >= 0 && Minute.Value < 60;
                 }

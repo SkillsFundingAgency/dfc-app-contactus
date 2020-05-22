@@ -39,7 +39,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
             Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.DateOfBirth))));
-            Assert.Contains("is not a valid date", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.DateOfBirth))).ErrorMessage, StringComparison.Ordinal);
+            Assert.Contains("Enter your", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.DateOfBirth))).ErrorMessage, StringComparison.Ordinal);
         }
 
         [Fact]

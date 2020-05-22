@@ -31,10 +31,6 @@
     @Html.TextBoxFor(model => model, new
     {
         @class = "govuk-input",
-        title = ViewData.ModelMetadata.Description,
-        placeholder = ViewData.ModelMetadata.Placeholder,
-        data_toggle = "tooltip",
-        data_placement = "bottom",
         autocomplete = "off",
         aria_describedby = hintId
     })

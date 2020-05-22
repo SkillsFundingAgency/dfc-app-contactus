@@ -50,7 +50,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPost]
         [Route("pages/home")]
-        public IActionResult HomeView(HomeBodyViewModel model)
+        public IActionResult HomeView(HomeBodyViewModel? model)
         {
             if (model != null && ModelState.IsValid)
             {

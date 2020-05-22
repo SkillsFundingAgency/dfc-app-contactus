@@ -10,6 +10,8 @@ namespace DFC.App.ContactUs.ViewModels
 
         private const string NumberRangeValidationError = "Callback {0} must be between {1} and {2}";
 
+        private const string ServiceOpenHoursRangeValidationError = "Service opening hours between {0} and {1}";
+
         public CallbackDateTimeViewModel() : base()
         {
             IncludeTimeValue = true;
@@ -29,11 +31,11 @@ namespace DFC.App.ContactUs.ViewModels
         public override int? Month { get; set; }
 
         [Required(ErrorMessage = IsRequiredValidationError)]
-        [FutureYear(1, ErrorMessage = NumberRangeValidationError)]
         public override int? Year { get; set; }
 
         [Required(ErrorMessage = IsRequiredValidationError)]
-        [Range(8, 18, ErrorMessage = NumberRangeValidationError)]
+        [Range(0, 23, ErrorMessage = NumberRangeValidationError)]
+        [ServiceOpenHoursRange(nameof(Minute), ErrorMessage = ServiceOpenHoursRangeValidationError)]
         public override int? Hour { get; set; }
 
         [Required(ErrorMessage = IsRequiredValidationError)]
