@@ -114,6 +114,7 @@ namespace DFC.App.ContactUs.ViewModels
                         return nameof(Minute);
                     }
                 }
+
                 return string.Empty;
             }
         }
