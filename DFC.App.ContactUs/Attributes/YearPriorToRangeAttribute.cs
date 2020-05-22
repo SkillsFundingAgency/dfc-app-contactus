@@ -20,7 +20,7 @@ namespace DFC.App.ContactUs.Attributes
         {
             _ = context ?? throw new ArgumentNullException(nameof(context));
 
-            var error = FormatErrorMessage(context.ModelMetadata.GetDisplayName());
+            var error = string.Format(CultureInfo.InvariantCulture, ErrorMessage, context.ModelMetadata.GetDisplayName(), Math.Abs(offsetYears));
             context.Attributes.Add("data-val", "true");
             context.Attributes.Add("data-val-error", error);
         }
@@ -38,7 +38,7 @@ namespace DFC.App.ContactUs.Attributes
 
                 if (yearValue < fromYear || yearValue > toYear)
                 {
-                    var errorMessage = string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName, fromYear, toYear);
+                    var errorMessage = string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName, Math.Abs(offsetYears));
 
                     return new ValidationResult(errorMessage, new[] { validationContext.MemberName });
                 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace DFC.App.ContactUs.Attributes
 {
@@ -8,18 +9,18 @@ namespace DFC.App.ContactUs.Attributes
     {
         private readonly string comparisonProperty;
 
-        public RequiredWhenTrueAttribute(string? isRequiredProperty)
+        public RequiredWhenTrueAttribute(string? comparisonProperty)
         {
-            _ = isRequiredProperty ?? throw new ArgumentNullException(nameof(isRequiredProperty));
+            _ = comparisonProperty ?? throw new ArgumentNullException(nameof(comparisonProperty));
 
-            comparisonProperty = isRequiredProperty;
+            this.comparisonProperty = comparisonProperty;
         }
 
         public void AddValidation(ClientModelValidationContext context)
         {
             _ = context ?? throw new ArgumentNullException(nameof(context));
 
-            var error = FormatErrorMessage(context.ModelMetadata.GetDisplayName());
+            var error = string.Format(CultureInfo.InvariantCulture, ErrorMessage, context.ModelMetadata.GetDisplayName());
             context.Attributes.Add("data-val", "true");
             context.Attributes.Add("data-val-error", error);
         }
@@ -38,7 +39,8 @@ namespace DFC.App.ContactUs.Attributes
 
                 if (isRequiredValue != null && isRequiredValue.Value && value == null)
                 {
-                    return new ValidationResult(ErrorMessage.Replace("{0}", validationContext.DisplayName, StringComparison.Ordinal), new[] { validationContext.MemberName });
+                    var errorMessage = string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName);
+                    return new ValidationResult(errorMessage, new[] { validationContext.MemberName });
                 }
             }
 

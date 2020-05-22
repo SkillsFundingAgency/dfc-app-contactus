@@ -34,7 +34,7 @@ namespace DFC.App.ContactUs.Controllers
                 HtmlHead = new HtmlHeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}", UriKind.RelativeOrAbsolute),
-                    Title = "Contact us | National Careers Service",
+                    Title = ContactUsPageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
                 HomeBodyViewModel = new HomeBodyViewModel
@@ -50,7 +50,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPost]
         [Route("pages/home")]
-        public IActionResult HomeView(HomeBodyViewModel model)
+        public IActionResult HomeView(HomeBodyViewModel? model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -67,7 +67,7 @@ namespace DFC.App.ContactUs.Controllers
                 HtmlHead = new HtmlHeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}", UriKind.RelativeOrAbsolute),
-                    Title = "Contact us | National Careers Service",
+                    Title = ContactUsPageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
                 HomeBodyViewModel = model,
@@ -86,7 +86,7 @@ namespace DFC.App.ContactUs.Controllers
             var viewModel = new HtmlHeadViewModel()
             {
                 CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}", UriKind.RelativeOrAbsolute),
-                Title = "Contact us | National Careers Service",
+                Title = ContactUsPageTitleSuffix,
             };
 
             Logger.LogInformation($"{nameof(HomeHtmlHead)} has returned content");

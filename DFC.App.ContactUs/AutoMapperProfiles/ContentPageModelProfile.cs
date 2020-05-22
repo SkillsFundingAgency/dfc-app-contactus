@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
 
             CreateMap<ContentPageModel, HtmlHeadViewModel>()
                 .ForMember(d => d.CanonicalUrl, s => s.Ignore())
-                .ForMember(d => d.Title, s => s.MapFrom(a => a.MetaTags != null ? a.MetaTags.Title + " | National Careers Service" : null))
+                .ForMember(d => d.Title, s => s.MapFrom(a => a.MetaTags != null ? a.MetaTags.Title + " | Contact us | National Careers Service" : null))
                 .ForMember(d => d.Description, s => s.MapFrom(a => a.MetaTags != null ? a.MetaTags.Description : null))
                 .ForMember(d => d.Keywords, s => s.MapFrom(a => a.MetaTags != null ? a.MetaTags.Keywords : null))
                 ;

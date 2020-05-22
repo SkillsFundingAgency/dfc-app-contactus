@@ -30,7 +30,7 @@ namespace DFC.App.ContactUs.Controllers
                 HtmlHead = new HtmlHeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
-                    Title = "Why do you want to contact us | Contact us | National Careers Service",
+                    Title = "Why do you want to contact us" + PageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
                 WhyContactUsBodyViewModel = new WhyContactUsBodyViewModel(),
@@ -43,7 +43,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPost]
         [Route("pages/why-do-you-want-to-contact-us")]
-        public IActionResult WhyContactUsView(WhyContactUsBodyViewModel model)
+        public IActionResult WhyContactUsView(WhyContactUsBodyViewModel? model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace DFC.App.ContactUs.Controllers
                 HtmlHead = new HtmlHeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
-                    Title = "Why do you want to contact us | Contact us | National Careers Service",
+                    Title = "Why do you want to contact us" + PageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
                 WhyContactUsBodyViewModel = model,
@@ -78,7 +78,7 @@ namespace DFC.App.ContactUs.Controllers
             var viewModel = new HtmlHeadViewModel()
             {
                 CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
-                Title = "Why do you want to contact us | Contact us | National Careers Service",
+                Title = "Why do you want to contact us" + PageTitleSuffix,
             };
 
             Logger.LogInformation($"{nameof(WhyContactUsHtmlHead)} has returned content");

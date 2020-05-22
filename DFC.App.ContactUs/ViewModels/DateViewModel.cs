@@ -37,31 +37,84 @@ namespace DFC.App.ContactUs.ViewModels
             }
         }
 
+        public bool ContainsNullValueFields
+        {
+            get
+            {
+                if (IncludeTimeValue)
+                {
+                    if (Day == null || Month == null || Year == null || Hour == null || Minute == null)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (Day == null || Month == null || Year == null)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
         public bool IsValid
         {
             get
             {
-                if (Day == null || Month == null || Year == null)
+                if (ContainsNullValueFields)
                 {
                     return false;
                 }
 
-                bool isValid = Year.Value >= 1 && Year.Value <= 9999 &&
-                               Month.Value >= 1 && Month.Value <= 12 &&
-                               Day.Value >= 1 && Day.Value <= DateTime.DaysInMonth(Year.Value, Month.Value);
+                bool isValid = Year!.Value >= 1 && Year!.Value <= 9999 &&
+                               Month!.Value >= 1 && Month!.Value <= 12 &&
+                               Day!.Value >= 1 && Day!.Value <= DateTime.DaysInMonth(Year!.Value, Month!.Value);
 
                 if (isValid && IncludeTimeValue)
                 {
-                    if (Hour == null || Minute == null)
-                    {
-                        return false;
-                    }
-
-                    isValid = Hour.Value >= 0 && Hour.Value < 24 &&
-                              Minute.Value >= 0 && Minute.Value < 60;
+                    isValid = Hour!.Value >= 0 && Hour!.Value < 24 &&
+                              Minute!.Value >= 0 && Minute!.Value < 60;
                 }
 
                 return isValid;
+            }
+        }
+
+        public string FirstMissingFieldName
+        {
+            get
+            {
+                if (!Day.HasValue)
+                {
+                    return nameof(Day);
+                }
+
+                if (!Month.HasValue)
+                {
+                    return nameof(Month);
+                }
+
+                if (!Year.HasValue)
+                {
+                    return nameof(Year);
+                }
+
+                if (IncludeTimeValue)
+                {
+                    if (!Hour.HasValue)
+                    {
+                        return nameof(Hour);
+                    }
+
+                    if (!Minute.HasValue)
+                    {
+                        return nameof(Minute);
+                    }
+                }
+                return string.Empty;
             }
         }
 

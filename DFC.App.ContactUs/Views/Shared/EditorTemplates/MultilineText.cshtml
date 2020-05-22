@@ -2,6 +2,9 @@
 @using System.ComponentModel.DataAnnotations
 
 @{
+    const string govukFormGroupErrorClass = "govuk-form-group--error";
+    const string govukInputErrorClass = "govuk-input--error";
+    var showErrorClassForInput = string.Empty;
     var hintId = string.Empty;
     var member = ViewData.ModelMetadata.ContainerType.GetMember(ViewData.ModelMetadata.PropertyName);
     var strLenAttr = member[0].GetCustomAttributes(typeof(StringLengthAttribute), false).Cast<StringLengthAttribute>().FirstOrDefault();
@@ -12,7 +15,8 @@
     {
         if (ViewData.ModelState[errorKey] != null && ViewData.ModelState[errorKey].Errors.Any())
         {
-            showErrorClass = "govuk-form-group--error";
+            showErrorClassForInput = govukInputErrorClass;
+            showErrorClass = govukFormGroupErrorClass;
         }
     }
 }
@@ -33,11 +37,7 @@
 
     @Html.TextAreaFor(model => model, new
     {
-        @class = "govuk-textarea govuk-js-character-count",
-        title = ViewData.ModelMetadata.Description,
-        placeholder = ViewData.ModelMetadata.Placeholder,
-        data_toggle = "tooltip",
-        data_placement = "bottom",
+        @class = "govuk-textarea govuk-js-character-count " + showErrorClassForInput,
         autocomplete = "off",
         aria_describedby = hintId,
         rows = 5,

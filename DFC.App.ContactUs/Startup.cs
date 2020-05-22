@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CorrelationId;
+using DFC.App.ContactUs.Attributes;
 using DFC.App.ContactUs.ClientHandlers;
 using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
@@ -88,6 +90,7 @@ namespace DFC.App.ContactUs
             services.AddSingleton(cosmosDbConnection);
             services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<ICosmosRepository<ContentPageModel>, CosmosRepository<ContentPageModel>>();
+            services.AddSingleton<ValidationHtmlAttributeProvider, CustomValidationHtmlAttributeProvider>();
             services.AddTransient<IContentPageService, ContentPageService>();
             services.AddTransient<IEventMessageService, EventMessageService>();
             services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();

@@ -18,7 +18,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("pages/enter-your-details")]
-        public IActionResult EnterYourDetailsView()
+        public IActionResult EnterYourDetailsView(Category category = Category.None)
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
@@ -30,10 +30,10 @@ namespace DFC.App.ContactUs.Controllers
                 HtmlHead = new HtmlHeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/enter-your-details", UriKind.RelativeOrAbsolute),
-                    Title = "Enter your details | Contact us | National Careers Service",
+                    Title = "Enter your details" + PageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
-                EnterYourDetailsBodyViewModel = new EnterYourDetailsBodyViewModel(),
+                EnterYourDetailsBodyViewModel = new EnterYourDetailsBodyViewModel { SelectedCategory = category, },
             };
 
             Logger.LogWarning($"{nameof(EnterYourDetailsView)} has returned content");
@@ -43,7 +43,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPost]
         [Route("pages/enter-your-details")]
-        public IActionResult EnterYourDetailsView(EnterYourDetailsBodyViewModel model)
+        public IActionResult EnterYourDetailsView(EnterYourDetailsBodyViewModel? model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace DFC.App.ContactUs.Controllers
                 HtmlHead = new HtmlHeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/enter-your-details", UriKind.RelativeOrAbsolute),
-                    Title = "Enter your details | Contact us | National Careers Service",
+                    Title = "Enter your details" + PageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
                 EnterYourDetailsBodyViewModel = model,
@@ -78,7 +78,7 @@ namespace DFC.App.ContactUs.Controllers
             var viewModel = new HtmlHeadViewModel()
             {
                 CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}/enter-your-details", UriKind.RelativeOrAbsolute),
-                Title = "Enter your details | Contact us | National Careers Service",
+                Title = "Enter your details" + PageTitleSuffix,
             };
 
             Logger.LogInformation($"{nameof(EnterYourDetailsHtmlHead)} has returned content");

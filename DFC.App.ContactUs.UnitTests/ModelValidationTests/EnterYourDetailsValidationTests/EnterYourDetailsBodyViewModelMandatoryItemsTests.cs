@@ -10,10 +10,11 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
     [Trait("Category", "EnterYourDetailsBodyViewModel Validation Unit Tests")]
     public class EnterYourDetailsBodyViewModelMandatoryItemsTests
     {
-        public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
+        public static IEnumerable<object[]> Categories => new List<object[]>
         {
             new object[] { Category.AdviceGuidance },
             new object[] { Category.Courses },
+            new object[] { Category.Website },
             new object[] { Category.Feedback },
             new object[] { Category.SomethingElse },
         };
@@ -22,14 +23,14 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         public void EnterYourDetailsBodyViewModelCallbackMandatoryTest()
         {
             // Arrange
-            var expectedErrorNames = new List<string>
+            var expectedErrors = new Dictionary<string, string>
             {
-                nameof(EnterYourDetailsBodyViewModel.FirstName),
-                nameof(EnterYourDetailsBodyViewModel.FamilyName),
-                nameof(EnterYourDetailsBodyViewModel.DateOfBirth),
-                nameof(EnterYourDetailsBodyViewModel.Postcode),
-                nameof(EnterYourDetailsBodyViewModel.TelephoneNumber),
-                nameof(EnterYourDetailsBodyViewModel.CallbackDateTime),
+                { nameof(EnterYourDetailsBodyViewModel.FirstName), "Enter your" },
+                { nameof(EnterYourDetailsBodyViewModel.FamilyName), "Enter your" },
+                { nameof(EnterYourDetailsBodyViewModel.DateOfBirth), "Date of birth" },
+                { nameof(EnterYourDetailsBodyViewModel.Postcode), "Enter your" },
+                { nameof(EnterYourDetailsBodyViewModel.TelephoneNumber), "Enter your" },
+                { nameof(EnterYourDetailsBodyViewModel.CallbackDateTime), "Enter when you want us" },
             };
             var viewModel = new EnterYourDetailsBodyViewModel
             {
@@ -41,29 +42,29 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
 
             // Assert
             Assert.False(isValid);
-            Assert.True(validationResults.Count == expectedErrorNames.Count + 1);
+            Assert.True(validationResults.Count == expectedErrors.Count + 1);
 
-            expectedErrorNames.ForEach(fe =>
+            expectedErrors.Keys.ToList().ForEach(fe =>
                 {
                     Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == fe)));
-                    Assert.Contains("Enter your", validationResults.First(f => f.MemberNames.Any(a => a == fe)).ErrorMessage, StringComparison.Ordinal);
+                    Assert.Contains(expectedErrors[fe], validationResults.First(f => f.MemberNames.Any(a => a == fe)).ErrorMessage, StringComparison.Ordinal);
                 });
 
             Assert.NotNull(validationResults.First(f => f.ErrorMessage.Contains("Please tick the", StringComparison.Ordinal)));
         }
 
         [Theory]
-        [MemberData(nameof(HtmlMediaTypes))]
+        [MemberData(nameof(Categories))]
         public void EnterYourDetailsBodyViewModelnonCallbackMandatoryTest(Category category)
         {
             // Arrange
-            var expectedErrorNames = new List<string>
+            var expectedErrors = new Dictionary<string, string>
             {
-                nameof(EnterYourDetailsBodyViewModel.FirstName),
-                nameof(EnterYourDetailsBodyViewModel.FamilyName),
-                nameof(EnterYourDetailsBodyViewModel.DateOfBirth),
-                nameof(EnterYourDetailsBodyViewModel.Postcode),
-                nameof(EnterYourDetailsBodyViewModel.EmailAddress),
+                { nameof(EnterYourDetailsBodyViewModel.FirstName), "Enter your" },
+                { nameof(EnterYourDetailsBodyViewModel.FamilyName), "Enter your" },
+                { nameof(EnterYourDetailsBodyViewModel.DateOfBirth), "Date of birth" },
+                { nameof(EnterYourDetailsBodyViewModel.Postcode), "Enter your" },
+                { nameof(EnterYourDetailsBodyViewModel.EmailAddress), "Enter your" },
             };
             var viewModel = new EnterYourDetailsBodyViewModel
             {
@@ -75,12 +76,12 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
 
             // Assert
             Assert.False(isValid);
-            Assert.True(validationResults.Count == expectedErrorNames.Count + 1);
+            Assert.True(validationResults.Count == expectedErrors.Count + 1);
 
-            expectedErrorNames.ForEach(fe =>
+            expectedErrors.Keys.ToList().ForEach(fe =>
             {
                 Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == fe)));
-                Assert.Contains("Enter your", validationResults.First(f => f.MemberNames.Any(a => a == fe)).ErrorMessage, StringComparison.Ordinal);
+                Assert.Contains(expectedErrors[fe], validationResults.First(f => f.MemberNames.Any(a => a == fe)).ErrorMessage, StringComparison.Ordinal);
             });
 
             Assert.NotNull(validationResults.First(f => f.ErrorMessage.Contains("Please tick the", StringComparison.Ordinal)));
