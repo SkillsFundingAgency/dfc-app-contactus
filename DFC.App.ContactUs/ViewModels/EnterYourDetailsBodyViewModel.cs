@@ -53,6 +53,7 @@ namespace DFC.App.ContactUs.ViewModels
 
         [Display(Name = "Date of birth", Description = "Date of birth")]
         [DateOfBirthValidation(13, ErrorMessage = DateOfBirthRequiredValidationError)]
+        [DataType("DateEditor")]
         public DateOfBirthViewModel? DateOfBirth { get; set; }
 
         [Display(Name = "Postcode")]
@@ -63,6 +64,7 @@ namespace DFC.App.ContactUs.ViewModels
 
         [Display(Name = "When do you want us to contact you?")]
         [CallbackDateTimeValidation(3, nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackDateTimeRequiredValidationError)]
+        [DataType("DateTimeEditor")]
         public CallbackDateTimeViewModel? CallbackDateTime { get; set; }
 
         [Display(Name = "Terms and conditions", Prompt = "I accept the terms and conditions and I am 13 or over.")]

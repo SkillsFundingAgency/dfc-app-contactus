@@ -17,15 +17,12 @@
         @Html.EditorFor(model => model.FamilyName)
         @Html.EditorFor(model => model.EmailAddress)
         @Html.EditorFor(model => model.TelephoneNumber)
-
-        <partial name="_DateOfBirthEditor" />
-
+        @Html.EditorFor(model => model.DateOfBirth)
         @Html.EditorFor(model => model.Postcode)
-
 
         @if (Model.CallbackDateTimeIsRequired)
         {
-            <partial name="_CallbackDateTimeEditor" />
+            @Html.EditorFor(model => model.CallbackDateTime)
         }
 
         @Html.EditorFor(model => model.TermsAndConditionsAccepted)
@@ -37,6 +34,6 @@
     <br />
 
     <button class="govuk-button" data-module="govuk-button">
-        Next
+        Send
     </button>
 </div>

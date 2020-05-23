@@ -19,7 +19,10 @@ namespace DFC.App.ContactUs.Models
         {
             get
             {
-                if (WeekdayFrom == DayOfWeek.Monday && WeekdayTo == DayOfWeek.Sunday)
+                const int daysInWeek = 7;
+                var previousWeekDay = (DayOfWeek)((((int)WeekdayFrom) - 1 + daysInWeek) % daysInWeek);
+
+                if (previousWeekDay == WeekdayTo)
                 {
                     return "7 days a week";
                 }
@@ -61,6 +64,26 @@ namespace DFC.App.ContactUs.Models
             timeToString = timeToString.Replace(" ", string.Empty, StringComparison.Ordinal).ToLowerInvariant();
 
             return timeToString;
+        }
+
+        public bool IsServiceOpenForDay(DayOfWeek dayOfWeek)
+        {
+            if (WeekdayFrom > WeekdayTo)
+            {
+                if (WeekdayFrom <= dayOfWeek || WeekdayTo >= dayOfWeek)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            if (WeekdayFrom <= dayOfWeek && WeekdayTo >= dayOfWeek)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
