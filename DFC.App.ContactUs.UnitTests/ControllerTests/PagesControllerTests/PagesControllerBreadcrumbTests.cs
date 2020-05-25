@@ -10,7 +10,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 {
     [Trait("Category", "Pages Controller Unit Tests")]
-    public class PagesControllerBreadcrumbTests : BasePagesController
+    public class PagesControllerBreadcrumbTests : BasePagesControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]

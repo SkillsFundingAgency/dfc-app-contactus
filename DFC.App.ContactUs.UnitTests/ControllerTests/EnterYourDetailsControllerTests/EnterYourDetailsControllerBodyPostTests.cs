@@ -8,7 +8,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsControllerTests
 {
     [Trait("Category", "EnterYourDetails Controller Unit Tests")]
-    public class EnterYourDetailsControllerBodyPostTests : BaseEnterYourDetailsController
+    public class EnterYourDetailsControllerBodyPostTests : BaseEnterYourDetailsControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
@@ -16,7 +16,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
         public void EnterYourDetailsControllerBodyPostReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            const string expectedRedirectUrl = "/contact-us";
+            string expectedRedirectUrl = $"/{RegistrationPath}";
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             var controller = BuildEnterYourDetailsController(mediaTypeName);
 

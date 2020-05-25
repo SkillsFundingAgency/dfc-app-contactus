@@ -8,7 +8,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 {
     [Trait("Category", "Home Controller Unit Tests")]
-    public class HomeControllerHtmlHeadTests : BaseHomeController
+    public class HomeControllerHtmlHeadTests : BaseHomeControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]

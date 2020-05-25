@@ -47,7 +47,15 @@ namespace DFC.App.ContactUs.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                return Redirect($"/{LocalPath}");
+                switch (model.SelectedCategory)
+                {
+                    case Category.AdviceGuidance:
+                    case Category.Courses:
+                    case Category.Website:
+                    case Category.Feedback:
+                    case Category.SomethingElse:
+                        return Redirect($"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={model.SelectedCategory}");
+                }
             }
 
             var breadcrumbItemModel = new BreadcrumbItemModel
@@ -125,7 +133,7 @@ namespace DFC.App.ContactUs.Controllers
                     case Category.Website:
                     case Category.Feedback:
                     case Category.SomethingElse:
-                        return Redirect($"/{RegistrationPath}/enter-your-details?category={viewModel.SelectedCategory}");
+                        return Redirect($"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={viewModel.SelectedCategory}");
                 }
             }
 

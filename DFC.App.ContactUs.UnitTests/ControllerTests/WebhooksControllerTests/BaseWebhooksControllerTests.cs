@@ -16,7 +16,7 @@ using System.Text;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 {
-    public abstract class BaseWebhooksController
+    public abstract class BaseWebhooksControllerTests
     {
         protected const string EventTypePublished = "published";
         protected const string EventTypeDraft = "draft";
@@ -26,7 +26,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
         protected const string ContentTypeContactUs = "contact-us";
 
-        protected BaseWebhooksController()
+        protected BaseWebhooksControllerTests()
         {
             Logger = A.Fake<ILogger<WebhooksController>>();
             FakeEventMessageService = A.Fake<IEventMessageService>();

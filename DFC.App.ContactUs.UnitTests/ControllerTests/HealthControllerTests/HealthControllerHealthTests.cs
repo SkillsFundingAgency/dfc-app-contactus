@@ -13,7 +13,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
 {
     [Trait("Category", "Health Controller Unit Tests")]
-    public class HealthControllerHealthTests : BaseHealthController
+    public class HealthControllerHealthTests : BaseHealthControllerTests
     {
         [Fact]
         public async Task HealthControllerHealthReturnsSuccessWhenHealthy()

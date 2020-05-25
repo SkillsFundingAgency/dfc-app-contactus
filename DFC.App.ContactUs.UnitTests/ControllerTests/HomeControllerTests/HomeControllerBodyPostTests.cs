@@ -11,14 +11,19 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 {
     [Trait("Category", "Home Controller Unit Tests")]
-    public class HomeControllerBodyPostTests : BaseHomeController
+    public class HomeControllerBodyPostTests : BaseHomeControllerTests
     {
         public static IEnumerable<object[]> ValidSelectedOptions => new List<object[]>
         {
-            new object[] { HomeOption.Webchat, $"/{HomeController.WebchatRegistrationPath}/chat", },
+            new object[] { HomeOption.Webchat, $"/{HomeController.WebchatRegistrationPath}/{ChatController.ThisViewCanonicalName}", },
             new object[] { HomeOption.SendAMessage, $"/{HomeController.RegistrationPath}/{WhyContactUsController.ThisViewCanonicalName}", },
             new object[] { HomeOption.Callback, $"/{HomeController.RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Callback}", },
-            new object[] { HomeOption.Sendletter, $"/{HomeController.RegistrationPath}/send-us-a-letter", },
+            new object[] { HomeOption.Sendletter, $"/{HomeController.RegistrationPath}/{HomeController.SendUsLetterCanonicalName}", },
+        };
+
+        public static IEnumerable<object[]> InvalidSelectedOptions => new List<object[]>
+        {
+            new object[] { HomeOption.None },
         };
 
         [Theory]
@@ -27,7 +32,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         public void HomeControllerBodyPostReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            string expectedRedirectUrl = $"/{HomeController.WebchatRegistrationPath}/chat";
+            string expectedRedirectUrl = $"/{HomeController.WebchatRegistrationPath}/{ChatController.ThisViewCanonicalName}";
             var viewModel = new HomeBodyViewModel
             {
                 SelectedOption = HomeOption.Webchat,
@@ -67,14 +72,16 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             controller.Dispose();
         }
 
-        [Fact]
-        public void HomeControllerBodyPostReturnsSameViewForInvalidModel()
+        [Theory]
+        [MemberData(nameof(InvalidSelectedOptions))]
+        public void HomeControllerBodyPostReturnsSameViewForInvalidModel(HomeOption selectedOption)
         {
             // Arrange
-            var viewModel = new HomeBodyViewModel();
+            var viewModel = new HomeBodyViewModel
+            {
+                SelectedOption = selectedOption,
+            };
             var controller = BuildHomeController(MediaTypeNames.Text.Html);
-
-            controller.ModelState.AddModelError(nameof(HomeBodyViewModel.SelectedOption), "Fake error");
 
             // Act
             var result = controller.HomeBody(viewModel);

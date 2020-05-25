@@ -7,9 +7,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.RobotControllerTests
 {
-    public class BaseRobotController
+    public class BaseRobotControllerTests
     {
-        public BaseRobotController()
+        public BaseRobotControllerTests()
         {
             FakeLogger = A.Fake<ILogger<RobotController>>();
             FakeHostingEnvironment = A.Fake<IWebHostEnvironment>();

@@ -57,7 +57,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
             Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.FamilyName))));
-            Assert.Contains("is too long or contains invalid characters", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.FamilyName))).ErrorMessage, StringComparison.Ordinal);
+            Assert.Contains("is limited to between 1 and", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.FamilyName))).ErrorMessage, StringComparison.Ordinal);
         }
 
         [Theory]
@@ -75,7 +75,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
             Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.FamilyName))));
-            Assert.Contains("is too long or contains invalid characters", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.FamilyName))).ErrorMessage, StringComparison.Ordinal);
+            Assert.Contains("contains invalid characters", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.FamilyName))).ErrorMessage, StringComparison.Ordinal);
         }
 
         [Theory]

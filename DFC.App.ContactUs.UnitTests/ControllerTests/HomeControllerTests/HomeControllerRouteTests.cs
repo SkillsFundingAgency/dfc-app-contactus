@@ -1,5 +1,6 @@
 ﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Models;
+using DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 {
     [Trait("Category", "Home Controller Unit Tests")]
-    public class HomeControllerRouteTests
+    public class HomeControllerRouteTests:BaseHomeControllerTests
     {
         private readonly ILogger<HomeController> logger;
         private readonly ServiceOpenDetailModel fakeServiceOpenDetailModel;
@@ -25,10 +26,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
-            new object[] { $"/pages/{HomeController.ThisViewCanonicalName}", nameof(HomeController.HomeView) },
-            new object[] { $"/pages/{HomeController.ThisViewCanonicalName}/htmlhead", nameof(HomeController.HomeHtmlHead) },
-            new object[] { $"/pages/{HomeController.ThisViewCanonicalName}/breadcrumb", nameof(HomeController.HomeBreadcrumb) },
-            new object[] { $"/pages/{HomeController.ThisViewCanonicalName}/body", nameof(HomeController.HomeBody) },
+            new object[] { $"/{LocalPath}/{HomeController.ThisViewCanonicalName}", nameof(HomeController.HomeView) },
+            new object[] { $"/{LocalPath}/{HomeController.ThisViewCanonicalName}/htmlhead", nameof(HomeController.HomeHtmlHead) },
+            new object[] { $"/{LocalPath}/{HomeController.ThisViewCanonicalName}/breadcrumb", nameof(HomeController.HomeBreadcrumb) },
+            new object[] { $"/{LocalPath}/{HomeController.ThisViewCanonicalName}/body", nameof(HomeController.HomeBody) },
         };
 
         [Theory]

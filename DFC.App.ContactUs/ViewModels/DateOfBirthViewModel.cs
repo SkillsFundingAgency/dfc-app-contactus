@@ -1,13 +1,13 @@
-﻿using DFC.App.ContactUs.Attributes;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.ContactUs.ViewModels
 {
     public class DateOfBirthViewModel : DateViewModel
     {
-        private const string NumberRangeValidationError = "Date of birth {0} must be between {1} and {2}";
-        private const string YearRangeValidationError = "Date of birth {0} must be before {1} years ago";
+        private const string InvalidCharactersDayValidationError = "Please enter numbers 1 to 31 for day of birth";
+        private const string InvalidCharactersMonthValidationError = "Please enter numbers 1 to 12 for month of birth";
+        private const string InvalidCharactersYearValidationError = "Please enter numbers for a 4 digit year of birth after 1900";
 
         public DateOfBirthViewModel() : base()
         {
@@ -17,13 +17,13 @@ namespace DFC.App.ContactUs.ViewModels
         {
         }
 
-        [Range(1, 31, ErrorMessage = NumberRangeValidationError)]
+        [RegularExpression(RegExForDay, ErrorMessage = InvalidCharactersDayValidationError)]
         public override int? Day { get; set; }
 
-        [Range(1, 12, ErrorMessage = NumberRangeValidationError)]
+        [RegularExpression(RegExForMonth, ErrorMessage = InvalidCharactersMonthValidationError)]
         public override int? Month { get; set; }
 
-        [YearPriorToRange(1900, -13, ErrorMessage = YearRangeValidationError)]
+        [RegularExpression(RegExForYear, ErrorMessage = InvalidCharactersYearValidationError)]
         public override int? Year { get; set; }
 
         public override int? Hour { get; set; }

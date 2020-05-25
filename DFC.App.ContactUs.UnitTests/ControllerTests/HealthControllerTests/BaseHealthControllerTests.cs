@@ -8,15 +8,14 @@ using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
 {
-    public abstract class BasePagesController
+    public class BaseHealthControllerTests
     {
-        protected BasePagesController()
+        public BaseHealthControllerTests()
         {
-            Logger = A.Fake<ILogger<PagesController>>();
             FakeContentPageService = A.Fake<IContentPageService>();
-            FakeMapper = A.Fake<AutoMapper.IMapper>();
+            FakeLogger = A.Fake<ILogger<HealthController>>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -35,19 +34,17 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             new string[] { MediaTypeNames.Application.Json },
         };
 
-        protected ILogger<PagesController> Logger { get; }
-
         protected IContentPageService FakeContentPageService { get; }
 
-        protected AutoMapper.IMapper FakeMapper { get; }
+        protected ILogger<HealthController> FakeLogger { get; }
 
-        protected PagesController BuildPagesController(string mediaTypeName)
+        protected HealthController BuildHealthController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new PagesController(Logger, FakeContentPageService, FakeMapper)
+            var controller = new HealthController(FakeLogger, FakeContentPageService)
             {
                 ControllerContext = new ControllerContext()
                 {

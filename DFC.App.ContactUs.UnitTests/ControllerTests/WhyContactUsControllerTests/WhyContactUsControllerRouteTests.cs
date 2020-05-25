@@ -11,7 +11,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTests
 {
     [Trait("Category", "WhyContactUs Controller Unit Tests")]
-    public class WhyContactUsControllerRouteTests
+    public class WhyContactUsControllerRouteTests : BaseWhyContactUsControllerTests
     {
         private readonly ILogger<WhyContactUsController> logger;
 
@@ -22,10 +22,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
 
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
-            new object[] { $"/pages/{WhyContactUsController.ThisViewCanonicalName}",  nameof(WhyContactUsController.WhyContactUsView) },
-            new object[] { $"/pages/{WhyContactUsController.ThisViewCanonicalName}/htmlhead",  nameof(WhyContactUsController.WhyContactUsHtmlHead) },
-            new object[] { $"/pages/{WhyContactUsController.ThisViewCanonicalName}/breadcrumb", nameof(WhyContactUsController.WhyContactUsBreadcrumb) },
-            new object[] { $"/pages/{WhyContactUsController.ThisViewCanonicalName}/body", nameof(WhyContactUsController.WhyContactUsBody) },
+            new object[] { $"/{LocalPath}/{WhyContactUsController.ThisViewCanonicalName}",  nameof(WhyContactUsController.WhyContactUsView) },
+            new object[] { $"/{LocalPath}/{WhyContactUsController.ThisViewCanonicalName}/htmlhead",  nameof(WhyContactUsController.WhyContactUsHtmlHead) },
+            new object[] { $"/{LocalPath}/{WhyContactUsController.ThisViewCanonicalName}/breadcrumb", nameof(WhyContactUsController.WhyContactUsBreadcrumb) },
+            new object[] { $"/{LocalPath}/{WhyContactUsController.ThisViewCanonicalName}/body", nameof(WhyContactUsController.WhyContactUsBody) },
         };
 
         [Theory]

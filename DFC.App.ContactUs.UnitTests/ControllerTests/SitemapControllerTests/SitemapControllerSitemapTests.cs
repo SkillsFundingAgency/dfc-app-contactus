@@ -9,7 +9,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.SitemapControllerTests
 {
     [Trait("Category", "Sitemap Controller Unit Tests")]
-    public class SitemapControllerSitemapTests : BaseSitemapController
+    public class SitemapControllerSitemapTests : BaseSitemapControllerTests
     {
         [Fact]
         public async Task SitemapControllerSitemapReturnsSuccess()

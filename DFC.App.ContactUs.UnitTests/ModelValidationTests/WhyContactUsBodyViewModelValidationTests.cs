@@ -83,7 +83,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
             Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(WhyContactUsBodyViewModel.MoreDetail))));
-            Assert.Equal(WhyContactUsBodyViewModel.MoreDetailInvalidValidationError, validationResults.First(f => f.MemberNames.Any(a => a == nameof(WhyContactUsBodyViewModel.MoreDetail))).ErrorMessage);
+            Assert.Equal("More details is limited to between 1 and 1000 characters", validationResults.First(f => f.MemberNames.Any(a => a == nameof(WhyContactUsBodyViewModel.MoreDetail))).ErrorMessage);
         }
     }
 }

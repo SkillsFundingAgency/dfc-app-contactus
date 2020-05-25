@@ -13,6 +13,6 @@ namespace DFC.App.ContactUs.ViewModels
         [Required(ErrorMessage = SelectedOptionValidationError)]
         [Range((int)HomeOption.Webchat, (int)HomeOption.Sendletter, ErrorMessage = SelectedOptionValidationError)]
         [EnumDataType(typeof(HomeOption))]
-        public HomeOption SelectedOption { get; set; } = HomeOption.None;
+        public HomeOption? SelectedOption { get; set; }
     }
 }

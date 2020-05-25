@@ -1,5 +1,4 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using DFC.App.ContactUs.Models;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,15 +7,16 @@ using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTests
 {
-    public abstract class BaseChatController
+    public abstract class BaseWhyContactUsControllerTests
     {
-        protected BaseChatController()
+        protected const string LocalPath = "pages";
+        protected const string RegistrationPath = "contact-us";
+
+        protected BaseWhyContactUsControllerTests()
         {
-            Logger = A.Fake<ILogger<ChatController>>();
-            ChatOptions = new ChatOptions { ChatUrl = new System.Uri("https://somewhere.com/webchat") };
-            FakeMapper = A.Fake<AutoMapper.IMapper>();
+            Logger = A.Fake<ILogger<WhyContactUsController>>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -35,19 +35,15 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
             new string[] { MediaTypeNames.Application.Json },
         };
 
-        protected ILogger<ChatController> Logger { get; }
+        protected ILogger<WhyContactUsController> Logger { get; }
 
-        protected ChatOptions ChatOptions { get; }
-
-        protected AutoMapper.IMapper FakeMapper { get; }
-
-        protected ChatController BuildChatController(string mediaTypeName)
+        protected WhyContactUsController BuildWhyContactUsController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new ChatController(Logger, ChatOptions, FakeMapper)
+            var controller = new WhyContactUsController(Logger)
             {
                 ControllerContext = new ControllerContext()
                 {

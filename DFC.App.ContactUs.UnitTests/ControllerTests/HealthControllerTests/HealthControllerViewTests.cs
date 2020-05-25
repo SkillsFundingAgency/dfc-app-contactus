@@ -9,7 +9,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
 {
     [Trait("Category", "Health Controller Unit Tests")]
-    public class HealthControllerViewTests : BaseHealthController
+    public class HealthControllerViewTests : BaseHealthControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
