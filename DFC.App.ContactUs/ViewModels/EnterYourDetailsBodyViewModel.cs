@@ -68,7 +68,7 @@ namespace DFC.App.ContactUs.ViewModels
         [DataType("DateTimeEditor")]
         public CallbackDateTimeViewModel? CallbackDateTime { get; set; }
 
-        [Display(Name = "Terms and conditions", Prompt = "I accept the terms and conditions and I am 13 or over.")]
+        [Display(Name = "Terms and conditions")]
         [Compare(nameof(IsTrue), ErrorMessage = TermsAndConditionsAcceptedValidationError)]
         [DataType("TermsAndConditions")]
         public bool TermsAndConditionsAccepted { get; set; }
