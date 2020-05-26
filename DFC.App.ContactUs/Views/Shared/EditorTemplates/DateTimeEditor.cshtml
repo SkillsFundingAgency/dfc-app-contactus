@@ -1,0 +1,132 @@
+﻿@model DateViewModel
+
+@{
+    const string govukFormGroupErrorClass = "govuk-form-group--error";
+    const string govukInputErrorClass = "govuk-input--error";
+    var showErrorClass = string.Empty;
+    var errorFieldClass = new Dictionary<string, string>
+{
+        { Html.NameFor(model => model), string.Empty },
+        { Html.NameFor(model => model.Day), string.Empty },
+        { Html.NameFor(model => model.Month), string.Empty },
+        { Html.NameFor(model => model.Year), string.Empty },
+        { Html.NameFor(model => model.Hour), string.Empty },
+        { Html.NameFor(model => model.Minute), string.Empty },
+    };
+
+    foreach (var errorKey in errorFieldClass.Keys.ToList())
+    {
+        if (ViewData.ModelState.Keys.Contains(errorKey))
+        {
+            if (ViewData.ModelState[errorKey] != null && ViewData.ModelState[errorKey].Errors.Any())
+            {
+                errorFieldClass[errorKey] = govukInputErrorClass;
+                showErrorClass = govukFormGroupErrorClass;
+            }
+        }
+
+    }
+}
+
+<div class="govuk-form-group @showErrorClass">
+    <h3 class="govuk-heading">
+        @Html.DisplayNameFor(model => model)
+    </h3>
+
+    @if (errorFieldClass[Html.NameFor(model => model)] != string.Empty)
+    {
+        @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model) + "-error" })
+    }
+    else @if (errorFieldClass[Html.NameFor(model => model.Day)] != string.Empty)
+    {
+        @Html.ValidationMessageFor(model => model.Day, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.Day) + "-error" })
+    }
+    else @if (errorFieldClass[Html.NameFor(model => model.Month)] != string.Empty)
+    { 
+        @Html.ValidationMessageFor(model => model.Month, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.Month) + "-error" })
+    }
+    else @if (errorFieldClass[Html.NameFor(model => model.Year)] != string.Empty)
+    {
+        @Html.ValidationMessageFor(model => model.Year, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.Year) + "-error" })
+    }
+    else @if (errorFieldClass[Html.NameFor(model => model.Hour)] != string.Empty)
+    {
+        @Html.ValidationMessageFor(model => model.Hour, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.Hour) + "-error" })
+    }
+    else @if (errorFieldClass[Html.NameFor(model => model.Minute)] != string.Empty)
+    {
+        @Html.ValidationMessageFor(model => model.Minute, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model.Minute) + "-error" })
+    }
+    else
+    { 
+        @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = Html.NameFor(model => model) + "-error" })
+    }
+
+    <div class="govuk-date-input">
+        <div class="govuk-date-input__item">
+            @Html.LabelFor(model => model.Day, new { @class = "govuk-label govuk-date-input__label" })
+            @Html.TextBoxFor(model => model.Day, new
+            {
+                @class = "govuk-input govuk-date-input__input govuk-input--width-2 " + errorFieldClass[Html.NameFor(model => model)] + " " + errorFieldClass[Html.NameFor(model => model.Day)],
+                data_rule_CompUiValidationForDate = ViewData.ModelMetadata.DisplayName,
+                data_rule_required = "false",
+                autocomplete = "off",
+                type = "text",
+                pattern = "[0-9]*",
+                inputmode = "numeric"
+            })
+        </div>
+        <div class="govuk-date-input__item">
+            @Html.LabelFor(model => model.Month, new { @class = "govuk-label govuk-date-input__label" })
+            @Html.TextBoxFor(model => model.Month, new
+            {
+                @class = "govuk-input govuk-date-input__input govuk-input--width-2 " + errorFieldClass[Html.NameFor(model => model)] + " " + errorFieldClass[Html.NameFor(model => model.Month)],
+                data_rule_CompUiValidationForDate = ViewData.ModelMetadata.DisplayName,
+                data_rule_required = "false",
+                autocomplete = "off",
+                type = "text",
+                pattern = "[0-9]*",
+                inputmode = "numeric"
+            })
+        </div>
+        <div class="govuk-date-input__item">
+            @Html.LabelFor(model => model.Year, new { @class = "govuk-label govuk-date-input__label" })
+            @Html.TextBoxFor(model => model.Year, new
+            {
+                @class = "govuk-input govuk-date-input__input govuk-input--width-4 " + errorFieldClass[Html.NameFor(model => model)] + " " + errorFieldClass[Html.NameFor(model => model.Year)],
+                data_rule_CompUiValidationForDate = ViewData.ModelMetadata.DisplayName,
+                data_rule_required = "false",
+                autocomplete = "off",
+                type = "text",
+                pattern = "[0-9]*",
+                inputmode = "numeric"
+            })
+        </div>
+        <div class="govuk-date-input__item">
+            @Html.LabelFor(model => model.Hour, new { @class = "govuk-label govuk-date-input__label" })
+            @Html.TextBoxFor(model => model.Hour, new
+            {
+                @class = "govuk-input govuk-date-input__input govuk-input--width-2 " + errorFieldClass[Html.NameFor(model => model)] + " " + errorFieldClass[Html.NameFor(model => model.Hour)],
+                data_rule_CompUiValidationForDate = ViewData.ModelMetadata.DisplayName,
+                data_rule_required = "false",
+                autocomplete = "off",
+                type = "text",
+                pattern = "[0-9]*",
+                inputmode = "numeric"
+            })
+        </div>
+        <div class="govuk-date-input__item">
+            @Html.LabelFor(model => model.Minute, new { @class = "govuk-label govuk-date-input__label" })
+            @Html.TextBoxFor(model => model.Minute, new
+            {
+                @class = "govuk-input govuk-date-input__input govuk-input--width-2 " + errorFieldClass[Html.NameFor(model => model)] + " " + errorFieldClass[Html.NameFor(model => model.Minute)],
+                data_rule_CompUiValidationForDate = ViewData.ModelMetadata.DisplayName,
+                data_rule_required = "false",
+                autocomplete = "off",
+                type = "text",
+                pattern = "[0-9]*",
+                inputmode = "numeric"
+            })
+        </div>
+    </div>
+</div>

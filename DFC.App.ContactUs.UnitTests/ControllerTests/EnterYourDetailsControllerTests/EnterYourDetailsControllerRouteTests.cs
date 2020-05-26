@@ -11,7 +11,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsControllerTests
 {
     [Trait("Category", "EnterYourDetails Controller Unit Tests")]
-    public class EnterYourDetailsControllerRouteTests
+    public class EnterYourDetailsControllerRouteTests : BaseEnterYourDetailsControllerTests
     {
         private readonly ILogger<EnterYourDetailsController> logger;
 
@@ -22,10 +22,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
 
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
-            new object[] { $"/pages/{EnterYourDetailsController.ThisViewCanonicalName}",  nameof(EnterYourDetailsController.EnterYourDetailsView) },
-            new object[] { $"/pages/{EnterYourDetailsController.ThisViewCanonicalName}/htmlhead",  nameof(EnterYourDetailsController.EnterYourDetailsHtmlHead) },
-            new object[] { $"/pages/{EnterYourDetailsController.ThisViewCanonicalName}/breadcrumb", nameof(EnterYourDetailsController.EnterYourDetailsBreadcrumb) },
-            new object[] { $"/pages/{EnterYourDetailsController.ThisViewCanonicalName}/body", nameof(EnterYourDetailsController.EnterYourDetailsBody) },
+            new object[] { $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}",  nameof(EnterYourDetailsController.EnterYourDetailsView) },
+            new object[] { $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}/htmlhead",  nameof(EnterYourDetailsController.EnterYourDetailsHtmlHead) },
+            new object[] { $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}/breadcrumb", nameof(EnterYourDetailsController.EnterYourDetailsBreadcrumb) },
+            new object[] { $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}/body", nameof(EnterYourDetailsController.EnterYourDetailsBody) },
         };
 
         [Theory]

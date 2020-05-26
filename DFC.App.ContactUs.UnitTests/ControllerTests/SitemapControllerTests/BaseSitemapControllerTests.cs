@@ -7,9 +7,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.SitemapControllerTests
 {
-    public class BaseSitemapController
+    public class BaseSitemapControllerTests
     {
-        public BaseSitemapController()
+        public BaseSitemapControllerTests()
         {
             FakeLogger = A.Fake<ILogger<SitemapController>>();
             FakeContentPageService = A.Fake<IContentPageService>();

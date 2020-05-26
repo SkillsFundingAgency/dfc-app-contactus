@@ -6,7 +6,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 {
     [Trait("Category", "Pages Controller Unit Tests")]
-    public class PagesControllerBodyTopTests : BasePagesController
+    public class PagesControllerBodyTopTests : BasePagesControllerTests
     {
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]

@@ -8,14 +8,15 @@ using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 {
-    public abstract class BaseHomeController
+    public abstract class BaseChatControllerTests
     {
-        protected BaseHomeController()
+        protected BaseChatControllerTests()
         {
-            Logger = A.Fake<ILogger<HomeController>>();
-            FakeServiceOpenDetailModel = A.Fake<ServiceOpenDetailModel>();
+            Logger = A.Fake<ILogger<ChatController>>();
+            ChatOptions = new ChatOptions { ChatUrl = new System.Uri("https://somewhere.com/webchat") };
+            FakeMapper = A.Fake<AutoMapper.IMapper>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -34,17 +35,19 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             new string[] { MediaTypeNames.Application.Json },
         };
 
-        protected ILogger<HomeController> Logger { get; }
+        protected ILogger<ChatController> Logger { get; }
 
-        protected ServiceOpenDetailModel FakeServiceOpenDetailModel { get; }
+        protected ChatOptions ChatOptions { get; }
 
-        protected HomeController BuildHomeController(string mediaTypeName)
+        protected AutoMapper.IMapper FakeMapper { get; }
+
+        protected ChatController BuildChatController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(Logger, FakeServiceOpenDetailModel)
+            var controller = new ChatController(Logger, ChatOptions, FakeMapper)
             {
                 ControllerContext = new ControllerContext()
                 {

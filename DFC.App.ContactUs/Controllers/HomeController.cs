@@ -12,6 +12,7 @@ namespace DFC.App.ContactUs.Controllers
     public class HomeController : BasePagesController<HomeController>
     {
         public const string ThisViewCanonicalName = "home";
+        public const string SendUsLetterCanonicalName = "send-us-a-letter";
 
         private readonly ServiceOpenDetailModel serviceOpenDetailModel;
 
@@ -27,7 +28,7 @@ namespace DFC.App.ContactUs.Controllers
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
                 CanonicalName = ThisViewCanonicalName,
-                BreadcrumbTitle = "contact us",
+                BreadcrumbTitle = "Contact us",
             };
             var viewModel = new HomeViewModel()
             {
@@ -54,13 +55,23 @@ namespace DFC.App.ContactUs.Controllers
         {
             if (model != null && ModelState.IsValid)
             {
-                return Redirect($"/{LocalPath}");
+                switch (model.SelectedOption)
+                {
+                    case HomeOption.Webchat:
+                        return Redirect($"/{LocalPath}/{ChatController.ThisViewCanonicalName}");
+                    case HomeOption.SendAMessage:
+                        return Redirect($"/{LocalPath}/{WhyContactUsController.ThisViewCanonicalName}");
+                    case HomeOption.Callback:
+                        return Redirect($"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Callback}");
+                    case HomeOption.Sendletter:
+                        return Redirect($"/{LocalPath}/{SendUsLetterCanonicalName}");
+                }
             }
 
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
                 CanonicalName = ThisViewCanonicalName,
-                BreadcrumbTitle = "contact us",
+                BreadcrumbTitle = "Contact us",
             };
             var viewModel = new HomeViewModel()
             {
@@ -141,7 +152,7 @@ namespace DFC.App.ContactUs.Controllers
                     case HomeOption.Callback:
                         return Redirect($"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Callback}");
                     case HomeOption.Sendletter:
-                        return Redirect($"/{RegistrationPath}/send-us-a-letter");
+                        return Redirect($"/{RegistrationPath}/{SendUsLetterCanonicalName}");
                 }
             }
 

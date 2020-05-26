@@ -7,7 +7,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
 {
     [Trait("Category", "Health Controller Unit Tests")]
-    public class HealthControllerPingTests : BaseHealthController
+    public class HealthControllerPingTests : BaseHealthControllerTests
     {
         [Fact]
         public void HealthControllerPingReturnsSuccess()

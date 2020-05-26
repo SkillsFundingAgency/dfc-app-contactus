@@ -6,7 +6,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.RobotControllerTests
 {
     [Trait("Category", "Robot Controller Unit Tests")]
-    public class RobotControllerRobotTests : BaseRobotController
+    public class RobotControllerRobotTests : BaseRobotControllerTests
     {
         [Fact]
         public void RobotControllerRobotReturnsSuccess()

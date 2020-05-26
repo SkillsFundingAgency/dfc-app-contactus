@@ -7,7 +7,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsControllerTests
 {
     [Trait("Category", "EnterYourDetails Controller Unit Tests")]
-    public class EnterYourDetailsControllersViewTests : BaseEnterYourDetailsController
+    public class EnterYourDetailsControllersViewTests : BaseEnterYourDetailsControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]

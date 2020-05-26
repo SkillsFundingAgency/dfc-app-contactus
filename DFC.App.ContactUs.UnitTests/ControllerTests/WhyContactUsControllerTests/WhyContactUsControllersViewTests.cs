@@ -7,7 +7,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTests
 {
     [Trait("Category", "WhyContactUs Controller Unit Tests")]
-    public class WhyContactUsControllersViewTests : BaseWhyContactUsController
+    public class WhyContactUsControllersViewTests : BaseWhyContactUsControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]

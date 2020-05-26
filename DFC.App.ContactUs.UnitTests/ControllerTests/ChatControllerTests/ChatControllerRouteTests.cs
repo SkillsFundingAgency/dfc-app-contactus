@@ -9,7 +9,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 {
     [Trait("Category", "Chat Controller Unit Tests")]
-    public class ChatControllerRouteTests : BaseChatController
+    public class ChatControllerRouteTests : BaseChatControllerTests
     {
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {

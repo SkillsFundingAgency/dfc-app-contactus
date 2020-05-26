@@ -1,11 +1,9 @@
 ﻿@model string
-@using System.ComponentModel.DataAnnotations
 
 @{
     const string govukFormGroupErrorClass = "govuk-form-group--error";
-    const string govukInputErrorClass = "govuk-input--error";
+    const string govukInputErrorClass = "govuk-textarea--error";
     var showErrorClassForInput = string.Empty;
-    var hintId = string.Empty;
     var member = ViewData.ModelMetadata.ContainerType.GetMember(ViewData.ModelMetadata.PropertyName);
     var strLenAttr = member[0].GetCustomAttributes(typeof(StringLengthAttribute), false).Cast<StringLengthAttribute>().FirstOrDefault();
     var showErrorClass = string.Empty;
@@ -21,31 +19,21 @@
     }
 }
 
-<div class="govuk-form-group @showErrorClass">
-    @Html.LabelFor(model => model, new { @class = "govuk-label" })
+<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="@strLenAttr.MaximumLength">
+    <div class="govuk-form-group @showErrorClass">
+        @Html.LabelFor(model => model, new { @class = "govuk-label" })
 
-    @if (!string.IsNullOrWhiteSpace(ViewData.ModelMetadata.Description))
-    {
-        hintId = ViewData.ModelMetadata.Name + "-hint";
+        @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = ViewData.ModelMetadata.Name + "-error" })
 
-        <span id="@hintId" class="govuk-hint">
-            @ViewData.ModelMetadata.Description
-        </span>
-    }
+        @Html.TextAreaFor(model => model, new
+        {
+            @class = "govuk-textarea govuk-js-character-count " + showErrorClassForInput,
+            autocomplete = "off",
+            aria_describedby = @ViewData.ModelMetadata.Name + "-info",
+            rows = 5,
+            cols = 20
+        })
 
-    @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = ViewData.ModelMetadata.Name + "-error" })
-
-    @Html.TextAreaFor(model => model, new
-    {
-        @class = "govuk-textarea govuk-js-character-count " + showErrorClassForInput,
-        autocomplete = "off",
-        aria_describedby = hintId,
-        rows = 5,
-        cols = 20
-    })
-
-    @if (strLenAttr != null)
-    {
         <span id="@ViewData.ModelMetadata.Name-info" class="govuk-hint govuk-character-count__message" aria-live="polite">You have @strLenAttr.MaximumLength characters remaining</span>
-    }
+    </div>
 </div>

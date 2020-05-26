@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.Data.Models;
+﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -8,7 +9,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
 {
     public static class DataSeeding
     {
-        public const string SendUsLetterArticleName = "send-us-a-letter";
+        public const string SendUsLetterArticleName = HomeController.SendUsLetterCanonicalName;
         public const string AlternativeArticleName = "alternative-name";
 
         public static void SeedDefaultArticles(CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory)

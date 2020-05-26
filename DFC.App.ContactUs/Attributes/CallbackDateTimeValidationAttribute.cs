@@ -26,7 +26,8 @@ namespace DFC.App.ContactUs.Attributes
             MissingField,
             InvalidDate,
             OutOfRange,
-            ServiceOpenHours,
+            ServiceOpenHoursDay,
+            ServiceOpenHoursTime,
         }
 
         public void AddValidation(ClientModelValidationContext context)
@@ -44,6 +45,7 @@ namespace DFC.App.ContactUs.Attributes
 
             ErrorType errorType = ErrorType.NullDate;
             string missingFieldName = string.Empty;
+            DayOfWeek wrongDayOfWeek = DayOfWeek.Monday;
             string validationFieldName = validationContext.MemberName;
             ServiceOpenDetailModel? serviceOpenDetailModel = null;
 
@@ -68,14 +70,23 @@ namespace DFC.App.ContactUs.Attributes
 
                             if (serviceOpenDetailModel != null)
                             {
-                                if (serviceOpenDetailModel.OpenTimeFrom <= dt!.Value.TimeOfDay && serviceOpenDetailModel.OpenTimeTo >= dt!.Value.TimeOfDay)
+                                if (serviceOpenDetailModel.IsServiceOpenForDay(dt!.Value.DayOfWeek))
                                 {
-                                    return ValidationResult.Success;
+                                    if (serviceOpenDetailModel.OpenTimeFrom <= dt!.Value.TimeOfDay && serviceOpenDetailModel.OpenTimeTo >= dt!.Value.TimeOfDay)
+                                    {
+                                        return ValidationResult.Success;
+                                    }
+                                    else
+                                    {
+                                        errorType = ErrorType.ServiceOpenHoursTime;
+                                        validationFieldName = nameof(dateViewModel.Hour);
+                                    }
                                 }
                                 else
                                 {
-                                    errorType = ErrorType.ServiceOpenHours;
-                                    validationFieldName = nameof(dateViewModel.Hour);
+                                    errorType = ErrorType.ServiceOpenHoursDay;
+                                    wrongDayOfWeek = dt!.Value.DayOfWeek;
+                                    validationFieldName = nameof(dateViewModel.Day);
                                 }
                             }
                         }
@@ -104,7 +115,8 @@ namespace DFC.App.ContactUs.Attributes
                 ErrorType.InvalidDate => string.Format(CultureInfo.InvariantCulture, "{0} is not a valid date", validationContext.DisplayName),
                 ErrorType.MissingField => string.Format(CultureInfo.InvariantCulture, "{0} must include a {1}", validationContext.DisplayName, missingFieldName.ToLowerInvariant()),
                 ErrorType.OutOfRange => string.Format(CultureInfo.InvariantCulture, "{0} must be within {1} months", validationContext.DisplayName, monthsInFuture),
-                ErrorType.ServiceOpenHours => string.Format(CultureInfo.InvariantCulture, "Service opening hours between {0} and {1}", serviceOpenDetailModel!.OpenTimeFromString, serviceOpenDetailModel!.OpenTimeToString),
+                ErrorType.ServiceOpenHoursTime => string.Format(CultureInfo.InvariantCulture, "Service opening hours between {0} and {1}", serviceOpenDetailModel!.OpenTimeFromString, serviceOpenDetailModel!.OpenTimeToString),
+                ErrorType.ServiceOpenHoursDay => string.Format(CultureInfo.InvariantCulture, "Service opening hours between {0} and {1}, {2}, this date is a {3}", serviceOpenDetailModel!.OpenTimeFromString, serviceOpenDetailModel!.OpenTimeToString, serviceOpenDetailModel!.OpenDays, wrongDayOfWeek),
                 _ => ErrorMessage,
             };
 

@@ -16,8 +16,8 @@ namespace DFC.App.ContactUs.ViewModels
         private const string RegExForTelephoneNumber = "^[ +(0-9]?([ \\-()0-9])+([ 0-9])*$";
 
         private const string StringLengthValidationError = "{0} is limited to between 1 and {1} characters";
-        private const string InvalidCharactersValidationError = "{0} is too long or contains invalid characters";
 
+        private const string InvalidCharactersValidationError = "{0} contains invalid characters";
         private const string EmailAddressInvalidCharactersValidationError = "Enter a valid {0}";
         private const string TelephoneNumberInvalidCharactersValidationError = "{0} requires numbers only";
         private const string PostcodeInvalidCharactersValidationError = "{0} must be an English postcode";
@@ -25,14 +25,14 @@ namespace DFC.App.ContactUs.ViewModels
 
         [Display(Name = "First name")]
         [Required(ErrorMessage = IsRequiredValidationError)]
-        [StringLength(100, ErrorMessage = InvalidCharactersValidationError)]
+        [StringLength(100, ErrorMessage = StringLengthValidationError)]
         [RegularExpression(RegExForName, ErrorMessage = InvalidCharactersValidationError)]
         [DataType("PersonName")]
         public string? FirstName { get; set; }
 
         [Display(Name = "Family name")]
         [Required(ErrorMessage = IsRequiredValidationError)]
-        [StringLength(100, ErrorMessage = InvalidCharactersValidationError)]
+        [StringLength(100, ErrorMessage = StringLengthValidationError)]
         [RegularExpression(RegExForName, ErrorMessage = InvalidCharactersValidationError)]
         [DataType("PersonName")]
         public string? FamilyName { get; set; }
@@ -53,20 +53,24 @@ namespace DFC.App.ContactUs.ViewModels
 
         [Display(Name = "Date of birth", Description = "Date of birth")]
         [DateOfBirthValidation(13, ErrorMessage = DateOfBirthRequiredValidationError)]
+        [DataType("DateEditor")]
         public DateOfBirthViewModel? DateOfBirth { get; set; }
 
         [Display(Name = "Postcode")]
         [Required(ErrorMessage = IsRequiredValidationError)]
         [StringLength(8, ErrorMessage = StringLengthValidationError)]
         [RegularExpression(RegExForPostcode, ErrorMessage = PostcodeInvalidCharactersValidationError)]
+        [DataType("Postcode")]
         public string? Postcode { get; set; }
 
         [Display(Name = "When do you want us to contact you?")]
         [CallbackDateTimeValidation(3, nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackDateTimeRequiredValidationError)]
+        [DataType("DateTimeEditor")]
         public CallbackDateTimeViewModel? CallbackDateTime { get; set; }
 
         [Display(Name = "Terms and conditions", Prompt = "I accept the terms and conditions and I am 13 or over.")]
         [Compare(nameof(IsTrue), ErrorMessage = TermsAndConditionsAcceptedValidationError)]
+        [DataType("TermsAndConditions")]
         public bool TermsAndConditionsAccepted { get; set; }
 
         public bool IsTrue => true;

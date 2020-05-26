@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.Enums;
+﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using FluentAssertions;
@@ -11,7 +12,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTests
 {
     [Trait("Category", "WhyContactUs Controller Unit Tests")]
-    public class WhyContactUsControllerBodyPostTests : BaseWhyContactUsController
+    public class WhyContactUsControllerBodyPostTests : BaseWhyContactUsControllerTests
     {
         public static IEnumerable<object[]> ValidSelectedCategories => new List<object[]>
         {
@@ -22,6 +23,12 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             new object[] { Category.SomethingElse, },
         };
 
+        public static IEnumerable<object[]> InvalidSelectedCategories => new List<object[]>
+        {
+            new object[] { Category.None },
+            new object[] { Category.Callback },
+        };
+
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
         [MemberData(nameof(JsonMediaTypes))]
@@ -29,7 +36,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
         {
             // Arrange
             const Category selectedCategory = Category.Website;
-            string expectedRedirectUrl = $"/contact-us/enter-your-details?category={selectedCategory}";
+            string expectedRedirectUrl = $"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={selectedCategory}";
             var viewModel = new WhyContactUsBodyViewModel
             {
                 SelectedCategory = selectedCategory,
@@ -53,7 +60,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
         public void WhyContactUsControllerBodyPostReturnsSuccessForValidCategories(Category selectedCategory)
         {
             // Arrange
-            string expectedRedirectUrl = $"/contact-us/enter-your-details?category={selectedCategory}";
+            string expectedRedirectUrl = $"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={selectedCategory}";
             var viewModel = new WhyContactUsBodyViewModel
             {
                 SelectedCategory = selectedCategory,
@@ -72,11 +79,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             controller.Dispose();
         }
 
-        [Fact]
-        public void WhyContactUsControllerBodyPostReturnsToSelfForInvalidCategory()
+        [Theory]
+        [MemberData(nameof(InvalidSelectedCategories))]
+        public void WhyContactUsControllerBodyPostReturnsSameViewForInvalidCategory(Category selectedCategory)
         {
             // Arrange
-            const Category selectedCategory = Category.None;
             var viewModel = new WhyContactUsBodyViewModel
             {
                 SelectedCategory = selectedCategory,

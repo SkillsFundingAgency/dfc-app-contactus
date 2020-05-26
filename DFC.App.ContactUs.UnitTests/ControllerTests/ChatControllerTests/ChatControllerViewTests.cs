@@ -8,7 +8,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 {
     [Trait("Category", "Chat Controller Unit Tests")]
-    public class ChatControllerViewTests : BaseChatController
+    public class ChatControllerViewTests : BaseChatControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]

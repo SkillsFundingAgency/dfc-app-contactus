@@ -6,7 +6,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 {
     [Trait("Category", "Home Controller Unit Tests")]
-    public class HomeControllerErrorTests : BaseHomeController
+    public class HomeControllerErrorTests : BaseHomeControllerTests
     {
         [Fact]
         public void HomeControllerErrorTestsReturnsSuccess()

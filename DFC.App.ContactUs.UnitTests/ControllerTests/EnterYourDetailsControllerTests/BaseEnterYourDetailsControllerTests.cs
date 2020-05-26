@@ -9,9 +9,12 @@ using System.Net.Mime;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsControllerTests
 {
-    public abstract class BaseEnterYourDetailsController
+    public abstract class BaseEnterYourDetailsControllerTests
     {
-        protected BaseEnterYourDetailsController()
+        protected const string LocalPath = "pages";
+        protected const string RegistrationPath = "contact-us";
+
+        protected BaseEnterYourDetailsControllerTests()
         {
             Logger = A.Fake<ILogger<EnterYourDetailsController>>();
         }

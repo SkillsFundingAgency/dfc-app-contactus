@@ -16,7 +16,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 {
     [Trait("Category", "Webhooks Controller Unit Tests")]
-    public class WebhooksControllerPostTests : BaseWebhooksController
+    public class WebhooksControllerPostTests : BaseWebhooksControllerTests
     {
         public static IEnumerable<object[]> PublishedEvents => new List<object[]>
         {

@@ -7,10 +7,10 @@
     {
         <div>
             <div class="sfContentBlock sf-Long-text">
-                <h1 class="govuk-heading-l"><span class="DfcAppContactUs-IsProdWarning">PLEASE NOTE:</span></h1>
+                <h1 class="govuk-heading-l"><span class="dfc-app-contact-us-IsProdWarning">PLEASE NOTE:</span></h1>
                 <p class="govuk-body">
                     This is connected to the
-                    <strong><span class="DfcAppContactUs-IsProdHightlight">PROD</span></strong>
+                    <strong><span class="dfc-app-contact-us-IsProdHightlight">PROD</span></strong>
                     version of SERCO's webchat - as their test environment (<a href="@sercoTestUrl">@sercoTestUrl</a>) is only spun up when needed.
                 </p>
             </div>
@@ -21,6 +21,6 @@
 <div id="chatcontainer">
     @Html.HiddenFor(model => model.ChatUrl)
     <noscript>
-        <iframe id="webchatframenoscript" src="@Model.ChatUrl" title="webchat" scrolling="no" class="DfcAppContactUs-Webchat"></iframe>
+        <iframe id="webchatframenoscript" src="@Model.ChatUrl" title="webchat" scrolling="no" class="dfc-app-contact-us-Webchat"></iframe>
     </noscript>
 </div>
