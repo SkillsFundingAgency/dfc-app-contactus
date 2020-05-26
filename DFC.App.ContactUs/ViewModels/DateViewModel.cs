@@ -4,10 +4,10 @@ namespace DFC.App.ContactUs.ViewModels
 {
     public abstract class DateViewModel
     {
-        protected const string RegExForDay = "^(0?[1-9]|[0-3][01])$";
+        protected const string RegExForDay = "^(0?[1-9]|[0-2][1-9]|[0-3][01])$";
         protected const string RegExForMonth = "^(0?[1-9]|1[0-2])$";
         protected const string RegExForYear = "^(19|20)[0-9]{2}$";
-        protected const string RegExForHour = "^(0?[0-9]|[0-2][0-3])$";
+        protected const string RegExForHour = "^(0?[0-9]|[0-1][0-9]|[0-2][0-3])$";
         protected const string RegExForMinute = "^(0?[0-9]|[0-5][0-9])$";
 
         protected DateViewModel()
