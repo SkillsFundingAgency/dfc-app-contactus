@@ -60,6 +60,7 @@ namespace DFC.App.ContactUs.ViewModels
         [Required(ErrorMessage = IsRequiredValidationError)]
         [StringLength(8, ErrorMessage = StringLengthValidationError)]
         [RegularExpression(RegExForPostcode, ErrorMessage = PostcodeInvalidCharactersValidationError)]
+        [DataType("Postcode")]
         public string? Postcode { get; set; }
 
         [Display(Name = "When do you want us to contact you?")]
@@ -69,6 +70,7 @@ namespace DFC.App.ContactUs.ViewModels
 
         [Display(Name = "Terms and conditions", Prompt = "I accept the terms and conditions and I am 13 or over.")]
         [Compare(nameof(IsTrue), ErrorMessage = TermsAndConditionsAcceptedValidationError)]
+        [DataType("TermsAndConditions")]
         public bool TermsAndConditionsAccepted { get; set; }
 
         public bool IsTrue => true;

@@ -18,7 +18,7 @@ namespace DFC.App.ContactUs.ViewModels
         [EnumDataType(typeof(Category))]
         public Category? SelectedCategory { get; set; }
 
-        [Display(Name = "Tell us more about why you want to contact us, in as much details as you can. Don't include any personal or account information.")]
+        [Display(Name = "Tell us more about why you want to contact us, in as much detail as you can. Don't include any personal or account information.")]
         [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = MoreDetailRequiredError)]
         [RegularExpression(RegExForMoreDetail, ErrorMessage = InvalidCharactersValidationError)]

@@ -29,9 +29,9 @@
 }
 
 <div class="govuk-form-group @showErrorClass">
-    <h2 class="govuk-heading-l">
+    <h3 class="govuk-heading">
         @Html.DisplayNameFor(model => model)
-    </h2>
+    </h3>
 
     @if (errorFieldClass[Html.NameFor(model => model)] != string.Empty)
     {
