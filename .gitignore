@@ -29,8 +29,8 @@ bld/
 # Visual Studio 2015 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
-wwwroot/css
-wwwroot/js
+DFC.App.ContactUs/wwwroot/css
+DFC.App.ContactUs/wwwroot/js
 
 
 # Visual Studio code cache/options directory
