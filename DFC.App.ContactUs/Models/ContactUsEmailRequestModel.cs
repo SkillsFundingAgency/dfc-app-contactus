@@ -38,7 +38,7 @@ namespace DFC.App.ContactUs.Models
                 return new Dictionary<string, string?>
                 {
                     { nameof(GivenName), GivenName },
-                    { nameof(FamilyName), FamilyName},
+                    { nameof(FamilyName), FamilyName },
                     { nameof(FromEmailAddress), FromEmailAddress },
                     { nameof(TelephoneNumber), TelephoneNumber },
                     { nameof(DateOfBirth), DateOfBirth.HasValue ? DateOfBirth.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : null },

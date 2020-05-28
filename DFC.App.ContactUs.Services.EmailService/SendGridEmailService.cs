@@ -28,18 +28,19 @@ namespace DFC.App.ContactUs.Services.Services.EmailService
 
         public virtual async Task<bool> SendEmailAsync(TEmailRequestModel? emailRequestModel)
         {
+            _ = emailRequestModel ?? throw new ArgumentNullException(nameof(emailRequestModel));
+
+            logger.LogInformation($"{nameof(SendEmailAsync)} sending email to {emailRequestModel.ToEmailAddress}");
+
+            var from = new EmailAddress(emailRequestModel.FromEmailAddress, $"{emailRequestModel.GivenName} {emailRequestModel.FamilyName}");
+            var subject = emailRequestModel.Subject;
+            var to = emailRequestModel.ToEmailAddress?.Split(';').Select(toEmail => new EmailAddress(toEmail.Trim(), toEmail.Trim())).ToList();
+            var plainTextContent = mergeEmailContentService.MergeTemplateBodyWithContent(emailRequestModel, emailRequestModel.BodyNoHtml);
+            var htmlContent = mergeEmailContentService.MergeTemplateBodyWithContent(emailRequestModel, emailRequestModel.Body);
+            var msg = MailHelper.CreateSingleEmailToMultipleRecipients(from, to, subject, plainTextContent, htmlContent);
+
             return true;                 //TODO: ian: enable email in Sprint 6 - DFCC 267
 
-            //_ = emailRequestModel ?? throw new ArgumentNullException(nameof(emailRequestModel));
-
-            //logger.LogInformation($"{nameof(SendEmailAsync)} sending email to {emailRequestModel.ToEmailAddress}");
-
-            //var from = new EmailAddress(emailRequestModel.FromEmailAddress, $"{emailRequestModel.GivenName} {emailRequestModel.FamilyName}");
-            //var subject = emailRequestModel.Subject;
-            //var to = emailRequestModel.ToEmailAddress?.Split(';').Select(toEmail => new EmailAddress(toEmail.Trim(), toEmail.Trim())).ToList();
-            //var plainTextContent = mergeEmailContentService.MergeTemplateBodyWithContent(emailRequestModel, emailRequestModel.BodyNoHtml);
-            //var htmlContent = mergeEmailContentService.MergeTemplateBodyWithContent(emailRequestModel, emailRequestModel.Body);
-            //var msg = MailHelper.CreateSingleEmailToMultipleRecipients(from, to, subject, plainTextContent, htmlContent);
             //var clientResponse = await sendGridClient.SendEmailAsync(msg).ConfigureAwait(false);
             //var result = clientResponse.StatusCode.Equals(HttpStatusCode.Accepted);
 

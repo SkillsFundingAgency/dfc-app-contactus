@@ -1,7 +1,5 @@
 ﻿using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services.CmsApiProcessorService;
 using DFC.App.ContactUs.Services.CmsApiProcessorService.Contracts;
 using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
 using Microsoft.AspNetCore.Mvc;

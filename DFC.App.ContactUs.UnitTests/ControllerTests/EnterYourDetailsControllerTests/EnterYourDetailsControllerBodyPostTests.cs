@@ -129,7 +129,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             // Arrange
             const bool expectedSendEmailResult = true;
             const string expectedEmailTemplate = "An email template";
-            RoutingDetailModel expectedRoutingDetailModel = null;
+            RoutingDetailModel? expectedRoutingDetailModel = null;
             string expectedRedirectUrl = $"/{RegistrationPath}";
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             var controller = BuildEnterYourDetailsController(MediaTypeNames.Text.Html);
