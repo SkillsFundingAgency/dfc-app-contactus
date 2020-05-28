@@ -53,8 +53,8 @@ namespace DFC.App.ContactUs.ViewModels
 
         [Display(Name = "Date of birth", Description = "Date of birth")]
         [DateOfBirthValidation(13, ErrorMessage = DateOfBirthRequiredValidationError)]
-        [DataType("DateEditor")]
-        public DateOfBirthViewModel? DateOfBirth { get; set; }
+        [DataType("DateTimeEditor")]
+        public DateOfBirthViewModel? DateOfBirth { get; set; } = new DateOfBirthViewModel();
 
         [Display(Name = "Postcode")]
         [Required(ErrorMessage = IsRequiredValidationError)]
@@ -66,7 +66,7 @@ namespace DFC.App.ContactUs.ViewModels
         [Display(Name = "When do you want us to contact you?")]
         [CallbackDateTimeValidation(3, nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackDateTimeRequiredValidationError)]
         [DataType("DateTimeEditor")]
-        public CallbackDateTimeViewModel? CallbackDateTime { get; set; }
+        public CallbackDateTimeViewModel? CallbackDateTime { get; set; } = new CallbackDateTimeViewModel();
 
         [Display(Name = "Terms and conditions")]
         [Compare(nameof(IsTrue), ErrorMessage = TermsAndConditionsAcceptedValidationError)]
@@ -74,6 +74,8 @@ namespace DFC.App.ContactUs.ViewModels
         public bool TermsAndConditionsAccepted { get; set; }
 
         public bool IsTrue => true;
+
+        public string? MoreDetail { get; set; }
 
         public Category SelectedCategory { get; set; }
 

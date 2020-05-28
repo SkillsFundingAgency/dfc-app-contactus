@@ -1,7 +1,9 @@
 ﻿using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.PageService.EventProcessorServices;
-using DFC.App.ContactUs.PageService.EventProcessorServices.Models;
+using DFC.App.ContactUs.Services.CmsApiProcessorService;
+using DFC.App.ContactUs.Services.CmsApiProcessorService.Contracts;
+using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.EventGrid;
 using Microsoft.Azure.EventGrid.Models;
@@ -30,14 +32,14 @@ namespace DFC.App.ContactUs.Controllers
         private readonly ILogger<WebhooksController> logger;
         private readonly AutoMapper.IMapper mapper;
         private readonly IEventMessageService eventMessageService;
-        private readonly IApiDataProcessorService apiDataProcessorService;
+        private readonly ICmsApiService cmsApiService;
 
-        public WebhooksController(ILogger<WebhooksController> logger, AutoMapper.IMapper mapper, IEventMessageService eventMessageService, IApiDataProcessorService apiDataProcessorService)
+        public WebhooksController(ILogger<WebhooksController> logger, AutoMapper.IMapper mapper, IEventMessageService eventMessageService, ICmsApiService cmsApiService)
         {
             this.logger = logger;
             this.mapper = mapper;
             this.eventMessageService = eventMessageService;
-            this.apiDataProcessorService = apiDataProcessorService;
+            this.cmsApiService = cmsApiService;
         }
 
         private enum CacheOperation
@@ -119,7 +121,7 @@ namespace DFC.App.ContactUs.Controllers
                 case CacheOperation.Delete:
                     return await eventMessageService.DeleteAsync(contentPageId).ConfigureAwait(false);
                 case CacheOperation.CreateOrUpdate:
-                    var apiDataModel = await apiDataProcessorService.GetAsync<ContactUsApiDataModel>(url).ConfigureAwait(false);
+                    var apiDataModel = await cmsApiService.GetItemAsync(url).ConfigureAwait(false);
                     var contentPageModel = mapper.Map<ContentPageModel>(apiDataModel);
 
                     if (contentPageModel == null)

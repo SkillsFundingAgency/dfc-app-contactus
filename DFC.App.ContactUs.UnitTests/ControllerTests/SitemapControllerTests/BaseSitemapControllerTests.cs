@@ -1,5 +1,5 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using DFC.App.ContactUs.PageService;
+using DFC.App.ContactUs.Services.PageService.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

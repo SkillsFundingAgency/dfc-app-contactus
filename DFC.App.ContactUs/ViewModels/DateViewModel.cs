@@ -43,6 +43,29 @@ namespace DFC.App.ContactUs.ViewModels
             }
         }
 
+        public bool AllFieldsAreNull
+        {
+            get
+            {
+                if (IncludeTimeValue)
+                {
+                    if (Day == null && Month == null && Year == null && Hour == null && Minute == null)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (Day == null && Month == null && Year == null)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
         public bool ContainsNullValueFields
         {
             get

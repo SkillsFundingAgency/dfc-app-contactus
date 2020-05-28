@@ -38,8 +38,8 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             // Assert
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
-            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.DateOfBirth.Day))));
-            Assert.Contains("Date of birth", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.DateOfBirth.Day))).ErrorMessage, StringComparison.Ordinal);
+            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.DateOfBirth))));
+            Assert.Contains("Enter your date of birth", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.DateOfBirth))).ErrorMessage, StringComparison.Ordinal);
         }
 
         [Fact]

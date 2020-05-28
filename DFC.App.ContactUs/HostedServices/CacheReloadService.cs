@@ -1,7 +1,7 @@
 ﻿using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.HttpClientPolicies;
-using DFC.App.ContactUs.PageService.EventProcessorServices;
-using DFC.App.ContactUs.PageService.EventProcessorServices.Models;
+using DFC.App.ContactUs.Services.CmsApiProcessorService.Contracts;
+using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
+using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,17 +17,15 @@ namespace DFC.App.ContactUs.HostedServices
     {
         private readonly ILogger<CacheReloadService> logger;
         private readonly AutoMapper.IMapper mapper;
-        private readonly CmsApiClientOptions cmsApiClientOptions;
         private readonly IEventMessageService eventMessageService;
-        private readonly IApiDataProcessorService apiDataProcessorService;
+        private readonly ICmsApiService cmsApiService;
 
-        public CacheReloadService(ILogger<CacheReloadService> logger, AutoMapper.IMapper mapper, CmsApiClientOptions cmsApiClientOptions, IEventMessageService eventMessageService, IApiDataProcessorService apiDataProcessorService)
+        public CacheReloadService(ILogger<CacheReloadService> logger, AutoMapper.IMapper mapper, IEventMessageService eventMessageService, ICmsApiService cmsApiService)
         {
             this.logger = logger;
             this.mapper = mapper;
-            this.cmsApiClientOptions = cmsApiClientOptions;
             this.eventMessageService = eventMessageService;
-            this.apiDataProcessorService = apiDataProcessorService;
+            this.cmsApiService = cmsApiService;
         }
 
         public async Task Reload(CancellationToken stoppingToken)
@@ -69,13 +67,11 @@ namespace DFC.App.ContactUs.HostedServices
 
         public async Task<IList<ContactUsSummaryItemModel>?> GetSummaryListAsync()
         {
-            var url = new Uri($"{cmsApiClientOptions.BaseAddress}{cmsApiClientOptions.SummaryEndpoint}");
+            logger.LogInformation("Get summary list");
 
-            logger.LogInformation($"Get summary list from {url}");
+            var summaryList = await cmsApiService.GetSummaryAsync().ConfigureAwait(false);
 
-            var summaryList = await apiDataProcessorService.GetAsync<IList<ContactUsSummaryItemModel>>(url).ConfigureAwait(false);
-
-            logger.LogInformation($"Get summary list completed");
+            logger.LogInformation("Get summary list completed");
 
             return summaryList;
         }
@@ -107,7 +103,7 @@ namespace DFC.App.ContactUs.HostedServices
             {
                 logger.LogInformation($"Get details for {item.CanonicalName} - {item.Url}");
 
-                var apiDataModel = await apiDataProcessorService.GetAsync<ContactUsApiDataModel>(item.Url!).ConfigureAwait(false);
+                var apiDataModel = await cmsApiService.GetItemAsync(item.Url!).ConfigureAwait(false);
 
                 if (apiDataModel == null)
                 {
@@ -135,13 +131,6 @@ namespace DFC.App.ContactUs.HostedServices
                 logger.LogInformation($"Updating cache with {item.CanonicalName} - {item.Url}");
 
                 var result = await eventMessageService.UpdateAsync(contentPageModel).ConfigureAwait(false);
-
-                if (stoppingToken.IsCancellationRequested)
-                {
-                    logger.LogWarning("Process item get and save cancelled");
-
-                    return;
-                }
 
                 if (result == HttpStatusCode.NotFound)
                 {

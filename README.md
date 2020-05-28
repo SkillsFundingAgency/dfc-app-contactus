@@ -45,6 +45,10 @@ The project contains a number of "appsettings-template.json" and "local.settings
 
 By default, the appsettings include a local Azure Cosmos Emulator configuration using the well known configuration values. These may be changed to suit your environment if you are not using the Azure Cosmos Emulator.
 
+This app using the FAM API for Postcode routing. To make use of it you will require an APIM API key for that service.
+
+This app also uses SendGrid to send email messages. The configuration section "SendGrid" contains settings used for SendGrid. As a minimum, add your SendGrid API key.
+
 ## Running locally
 
 To run this product locally, you will need to configure the list of dependencies, once configured and the configuration files updated, it should be F5 to run and debug locally. The application can be run using IIS Express or full IIS.

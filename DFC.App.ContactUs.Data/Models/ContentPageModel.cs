@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Data.Attributes;
+using DFC.App.ContactUs.Data.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

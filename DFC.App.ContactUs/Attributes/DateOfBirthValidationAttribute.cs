@@ -18,6 +18,7 @@ namespace DFC.App.ContactUs.Attributes
         private enum ErrorType
         {
             NullDate,
+            AllFieldMissing,
             MissingField,
             InvalidDate,
             OutOfRange,
@@ -44,39 +45,48 @@ namespace DFC.App.ContactUs.Attributes
 
             if (value is DateViewModel dateViewModel)
             {
-                if (!dateViewModel.ContainsNullValueFields)
+                if (!dateViewModel.AllFieldsAreNull)
                 {
-                    if (dateViewModel.IsValid)
+                    if (!dateViewModel.ContainsNullValueFields)
                     {
-                        var dt = dateViewModel.Value;
-
-                        if (dt!.Value.Date <= DateTime.Today.AddYears(0 - yearsAgo))
+                        if (dateViewModel.IsValid)
                         {
-                            return ValidationResult.Success;
+                            var dt = dateViewModel.Value;
+
+                            if (dt!.Value.Date <= DateTime.Today.AddYears(0 - yearsAgo))
+                            {
+                                return ValidationResult.Success;
+                            }
+                            else
+                            {
+                                errorType = ErrorType.OutOfRange;
+                                validationFieldName = nameof(dateViewModel.Year);
+                            }
                         }
                         else
                         {
-                            errorType = ErrorType.OutOfRange;
-                            validationFieldName = nameof(dateViewModel.Year);
+                            errorType = ErrorType.InvalidDate;
+                            validationFieldName = nameof(dateViewModel.Day);
                         }
                     }
                     else
                     {
-                        errorType = ErrorType.InvalidDate;
-                        validationFieldName = nameof(dateViewModel.Day);
+                        errorType = ErrorType.MissingField;
+                        missingFieldName = dateViewModel.FirstMissingFieldName;
+                        validationFieldName = missingFieldName;
                     }
                 }
                 else
                 {
-                    errorType = ErrorType.MissingField;
+                    errorType = ErrorType.AllFieldMissing;
                     missingFieldName = dateViewModel.FirstMissingFieldName;
-                    validationFieldName = missingFieldName;
                 }
             }
 
             string errorMessage = errorType switch
             {
                 ErrorType.InvalidDate => string.Format(CultureInfo.InvariantCulture, "{0} is not a valid date", validationContext.DisplayName),
+                ErrorType.AllFieldMissing => string.Format(CultureInfo.InvariantCulture, "Enter your {0}", validationContext.DisplayName.ToLowerInvariant()),
                 ErrorType.MissingField => string.Format(CultureInfo.InvariantCulture, "{0} must include a {1}", validationContext.DisplayName, missingFieldName.ToLowerInvariant()),
                 ErrorType.OutOfRange => string.Format(CultureInfo.InvariantCulture, "You must be over {0} to use this service", yearsAgo),
                 _ => string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName),

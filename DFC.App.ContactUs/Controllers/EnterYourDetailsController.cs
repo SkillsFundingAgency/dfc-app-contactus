@@ -1,10 +1,15 @@
 ﻿using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
+using DFC.App.ContactUs.Services.AreaRoutingService.Contracts;
+using DFC.App.ContactUs.Services.AreaRoutingService.HttpClientPolicies;
+using DFC.App.ContactUs.Services.EmailService.Contracts;
+using DFC.App.ContactUs.Services.EmailTemplateService.Contracts;
 using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Controllers
 {
@@ -12,8 +17,19 @@ namespace DFC.App.ContactUs.Controllers
     {
         public const string ThisViewCanonicalName = "enter-your-details";
 
-        public EnterYourDetailsController(ILogger<EnterYourDetailsController> logger) : base(logger)
+        private readonly AutoMapper.IMapper mapper;
+        private readonly ISendGridEmailService<ContactUsEmailRequestModel> sendGridEmailService;
+        private readonly IRoutingService routingService;
+        private readonly FamApiRoutingOptions famApiRoutingOptions;
+        private readonly ITemplateService templateService;
+
+        public EnterYourDetailsController(ILogger<EnterYourDetailsController> logger, AutoMapper.IMapper mapper, IRoutingService routingService, ISendGridEmailService<ContactUsEmailRequestModel> sendGridEmailService, FamApiRoutingOptions famApiRoutingOptions, ITemplateService templateService) : base(logger)
         {
+            this.mapper = mapper;
+            this.routingService = routingService;
+            this.sendGridEmailService = sendGridEmailService;
+            this.famApiRoutingOptions = famApiRoutingOptions;
+            this.templateService = templateService;
         }
 
         [HttpGet]
@@ -43,11 +59,16 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPost]
         [Route("pages/enter-your-details")]
-        public IActionResult EnterYourDetailsView(EnterYourDetailsBodyViewModel? model)
+        public async Task<IActionResult> EnterYourDetailsView(EnterYourDetailsBodyViewModel? model)
         {
             if (model != null && ModelState.IsValid)
             {
-                return Redirect($"/{LocalPath}");
+                if (await SendEmailAsync(model).ConfigureAwait(false))
+                {
+                    return Redirect($"/{LocalPath}");
+                }
+
+                ModelState.AddModelError(string.Empty, "Unable to send message, please try again shortly");
             }
 
             var breadcrumbItemModel = new BreadcrumbItemModel
@@ -117,16 +138,49 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPost]
         [Route("pages/enter-your-details/body")]
-        public IActionResult EnterYourDetailsBody(EnterYourDetailsBodyViewModel? viewModel)
+        public async Task<IActionResult> EnterYourDetailsBody(EnterYourDetailsBodyViewModel? viewModel)
         {
             if (viewModel != null && ModelState.IsValid)
             {
-                return Redirect($"/{RegistrationPath}");
+                if (await SendEmailAsync(viewModel).ConfigureAwait(false))
+                {
+                    return Redirect($"/{RegistrationPath}");
+                }
+
+                ModelState.AddModelError(string.Empty, "Unable to send message, please try again shortly");
             }
 
             Logger.LogInformation($"{nameof(EnterYourDetailsBody)} has returned content");
 
             return this.NegotiateContentResult(viewModel);
+        }
+
+        private async Task<bool> SendEmailAsync(EnterYourDetailsBodyViewModel model)
+        {
+            Logger.LogInformation($"{nameof(SendEmailAsync)} preparing email");
+
+            var templateName = model.SelectedCategory == Category.Callback ? "CallbackTemplate" : "OnlineMessageTemplate";
+            var template = await templateService.GetTemplateByNameAsync(templateName).ConfigureAwait(false);
+
+            if (string.IsNullOrWhiteSpace(template))
+            {
+                Logger.LogError($"{nameof(SendEmailAsync)} failed to load email template: {templateName}");
+                return false;
+            }
+
+            var routingDetailModel = await routingService.GetAsync(model.Postcode!).ConfigureAwait(false);
+            var contactUsRequestModel = mapper.Map<ContactUsEmailRequestModel>(model);
+
+            if (model.SelectedCategory == Category.Callback)
+            {
+                contactUsRequestModel.FromEmailAddress = famApiRoutingOptions.NoReplyEmailAddress;
+            }
+
+            contactUsRequestModel.ToEmailAddress = routingDetailModel?.EmailAddress ?? famApiRoutingOptions.FallbackEmailToAddresses;
+            contactUsRequestModel.Body = template;
+            contactUsRequestModel.BodyNoHtml = null;
+
+            return await sendGridEmailService.SendEmailAsync(contactUsRequestModel).ConfigureAwait(false);
         }
     }
 }

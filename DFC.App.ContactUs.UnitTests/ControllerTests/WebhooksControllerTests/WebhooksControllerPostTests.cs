@@ -1,6 +1,6 @@
 ﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.PageService.EventProcessorServices.Models;
+using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.EventGrid.Models;
@@ -49,7 +49,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).Returns(expectedValidApiModel);
+            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).Returns(expectedValidApiModel);
             A.CallTo(() => FakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).Returns(expectedValidModel);
             A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.NotFound);
             A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.Created);
@@ -58,7 +58,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var result = await controller.ReceiveContactUsEvents().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
@@ -82,7 +82,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).Returns(expectedValidApiModel);
+            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).Returns(expectedValidApiModel);
             A.CallTo(() => FakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).Returns(expectedValidModel);
             A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.OK);
 
@@ -90,7 +90,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var result = await controller.ReceiveContactUsEvents().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
@@ -118,7 +118,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
             // Assert
             A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
             var okResult = Assert.IsType<OkResult>(result);
@@ -139,14 +139,14 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).Returns(expectedValidApiModel);
+            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).Returns(expectedValidApiModel);
             A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.AlreadyReported);
 
             // Act
             var result = await controller.ReceiveContactUsEvents().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
@@ -174,7 +174,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
             // Assert
             A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
 
@@ -197,7 +197,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
             // Assert
             A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
 
@@ -219,7 +219,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
             // Assert
             A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
 
@@ -241,7 +241,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
             // Assert
             A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
 
