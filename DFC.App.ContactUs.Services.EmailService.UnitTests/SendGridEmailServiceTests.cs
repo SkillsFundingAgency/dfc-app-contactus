@@ -1,12 +1,12 @@
-using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services.EmailService.Contracts;
-using DFC.App.ContactUs.Services.Services.EmailService;
-using FakeItEasy;
-using Microsoft.Extensions.Logging;
-using SendGrid;
-using SendGrid.Helpers.Mail;
-using System.Collections.Generic;
-using System.Threading;
+//using DFC.App.ContactUs.Models;
+//using DFC.App.ContactUs.Services.EmailService.Contracts;
+//using DFC.App.ContactUs.Services.Services.EmailService;
+//using FakeItEasy;
+//using Microsoft.Extensions.Logging;
+//using SendGrid;
+//using SendGrid.Helpers.Mail;
+//using System.Collections.Generic;
+//using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -14,9 +14,9 @@ namespace DFC.App.ContactUs.Services.EmailService.UnitTests
 {
     public class SendGridEmailServiceTests
     {
-        private readonly ILogger<SendGridEmailService<ContactUsEmailRequestModel>> fakeLogger = A.Fake<ILogger<SendGridEmailService<ContactUsEmailRequestModel>>>();
-        private readonly IMergeEmailContentService fakeMergeEmailContentService = A.Fake<IMergeEmailContentService>();
-        private readonly ISendGridClient fakeSendGridClient = A.Fake<ISendGridClient>();
+        //private readonly ILogger<SendGridEmailService<ContactUsEmailRequestModel>> fakeLogger = A.Fake<ILogger<SendGridEmailService<ContactUsEmailRequestModel>>>();
+        //private readonly IMergeEmailContentService fakeMergeEmailContentService = A.Fake<IMergeEmailContentService>();
+        //private readonly ISendGridClient fakeSendGridClient = A.Fake<ISendGridClient>();
 
         [Fact(Skip = "Sprint 6 - DFCC 267 - Awaiting email development to prove up the code and these tests")]
         public async Task SendGridEmailServiceGetReturnsSuccess()

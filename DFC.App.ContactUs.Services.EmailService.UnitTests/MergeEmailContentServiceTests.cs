@@ -53,7 +53,7 @@ namespace DFC.App.ContactUs.Services.EmailService.UnitTests
         public void MergeEmailContentServiceReturnsContentWhenRequestModelIsNull()
         {
             // arrange
-            ContactUsEmailRequestModel contactUsEmailRequestModel = null;
+            ContactUsEmailRequestModel? contactUsEmailRequestModel = null;
             const string content = "the original content";
             const string expectedResult = content;
 
@@ -71,8 +71,8 @@ namespace DFC.App.ContactUs.Services.EmailService.UnitTests
         {
             // arrange
             var contactUsEmailRequestModel = new ContactUsEmailRequestModel();
-            const string content = null;
-            const string expectedResult = content;
+            const string? content = null;
+            const string? expectedResult = content;
 
             var mergeEmailContentService = new MergeEmailContentService();
 
