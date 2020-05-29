@@ -5,6 +5,7 @@ using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Net;
 
 namespace DFC.App.ContactUs.Controllers
 {
@@ -54,7 +55,7 @@ namespace DFC.App.ContactUs.Controllers
                     case Category.Website:
                     case Category.Feedback:
                     case Category.SomethingElse:
-                        return Redirect($"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={model.SelectedCategory}");
+                        return Redirect($"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={model.SelectedCategory}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}={WebUtility.UrlEncode(model.MoreDetail)}");
                 }
             }
 
@@ -133,7 +134,7 @@ namespace DFC.App.ContactUs.Controllers
                     case Category.Website:
                     case Category.Feedback:
                     case Category.SomethingElse:
-                        return Redirect($"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={viewModel.SelectedCategory}");
+                        return Redirect($"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={viewModel.SelectedCategory}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}={WebUtility.UrlEncode(viewModel.MoreDetail)}");
                 }
             }
 

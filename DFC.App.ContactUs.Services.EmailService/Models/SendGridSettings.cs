@@ -2,7 +2,7 @@
 {
     public class SendGridSettings
     {
-        public string? ApiKey { get; set; }
+        public string? ApiKey { get; set; } = "unknown";
 
         public int DefaultNumberOfRetries { get; set; } = 2;
 

@@ -9,7 +9,7 @@ namespace DFC.App.ContactUs.Services.EmailTemplateService.UnitTests
     {
         private readonly ILogger<TemplateService> logger = A.Fake<ILogger<TemplateService>>();
 
-        [Fact(Skip = "This will be require for the email template retrieval service coming n a later sprint - from shared content app?")]
+        [Fact]
         public async Task TemplateServiceGetReturnsSuccess()
         {
             // arrange
@@ -24,7 +24,7 @@ namespace DFC.App.ContactUs.Services.EmailTemplateService.UnitTests
             Assert.NotNull(result);
         }
 
-        [Fact(Skip = "This will be require for the email template retrieval service coming n a later sprint - from shared content app?")]
+        [Fact(Skip = "This will be require for the email template retrieval service coming in a later sprint - from shared content app?")]
         public async Task TemplateGetReturnsNullWhenMissingTemplate()
         {
             // arrange

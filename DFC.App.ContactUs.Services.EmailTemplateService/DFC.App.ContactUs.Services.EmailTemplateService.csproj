@@ -8,13 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Temp\**" />
-    <EmbeddedResource Remove="Temp\**" />
-    <None Remove="Temp\**" />
+    <None Remove="Temp\EmailTemplates\CallbackTemplate.html" />
+    <None Remove="Temp\EmailTemplates\OnlineMessageTemplate.html" />
   </ItemGroup>
 
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Temp\EmailTemplates\CallbackTemplate.html" />
+    <EmbeddedResource Include="Temp\EmailTemplates\OnlineMessageTemplate.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Temp\EmailTemplates\CallbackTemplate.html" />
+    <Resource Include="Temp\EmailTemplates\OnlineMessageTemplate.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +36,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

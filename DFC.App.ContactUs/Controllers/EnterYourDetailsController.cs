@@ -34,7 +34,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("pages/enter-your-details")]
-        public IActionResult EnterYourDetailsView(Category category = Category.None)
+        public IActionResult EnterYourDetailsView(Category category = Category.None, string? moreDetail = null)
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
@@ -45,11 +45,15 @@ namespace DFC.App.ContactUs.Controllers
             {
                 HtmlHead = new HtmlHeadViewModel
                 {
-                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/enter-your-details", UriKind.RelativeOrAbsolute),
+                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                     Title = "Enter your details" + PageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
-                EnterYourDetailsBodyViewModel = new EnterYourDetailsBodyViewModel { SelectedCategory = category, },
+                EnterYourDetailsBodyViewModel = new EnterYourDetailsBodyViewModel
+                {
+                    SelectedCategory = category,
+                    MoreDetail = moreDetail,
+                },
             };
 
             Logger.LogWarning($"{nameof(EnterYourDetailsView)} has returned content");
@@ -65,7 +69,7 @@ namespace DFC.App.ContactUs.Controllers
             {
                 if (await SendEmailAsync(model).ConfigureAwait(false))
                 {
-                    return Redirect($"/{LocalPath}");
+                    return Redirect($"/{LocalPath}/{HomeController.ThankyouForContactingUsCanonicalName}");
                 }
 
                 ModelState.AddModelError(string.Empty, "Unable to send message, please try again shortly");
@@ -80,7 +84,7 @@ namespace DFC.App.ContactUs.Controllers
             {
                 HtmlHead = new HtmlHeadViewModel
                 {
-                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/enter-your-details", UriKind.RelativeOrAbsolute),
+                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                     Title = "Enter your details" + PageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
@@ -98,7 +102,7 @@ namespace DFC.App.ContactUs.Controllers
         {
             var viewModel = new HtmlHeadViewModel()
             {
-                CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}/enter-your-details", UriKind.RelativeOrAbsolute),
+                CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                 Title = "Enter your details" + PageTitleSuffix,
             };
 
@@ -124,11 +128,12 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("pages/enter-your-details/body")]
-        public IActionResult EnterYourDetailsBody(Category category = Category.None)
+        public IActionResult EnterYourDetailsBody(Category category = Category.None, string? moreDetail = null)
         {
             var viewModel = new EnterYourDetailsBodyViewModel
             {
                 SelectedCategory = category,
+                MoreDetail = moreDetail,
             };
 
             Logger.LogInformation($"{nameof(EnterYourDetailsBody)} has returned content");
@@ -144,7 +149,7 @@ namespace DFC.App.ContactUs.Controllers
             {
                 if (await SendEmailAsync(viewModel).ConfigureAwait(false))
                 {
-                    return Redirect($"/{RegistrationPath}");
+                    return Redirect($"/{RegistrationPath}/{HomeController.ThankyouForContactingUsCanonicalName}");
                 }
 
                 ModelState.AddModelError(string.Empty, "Unable to send message, please try again shortly");

@@ -28,6 +28,7 @@
         @Html.EditorFor(model => model.TermsAndConditionsAccepted)
 
         @Html.HiddenFor(model => model.SelectedCategory)
+        @Html.HiddenFor(model => model.MoreDetail)
         @Html.Hidden(nameof(Model.IsTrue), "true")
     </fieldset>
 

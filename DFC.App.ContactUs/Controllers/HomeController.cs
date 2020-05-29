@@ -13,6 +13,7 @@ namespace DFC.App.ContactUs.Controllers
     {
         public const string ThisViewCanonicalName = "home";
         public const string SendUsLetterCanonicalName = "send-us-a-letter";
+        public const string ThankyouForContactingUsCanonicalName = "thankyou-for-contacting-us";
 
         private readonly ServiceOpenDetailModel serviceOpenDetailModel;
 
