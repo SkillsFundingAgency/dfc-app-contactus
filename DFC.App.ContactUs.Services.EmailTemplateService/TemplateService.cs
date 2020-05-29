@@ -17,19 +17,11 @@ namespace DFC.App.ContactUs.Services.EmailTemplateService
         {
             logger.LogInformation($"{nameof(GetTemplateByNameAsync)} loading email template: {templateName}");
 
-            var tempFolder = @"E:\Source\Repos\SkillsFundingAgency\dfc-app-contactus\DFC.App.ContactUs.Services.EmailTemplateService\Temp\EmailTemplates";
-            var templateFile = $@"{tempFolder}\{templateName}.html";
+            var template = TemporaryEmbeddedResource.GetApiRequestFile($"{this.GetType().Namespace}.Temp.EmailTemplates.{templateName}.html");
 
-            if (System.IO.File.Exists(templateFile))
-            {
-                var template = await System.IO.File.ReadAllTextAsync(templateFile).ConfigureAwait(false);
+            logger.LogInformation($"{nameof(GetTemplateByNameAsync)} loaded email template: {templateName}");
 
-                logger.LogInformation($"{nameof(GetTemplateByNameAsync)} loaded email template: {templateName}");
-
-                return template;
-            }
-
-            return null;
+            return template;
         }
     }
 }

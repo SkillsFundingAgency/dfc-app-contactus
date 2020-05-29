@@ -15,10 +15,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
     {
         public static IEnumerable<object[]> ValidSelectedOptions => new List<object[]>
         {
-            new object[] { HomeOption.Webchat, $"/{HomeController.WebchatRegistrationPath}/{ChatController.ThisViewCanonicalName}", },
-            new object[] { HomeOption.SendAMessage, $"/{HomeController.RegistrationPath}/{WhyContactUsController.ThisViewCanonicalName}", },
-            new object[] { HomeOption.Callback, $"/{HomeController.RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Callback}", },
-            new object[] { HomeOption.Sendletter, $"/{HomeController.RegistrationPath}/{HomeController.SendUsLetterCanonicalName}", },
+            new object[] { HomeOption.Webchat, $"/{HomeController.WebchatRegistrationPath}/{ChatController.ThisViewCanonicalName}" },
+            new object[] { HomeOption.SendAMessage, $"/{HomeController.RegistrationPath}/{WhyContactUsController.ThisViewCanonicalName}" },
+            new object[] { HomeOption.Callback, $"/{HomeController.RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Callback}" },
+            new object[] { HomeOption.Sendletter, $"/{HomeController.RegistrationPath}/{HomeController.SendUsLetterCanonicalName}" },
         };
 
         public static IEnumerable<object[]> InvalidSelectedOptions => new List<object[]>

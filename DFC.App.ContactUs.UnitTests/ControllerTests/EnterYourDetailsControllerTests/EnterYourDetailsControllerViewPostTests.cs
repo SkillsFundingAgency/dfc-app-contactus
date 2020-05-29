@@ -22,7 +22,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             // Arrange
             const string expectedEmailTemplate = "An email template";
             const bool expectedSendEmailResult = true;
-            string expectedRedirectUrl = $"/{PagesController.LocalPath}";
+            string expectedRedirectUrl = $"/{PagesController.LocalPath}/{HomeController.ThankyouForContactingUsCanonicalName}";
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             var controller = BuildEnterYourDetailsController(mediaTypeName);
 
@@ -131,7 +131,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             const bool expectedSendEmailResult = true;
             const string expectedEmailTemplate = "An email template";
             RoutingDetailModel? expectedRoutingDetailModel = null;
-            string expectedRedirectUrl = $"/{PagesController.LocalPath}";
+            string expectedRedirectUrl = $"/{PagesController.LocalPath}/{HomeController.ThankyouForContactingUsCanonicalName}";
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             var controller = BuildEnterYourDetailsController(MediaTypeNames.Text.Html);
 

@@ -15,11 +15,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
     {
         public static IEnumerable<object[]> ValidSelectedCategories => new List<object[]>
         {
-            new object[] { Category.AdviceGuidance, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.AdviceGuidance}" },
-            new object[] { Category.Courses, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Courses}" },
-            new object[] { Category.Website, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Website}" },
-            new object[] { Category.Feedback, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Feedback}" },
-            new object[] { Category.SomethingElse, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.SomethingElse}" },
+            new object[] { Category.AdviceGuidance, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.AdviceGuidance}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}=" + WebUtility.UrlEncode($"Some {Category.AdviceGuidance} details") },
+            new object[] { Category.Courses, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Courses}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}=" + WebUtility.UrlEncode($"Some {Category.Courses} details") },
+            new object[] { Category.Website, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Website}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}=" + WebUtility.UrlEncode($"Some {Category.Website} details") },
+            new object[] { Category.Feedback, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Feedback}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}=" + WebUtility.UrlEncode($"Some {Category.Feedback} details") },
+            new object[] { Category.SomethingElse, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.SomethingElse}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}=" + WebUtility.UrlEncode($"Some {Category.SomethingElse} details") },
         };
 
         public static IEnumerable<object[]> InvalidSelectedCategories => new List<object[]>
@@ -35,11 +35,12 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
         {
             // Arrange
             const Category selectedCategory = Category.AdviceGuidance;
-            string expectedRedirectUrl = $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={selectedCategory}";
+            string moreDetail = $"Some {selectedCategory} details";
+            string expectedRedirectUrl = $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={selectedCategory}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}={WebUtility.UrlEncode(moreDetail)}";
             var viewModel = new WhyContactUsBodyViewModel
             {
                 SelectedCategory = selectedCategory,
-                MoreDetail = "some more detail",
+                MoreDetail = moreDetail,
             };
             var controller = BuildWhyContactUsController(mediaTypeName);
 
@@ -62,7 +63,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             var viewModel = new WhyContactUsBodyViewModel
             {
                 SelectedCategory = selectedCategory,
-                MoreDetail = "some more detail",
+                MoreDetail = $"Some {selectedCategory} details",
             };
             var controller = BuildWhyContactUsController(MediaTypeNames.Text.Html);
 
@@ -85,7 +86,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             var viewModel = new WhyContactUsBodyViewModel
             {
                 SelectedCategory = selectedCategory,
-                MoreDetail = "some more detail",
+                MoreDetail = "Some more details",
             };
             var controller = BuildWhyContactUsController(MediaTypeNames.Text.Html);
 

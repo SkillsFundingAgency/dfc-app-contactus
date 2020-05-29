@@ -36,11 +36,12 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
         {
             // Arrange
             const Category selectedCategory = Category.Website;
-            string expectedRedirectUrl = $"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={selectedCategory}";
+            string moreDetail = $"Some {selectedCategory} details";
+            string expectedRedirectUrl = $"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={selectedCategory}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}={WebUtility.UrlEncode(moreDetail)}";
             var viewModel = new WhyContactUsBodyViewModel
             {
                 SelectedCategory = selectedCategory,
-                MoreDetail = "some more detail",
+                MoreDetail = moreDetail,
             };
             var controller = BuildWhyContactUsController(mediaTypeName);
 
@@ -60,11 +61,12 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
         public void WhyContactUsControllerBodyPostReturnsSuccessForValidCategories(Category selectedCategory)
         {
             // Arrange
-            string expectedRedirectUrl = $"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={selectedCategory}";
+            string moreDetail = $"Some {selectedCategory} details";
+            string expectedRedirectUrl = $"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={selectedCategory}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}={WebUtility.UrlEncode(moreDetail)}";
             var viewModel = new WhyContactUsBodyViewModel
             {
                 SelectedCategory = selectedCategory,
-                MoreDetail = "some more detail",
+                MoreDetail = moreDetail,
             };
             var controller = BuildWhyContactUsController(MediaTypeNames.Text.Html);
 

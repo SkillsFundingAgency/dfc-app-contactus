@@ -11,7 +11,7 @@ namespace DFC.App.ContactUs.ViewModels
 
         public const string MoreDetailInvalidValidationError = "More details is limited to between 1 and {1} characters";
         private const string RegExForMoreDetail = "^[\\w\\s!\"£$%^&*() _+=\\-\\[\\]\\}\\{;'#~@:,.\\/\\?]*$";
-        private const string InvalidCharactersValidationError = "{0} contains invalid characters";
+        private const string InvalidCharactersValidationError = "{0} Contains invalid characters";
 
         [Required(ErrorMessage = SelectedCategoryValidationError)]
         [Range((int)Category.AdviceGuidance, (int)Category.SomethingElse, ErrorMessage = SelectedCategoryValidationError)]

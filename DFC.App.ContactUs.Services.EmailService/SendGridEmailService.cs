@@ -38,22 +38,19 @@ namespace DFC.App.ContactUs.Services.Services.EmailService
             var plainTextContent = mergeEmailContentService.MergeTemplateBodyWithContent(emailRequestModel, emailRequestModel.BodyNoHtml);
             var htmlContent = mergeEmailContentService.MergeTemplateBodyWithContent(emailRequestModel, emailRequestModel.Body);
             var msg = MailHelper.CreateSingleEmailToMultipleRecipients(from, to, subject, plainTextContent, htmlContent);
+            var clientResponse = await sendGridClient.SendEmailAsync(msg).ConfigureAwait(false);
+            var result = clientResponse.StatusCode.Equals(HttpStatusCode.Accepted);
 
-            return true;                 //TODO: ian: enable email in Sprint 6 - DFCC 267
+            if (result)
+            {
+                logger.LogInformation($"{nameof(SendEmailAsync)} sent email to {emailRequestModel.ToEmailAddress}");
+            }
+            else
+            {
+                logger.LogWarning($"{nameof(SendEmailAsync)} failed to send email to {emailRequestModel.ToEmailAddress}");
+            }
 
-            //var clientResponse = await sendGridClient.SendEmailAsync(msg).ConfigureAwait(false);
-            //var result = clientResponse.StatusCode.Equals(HttpStatusCode.Accepted);
-
-            //if (result)
-            //{
-            //    logger.LogInformation($"{nameof(SendEmailAsync)} sent email to {emailRequestModel.ToEmailAddress}");
-            //}
-            //else
-            //{
-            //    logger.LogWarning($"{nameof(SendEmailAsync)} failed to send email to {emailRequestModel.ToEmailAddress}");
-            //}
-
-            //return result;
+            return result;
         }
     }
 }
