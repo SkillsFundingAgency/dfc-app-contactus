@@ -13,7 +13,7 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 {
     [Trait("Category", "Home Controller Unit Tests")]
-    public class HomeControllerRouteTests:BaseHomeControllerTests
+    public class HomeControllerRouteTests : BaseHomeControllerTests
     {
         private readonly ILogger<HomeController> logger;
         private readonly ServiceOpenDetailModel fakeServiceOpenDetailModel;

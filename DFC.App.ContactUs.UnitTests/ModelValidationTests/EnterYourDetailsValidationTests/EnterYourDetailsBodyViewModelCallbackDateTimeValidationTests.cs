@@ -26,7 +26,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         }
 
         [Fact]
-        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForCallbackDateTimeMissing()
+        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForCallbackDateTimeMissingDateViewModel()
         {
             // Arrange
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
@@ -44,11 +44,29 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         }
 
         [Fact]
+        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForCallbackDateTimeMissing()
+        {
+            // Arrange
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
+            viewModel.CallbackDateTime = new CallbackDateTimeViewModel();
+            viewModel.SelectedCategory = Category.Callback;
+
+            // Act
+            var (isValid, validationResults) = ModelValidator.TryValidateModel(viewModel);
+
+            // Assert
+            Assert.False(isValid);
+            Assert.True(validationResults.Count > 0);
+            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime))));
+            Assert.Contains("Enter when you want us", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime))).ErrorMessage, StringComparison.Ordinal);
+        }
+
+        [Fact]
         public void EnterYourDetailsBodyViewModelValidationReturnsErrorForCallbackDateTimeNotInTheFuture()
         {
             // Arrange
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
-            viewModel.CallbackDateTime = new CallbackDateTimeViewModel(DateTime.Now);
+            viewModel.CallbackDateTime = new CallbackDateTimeViewModel(DateTime.Now.AddMinutes(-1));
             viewModel.SelectedCategory = Category.Callback;
 
             // Act

@@ -19,6 +19,7 @@ namespace DFC.App.ContactUs.UnitTests
                 CallbackDateTime = new CallbackDateTimeViewModel(DateTime.Today.AddDays(1).AddHours(10).AddMinutes(15)),
                 TermsAndConditionsAccepted = true,
                 SelectedCategory = Category.Callback,
+                MoreDetail = "some more detail",
             };
         }
     }

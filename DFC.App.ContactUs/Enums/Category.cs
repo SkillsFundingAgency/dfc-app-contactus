@@ -16,7 +16,7 @@ namespace DFC.App.ContactUs.Enums
         Feedback,
         [Description("Something else")]
         SomethingElse,
-        [Description("Callback")]
+        [Description("Callback request")]
         Callback,
     }
 }

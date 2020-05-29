@@ -1,7 +1,7 @@
 ﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.PageService;
+using DFC.App.ContactUs.Services.PageService.Contracts;
 using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -197,7 +197,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPost]
         [Route("pages")]
-        public async Task<IActionResult> Create([FromBody]ContentPageModel? upsertContentPageModel)
+        public async Task<IActionResult> Create([FromBody] ContentPageModel? upsertContentPageModel)
         {
             if (upsertContentPageModel == null)
             {
@@ -224,7 +224,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPut]
         [Route("pages")]
-        public async Task<IActionResult> Update([FromBody]ContentPageModel? upsertContentPageModel)
+        public async Task<IActionResult> Update([FromBody] ContentPageModel? upsertContentPageModel)
         {
             if (upsertContentPageModel == null)
             {

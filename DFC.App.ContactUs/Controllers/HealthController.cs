@@ -1,5 +1,5 @@
 ﻿using DFC.App.ContactUs.Extensions;
-using DFC.App.ContactUs.PageService;
+using DFC.App.ContactUs.Services.PageService.Contracts;
 using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

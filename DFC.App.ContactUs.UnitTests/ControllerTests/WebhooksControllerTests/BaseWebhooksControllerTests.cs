@@ -1,7 +1,8 @@
 ﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.PageService.EventProcessorServices;
-using DFC.App.ContactUs.PageService.EventProcessorServices.Models;
+using DFC.App.ContactUs.Services.CmsApiProcessorService.Contracts;
+using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
+using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
         {
             Logger = A.Fake<ILogger<WebhooksController>>();
             FakeEventMessageService = A.Fake<IEventMessageService>();
-            FakeApiDataProcessorService = A.Fake<IApiDataProcessorService>();
+            FakeCmsApiService = A.Fake<ICmsApiService>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
         }
 
@@ -38,7 +39,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
         protected IEventMessageService FakeEventMessageService { get; }
 
-        protected IApiDataProcessorService FakeApiDataProcessorService { get; }
+        protected ICmsApiService FakeCmsApiService { get; }
 
         protected AutoMapper.IMapper FakeMapper { get; }
 
@@ -110,7 +111,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new WebhooksController(Logger, FakeMapper, FakeEventMessageService, FakeApiDataProcessorService)
+            var controller = new WebhooksController(Logger, FakeMapper, FakeEventMessageService, FakeCmsApiService)
             {
                 ControllerContext = new ControllerContext()
                 {

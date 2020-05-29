@@ -1,4 +1,9 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Models;
+using DFC.App.ContactUs.Services.AreaRoutingService.Contracts;
+using DFC.App.ContactUs.Services.AreaRoutingService.HttpClientPolicies;
+using DFC.App.ContactUs.Services.EmailService.Contracts;
+using DFC.App.ContactUs.Services.EmailTemplateService.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +19,16 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
         protected const string LocalPath = "pages";
         protected const string RegistrationPath = "contact-us";
 
+        private readonly ILogger<EnterYourDetailsController> logger;
+
         protected BaseEnterYourDetailsControllerTests()
         {
-            Logger = A.Fake<ILogger<EnterYourDetailsController>>();
+            logger = A.Fake<ILogger<EnterYourDetailsController>>();
+            FakeMapper = A.Fake<AutoMapper.IMapper>();
+            FakeRoutingService = A.Fake<IRoutingService>();
+            FakeSendGridEmailService = A.Fake<ISendGridEmailService<ContactUsEmailRequestModel>>();
+            FakeFamApiRoutingOptions = A.Fake<FamApiRoutingOptions>();
+            FakeTemplateService = A.Fake<ITemplateService>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -35,7 +47,15 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             new string[] { MediaTypeNames.Application.Json },
         };
 
-        protected ILogger<EnterYourDetailsController> Logger { get; }
+        protected AutoMapper.IMapper FakeMapper { get; }
+
+        protected ISendGridEmailService<ContactUsEmailRequestModel> FakeSendGridEmailService { get; }
+
+        protected IRoutingService FakeRoutingService { get; }
+
+        protected FamApiRoutingOptions FakeFamApiRoutingOptions { get; }
+
+        protected ITemplateService FakeTemplateService { get; }
 
         protected EnterYourDetailsController BuildEnterYourDetailsController(string mediaTypeName)
         {
@@ -43,7 +63,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new EnterYourDetailsController(Logger)
+            var controller = new EnterYourDetailsController(logger, FakeMapper, FakeRoutingService, FakeSendGridEmailService, FakeFamApiRoutingOptions, FakeTemplateService)
             {
                 ControllerContext = new ControllerContext()
                 {

@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.ClientHandlers;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.HttpClientPolicies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,7 +49,7 @@ namespace DFC.App.ContactUs.Extensions
                     string circuitBreakerPolicyName)
                     where TClient : class
                     where TImplementation : class, TClient
-                    where TClientOptions : ClientOptions, new() =>
+                    where TClientOptions : ClientOptionsModel, new() =>
                     services
                         .Configure<TClientOptions>(configuration?.GetSection(configurationSectionName))
                         .AddHttpClient<TClient, TImplementation>()

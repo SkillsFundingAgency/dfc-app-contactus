@@ -1,8 +1,9 @@
 ﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.HostedServices;
-using DFC.App.ContactUs.HttpClientPolicies;
-using DFC.App.ContactUs.PageService.EventProcessorServices;
-using DFC.App.ContactUs.PageService.EventProcessorServices.Models;
+using DFC.App.ContactUs.Services.CmsApiProcessorService.Contracts;
+using DFC.App.ContactUs.Services.CmsApiProcessorService.HttpClientPolicies;
+using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
+using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
 using FakeItEasy;
 using Microsoft.Extensions.Logging;
 using System;
@@ -22,7 +23,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
         private readonly AutoMapper.IMapper fakeMapper = A.Fake<AutoMapper.IMapper>();
         private readonly CmsApiClientOptions fakeCmsApiClientOptions = A.Dummy<CmsApiClientOptions>();
         private readonly IEventMessageService fakeEventMessageService = A.Fake<IEventMessageService>();
-        private readonly IApiDataProcessorService fakeApiDataProcessorService = A.Fake<IApiDataProcessorService>();
+        private readonly ICmsApiService fakeCmsApiService = A.Fake<ICmsApiService>();
 
         public CacheReloadServiceTests()
         {
@@ -47,22 +48,22 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
             var fakeContactUsSummaryItemModels = BuldFakeContactUsSummaryItemModel(NumerOfSummaryItems);
             var fakeCachedContentPageModels = BuldFakeContentPageModels(NumberOfDeletions);
 
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<IList<ContactUsSummaryItemModel>>(A<Uri>.Ignored)).Returns(fakeContactUsSummaryItemModels);
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).Returns(A.Fake<ContactUsApiDataModel>());
+            A.CallTo(() => fakeCmsApiService.GetSummaryAsync()).Returns(fakeContactUsSummaryItemModels);
+            A.CallTo(() => fakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).Returns(A.Fake<ContactUsApiDataModel>());
             A.CallTo(() => fakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).Returns(expectedValidContentPageModel);
             A.CallTo(() => fakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.NotFound);
             A.CallTo(() => fakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.Created);
             A.CallTo(() => fakeEventMessageService.GetAllCachedCanonicalNamesAsync()).Returns(fakeCachedContentPageModels);
             A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
 
-            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeCmsApiService);
 
             // act
             await cacheReloadService.Reload(cancellationToken).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<IList<ContactUsSummaryItemModel>>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustHaveHappened(NumerOfSummaryItems, Times.Exactly);
+            A.CallTo(() => fakeCmsApiService.GetSummaryAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustHaveHappened(NumerOfSummaryItems, Times.Exactly);
             A.CallTo(() => fakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).MustHaveHappened(NumerOfSummaryItems, Times.Exactly);
             A.CallTo(() => fakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustHaveHappened(NumerOfSummaryItems, Times.Exactly);
             A.CallTo(() => fakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustHaveHappened(NumerOfSummaryItems, Times.Exactly);
@@ -81,21 +82,21 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
             var fakeContactUsSummaryItemModels = BuldFakeContactUsSummaryItemModel(NumerOfSummaryItems);
             var fakeCachedContentPageModels = BuldFakeContentPageModels(NumberOfDeletions);
 
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<IList<ContactUsSummaryItemModel>>(A<Uri>.Ignored)).Returns(fakeContactUsSummaryItemModels);
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).Returns(A.Fake<ContactUsApiDataModel>());
+            A.CallTo(() => fakeCmsApiService.GetSummaryAsync()).Returns(fakeContactUsSummaryItemModels);
+            A.CallTo(() => fakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).Returns(A.Fake<ContactUsApiDataModel>());
             A.CallTo(() => fakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).Returns(expectedValidContentPageModel);
             A.CallTo(() => fakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.OK);
             A.CallTo(() => fakeEventMessageService.GetAllCachedCanonicalNamesAsync()).Returns(fakeCachedContentPageModels);
             A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
 
-            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeCmsApiService);
 
             // act
             await cacheReloadService.Reload(cancellationToken).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<IList<ContactUsSummaryItemModel>>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustHaveHappened(NumerOfSummaryItems, Times.Exactly);
+            A.CallTo(() => fakeCmsApiService.GetSummaryAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustHaveHappened(NumerOfSummaryItems, Times.Exactly);
             A.CallTo(() => fakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).MustHaveHappened(NumerOfSummaryItems, Times.Exactly);
             A.CallTo(() => fakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustHaveHappened(NumerOfSummaryItems, Times.Exactly);
             A.CallTo(() => fakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
@@ -111,16 +112,16 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
             var cancellationToken = new CancellationToken(true);
             var fakeContactUsSummaryItemModels = BuldFakeContactUsSummaryItemModel(NumerOfSummaryItems);
 
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<IList<ContactUsSummaryItemModel>>(A<Uri>.Ignored)).Returns(fakeContactUsSummaryItemModels);
+            A.CallTo(() => fakeCmsApiService.GetSummaryAsync()).Returns(fakeContactUsSummaryItemModels);
 
-            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeCmsApiService);
 
             // act
             await cacheReloadService.Reload(cancellationToken).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<IList<ContactUsSummaryItemModel>>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => fakeCmsApiService.GetSummaryAsync()).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => fakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => fakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => fakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
@@ -137,17 +138,17 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
             var expectedValidContactUsApiDataModel = BuildValidContactUsApiDataModel();
             var expectedValidContentPageModel = BuildValidContentPageModel();
 
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).Returns(expectedValidContactUsApiDataModel);
+            A.CallTo(() => fakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).Returns(expectedValidContactUsApiDataModel);
             A.CallTo(() => fakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).Returns(expectedValidContentPageModel);
             A.CallTo(() => fakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.NotFound);
 
-            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeCmsApiService);
 
             // act
             await cacheReloadService.GetAndSaveItemAsync(expectedValidContactUsSummaryItemModel, cancellationToken).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
@@ -162,17 +163,17 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
             var expectedValidContactUsApiDataModel = BuildValidContactUsApiDataModel();
             var expectedValidContentPageModel = BuildValidContentPageModel();
 
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).Returns(expectedValidContactUsApiDataModel);
+            A.CallTo(() => fakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).Returns(expectedValidContactUsApiDataModel);
             A.CallTo(() => fakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).Returns(expectedValidContentPageModel);
             A.CallTo(() => fakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.OK);
 
-            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeCmsApiService);
 
             // act
             await cacheReloadService.GetAndSaveItemAsync(expectedValidContactUsSummaryItemModel, cancellationToken).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
@@ -186,15 +187,15 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
             var expectedValidContactUsSummaryItemModel = BuildValidContactUsSummaryItemModel();
             var expectedValidContactUsApiDataModel = BuildValidContactUsApiDataModel();
 
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).Returns(expectedValidContactUsApiDataModel);
+            A.CallTo(() => fakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).Returns(expectedValidContactUsApiDataModel);
 
-            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeCmsApiService);
 
             // act
             await cacheReloadService.GetAndSaveItemAsync(expectedValidContactUsSummaryItemModel, cancellationToken).ConfigureAwait(false);
 
             // assert
-            A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => fakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => fakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
@@ -213,7 +214,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
             A.CallTo(() => fakeEventMessageService.GetAllCachedCanonicalNamesAsync()).Returns(fakeCachedContentPageModels);
             A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
 
-            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeCmsApiService);
 
             // act
             await cacheReloadService.DeleteStaleCacheEntriesAsync(fakeContactUsSummaryItemModels, cancellationToken).ConfigureAwait(false);
@@ -235,7 +236,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
 
             A.CallTo(() => fakeEventMessageService.GetAllCachedCanonicalNamesAsync()).Returns(fakeCachedContentPageModels);
 
-            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeCmsApiService);
 
             // act
             await cacheReloadService.DeleteStaleCacheEntriesAsync(fakeContactUsSummaryItemModels, cancellationToken).ConfigureAwait(false);
@@ -255,7 +256,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
 
             A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
 
-            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeCmsApiService);
 
             // act
             await cacheReloadService.DeleteStaleItemsAsync(fakeContentPageModels, cancellationToken).ConfigureAwait(false);
@@ -274,7 +275,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
 
             A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.NotFound);
 
-            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeCmsApiService);
 
             // act
             await cacheReloadService.DeleteStaleItemsAsync(fakeContentPageModels, cancellationToken).ConfigureAwait(false);
@@ -291,7 +292,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
             var cancellationToken = new CancellationToken(true);
             var fakeContentPageModels = BuldFakeContentPageModels(NumberOfDeletions);
 
-            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeCmsApiService);
 
             // act
             await cacheReloadService.DeleteStaleItemsAsync(fakeContentPageModels, cancellationToken).ConfigureAwait(false);
@@ -305,7 +306,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
         public void CacheReloadServiceTryValidateModelForValidAndInvalid(ContentPageModel contentPageModel, bool expectedResult)
         {
             // arrange
-            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeCmsApiClientOptions, fakeEventMessageService, fakeApiDataProcessorService);
+            var cacheReloadService = new CacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeCmsApiService);
 
             // act
             var result = cacheReloadService.TryValidateModel(contentPageModel);

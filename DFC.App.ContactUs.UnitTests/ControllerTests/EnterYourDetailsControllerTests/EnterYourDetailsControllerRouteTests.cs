@@ -1,4 +1,9 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Models;
+using DFC.App.ContactUs.Services.AreaRoutingService.Contracts;
+using DFC.App.ContactUs.Services.AreaRoutingService.HttpClientPolicies;
+using DFC.App.ContactUs.Services.EmailService.Contracts;
+using DFC.App.ContactUs.Services.EmailTemplateService.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +19,20 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
     public class EnterYourDetailsControllerRouteTests : BaseEnterYourDetailsControllerTests
     {
         private readonly ILogger<EnterYourDetailsController> logger;
+        private readonly AutoMapper.IMapper mapper;
+        private readonly IRoutingService routingService;
+        private readonly ISendGridEmailService<ContactUsEmailRequestModel> sendGridEmialService;
+        private readonly FamApiRoutingOptions famApiRoutingOptions;
+        private readonly ITemplateService templateService;
 
         public EnterYourDetailsControllerRouteTests()
         {
             logger = A.Fake<ILogger<EnterYourDetailsController>>();
+            mapper = A.Fake<AutoMapper.IMapper>();
+            routingService = A.Fake<IRoutingService>();
+            sendGridEmialService = A.Fake<ISendGridEmailService<ContactUsEmailRequestModel>>();
+            famApiRoutingOptions = A.Fake<FamApiRoutingOptions>();
+            templateService = A.Fake<ITemplateService>();
         }
 
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
@@ -60,7 +75,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new EnterYourDetailsController(logger)
+            return new EnterYourDetailsController(logger, mapper, routingService, sendGridEmialService, famApiRoutingOptions, templateService)
             {
                 ControllerContext = new ControllerContext
                 {

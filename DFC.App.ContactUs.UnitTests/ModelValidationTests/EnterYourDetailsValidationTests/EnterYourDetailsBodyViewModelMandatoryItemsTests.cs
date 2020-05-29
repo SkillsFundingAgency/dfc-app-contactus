@@ -27,7 +27,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             {
                 { nameof(EnterYourDetailsBodyViewModel.FirstName), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.FamilyName), "Enter your" },
-                { nameof(EnterYourDetailsBodyViewModel.DateOfBirth), "Date of birth" },
+                { nameof(EnterYourDetailsBodyViewModel.DateOfBirth), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.Postcode), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.TelephoneNumber), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.CallbackDateTime), "Enter when you want us" },
@@ -62,7 +62,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             {
                 { nameof(EnterYourDetailsBodyViewModel.FirstName), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.FamilyName), "Enter your" },
-                { nameof(EnterYourDetailsBodyViewModel.DateOfBirth), "Date of birth" },
+                { nameof(EnterYourDetailsBodyViewModel.DateOfBirth), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.Postcode), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.EmailAddress), "Enter your" },
             };

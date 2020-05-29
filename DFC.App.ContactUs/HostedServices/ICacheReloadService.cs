@@ -1,5 +1,5 @@
 ﻿using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.PageService.EventProcessorServices.Models;
+using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
