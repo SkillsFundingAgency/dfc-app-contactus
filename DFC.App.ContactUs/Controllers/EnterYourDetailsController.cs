@@ -45,7 +45,7 @@ namespace DFC.App.ContactUs.Controllers
             {
                 HtmlHead = new HtmlHeadViewModel
                 {
-                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/enter-your-details", UriKind.RelativeOrAbsolute),
+                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                     Title = "Enter your details" + PageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
@@ -84,7 +84,7 @@ namespace DFC.App.ContactUs.Controllers
             {
                 HtmlHead = new HtmlHeadViewModel
                 {
-                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/enter-your-details", UriKind.RelativeOrAbsolute),
+                    CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                     Title = "Enter your details" + PageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
@@ -102,7 +102,7 @@ namespace DFC.App.ContactUs.Controllers
         {
             var viewModel = new HtmlHeadViewModel()
             {
-                CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}/enter-your-details", UriKind.RelativeOrAbsolute),
+                CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                 Title = "Enter your details" + PageTitleSuffix,
             };
 
