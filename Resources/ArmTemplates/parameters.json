@@ -55,6 +55,21 @@
             "metadata": {
                 "comment": "False for all environment except prodcution"
             }
+        },
+        "ApimProxyAddress": {
+            "value": "__ApimProxyAddress__"
+        },
+        "ApimFutureAccessModelKey": {
+            "value": "__ApimFutureAccessModelKey__"
+        },
+        "SendGridKey": {
+            "value": "__SendGridKey__"
+        },
+        "FallbackEmailToAddresses": {
+            "value": "__FallbackEmailToAddresses__"
+        },
+        "NoReplyEmailAddress": {
+            "value": "__NoReplyEmailAddress__"
         }
     }
 }

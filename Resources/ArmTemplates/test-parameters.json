@@ -43,6 +43,21 @@
         },
         "chatOptionsHideProductionWarning": {
             "value": false
+        },
+        "ApimProxyAddress": {
+            "value": "https://url"
+        },
+        "ApimFutureAccessModelKey": {
+            "value": "123456789"
+        },
+        "SendGridKey": {
+            "value": "987456"
+        },
+        "FallbackEmailToAddresses": {
+            "value": "foo@contso.com"
+        },
+        "NoReplyEmailAddress": {
+            "value": "no-replyfoo@contso.com"
         }
     }
 }
