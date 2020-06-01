@@ -62,4 +62,10 @@
 
 
 
+  <ItemGroup>
+    <Folder Include="CustomControls\GenericCheckbox\TagHelpers\" />
+  </ItemGroup>
+
+
+
 </Project>

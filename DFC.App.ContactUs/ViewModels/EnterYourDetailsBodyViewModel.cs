@@ -6,6 +6,8 @@ namespace DFC.App.ContactUs.ViewModels
 {
     public class EnterYourDetailsBodyViewModel
     {
+        public const string TermsAndConditionsLabel = "I accept the <a class='govuk-link' href='/help/terms-and-conditions' target='_blank'>terms and conditions</a> and I am 13 or over.";
+
         public const string IsRequiredValidationError = "Enter your {0}";
         public const string DateOfBirthRequiredValidationError = "{0}";
         public const string CallbackDateTimeRequiredValidationError = "Enter when you want us to contact you";
@@ -70,7 +72,6 @@ namespace DFC.App.ContactUs.ViewModels
 
         [Display(Name = "Terms and conditions")]
         [Compare(nameof(IsTrue), ErrorMessage = TermsAndConditionsAcceptedValidationError)]
-        [DataType("TermsAndConditions")]
         public bool TermsAndConditionsAccepted { get; set; }
 
         public bool IsTrue => true;

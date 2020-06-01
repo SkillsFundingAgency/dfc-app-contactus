@@ -25,11 +25,11 @@
             @Html.EditorFor(model => model.CallbackDateTime)
         }
 
-        @Html.EditorFor(model => model.TermsAndConditionsAccepted)
+        @Html.EditorFor(model => model.TermsAndConditionsAccepted, new { Label = EnterYourDetailsBodyViewModel.TermsAndConditionsLabel })
 
         @Html.HiddenFor(model => model.SelectedCategory)
         @Html.HiddenFor(model => model.MoreDetail)
-        @Html.Hidden(nameof(Model.IsTrue), "true")
+        @Html.Hidden(nameof(Model.IsTrue), Model.IsTrue)
     </fieldset>
 
     <br />
