@@ -6,12 +6,6 @@ namespace DFC.App.ContactUs.ViewModels
 {
     public class EnterYourDetailsBodyViewModel
     {
-        public const string TermsAndConditionsLabel = "I accept the <a class='govuk-link' href='/help/terms-and-conditions' target='_blank'>terms and conditions</a> and I am 13 or over.";
-
-        public const string IsRequiredValidationError = "Enter your {0}";
-        public const string DateOfBirthRequiredValidationError = "{0}";
-        public const string CallbackDateTimeRequiredValidationError = "Enter when you want us to contact you";
-
         private const string RegExForName = "^[a-zA-Z ]+(([',.\\-][a-zA-Z ])?[a-zA-Z ]*)*$";
         private const string RegExForPostcode = "([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z]))))\\s?[0-9][A-Za-z]{2})";
         private const string RegExForEmailAddress = "^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
@@ -20,58 +14,55 @@ namespace DFC.App.ContactUs.ViewModels
         private const string StringLengthValidationError = "{0} is limited to between 1 and {1} characters";
 
         private const string InvalidCharactersValidationError = "{0} contains invalid characters";
-        private const string EmailAddressInvalidCharactersValidationError = "Enter a valid {0}";
-        private const string TelephoneNumberInvalidCharactersValidationError = "{0} requires numbers only";
-        private const string PostcodeInvalidCharactersValidationError = "{0} must be an English postcode";
-        private const string TermsAndConditionsAcceptedValidationError = "Please tick the {0}";
 
         [Display(Name = "First name")]
-        [Required(ErrorMessage = IsRequiredValidationError)]
+        [Required(ErrorMessage = "Enter your first name")]
         [StringLength(100, ErrorMessage = StringLengthValidationError)]
         [RegularExpression(RegExForName, ErrorMessage = InvalidCharactersValidationError)]
         [DataType("PersonName")]
         public string? FirstName { get; set; }
 
         [Display(Name = "Family name")]
-        [Required(ErrorMessage = IsRequiredValidationError)]
+        [Required(ErrorMessage = "Enter your family name")]
         [StringLength(100, ErrorMessage = StringLengthValidationError)]
         [RegularExpression(RegExForName, ErrorMessage = InvalidCharactersValidationError)]
         [DataType("PersonName")]
         public string? FamilyName { get; set; }
 
         [Display(Name = "Email address")]
-        [RequiredWhenTrue(nameof(EmailAddressIsRequired), ErrorMessage = IsRequiredValidationError)]
+        [RequiredWhenTrue(nameof(EmailAddressIsRequired), ErrorMessage = "Enter your email address")]
         [StringLength(100, ErrorMessage = StringLengthValidationError)]
-        [RegularExpression(RegExForEmailAddress, ErrorMessage = EmailAddressInvalidCharactersValidationError)]
+        [RegularExpression(RegExForEmailAddress, ErrorMessage = "Enter a valid email address")]
         [DataType("EmailAddress")]
         public string? EmailAddress { get; set; }
 
         [Display(Name = "Telephone number")]
-        [RequiredWhenTrue(nameof(TelephoneNumberIsRequired), ErrorMessage = IsRequiredValidationError)]
-        [StringLength(100, ErrorMessage = StringLengthValidationError)]
-        [RegularExpression(RegExForTelephoneNumber, ErrorMessage = TelephoneNumberInvalidCharactersValidationError)]
+        [RequiredWhenTrue(nameof(TelephoneNumberIsRequired), ErrorMessage = "Enter your telephone number")]
+        [StringLength(20, ErrorMessage = StringLengthValidationError)]
+        [RegularExpression(RegExForTelephoneNumber, ErrorMessage = "{0} requires numbers only")]
         [DataType("TelephoneNumber")]
         public string? TelephoneNumber { get; set; }
 
         [Display(Name = "Date of birth", Description = "Date of birth")]
-        [DateOfBirthValidation(13, ErrorMessage = DateOfBirthRequiredValidationError)]
+        [DateOfBirthValidation(13, ErrorMessage = "{0}")]
         [DataType("DateTimeEditor")]
         public DateOfBirthViewModel? DateOfBirth { get; set; } = new DateOfBirthViewModel();
 
         [Display(Name = "Postcode")]
-        [Required(ErrorMessage = IsRequiredValidationError)]
+        [Required(ErrorMessage = "Enter your postcode")]
         [StringLength(8, ErrorMessage = StringLengthValidationError)]
-        [RegularExpression(RegExForPostcode, ErrorMessage = PostcodeInvalidCharactersValidationError)]
+        [RegularExpression(RegExForPostcode, ErrorMessage = "{0} must be an English postcode")]
         [DataType("Postcode")]
         public string? Postcode { get; set; }
 
         [Display(Name = "When do you want us to contact you?")]
-        [CallbackDateTimeValidation(3, nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackDateTimeRequiredValidationError)]
+        [CallbackDateTimeValidation(3, nameof(CallbackDateTimeIsRequired), ErrorMessage = "Enter when you want us to contact you")]
         [DataType("DateTimeEditor")]
         public CallbackDateTimeViewModel? CallbackDateTime { get; set; } = new CallbackDateTimeViewModel();
 
         [Display(Name = "Terms and conditions")]
-        [Compare(nameof(IsTrue), ErrorMessage = TermsAndConditionsAcceptedValidationError)]
+        [Compare(nameof(IsTrue), ErrorMessage = "Please tick the terms and conditions")]
+        [DataType("TermsAndConditions")]
         public bool TermsAndConditionsAccepted { get; set; }
 
         public bool IsTrue => true;

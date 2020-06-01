@@ -9,9 +9,9 @@ namespace DFC.App.ContactUs.ViewModels
 
         public const string MoreDetailRequiredError = "Enter a message describing the issue";
 
-        public const string MoreDetailInvalidValidationError = "More details is limited to between 1 and {1} characters";
+        public const string MoreDetailLengthValidationError = "Message is limited to between 1 and {1} characters";
         private const string RegExForMoreDetail = "^[\\w\\s!\"£$%^&*() _+=\\-\\[\\]\\}\\{;'#~@:,.\\/\\?]*$";
-        private const string InvalidCharactersValidationError = "{0} Contains invalid characters";
+        private const string MoreDetailInvalidCharactersValidationError = "Message contains invalid characters";
 
         [Required(ErrorMessage = SelectedCategoryValidationError)]
         [Range((int)Category.AdviceGuidance, (int)Category.SomethingElse, ErrorMessage = SelectedCategoryValidationError)]
@@ -21,8 +21,8 @@ namespace DFC.App.ContactUs.ViewModels
         [Display(Name = "Tell us more about why you want to contact us, in as much detail as you can. Don't include any personal or account information.")]
         [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = MoreDetailRequiredError)]
-        [RegularExpression(RegExForMoreDetail, ErrorMessage = InvalidCharactersValidationError)]
-        [StringLength(1000, ErrorMessage = MoreDetailInvalidValidationError)]
+        [RegularExpression(RegExForMoreDetail, ErrorMessage = MoreDetailInvalidCharactersValidationError)]
+        [StringLength(1000, ErrorMessage = MoreDetailLengthValidationError)]
         public string? MoreDetail { get; set; }
     }
 }
