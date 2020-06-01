@@ -10,7 +10,6 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.Linq;
 
 namespace DFC.App.ContactUs.Attributes
@@ -52,9 +51,9 @@ namespace DFC.App.ContactUs.Attributes
                 };
             var errorMessages = new Dictionary<string, string>()
                 {
-                    { nameof(EnterYourDetailsBodyViewModel.EmailAddress), EnterYourDetailsBodyViewModel.IsRequiredValidationError },
-                    { nameof(EnterYourDetailsBodyViewModel.TelephoneNumber), EnterYourDetailsBodyViewModel.IsRequiredValidationError },
-                    { nameof(EnterYourDetailsBodyViewModel.CallbackDateTime), EnterYourDetailsBodyViewModel.CallbackDateTimeRequiredValidationError },
+                    { nameof(EnterYourDetailsBodyViewModel.EmailAddress), "Enter your email address" },
+                    { nameof(EnterYourDetailsBodyViewModel.TelephoneNumber), "Enter your telephone number" },
+                    { nameof(EnterYourDetailsBodyViewModel.CallbackDateTime), "Enter when you want us to contact you" },
                 };
 
             if (properties.Keys.Contains(modelExplorer.Metadata.PropertyName))
@@ -68,7 +67,7 @@ namespace DFC.App.ContactUs.Attributes
                     if (isRequiredValue != null && isRequiredValue.Value)
                     {
                         var validationAdapter = (RequiredAttributeAdapter)validationAttributeAdapterProvider.GetAttributeAdapter(new RequiredAttribute(), null);
-                        var errorMessage = string.Format(CultureInfo.InvariantCulture, errorMessages[modelExplorer.Metadata.PropertyName], modelExplorer.Metadata.DisplayName);
+                        var errorMessage = errorMessages[modelExplorer.Metadata.PropertyName];
                         validationAdapter.Attribute.ErrorMessage = errorMessage;
                         validationAdapter.AddValidation(context);
                     }
