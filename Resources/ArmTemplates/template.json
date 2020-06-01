@@ -75,6 +75,21 @@
             "metadata": {
                 "description": "False for all environment except prodcution"
             }
+        },
+        "ApimProxyAddress": {
+            "type": "string"
+        },
+        "ApimFutureAccessModelKey": {
+            "type": "string"
+        },
+        "SendGridKey": {
+            "type": "string"
+        },
+        "FallbackEmailToAddresses": {
+            "type": "string"
+        },
+        "NoReplyEmailAddress": {
+            "type": "string"
         }
     },
     "variables": {
@@ -229,6 +244,26 @@
                             {
                                 "name": "ChatOptions__HideProductionWarning",
                                 "value": "[parameters('chatOptionsHideProductionWarning')]"
+                            },
+                            {
+                                "name": "Configuration__SendGrid__ApiKey",
+                                "value": "[parameters('SendGridKey')]"
+                            },
+                            {
+                                "name": "FamApiRoutingOptions__ApiKey",
+                                "value": "[parameters('ApimFutureAccessModelKey')]"
+                            },
+                            {
+                                "name": "FamApiRoutingOptions__BaseAddress",
+                                "value": "[parameters('ApimProxyAddress')]"
+                            },
+                            {
+                                "name": "FamApiRoutingOptions__FallbackEmailToAddresses",
+                                "value": "[parameters('FallbackEmailToAddresses')]"
+                            },
+                            {
+                                "name": "FamApiRoutingOptions__NoReplyEmailAddress",
+                                "value": "[parameters('NoReplyEmailAddress')]"
                             }
                         ]
                     }
