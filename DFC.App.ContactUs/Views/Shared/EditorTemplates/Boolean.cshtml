@@ -1,6 +1,9 @@
 ﻿@model bool
 
 @{
+    const string govukFormGroupErrorClass = "govuk-form-group--error";
+    const string govukInputErrorClass = "govuk-input--error";
+    var showErrorClassForInput = string.Empty;
     var hintId = string.Empty;
     var showErrorClass = string.Empty;
     var errorKey = ViewData.ModelMetadata.PropertyName;
@@ -9,26 +12,27 @@
     {
         if (ViewData.ModelState[errorKey] != null && ViewData.ModelState[errorKey].Errors.Any())
         {
-            showErrorClass = "govuk-form-group--error";
+            showErrorClassForInput = govukInputErrorClass;
+            showErrorClass = govukFormGroupErrorClass;
         }
     }
 }
 
-<div class="govuk-form-group @showErrorClass">
-    <h3 class="govuk-heading">
-        @Html.DisplayNameFor(model => model)
-    </h3>
+    <div class="govuk-form-group @showErrorClass">
+        <h3 class="govuk-heading">
+            @Html.DisplayNameFor(model => model)
+        </h3>
 
-    @if (!string.IsNullOrWhiteSpace(ViewData.ModelMetadata.Description))
-    {
-        hintId = ViewData.ModelMetadata.Name + "-hint";
+        @if (!string.IsNullOrWhiteSpace(ViewData.ModelMetadata.Description))
+        {
+            hintId = ViewData.ModelMetadata.Name + "-hint";
 
-        <span id="@hintId" class="govuk-hint">
-            @ViewData.ModelMetadata.Description
-        </span>
-    }
+            <span id="@hintId" class="govuk-hint">
+                @ViewData.ModelMetadata.Description
+            </span>
+        }
 
-    @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = ViewData.ModelMetadata.Name + "-error" })
+        @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = ViewData.ModelMetadata.Name + "-error" })
 
-    <generic-checkbox name="@ViewData.ModelMetadata.Name" value="@Model" label="@ViewData["Label"]"></generic-checkbox>
-</div>
+        <generic-checkbox name="@Html.NameFor(model => Model)" value="@Model" label="@ViewData["Label"]" class="@showErrorClassForInput"></generic-checkbox>
+    </div>

@@ -20,7 +20,7 @@ namespace DFC.App.ContactUs.Services.PageService.UnitTests.ContentPageServiceTes
 
             A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns(expectedResult);
 
-            var contentPageService = new ContentPageService(repository);
+            var contentPageService = new ContentPageService<ContentPageModel>(repository);
 
             // act
             var result = contentPageService.GetByAlternativeNameAsync(alternativeName).Result;
@@ -36,7 +36,7 @@ namespace DFC.App.ContactUs.Services.PageService.UnitTests.ContentPageServiceTes
             // arrange
             string? alternativeName = null;
             var repository = A.Fake<ICosmosRepository<ContentPageModel>>();
-            var contentPageService = new ContentPageService(repository);
+            var contentPageService = new ContentPageService<ContentPageModel>(repository);
 
             // act
             var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.GetByAlternativeNameAsync(alternativeName).ConfigureAwait(false)).ConfigureAwait(false);
@@ -55,7 +55,7 @@ namespace DFC.App.ContactUs.Services.PageService.UnitTests.ContentPageServiceTes
 
             A.CallTo(() => repository.GetAsync(A<Expression<Func<ContentPageModel, bool>>>.Ignored)).Returns(expectedResult);
 
-            var contentPageService = new ContentPageService(repository);
+            var contentPageService = new ContentPageService<ContentPageModel>(repository);
 
             // act
             var result = contentPageService.GetByAlternativeNameAsync(alternativeName).Result;

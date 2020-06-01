@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Services.PageService.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +16,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         protected BasePagesControllerTests()
         {
             Logger = A.Fake<ILogger<PagesController>>();
-            FakeContentPageService = A.Fake<IContentPageService>();
+            FakeContentPageService = A.Fake<IContentPageService<ContentPageModel>>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
         }
 
@@ -37,7 +38,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         protected ILogger<PagesController> Logger { get; }
 
-        protected IContentPageService FakeContentPageService { get; }
+        protected IContentPageService<ContentPageModel> FakeContentPageService { get; }
 
         protected AutoMapper.IMapper FakeMapper { get; }
 

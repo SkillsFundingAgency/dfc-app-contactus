@@ -14,12 +14,12 @@ namespace DFC.App.ContactUs.Services.PageService.UnitTests.ContentPageServiceTes
     {
         private const string CanonicalName = "name1";
         private readonly ICosmosRepository<ContentPageModel> repository;
-        private readonly IContentPageService contentPageService;
+        private readonly IContentPageService<ContentPageModel> contentPageService;
 
         public ContentPageServiceGetByNameTests()
         {
             repository = A.Fake<ICosmosRepository<ContentPageModel>>();
-            contentPageService = new ContentPageService(repository);
+            contentPageService = new ContentPageService<ContentPageModel>(repository);
         }
 
         [Fact]

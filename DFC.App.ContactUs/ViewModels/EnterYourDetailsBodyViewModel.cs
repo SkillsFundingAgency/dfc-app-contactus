@@ -32,14 +32,14 @@ namespace DFC.App.ContactUs.ViewModels
         public string? FamilyName { get; set; }
 
         [Display(Name = "Email address")]
-        [RequiredWhenTrue(nameof(EmailAddressIsRequired), ErrorMessage = "Enter your email address")]
+        [RequiredWhenTrue(nameof(EmailAddressIsRequired), ErrorMessage = "Enter your {0}")]
         [StringLength(100, ErrorMessage = StringLengthValidationError)]
         [RegularExpression(RegExForEmailAddress, ErrorMessage = "Enter a valid email address")]
         [DataType("EmailAddress")]
         public string? EmailAddress { get; set; }
 
         [Display(Name = "Telephone number")]
-        [RequiredWhenTrue(nameof(TelephoneNumberIsRequired), ErrorMessage = "Enter your telephone number")]
+        [RequiredWhenTrue(nameof(TelephoneNumberIsRequired), ErrorMessage = "Enter your {0}")]
         [StringLength(20, ErrorMessage = StringLengthValidationError)]
         [RegularExpression(RegExForTelephoneNumber, ErrorMessage = "{0} requires numbers only")]
         [DataType("TelephoneNumber")]

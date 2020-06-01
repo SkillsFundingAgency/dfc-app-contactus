@@ -12,8 +12,8 @@ namespace DFC.App.ContactUs.Services.EventProcessorService.UnitTests
     [Trait("Category", "Event Message Service Unit Tests")]
     public class EventMessageServiceTests
     {
-        private readonly ILogger<EventMessageService> fakeLogger = A.Fake<ILogger<EventMessageService>>();
-        private readonly IContentPageService fakeContentPageService = A.Fake<IContentPageService>();
+        private readonly ILogger<EventMessageService<ContentPageModel>> fakeLogger = A.Fake<ILogger<EventMessageService<ContentPageModel>>>();
+        private readonly IContentPageService<ContentPageModel> fakeContentPageService = A.Fake<IContentPageService<ContentPageModel>>();
 
         [Fact]
         public async Task EventMessageServiceGetAllCachedCanonicalNamesReturnsSuccess()
@@ -23,7 +23,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService.UnitTests
 
             A.CallTo(() => fakeContentPageService.GetAllAsync()).Returns(expectedResult);
 
-            var eventMessageService = new EventMessageService(fakeLogger, fakeContentPageService);
+            var eventMessageService = new EventMessageService<ContentPageModel>(fakeLogger, fakeContentPageService);
 
             // act
             var result = await eventMessageService.GetAllCachedCanonicalNamesAsync().ConfigureAwait(false);
@@ -44,7 +44,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService.UnitTests
             A.CallTo(() => fakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(existingContentPageModel);
             A.CallTo(() => fakeContentPageService.UpsertAsync(A<ContentPageModel>.Ignored)).Returns(expectedResult);
 
-            var eventMessageService = new EventMessageService(fakeLogger, fakeContentPageService);
+            var eventMessageService = new EventMessageService<ContentPageModel>(fakeLogger, fakeContentPageService);
 
             // act
             var result = await eventMessageService.CreateAsync(contentPageModel).ConfigureAwait(false);
@@ -62,7 +62,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService.UnitTests
             ContentPageModel? contentPageModel = null;
             var expectedResult = HttpStatusCode.BadRequest;
 
-            var eventMessageService = new EventMessageService(fakeLogger, fakeContentPageService);
+            var eventMessageService = new EventMessageService<ContentPageModel>(fakeLogger, fakeContentPageService);
 
             // act
             var result = await eventMessageService.CreateAsync(contentPageModel).ConfigureAwait(false);
@@ -83,7 +83,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService.UnitTests
 
             A.CallTo(() => fakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(existingContentPageModel);
 
-            var eventMessageService = new EventMessageService(fakeLogger, fakeContentPageService);
+            var eventMessageService = new EventMessageService<ContentPageModel>(fakeLogger, fakeContentPageService);
 
             // act
             var result = await eventMessageService.CreateAsync(contentPageModel).ConfigureAwait(false);
@@ -108,7 +108,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService.UnitTests
             A.CallTo(() => fakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(existingContentPageModel);
             A.CallTo(() => fakeContentPageService.UpsertAsync(A<ContentPageModel>.Ignored)).Returns(expectedResult);
 
-            var eventMessageService = new EventMessageService(fakeLogger, fakeContentPageService);
+            var eventMessageService = new EventMessageService<ContentPageModel>(fakeLogger, fakeContentPageService);
 
             // act
             var result = await eventMessageService.UpdateAsync(contentPageModel).ConfigureAwait(false);
@@ -126,7 +126,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService.UnitTests
             ContentPageModel? contentPageModel = null;
             var expectedResult = HttpStatusCode.BadRequest;
 
-            var eventMessageService = new EventMessageService(fakeLogger, fakeContentPageService);
+            var eventMessageService = new EventMessageService<ContentPageModel>(fakeLogger, fakeContentPageService);
 
             // act
             var result = await eventMessageService.UpdateAsync(contentPageModel).ConfigureAwait(false);
@@ -147,7 +147,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService.UnitTests
 
             A.CallTo(() => fakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(existingContentPageModel);
 
-            var eventMessageService = new EventMessageService(fakeLogger, fakeContentPageService);
+            var eventMessageService = new EventMessageService<ContentPageModel>(fakeLogger, fakeContentPageService);
 
             // act
             var result = await eventMessageService.UpdateAsync(contentPageModel).ConfigureAwait(false);
@@ -171,7 +171,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService.UnitTests
 
             A.CallTo(() => fakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(existingContentPageModel);
 
-            var eventMessageService = new EventMessageService(fakeLogger, fakeContentPageService);
+            var eventMessageService = new EventMessageService<ContentPageModel>(fakeLogger, fakeContentPageService);
 
             // act
             var result = await eventMessageService.UpdateAsync(contentPageModel).ConfigureAwait(false);
@@ -190,7 +190,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService.UnitTests
 
             A.CallTo(() => fakeContentPageService.DeleteAsync(A<Guid>.Ignored)).Returns(true);
 
-            var eventMessageService = new EventMessageService(fakeLogger, fakeContentPageService);
+            var eventMessageService = new EventMessageService<ContentPageModel>(fakeLogger, fakeContentPageService);
 
             // act
             var result = await eventMessageService.DeleteAsync(Guid.NewGuid()).ConfigureAwait(false);
@@ -208,7 +208,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService.UnitTests
 
             A.CallTo(() => fakeContentPageService.DeleteAsync(A<Guid>.Ignored)).Returns(false);
 
-            var eventMessageService = new EventMessageService(fakeLogger, fakeContentPageService);
+            var eventMessageService = new EventMessageService<ContentPageModel>(fakeLogger, fakeContentPageService);
 
             // act
             var result = await eventMessageService.DeleteAsync(Guid.NewGuid()).ConfigureAwait(false);

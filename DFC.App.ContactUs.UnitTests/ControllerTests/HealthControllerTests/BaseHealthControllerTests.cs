@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Services.PageService.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +15,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
     {
         public BaseHealthControllerTests()
         {
-            FakeContentPageService = A.Fake<IContentPageService>();
+            FakeContentPageService = A.Fake<IContentPageService<ContentPageModel>>();
             FakeLogger = A.Fake<ILogger<HealthController>>();
         }
 
@@ -34,7 +35,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
             new string[] { MediaTypeNames.Application.Json },
         };
 
-        protected IContentPageService FakeContentPageService { get; }
+        protected IContentPageService<ContentPageModel> FakeContentPageService { get; }
 
         protected ILogger<HealthController> FakeLogger { get; }
 

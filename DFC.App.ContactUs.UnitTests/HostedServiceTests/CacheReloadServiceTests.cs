@@ -22,7 +22,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
         private readonly ILogger<CacheReloadService> fakeLogger = A.Fake<ILogger<CacheReloadService>>();
         private readonly AutoMapper.IMapper fakeMapper = A.Fake<AutoMapper.IMapper>();
         private readonly CmsApiClientOptions fakeCmsApiClientOptions = A.Dummy<CmsApiClientOptions>();
-        private readonly IEventMessageService fakeEventMessageService = A.Fake<IEventMessageService>();
+        private readonly IEventMessageService<ContentPageModel> fakeEventMessageService = A.Fake<IEventMessageService<ContentPageModel>>();
         private readonly ICmsApiService fakeCmsApiService = A.Fake<ICmsApiService>();
 
         public CacheReloadServiceTests()

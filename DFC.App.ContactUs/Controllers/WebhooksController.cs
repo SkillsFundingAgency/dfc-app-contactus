@@ -29,10 +29,10 @@ namespace DFC.App.ContactUs.Controllers
 
         private readonly ILogger<WebhooksController> logger;
         private readonly AutoMapper.IMapper mapper;
-        private readonly IEventMessageService eventMessageService;
+        private readonly IEventMessageService<ContentPageModel> eventMessageService;
         private readonly ICmsApiService cmsApiService;
 
-        public WebhooksController(ILogger<WebhooksController> logger, AutoMapper.IMapper mapper, IEventMessageService eventMessageService, ICmsApiService cmsApiService)
+        public WebhooksController(ILogger<WebhooksController> logger, AutoMapper.IMapper mapper, IEventMessageService<ContentPageModel> eventMessageService, ICmsApiService cmsApiService)
         {
             this.logger = logger;
             this.mapper = mapper;

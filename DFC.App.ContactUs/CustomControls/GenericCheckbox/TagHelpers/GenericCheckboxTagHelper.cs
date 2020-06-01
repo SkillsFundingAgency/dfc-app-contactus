@@ -12,6 +12,8 @@ namespace DFC.App.ContactUs.CustomControls.GenericCheckbox.TagHelpers
 
         public string? Label { get; set; }
 
+        public string? Class { get; set; }
+
         public bool Value { get; set; }
 
         public bool IsDisabled { get; set; }
@@ -21,9 +23,10 @@ namespace DFC.App.ContactUs.CustomControls.GenericCheckbox.TagHelpers
             _ = output ?? throw new ArgumentNullException(nameof(output));
             _ = Name ?? throw new NullReferenceException(nameof(Name));
             _ = Label ?? throw new NullReferenceException(nameof(Label));
+            _ = Class ?? throw new NullReferenceException(nameof(Class));
 
             output.TagName = string.Empty;
-            var template = TemplateGenerator.Generate(Name, Label, Value, IsDisabled);
+            var template = TemplateGenerator.Generate(Name, Label, Class, Value, IsDisabled);
             output.Content.SetHtmlContent(template);
         }
     }
