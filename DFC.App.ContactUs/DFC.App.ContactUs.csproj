@@ -14,6 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Shared\EditorTemplates\Postcode.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
