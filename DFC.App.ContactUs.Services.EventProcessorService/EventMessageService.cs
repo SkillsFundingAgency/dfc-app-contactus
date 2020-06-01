@@ -29,22 +29,22 @@ namespace DFC.App.ContactUs.Services.EventProcessorService
             return serviceDataModels.ToList();
         }
 
-        public async Task<HttpStatusCode> CreateAsync(TModel? upsertServiceDataModell)
+        public async Task<HttpStatusCode> CreateAsync(TModel? upsertServiceDataModel)
         {
-            if (upsertServiceDataModell == null)
+            if (upsertServiceDataModel == null)
             {
                 return HttpStatusCode.BadRequest;
             }
 
-            var existingDocument = await contentPageService.GetByIdAsync(upsertServiceDataModell.DocumentId).ConfigureAwait(false);
+            var existingDocument = await contentPageService.GetByIdAsync(upsertServiceDataModel.DocumentId).ConfigureAwait(false);
             if (existingDocument != null)
             {
                 return HttpStatusCode.AlreadyReported;
             }
 
-            var response = await contentPageService.UpsertAsync(upsertServiceDataModell).ConfigureAwait(false);
+            var response = await contentPageService.UpsertAsync(upsertServiceDataModel).ConfigureAwait(false);
 
-            logger.LogInformation($"{nameof(CreateAsync)} has upserted content for: {upsertServiceDataModell.CanonicalName} with response code {response}");
+            logger.LogInformation($"{nameof(CreateAsync)} has upserted content for: {upsertServiceDataModel.CanonicalName} with response code {response}");
 
             return response;
         }
