@@ -1,6 +1,6 @@
 ﻿@model string
 
-@{
+@{ 
     const string govukFormGroupErrorClass = "govuk-form-group--error";
     const string govukInputErrorClass = "govuk-input--error";
     var showErrorClassForInput = string.Empty;
@@ -34,10 +34,9 @@
 
     @Html.TextBoxFor(model => model, new
     {
-        @class = "govuk-input " + showErrorClassForInput,
-        autocomplete = ViewData.ModelMetadata.Name,
-        maxLength = "100",
-        spellcheck = "false",
+        @class = "govuk-input govuk-input--width-10 " + showErrorClassForInput,
+        autocomplete = "off",
+        maxLength = "8",
         aria_describedby = hintId
     })
 </div>

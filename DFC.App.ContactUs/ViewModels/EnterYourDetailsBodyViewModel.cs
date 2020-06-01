@@ -38,7 +38,7 @@ namespace DFC.App.ContactUs.ViewModels
 
         [Display(Name = "Telephone number")]
         [RequiredWhenTrue(nameof(TelephoneNumberIsRequired), ErrorMessage = "Enter your telephone number")]
-        [StringLength(100, ErrorMessage = StringLengthValidationError)]
+        [StringLength(20, ErrorMessage = StringLengthValidationError)]
         [RegularExpression(RegExForTelephoneNumber, ErrorMessage = "{0} requires numbers only")]
         [DataType("TelephoneNumber")]
         public string? TelephoneNumber { get; set; }
