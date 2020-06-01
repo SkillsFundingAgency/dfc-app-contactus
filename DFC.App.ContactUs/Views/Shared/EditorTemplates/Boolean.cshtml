@@ -1,4 +1,4 @@
-﻿@model Boolean
+﻿@model bool
 
 @{
     var hintId = string.Empty;
@@ -15,7 +15,9 @@
 }
 
 <div class="govuk-form-group @showErrorClass">
-    @Html.LabelFor(model => model, new { @class = "govuk-label" })
+    <h3 class="govuk-heading">
+        @Html.DisplayNameFor(model => model)
+    </h3>
 
     @if (!string.IsNullOrWhiteSpace(ViewData.ModelMetadata.Description))
     {
@@ -28,16 +30,5 @@
 
     @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = ViewData.ModelMetadata.Name + "-error" })
 
-    <div class="govuk-checkboxes">
-        <div class="govuk-checkboxes__item">
-            @Html.CheckBoxFor(model => model, new
-            {
-                @class = "govuk-checkboxes__input",
-                autocomplete = "off",
-                aria_describedby = hintId
-            })
-
-            <label class="govuk-label govuk-checkboxes__label" for="@ViewData.ModelMetadata.Name">@ViewData.ModelMetadata.Placeholder</label>
-        </div>
-    </div>
+    <generic-checkbox name="@ViewData.ModelMetadata.Name" value="@Model" label="@ViewData["Label"]"></generic-checkbox>
 </div>
