@@ -3,6 +3,7 @@ using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
@@ -20,9 +21,21 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             const string article = "an-article-name";
             var expectedResult = A.Fake<ContentPageModel>();
             var controller = BuildPagesController(mediaTypeName);
-
+            var expectedModel = new DocumentViewModel
+            {
+                DocumentId = Guid.NewGuid(),
+                CanonicalName = "a-canonical-name",
+                PartitionKey = "partition-key",
+                SequenceNumber = 1,
+                Version = Guid.NewGuid(),
+                BreadcrumbTitle = "Title",
+                IncludeInSitemap = true,
+                Url = new Uri("https://somewhere.com", UriKind.Absolute),
+                Content = new Microsoft.AspNetCore.Html.HtmlString("some content"),
+                LastReviewed = DateTime.Now,
+            };
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
+            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).Returns(expectedModel);
 
             // Act
             var result = await controller.Document(article).ConfigureAwait(false);
@@ -33,6 +46,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
             var viewResult = Assert.IsType<ViewResult>(result);
             _ = Assert.IsAssignableFrom<DocumentViewModel>(viewResult.ViewData.Model);
+            var model = viewResult.ViewData.Model as DocumentViewModel;
+            Assert.Equal(expectedModel, model);
 
             controller.Dispose();
         }

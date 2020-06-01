@@ -35,7 +35,8 @@
     @Html.TextBoxFor(model => model, new
     {
         @class = "govuk-input " + showErrorClassForInput,
-        @type = "email",
+        type = "email",
+        maxLength = "100",
         autocomplete = ViewData.ModelMetadata.Name,
         spellcheck = "false",
         aria_describedby = hintId
