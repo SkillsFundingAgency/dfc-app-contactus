@@ -14,10 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="CustomControls\GenericCheckbox\TagHelpers\GenericCheckboxTagHelper.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
@@ -62,12 +58,6 @@
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-
-
-  <ItemGroup>
-    <Folder Include="CustomControls\GenericCheckbox\TagHelpers\" />
   </ItemGroup>
 
 

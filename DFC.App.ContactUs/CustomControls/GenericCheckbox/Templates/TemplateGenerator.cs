@@ -1,7 +1,9 @@
-﻿using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace DFC.App.ContactUs.CustomControls.GenericCheckbox.Templates
 {
+    [ExcludeFromCodeCoverage]
     internal static class TemplateGenerator
     {
         public static string Generate(string name, string label, bool value, bool isDisabled)
