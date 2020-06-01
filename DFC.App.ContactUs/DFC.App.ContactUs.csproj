@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="CustomControls\GenericCheckbox\Templates\TemplateGenerator.cs" />
+    <Compile Remove="CustomControls\GenericCheckbox\TagHelpers\GenericCheckboxTagHelper.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,7 +68,6 @@
 
   <ItemGroup>
     <Folder Include="CustomControls\GenericCheckbox\TagHelpers\" />
-    <Folder Include="CustomControls\GenericCheckbox\Templates\" />
   </ItemGroup>
 
 
