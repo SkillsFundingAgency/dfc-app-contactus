@@ -22,7 +22,7 @@
 
         @if (Model.CallbackDateTimeIsRequired)
         {
-            @Html.EditorFor(model => model.CallbackDateTime)
+            @Html.EditorFor(model => model.CallbackDateTime, new { ShowLabelAsHeader = "yes" })
         }
 
         @Html.EditorFor(model => model.TermsAndConditionsAccepted,
