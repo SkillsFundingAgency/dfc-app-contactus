@@ -34,5 +34,11 @@
 
         @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = ViewData.ModelMetadata.Name + "-error" })
 
-        <generic-checkbox name="@Html.NameFor(model => Model)" value="@Model" label="@ViewData["Label"]" class="@showErrorClassForInput"></generic-checkbox>
+        <generic-checkbox name="@Html.NameFor(model => Model)"
+                          value="@Model"
+                          label="@ViewData["Label"]"
+                          class="@showErrorClassForInput"
+                          error-message="@ViewData["ErrorMessage"]"
+                          compare-to="@ViewData["CompareTo"]"
+                          />
     </div>

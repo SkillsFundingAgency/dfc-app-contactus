@@ -7,6 +7,7 @@ namespace DFC.App.ContactUs.ViewModels
     public class EnterYourDetailsBodyViewModel
     {
         public const string TermsAndConditionsLabel = "I accept the <a class='govuk-link' href='/help/terms-and-conditions' target='_blank'>terms and conditions</a> and I am 13 or over.";
+        public const string TermsAndConditionsValidationError = "You must accept our Terms and Conditions";
 
         private const string RegExForName = "^[a-zA-Z ]+(([',.\\-][a-zA-Z ])?[a-zA-Z ]*)*$";
         private const string RegExForPostcode = "([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z]))))\\s?[0-9][A-Za-z]{2})";
@@ -63,7 +64,7 @@ namespace DFC.App.ContactUs.ViewModels
         public CallbackDateTimeViewModel? CallbackDateTime { get; set; } = new CallbackDateTimeViewModel();
 
         [Display(Name = "Terms and conditions")]
-        [Compare(nameof(IsTrue), ErrorMessage = "Please tick the terms and conditions")]
+        [Compare(nameof(IsTrue), ErrorMessage = TermsAndConditionsValidationError)]
         public bool TermsAndConditionsAccepted { get; set; }
 
         public bool IsTrue => true;

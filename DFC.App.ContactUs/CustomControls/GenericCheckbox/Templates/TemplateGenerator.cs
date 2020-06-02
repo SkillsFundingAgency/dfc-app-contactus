@@ -6,7 +6,7 @@ namespace DFC.App.ContactUs.CustomControls.GenericCheckbox.Templates
     [ExcludeFromCodeCoverage]
     internal static class TemplateGenerator
     {
-        public static string Generate(string name, string label, string className, bool value, bool isDisabled)
+        public static string Generate(string name, string label, string className, bool value, bool isDisabled, string? errorMessage, string? compareTo)
         {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -20,7 +20,21 @@ namespace DFC.App.ContactUs.CustomControls.GenericCheckbox.Templates
 
             stringBuilder.Append(
                 $"<div class=\"govuk-checkboxes__item\">" +
-                $"<input class=\"govuk-checkboxes__input " + className + $"\" id=\"{idValue}\" name=\"{nameValue}\" type=\"checkbox\" value=\"true\" {checkedValue} {disabledValue}>" +
+                $"<input class=\"govuk-checkboxes__input {className}\" id=\"{idValue}\" name=\"{nameValue}\" type=\"checkbox\" value=\"true\" {checkedValue} {disabledValue} data-val=\"true\" ");
+
+            if (!string.IsNullOrWhiteSpace(errorMessage))
+            {
+                stringBuilder.Append($"data-val-equalto=\"{errorMessage}\" ");
+            }
+
+            if (!string.IsNullOrWhiteSpace(compareTo))
+            {
+                stringBuilder.Append($"data-val-equalto-other=\"{compareTo}\" ");
+            }
+
+            stringBuilder.Append("/>");
+
+            stringBuilder.Append(
                 $"<label class=\"checkbox{disabledClass} govuk-label govuk-checkboxes__label\" for=\"{idValue}\">" + label +
                 $"</label>" +
                 $"</div>");
