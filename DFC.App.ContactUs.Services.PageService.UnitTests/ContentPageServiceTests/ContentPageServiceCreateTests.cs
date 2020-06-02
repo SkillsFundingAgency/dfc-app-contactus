@@ -22,7 +22,7 @@ namespace DFC.App.ContactUs.Services.PageService.UnitTests.ContentPageServiceTes
 
             A.CallTo(() => repository.UpsertAsync(contentPageModel)).Returns(HttpStatusCode.Created);
 
-            var contentPageService = new ContentPageService(repository);
+            var contentPageService = new ContentPageService<ContentPageModel>(repository);
 
             // act
             var result = contentPageService.UpsertAsync(contentPageModel).Result;
@@ -38,13 +38,13 @@ namespace DFC.App.ContactUs.Services.PageService.UnitTests.ContentPageServiceTes
             // arrange
             ContentPageModel? contentPageModel = null;
             var repository = A.Fake<ICosmosRepository<ContentPageModel>>();
-            var contentPageService = new ContentPageService(repository);
+            var contentPageService = new ContentPageService<ContentPageModel>(repository);
 
             // act
             var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await contentPageService.UpsertAsync(contentPageModel).ConfigureAwait(false)).ConfigureAwait(false);
 
             // assert
-            Assert.Equal("Value cannot be null. (Parameter 'contentPageModel')", exceptionResult.Message);
+            Assert.Equal("Value cannot be null. (Parameter 'model')", exceptionResult.Message);
         }
 
         [Fact]
@@ -57,7 +57,7 @@ namespace DFC.App.ContactUs.Services.PageService.UnitTests.ContentPageServiceTes
 
             A.CallTo(() => repository.UpsertAsync(contentPageModel)).Returns(HttpStatusCode.BadRequest);
 
-            var contentPageService = new ContentPageService(repository);
+            var contentPageService = new ContentPageService<ContentPageModel>(repository);
 
             // act
             var result = contentPageService.UpsertAsync(contentPageModel).Result;
@@ -78,7 +78,7 @@ namespace DFC.App.ContactUs.Services.PageService.UnitTests.ContentPageServiceTes
 
             A.CallTo(() => repository.UpsertAsync(contentPageModel)).Returns(HttpStatusCode.FailedDependency);
 
-            var contentPageService = new ContentPageService(repository);
+            var contentPageService = new ContentPageService<ContentPageModel>(repository);
 
             // act
             var result = contentPageService.UpsertAsync(contentPageModel).Result;

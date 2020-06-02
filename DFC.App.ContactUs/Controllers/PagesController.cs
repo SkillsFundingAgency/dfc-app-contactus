@@ -14,10 +14,10 @@ namespace DFC.App.ContactUs.Controllers
 {
     public class PagesController : BasePagesController<PagesController>
     {
-        private readonly IContentPageService contentPageService;
+        private readonly IContentPageService<ContentPageModel> contentPageService;
         private readonly AutoMapper.IMapper mapper;
 
-        public PagesController(ILogger<PagesController> logger, IContentPageService contentPageService, AutoMapper.IMapper mapper) : base(logger)
+        public PagesController(ILogger<PagesController> logger, IContentPageService<ContentPageModel> contentPageService, AutoMapper.IMapper mapper) : base(logger)
         {
             this.contentPageService = contentPageService;
             this.mapper = mapper;

@@ -1,4 +1,4 @@
-﻿using DFC.App.ContactUs.Data.Models;
+﻿using DFC.App.ContactUs.Data.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Services.EventProcessorService.Contracts
 {
-    public interface IEventMessageService
+    public interface IEventMessageService<TModel>
+        where TModel : class, IServiceDataModel
     {
-        Task<IList<ContentPageModel>?> GetAllCachedCanonicalNamesAsync();
+        Task<IList<TModel>?> GetAllCachedCanonicalNamesAsync();
 
-        Task<HttpStatusCode> CreateAsync(ContentPageModel? upsertContentPageModel);
+        Task<HttpStatusCode> CreateAsync(TModel? upsertServiceDataModel);
 
-        Task<HttpStatusCode> UpdateAsync(ContentPageModel? upsertContentPageModel);
+        Task<HttpStatusCode> UpdateAsync(TModel? upsertServiceDataModel);
 
         Task<HttpStatusCode> DeleteAsync(Guid documentId);
     }

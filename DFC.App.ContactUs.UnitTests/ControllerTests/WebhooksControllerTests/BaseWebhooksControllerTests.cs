@@ -1,5 +1,6 @@
 ﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.Services.CmsApiProcessorService.Contracts;
 using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
 using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
@@ -30,14 +31,14 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
         protected BaseWebhooksControllerTests()
         {
             Logger = A.Fake<ILogger<WebhooksController>>();
-            FakeEventMessageService = A.Fake<IEventMessageService>();
+            FakeEventMessageService = A.Fake<IEventMessageService<ContentPageModel>>();
             FakeCmsApiService = A.Fake<ICmsApiService>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
         }
 
         protected ILogger<WebhooksController> Logger { get; }
 
-        protected IEventMessageService FakeEventMessageService { get; }
+        protected IEventMessageService<ContentPageModel> FakeEventMessageService { get; }
 
         protected ICmsApiService FakeCmsApiService { get; }
 

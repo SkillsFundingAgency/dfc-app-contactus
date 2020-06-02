@@ -19,7 +19,7 @@ namespace DFC.App.ContactUs.Services.PageService.UnitTests.ContentPageServiceTes
 
             A.CallTo(() => repository.GetAllAsync()).Returns(expectedResults);
 
-            var contentPageService = new ContentPageService(repository);
+            var contentPageService = new ContentPageService<ContentPageModel>(repository);
 
             // act
             var results = await contentPageService.GetAllAsync().ConfigureAwait(false);
@@ -38,7 +38,7 @@ namespace DFC.App.ContactUs.Services.PageService.UnitTests.ContentPageServiceTes
 
             A.CallTo(() => repository.GetAllAsync()).Returns(expectedResults);
 
-            var contentPageService = new ContentPageService(repository);
+            var contentPageService = new ContentPageService<ContentPageModel>(repository);
 
             // act
             var results = await contentPageService.GetAllAsync().ConfigureAwait(false);

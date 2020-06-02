@@ -25,11 +25,16 @@
             @Html.EditorFor(model => model.CallbackDateTime)
         }
 
-        @Html.EditorFor(model => model.TermsAndConditionsAccepted, new { Label = EnterYourDetailsBodyViewModel.TermsAndConditionsLabel })
+        @Html.EditorFor(model => model.TermsAndConditionsAccepted,
+            new {
+                Label = EnterYourDetailsBodyViewModel.TermsAndConditionsLabel,
+                ErrorMessage = EnterYourDetailsBodyViewModel.TermsAndConditionsValidationError,
+                CompareTo = $"*.{nameof(EnterYourDetailsBodyViewModel.IsTrue)}"
+            })
 
         @Html.HiddenFor(model => model.SelectedCategory)
         @Html.HiddenFor(model => model.MoreDetail)
-        @Html.Hidden(nameof(Model.IsTrue), Model.IsTrue)
+        @Html.Hidden(nameof(Model.IsTrue), "true")
     </fieldset>
 
     <br />

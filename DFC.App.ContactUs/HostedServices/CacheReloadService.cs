@@ -17,10 +17,10 @@ namespace DFC.App.ContactUs.HostedServices
     {
         private readonly ILogger<CacheReloadService> logger;
         private readonly AutoMapper.IMapper mapper;
-        private readonly IEventMessageService eventMessageService;
+        private readonly IEventMessageService<ContentPageModel> eventMessageService;
         private readonly ICmsApiService cmsApiService;
 
-        public CacheReloadService(ILogger<CacheReloadService> logger, AutoMapper.IMapper mapper, IEventMessageService eventMessageService, ICmsApiService cmsApiService)
+        public CacheReloadService(ILogger<CacheReloadService> logger, AutoMapper.IMapper mapper, IEventMessageService<ContentPageModel> eventMessageService, ICmsApiService cmsApiService)
         {
             this.logger = logger;
             this.mapper = mapper;

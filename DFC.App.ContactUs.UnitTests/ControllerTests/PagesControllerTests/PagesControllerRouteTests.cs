@@ -19,13 +19,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
     public class PagesControllerRouteTests
     {
         private readonly ILogger<PagesController> logger;
-        private readonly IContentPageService fakeContentPageService;
+        private readonly IContentPageService<ContentPageModel> fakeContentPageService;
         private readonly IMapper fakeMapper;
 
         public PagesControllerRouteTests()
         {
             logger = A.Fake<ILogger<PagesController>>();
-            fakeContentPageService = A.Fake<IContentPageService>();
+            fakeContentPageService = A.Fake<IContentPageService<ContentPageModel>>();
             fakeMapper = A.Fake<IMapper>();
         }
 

@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.Extensions;
+﻿using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Services.PageService.Contracts;
 using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,10 @@ namespace DFC.App.ContactUs.Controllers
     public class HealthController : Controller
     {
         private readonly ILogger<HealthController> logger;
-        private readonly IContentPageService contentPageService;
+        private readonly IContentPageService<ContentPageModel> contentPageService;
         private readonly string resourceName = typeof(Program).Namespace!;
 
-        public HealthController(ILogger<HealthController> logger, IContentPageService contentPageService)
+        public HealthController(ILogger<HealthController> logger, IContentPageService<ContentPageModel> contentPageService)
         {
             this.logger = logger;
             this.contentPageService = contentPageService;

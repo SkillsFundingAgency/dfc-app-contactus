@@ -39,7 +39,7 @@ namespace DFC.App.ContactUs.Attributes
 
                 if (isRequiredValue != null && isRequiredValue.Value && value == null)
                 {
-                    var errorMessage = string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName);
+                    var errorMessage = string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName.ToLowerInvariant());
                     return new ValidationResult(errorMessage, new[] { validationContext.MemberName });
                 }
             }

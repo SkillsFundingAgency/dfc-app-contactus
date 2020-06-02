@@ -20,7 +20,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             // Assert
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
-            Assert.NotNull(validationResults.First(f => f.ErrorMessage.Contains("Please tick the", StringComparison.Ordinal)));
+            Assert.NotNull(validationResults.First(f => f.ErrorMessage.Contains("You must accept our", StringComparison.Ordinal)));
         }
     }
 }

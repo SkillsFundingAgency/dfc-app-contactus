@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.Extensions;
+﻿using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.Services.PageService.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,9 @@ namespace DFC.App.ContactUs.Controllers
     public class SitemapController : Controller
     {
         private readonly ILogger<SitemapController> logger;
-        private readonly IContentPageService contentPageService;
+        private readonly IContentPageService<ContentPageModel> contentPageService;
 
-        public SitemapController(ILogger<SitemapController> logger, IContentPageService contentPageService)
+        public SitemapController(ILogger<SitemapController> logger, IContentPageService<ContentPageModel> contentPageService)
         {
             this.logger = logger;
             this.contentPageService = contentPageService;

@@ -17,7 +17,7 @@ namespace DFC.App.ContactUs.Services.PageService.UnitTests.ContentPageServiceTes
 
             A.CallTo(() => repository.PingAsync()).Returns(expectedResult);
 
-            var contentPageService = new ContentPageService(repository);
+            var contentPageService = new ContentPageService<ContentPageModel>(repository);
 
             // act
             var result = contentPageService.PingAsync().Result;
@@ -36,7 +36,7 @@ namespace DFC.App.ContactUs.Services.PageService.UnitTests.ContentPageServiceTes
 
             A.CallTo(() => repository.PingAsync()).Returns(expectedResult);
 
-            var contentPageService = new ContentPageService(repository);
+            var contentPageService = new ContentPageService<ContentPageModel>(repository);
 
             // act
             var result = contentPageService.PingAsync().Result;

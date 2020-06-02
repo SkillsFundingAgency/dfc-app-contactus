@@ -1,4 +1,4 @@
-﻿using DFC.App.ContactUs.Data.Models;
+﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
 using DFC.App.ContactUs.Services.PageService.Contracts;
 using Microsoft.Extensions.Logging;
@@ -10,67 +10,68 @@ using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Services.EventProcessorService
 {
-    public class EventMessageService : IEventMessageService
+    public class EventMessageService<TModel> : IEventMessageService<TModel>
+           where TModel : class, IServiceDataModel
     {
-        private readonly ILogger<EventMessageService> logger;
-        private readonly IContentPageService contentPageService;
+        private readonly ILogger<EventMessageService<TModel>> logger;
+        private readonly IContentPageService<TModel> contentPageService;
 
-        public EventMessageService(ILogger<EventMessageService> logger, IContentPageService contentPageService)
+        public EventMessageService(ILogger<EventMessageService<TModel>> logger, IContentPageService<TModel> contentPageService)
         {
             this.logger = logger;
             this.contentPageService = contentPageService;
         }
 
-        public async Task<IList<ContentPageModel>?> GetAllCachedCanonicalNamesAsync()
+        public async Task<IList<TModel>?> GetAllCachedCanonicalNamesAsync()
         {
-            var contentPageModels = await contentPageService.GetAllAsync().ConfigureAwait(false);
+            var serviceDataModels = await contentPageService.GetAllAsync().ConfigureAwait(false);
 
-            return contentPageModels.ToList();
+            return serviceDataModels.ToList();
         }
 
-        public async Task<HttpStatusCode> CreateAsync(ContentPageModel? upsertContentPageModel)
+        public async Task<HttpStatusCode> CreateAsync(TModel? upsertServiceDataModel)
         {
-            if (upsertContentPageModel == null)
+            if (upsertServiceDataModel == null)
             {
                 return HttpStatusCode.BadRequest;
             }
 
-            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.DocumentId).ConfigureAwait(false);
+            var existingDocument = await contentPageService.GetByIdAsync(upsertServiceDataModel.DocumentId).ConfigureAwait(false);
             if (existingDocument != null)
             {
                 return HttpStatusCode.AlreadyReported;
             }
 
-            var response = await contentPageService.UpsertAsync(upsertContentPageModel).ConfigureAwait(false);
+            var response = await contentPageService.UpsertAsync(upsertServiceDataModel).ConfigureAwait(false);
 
-            logger.LogInformation($"{nameof(CreateAsync)} has upserted content for: {upsertContentPageModel.CanonicalName} with response code {response}");
+            logger.LogInformation($"{nameof(CreateAsync)} has upserted content for: {upsertServiceDataModel.CanonicalName} with response code {response}");
 
             return response;
         }
 
-        public async Task<HttpStatusCode> UpdateAsync(ContentPageModel? upsertContentPageModel)
+        public async Task<HttpStatusCode> UpdateAsync(TModel? upsertServiceDataModel)
         {
-            if (upsertContentPageModel == null)
+            if (upsertServiceDataModel == null)
             {
                 return HttpStatusCode.BadRequest;
             }
 
-            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.DocumentId).ConfigureAwait(false);
+            var existingDocument = await contentPageService.GetByIdAsync(upsertServiceDataModel.DocumentId).ConfigureAwait(false);
             if (existingDocument == null)
             {
                 return HttpStatusCode.NotFound;
             }
 
-            if (upsertContentPageModel.Version.Equals(existingDocument.Version))
+            if (upsertServiceDataModel.Version.Equals(existingDocument.Version))
             {
                 return HttpStatusCode.AlreadyReported;
             }
 
-            upsertContentPageModel.Etag = existingDocument.Etag;
+            upsertServiceDataModel.Etag = existingDocument.Etag;
 
-            var response = await contentPageService.UpsertAsync(upsertContentPageModel).ConfigureAwait(false);
+            var response = await contentPageService.UpsertAsync(upsertServiceDataModel).ConfigureAwait(false);
 
-            logger.LogInformation($"{nameof(UpdateAsync)} has upserted content for: {upsertContentPageModel.CanonicalName} with response code {response}");
+            logger.LogInformation($"{nameof(UpdateAsync)} has upserted content for: {upsertServiceDataModel.CanonicalName} with response code {response}");
 
             return response;
         }

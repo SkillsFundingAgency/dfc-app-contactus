@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Services.PageService.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
@@ -12,12 +13,12 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.SitemapControllerTests
         public BaseSitemapControllerTests()
         {
             FakeLogger = A.Fake<ILogger<SitemapController>>();
-            FakeContentPageService = A.Fake<IContentPageService>();
+            FakeContentPageService = A.Fake<IContentPageService<ContentPageModel>>();
         }
 
         protected ILogger<SitemapController> FakeLogger { get; }
 
-        protected IContentPageService FakeContentPageService { get; }
+        protected IContentPageService<ContentPageModel> FakeContentPageService { get; }
 
         protected SitemapController BuildSitemapController()
         {

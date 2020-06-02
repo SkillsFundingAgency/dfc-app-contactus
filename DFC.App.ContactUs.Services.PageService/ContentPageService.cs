@@ -1,5 +1,4 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
-using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Services.PageService.Contracts;
 using System;
 using System.Collections.Generic;
@@ -8,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Services.PageService
 {
-    public class ContentPageService : IContentPageService
+    public class ContentPageService<TModel> : IContentPageService<TModel>
+            where TModel : class, IServiceDataModel
     {
-        private readonly ICosmosRepository<ContentPageModel> repository;
+        private readonly ICosmosRepository<TModel> repository;
 
-        public ContentPageService(ICosmosRepository<ContentPageModel> repository)
+        public ContentPageService(ICosmosRepository<TModel> repository)
         {
             this.repository = repository;
         }
@@ -22,17 +22,17 @@ namespace DFC.App.ContactUs.Services.PageService
             return await repository.PingAsync().ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<ContentPageModel>?> GetAllAsync()
+        public async Task<IEnumerable<TModel>?> GetAllAsync()
         {
             return await repository.GetAllAsync().ConfigureAwait(false);
         }
 
-        public async Task<ContentPageModel?> GetByIdAsync(Guid documentId)
+        public async Task<TModel?> GetByIdAsync(Guid documentId)
         {
             return await repository.GetAsync(d => d.DocumentId == documentId).ConfigureAwait(false);
         }
 
-        public async Task<ContentPageModel?> GetByNameAsync(string? canonicalName)
+        public async Task<TModel?> GetByNameAsync(string? canonicalName)
         {
             if (string.IsNullOrWhiteSpace(canonicalName))
             {
@@ -42,7 +42,7 @@ namespace DFC.App.ContactUs.Services.PageService
             return await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
         }
 
-        public async Task<ContentPageModel?> GetByAlternativeNameAsync(string? alternativeName)
+        public async Task<TModel?> GetByAlternativeNameAsync(string? alternativeName)
         {
             if (string.IsNullOrWhiteSpace(alternativeName))
             {
@@ -52,14 +52,14 @@ namespace DFC.App.ContactUs.Services.PageService
             return await repository.GetAsync(d => d.AlternativeNames!.Contains(alternativeName.ToLowerInvariant())).ConfigureAwait(false);
         }
 
-        public async Task<HttpStatusCode> UpsertAsync(ContentPageModel? contentPageModel)
+        public async Task<HttpStatusCode> UpsertAsync(TModel? model)
         {
-            if (contentPageModel == null)
+            if (model == null)
             {
-                throw new ArgumentNullException(nameof(contentPageModel));
+                throw new ArgumentNullException(nameof(model));
             }
 
-            return await repository.UpsertAsync(contentPageModel).ConfigureAwait(false);
+            return await repository.UpsertAsync(model).ConfigureAwait(false);
         }
 
         public async Task<bool> DeleteAsync(Guid documentId)

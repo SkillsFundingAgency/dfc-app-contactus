@@ -115,8 +115,8 @@ namespace DFC.App.ContactUs
             services.AddTransient<IMergeEmailContentService, MergeEmailContentService>();
             services.AddTransient<ISendGridEmailService<ContactUsEmailRequestModel>, SendGridEmailService<ContactUsEmailRequestModel>>();
             services.AddTransient<ITemplateService, TemplateService>();
-            services.AddTransient<IContentPageService, ContentPageService>();
-            services.AddTransient<IEventMessageService, EventMessageService>();
+            services.AddTransient<IContentPageService<ContentPageModel>, ContentPageService<ContentPageModel>>();
+            services.AddTransient<IEventMessageService<ContentPageModel>, EventMessageService<ContentPageModel>>();
             services.AddTransient<ICacheReloadService, CacheReloadService>();
             services.AddTransient<IApiService, ApiService>();
             services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
