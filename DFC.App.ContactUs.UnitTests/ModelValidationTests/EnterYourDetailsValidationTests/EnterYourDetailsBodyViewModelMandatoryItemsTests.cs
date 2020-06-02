@@ -50,7 +50,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
                     Assert.Contains(expectedErrors[fe], validationResults.First(f => f.MemberNames.Any(a => a == fe)).ErrorMessage, StringComparison.Ordinal);
                 });
 
-            Assert.NotNull(validationResults.First(f => f.ErrorMessage.Contains("Please tick the", StringComparison.Ordinal)));
+            Assert.NotNull(validationResults.First(f => f.ErrorMessage.Contains("You must accept our", StringComparison.Ordinal)));
         }
 
         [Theory]
@@ -84,7 +84,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
                 Assert.Contains(expectedErrors[fe], validationResults.First(f => f.MemberNames.Any(a => a == fe)).ErrorMessage, StringComparison.Ordinal);
             });
 
-            Assert.NotNull(validationResults.First(f => f.ErrorMessage.Contains("Please tick the", StringComparison.Ordinal)));
+            Assert.NotNull(validationResults.First(f => f.ErrorMessage.Contains("You must accept our", StringComparison.Ordinal)));
         }
     }
 }
