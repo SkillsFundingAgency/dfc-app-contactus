@@ -73,7 +73,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
             Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.Postcode))));
-            Assert.Contains("must be an English postcode", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.Postcode))).ErrorMessage, StringComparison.Ordinal);
+            Assert.Contains("Postcode must be an English", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.Postcode))).ErrorMessage, StringComparison.Ordinal);
         }
 
         [Theory]

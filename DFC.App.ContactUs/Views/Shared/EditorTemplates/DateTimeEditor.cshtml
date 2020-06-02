@@ -3,6 +3,7 @@
 @{
     const string govukFormGroupErrorClass = "govuk-form-group--error";
     const string govukInputErrorClass = "govuk-input--error";
+    var hintId = string.Empty;
     var showErrorClass = string.Empty;
     var errorFieldClass = new Dictionary<string, string>
 {
@@ -33,9 +34,25 @@
 }
 
 <div class="govuk-form-group @showErrorClass">
-    <h3 class="govuk-heading">
-        @Html.DisplayNameFor(model => model)
-    </h3>
+    @if (string.IsNullOrWhiteSpace(ViewData["ShowLabelAsHeader"]?.ToString()))
+    {
+        @Html.LabelFor(model => model, new { @class = "govuk-label" })
+    }
+    else
+    {
+        <h3 class="govuk-heading">
+            @Html.DisplayNameFor(model => model)
+        </h3>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(ViewData.ModelMetadata.Description))
+    {
+        hintId = ViewData.ModelMetadata.Name + "-hint";
+
+        <span id="@hintId" class="govuk-hint">
+            @ViewData.ModelMetadata.Description
+        </span>
+    }
 
     @if (errorFieldClass[Html.NameFor(model => model)] != string.Empty)
     {
@@ -78,7 +95,8 @@
                 type = "number",
                 maxLength = "2",
                 pattern = "[0-9]*",
-                inputmode = "numeric"
+                inputmode = "numeric",
+                aria_describedby = hintId
             })
         </div>
         <div class="govuk-date-input__item">
@@ -92,7 +110,8 @@
                 type = "number",
                 maxLength = "2",
                 pattern = "[0-9]*",
-                inputmode = "numeric"
+                inputmode = "numeric",
+                aria_describedby = hintId
             })
         </div>
         <div class="govuk-date-input__item">
@@ -106,7 +125,8 @@
                 type = "number",
                 maxLength = "4",
                 pattern = "[0-9]*",
-                inputmode = "numeric"
+                inputmode = "numeric",
+                aria_describedby = hintId
             })
         </div>
 
@@ -123,7 +143,8 @@
                     type = "number",
                     maxLength = "2",
                     pattern = "[0-9]*",
-                    inputmode = "numeric"
+                    inputmode = "numeric",
+                    aria_describedby = hintId
                 })
             </div>
             <div class="govuk-date-input__item">
@@ -137,7 +158,8 @@
                     type = "number",
                     maxLength = "2",
                     pattern = "[0-9]*",
-                    inputmode = "numeric"
+                    inputmode = "numeric",
+                    aria_describedby = hintId
                 })
             </div>
         }

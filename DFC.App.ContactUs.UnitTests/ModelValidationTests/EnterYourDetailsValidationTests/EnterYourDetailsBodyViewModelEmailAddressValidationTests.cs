@@ -74,7 +74,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
             Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.EmailAddress))));
-            Assert.Contains("Enter a valid email address", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.EmailAddress))).ErrorMessage, StringComparison.Ordinal);
+            Assert.Contains("Enter an email address in the correct format", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.EmailAddress))).ErrorMessage, StringComparison.Ordinal);
         }
 
         [Theory]
