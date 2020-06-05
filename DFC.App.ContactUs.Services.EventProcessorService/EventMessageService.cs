@@ -1,5 +1,4 @@
-﻿using DFC.App.ContactUs.Data.Contracts;
-using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
+﻿using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
 using DFC.App.ContactUs.Services.PageService.Contracts;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 namespace DFC.App.ContactUs.Services.EventProcessorService
 {
     public class EventMessageService<TModel> : IEventMessageService<TModel>
-           where TModel : class, IServiceDataModel
+           where TModel : class, IEventDataModel
     {
         private readonly ILogger<EventMessageService<TModel>> logger;
         private readonly IContentPageService<TModel> contentPageService;
@@ -36,7 +35,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService
                 return HttpStatusCode.BadRequest;
             }
 
-            var existingDocument = await contentPageService.GetByIdAsync(upsertServiceDataModel.DocumentId).ConfigureAwait(false);
+            var existingDocument = await contentPageService.GetByIdAsync(upsertServiceDataModel.Id).ConfigureAwait(false);
             if (existingDocument != null)
             {
                 return HttpStatusCode.AlreadyReported;
@@ -56,7 +55,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService
                 return HttpStatusCode.BadRequest;
             }
 
-            var existingDocument = await contentPageService.GetByIdAsync(upsertServiceDataModel.DocumentId).ConfigureAwait(false);
+            var existingDocument = await contentPageService.GetByIdAsync(upsertServiceDataModel.Id).ConfigureAwait(false);
             if (existingDocument == null)
             {
                 return HttpStatusCode.NotFound;
@@ -76,18 +75,18 @@ namespace DFC.App.ContactUs.Services.EventProcessorService
             return response;
         }
 
-        public async Task<HttpStatusCode> DeleteAsync(Guid documentId)
+        public async Task<HttpStatusCode> DeleteAsync(Guid id)
         {
-            var isDeleted = await contentPageService.DeleteAsync(documentId).ConfigureAwait(false);
+            var isDeleted = await contentPageService.DeleteAsync(id).ConfigureAwait(false);
 
             if (isDeleted)
             {
-                logger.LogInformation($"{nameof(DeleteAsync)} has deleted content for document Id: {documentId}");
+                logger.LogInformation($"{nameof(DeleteAsync)} has deleted content for document Id: {id}");
                 return HttpStatusCode.OK;
             }
             else
             {
-                logger.LogWarning($"{nameof(DeleteAsync)} has returned no content for: {documentId}");
+                logger.LogWarning($"{nameof(DeleteAsync)} has returned no content for: {id}");
                 return HttpStatusCode.NotFound;
             }
         }

@@ -19,6 +19,7 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
             CreateMap<ChatOptions, ChatViewBodyModel>();
 
             CreateMap<ContentPageModel, DocumentViewModel>()
+                .ForMember(d => d.DocumentId, s => s.MapFrom(a => a.Id))
                 .ForMember(d => d.HtmlHead, s => s.Ignore())
                 .ForMember(d => d.Breadcrumb, s => s.Ignore())
                 .ForMember(d => d.Content, s => s.MapFrom(a => new HtmlString(a.Content)))
@@ -35,7 +36,7 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
             CreateMap<ContentPageModel, BreadcrumbItemModel>();
 
             CreateMap<ContactUsApiDataModel, ContentPageModel>()
-                .ForMember(d => d.DocumentId, s => s.MapFrom(a => a.ItemId))
+                .ForMember(d => d.Id, s => s.MapFrom(a => a.ItemId))
                 .ForMember(d => d.Etag, s => s.Ignore())
                 .ForMember(d => d.PartitionKey, s => s.Ignore())
                 .ForMember(d => d.SequenceNumber, s => s.Ignore())

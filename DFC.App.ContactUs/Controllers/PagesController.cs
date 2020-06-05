@@ -1,6 +1,7 @@
 ﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
+using DFC.App.ContactUs.Services.PageService;
 using DFC.App.ContactUs.Services.PageService.Contracts;
 using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ namespace DFC.App.ContactUs.Controllers
     public class PagesController : BasePagesController<PagesController>
     {
         private readonly IContentPageService<ContentPageModel> contentPageService;
+        private readonly ISessionService<SessionDataModel> sessionService;
         private readonly AutoMapper.IMapper mapper;
 
-        public PagesController(ILogger<PagesController> logger, IContentPageService<ContentPageModel> contentPageService, AutoMapper.IMapper mapper) : base(logger)
+        public PagesController(ILogger<PagesController> logger, IContentPageService<ContentPageModel> contentPageService, ISessionService<SessionDataModel> sessionService, AutoMapper.IMapper mapper) : base(logger)
         {
             this.contentPageService = contentPageService;
+            this.sessionService = sessionService;
             this.mapper = mapper;
         }
 
@@ -28,6 +31,23 @@ namespace DFC.App.ContactUs.Controllers
         [Route("pages")]
         public async Task<IActionResult> Index()
         {
+            var compositeSessionId = Request.CompositeSessionId();
+            if (compositeSessionId.HasValue)
+            {
+                var sessionStateModel = await sessionService.GetAsync(compositeSessionId.Value).ConfigureAwait(false);
+
+                sessionStateModel.State!.CurrentDatetime = DateTime.Now;
+                sessionStateModel.State!.Visits++;
+
+                var result = await sessionService.SaveAsync(sessionStateModel).ConfigureAwait(false);
+            }
+
+
+
+
+
+
+
             var viewModel = new IndexViewModel()
             {
                 LocalPath = LocalPath,
@@ -209,7 +229,7 @@ namespace DFC.App.ContactUs.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.DocumentId).ConfigureAwait(false);
+            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.Id).ConfigureAwait(false);
             if (existingDocument != null)
             {
                 return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
@@ -236,7 +256,7 @@ namespace DFC.App.ContactUs.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.DocumentId).ConfigureAwait(false);
+            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.Id).ConfigureAwait(false);
             if (existingDocument == null)
             {
                 return new StatusCodeResult((int)HttpStatusCode.NotFound);

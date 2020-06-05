@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.Data.UnitTests.Validation
             var vr = Validate(model);
 
             vr.Should().NotBeEmpty();
-            vr.Should().Contain(x => x.ErrorMessage == string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldInvalidGuid, nameof(model.DocumentId)));
+            vr.Should().Contain(x => x.ErrorMessage == string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldInvalidGuid, nameof(model.Id)));
             vr.Should().HaveCount(1);
         }
 
@@ -91,7 +91,7 @@ namespace DFC.App.ContactUs.Data.UnitTests.Validation
         {
             var model = new ContentPageModel
             {
-                DocumentId = documentId,
+                Id = documentId,
                 CanonicalName = canonicalName,
                 BreadcrumbTitle = canonicalName,
                 Version = Guid.NewGuid(),

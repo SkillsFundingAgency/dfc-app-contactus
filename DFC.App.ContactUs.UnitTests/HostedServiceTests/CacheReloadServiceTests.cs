@@ -352,7 +352,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
         {
             var model = new ContentPageModel()
             {
-                DocumentId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 CanonicalName = "an-article",
                 BreadcrumbTitle = "An article",
                 IncludeInSitemap = true,

@@ -1,29 +1,21 @@
 ﻿using DFC.App.ContactUs.Data.Attributes;
-using DFC.App.ContactUs.Data.Contracts;
-using Newtonsoft.Json;
+using DFC.App.ContactUs.Repository.CosmosDb.Models;
+using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.ContactUs.Data.Models
 {
-    public class ContentPageModel : IServiceDataModel
+    public class ContentPageModel : BaseCosmosDataModel, IEventDataModel
     {
-        [Guid]
         [Required]
-        [JsonProperty(PropertyName = "id")]
-        public Guid DocumentId { get; set; }
-
-        [JsonProperty(PropertyName = "_etag")]
-        public string? Etag { get; set; }
+        public override string? PartitionKey { get; set; } = "static-page";
 
         [Required]
         [LowerCase]
         [UrlPath]
         public string? CanonicalName { get; set; }
-
-        [Required]
-        public string PartitionKey => "static-page";
 
         [Obsolete("May be removed once Service Bus and Message Function app removed from solution")]
         public long SequenceNumber { get; set; }

@@ -65,7 +65,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
         {
             var model = new ContentPageModel()
             {
-                DocumentId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 CanonicalName = "an-article",
                 BreadcrumbTitle = "An article",
                 IncludeInSitemap = true,

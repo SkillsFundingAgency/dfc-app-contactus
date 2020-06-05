@@ -2,14 +2,13 @@
 using CorrelationId;
 using DFC.App.ContactUs.Attributes;
 using DFC.App.ContactUs.ClientHandlers;
-using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Filters;
 using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.HttpClientPolicies;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Repository.CosmosDb;
+using DFC.App.ContactUs.Repository.CosmosDb.Models;
 using DFC.App.ContactUs.Services.ApiProcessorService;
 using DFC.App.ContactUs.Services.ApiProcessorService.Contracts;
 using DFC.App.ContactUs.Services.AreaRoutingService;
@@ -26,7 +25,6 @@ using DFC.App.ContactUs.Services.EmailTemplateService.Contracts;
 using DFC.App.ContactUs.Services.EventProcessorService;
 using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
 using DFC.App.ContactUs.Services.PageService;
-using DFC.App.ContactUs.Services.PageService.Contracts;
 using DFC.App.ContactUs.Services.Services.EmailService;
 using DFC.Logger.AppInsights.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -34,8 +32,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -49,14 +45,17 @@ namespace DFC.App.ContactUs
     [ExcludeFromCodeCoverage]
     public class Startup
     {
-        private const string CosmosDbConfigAppSettings = "Configuration:CosmosDbConnections:ContentPages";
+        private const string CosmosDbContentPagesConfigAppSettings = "Configuration:CosmosDbConnections:ContentPages";
+        private const string CosmosDbSessionStateConfigAppSettings = "Configuration:CosmosDbConnections:SessionState";
         private const string SendGridAppSettings = "Configuration:SendGrid";
 
         private readonly IConfiguration configuration;
+        private readonly IWebHostEnvironment env;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             this.configuration = configuration;
+            this.env = env;
         }
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper)
@@ -101,21 +100,20 @@ namespace DFC.App.ContactUs
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
-            var documentClient = new DocumentClient(cosmosDbConnection!.EndpointUrl, cosmosDbConnection!.AccessKey);
+            var cosmosDbConnectionContentPages = configuration.GetSection(CosmosDbContentPagesConfigAppSettings).Get<CosmosDbConnection>();
+            var cosmosDbConnectionSessionState = configuration.GetSection(CosmosDbSessionStateConfigAppSettings).Get<CosmosDbConnection>();
+            services.AddContentPageServices<ContentPageModel>(cosmosDbConnectionContentPages, env.IsDevelopment());
+            services.AddSessionStateServices<SessionDataModel>(cosmosDbConnectionSessionState, env.IsDevelopment());
+
             services.AddApplicationInsightsTelemetry();
             services.AddHttpContextAccessor();
             services.AddCorrelationId();
             services.AddSingleton(new ServiceOpenDetailModel());
-            services.AddSingleton(cosmosDbConnection);
-            services.AddSingleton<IDocumentClient>(documentClient);
-            services.AddSingleton<ICosmosRepository<ContentPageModel>, CosmosRepository<ContentPageModel>>();
             services.AddSingleton<ValidationHtmlAttributeProvider, CustomValidationHtmlAttributeProvider>();
             services.AddSingleton(ConfigureSendGridClient());
             services.AddTransient<IMergeEmailContentService, MergeEmailContentService>();
             services.AddTransient<ISendGridEmailService<ContactUsEmailRequestModel>, SendGridEmailService<ContactUsEmailRequestModel>>();
             services.AddTransient<ITemplateService, TemplateService>();
-            services.AddTransient<IContentPageService<ContentPageModel>, ContentPageService<ContentPageModel>>();
             services.AddTransient<IEventMessageService<ContentPageModel>, EventMessageService<ContentPageModel>>();
             services.AddTransient<ICacheReloadService, CacheReloadService>();
             services.AddTransient<IApiService, ApiService>();
