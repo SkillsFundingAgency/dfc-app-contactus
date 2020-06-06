@@ -24,7 +24,7 @@
                 var radioId = category == Category.AdviceGuidance ? nameof(WhyContactUsBodyViewModel.SelectedCategory) : $"{category}-option";
 
                 <div class="govuk-radios__item">
-                    <input class="govuk-radios__input" name="@nameof(WhyContactUsBodyViewModel.SelectedCategory)" id="@radioId" type="radio" value="@category">
+                    <input class="govuk-radios__input" name="@nameof(WhyContactUsBodyViewModel.SelectedCategory)" id="@radioId" type="radio" value="@category" data-val="true" data-val-required="@WhyContactUsBodyViewModel.SelectedCategoryValidationError">
                     <label class="govuk-label govuk-radios__label" for="@radioId">@category.GetDescription()</label>
                 </div>
             }
