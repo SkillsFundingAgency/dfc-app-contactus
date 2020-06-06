@@ -59,7 +59,7 @@ namespace DFC.App.ContactUs.ViewModels
         public string? Postcode { get; set; }
 
         [Display(Name = "When do you want us to contact you?", Description = "For example, 31 7 2020 10 45")]
-        [CallbackDateTimeValidation(3, nameof(CallbackDateTimeIsRequired), ErrorMessage = "Enter when you want us to contact you")]
+        [CallbackDateTimeValidation(3, nameof(CallbackDateTimeIsRequired), ErrorMessage = "The callback date and time")]
         [DataType("DateTimeEditor")]
         public CallbackDateTimeViewModel? CallbackDateTime { get; set; } = new CallbackDateTimeViewModel();
 

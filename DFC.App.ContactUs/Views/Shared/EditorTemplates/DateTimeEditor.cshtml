@@ -12,6 +12,13 @@
         { Html.NameFor(model => model.Month), string.Empty },
         { Html.NameFor(model => model.Year), string.Empty },
     };
+    var validationParameters = string.Empty;
+    validationParameters += "{ ";
+    validationParameters += "\"displayName\": \"" + @ViewData["ErrorMessageFieldName"]?.ToString() + "\", ";
+    validationParameters += "\"minDate\": \"" + @ViewData["minDate"]?.ToString() + "\", ";
+    validationParameters += "\"maxDate\": \"" + @ViewData["maxDate"]?.ToString() + "\", ";
+    validationParameters += "\"dateRangeError\": \"" + @ViewData["dateRangeError"]?.ToString() + "\"";
+    validationParameters += " }";
 
     if (Model.IncludeTimeValue)
     {
@@ -89,7 +96,7 @@
             @Html.TextBoxFor(model => model.Day, new
             {
                 @class = "govuk-input govuk-date-input__input govuk-input--width-2 " + errorFieldClass[Html.NameFor(model => model)] + " " + errorFieldClass[Html.NameFor(model => model.Day)],
-                data_rule_CompUiValidationForDate = ViewData.ModelMetadata.DisplayName,
+                data_rule_CompUiValidationForDate = validationParameters,
                 data_rule_required = "false",
                 autocomplete = "off",
                 type = "number",
@@ -104,7 +111,7 @@
             @Html.TextBoxFor(model => model.Month, new
             {
                 @class = "govuk-input govuk-date-input__input govuk-input--width-2 " + errorFieldClass[Html.NameFor(model => model)] + " " + errorFieldClass[Html.NameFor(model => model.Month)],
-                data_rule_CompUiValidationForDate = ViewData.ModelMetadata.DisplayName,
+                data_rule_CompUiValidationForDate = validationParameters,
                 data_rule_required = "false",
                 autocomplete = "off",
                 type = "number",
@@ -119,7 +126,7 @@
             @Html.TextBoxFor(model => model.Year, new
             {
                 @class = "govuk-input govuk-date-input__input govuk-input--width-4 " + errorFieldClass[Html.NameFor(model => model)] + " " + errorFieldClass[Html.NameFor(model => model.Year)],
-                data_rule_CompUiValidationForDate = ViewData.ModelMetadata.DisplayName,
+                data_rule_CompUiValidationForDate = validationParameters,
                 data_rule_required = "false",
                 autocomplete = "off",
                 type = "number",
@@ -137,7 +144,7 @@
                 @Html.TextBoxFor(model => model.Hour, new
                 {
                     @class = "govuk-input govuk-date-input__input govuk-input--width-2 " + errorFieldClass[Html.NameFor(model => model)] + " " + errorFieldClass[Html.NameFor(model => model.Hour)],
-                    data_rule_CompUiValidationForDate = ViewData.ModelMetadata.DisplayName,
+                    data_rule_CompUiValidationForDate = validationParameters,
                     data_rule_required = "false",
                     autocomplete = "off",
                     type = "number",
@@ -152,7 +159,7 @@
                 @Html.TextBoxFor(model => model.Minute, new
                 {
                     @class = "govuk-input govuk-date-input__input govuk-input--width-2 " + errorFieldClass[Html.NameFor(model => model)] + " " + errorFieldClass[Html.NameFor(model => model.Minute)],
-                    data_rule_CompUiValidationForDate = ViewData.ModelMetadata.DisplayName,
+                    data_rule_CompUiValidationForDate = validationParameters,
                     data_rule_required = "false",
                     autocomplete = "off",
                     type = "number",
