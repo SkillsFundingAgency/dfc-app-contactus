@@ -18,10 +18,13 @@
     }
 }
 
-    <div class="govuk-form-group @showErrorClass">
-        <h3 class="govuk-heading">
-            @Html.DisplayNameFor(model => model)
-        </h3>
+<div class="govuk-form-group @showErrorClass">
+    <fieldset class="govuk-fieldset" aria-describedby="nationality-hint nationality-error">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            <h3 class="govuk-fieldset__heading">
+                @Html.DisplayNameFor(model => model)
+            </h3>
+        </legend>
 
         @if (!string.IsNullOrWhiteSpace(ViewData.ModelMetadata.Description))
         {
@@ -39,6 +42,6 @@
                           label="@ViewData["Label"]"
                           class="@showErrorClassForInput"
                           error-message="@ViewData["ErrorMessage"]"
-                          compare-to="@ViewData["CompareTo"]"
-                          />
-    </div>
+                          compare-to="@ViewData["CompareTo"]" />
+    </fieldset>
+</div>
