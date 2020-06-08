@@ -40,7 +40,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
             Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime))));
-            Assert.Contains("Enter when you want us", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime))).ErrorMessage, StringComparison.Ordinal);
+            Assert.Contains("Enter the callback date and time", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime))).ErrorMessage, StringComparison.Ordinal);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
             Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime))));
-            Assert.Contains("Enter when you want us", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime))).ErrorMessage, StringComparison.Ordinal);
+            Assert.Contains("Enter the callback date and time", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime))).ErrorMessage, StringComparison.Ordinal);
         }
 
         [Fact]

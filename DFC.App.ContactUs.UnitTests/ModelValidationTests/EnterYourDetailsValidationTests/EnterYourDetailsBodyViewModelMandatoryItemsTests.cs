@@ -30,7 +30,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
                 { nameof(EnterYourDetailsBodyViewModel.DateOfBirth), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.Postcode), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.TelephoneNumber), "Enter your" },
-                { nameof(EnterYourDetailsBodyViewModel.CallbackDateTime), "Enter when you want us" },
+                { nameof(EnterYourDetailsBodyViewModel.CallbackDateTime), "Enter the callback date and time" },
             };
             var viewModel = new EnterYourDetailsBodyViewModel
             {

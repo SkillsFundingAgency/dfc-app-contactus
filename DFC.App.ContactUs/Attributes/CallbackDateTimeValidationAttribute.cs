@@ -121,13 +121,13 @@ namespace DFC.App.ContactUs.Attributes
 
             string errorMessage = errorType switch
             {
-                ErrorType.InvalidDate => string.Format(CultureInfo.InvariantCulture, "{0} is not a valid date", validationContext.DisplayName),
-                ErrorType.AllFieldMissing => ErrorMessage,
-                ErrorType.MissingField => string.Format(CultureInfo.InvariantCulture, "{0} must include a {1}", validationContext.DisplayName, missingFieldName.ToLowerInvariant()),
-                ErrorType.OutOfRange => string.Format(CultureInfo.InvariantCulture, "{0} must be within {1} months", validationContext.DisplayName, monthsInFuture),
+                ErrorType.InvalidDate => string.Format(CultureInfo.InvariantCulture, "{0} is not a valid date", ErrorMessage),
+                ErrorType.AllFieldMissing => string.Format(CultureInfo.InvariantCulture, "Enter {0}", ErrorMessage.ToLowerInvariant()),
+                ErrorType.MissingField => string.Format(CultureInfo.InvariantCulture, "{0} must include a {1}", ErrorMessage, missingFieldName.ToLowerInvariant()),
+                ErrorType.OutOfRange => string.Format(CultureInfo.InvariantCulture, "{0} must be within {1} months", ErrorMessage, monthsInFuture),
                 ErrorType.ServiceOpenHoursTime => string.Format(CultureInfo.InvariantCulture, "Service opening hours are between {0} and {1}", serviceOpenDetailModel!.OpenTimeFromString, serviceOpenDetailModel!.OpenTimeToString),
                 ErrorType.ServiceOpenHoursDay => string.Format(CultureInfo.InvariantCulture, "Service opening hours are between {0} and {1}, {2}, this date is a {3}", serviceOpenDetailModel!.OpenTimeFromString, serviceOpenDetailModel!.OpenTimeToString, serviceOpenDetailModel!.OpenDays, wrongDayOfWeek),
-                _ => ErrorMessage,
+                _ => string.Format(CultureInfo.InvariantCulture, "Enter {0}", ErrorMessage.ToLowerInvariant()),
             };
 
             return new ValidationResult(errorMessage, new[] { validationFieldName });

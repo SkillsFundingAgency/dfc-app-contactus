@@ -10,7 +10,7 @@ namespace DFC.App.ContactUs.CustomControls.GenericCheckbox.Templates
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append($"<div class=\"govuk-checkboxes\">");
+            stringBuilder.Append("<div class=\"govuk-checkboxes\">");
 
             string checkedValue = value ? "checked" : string.Empty;
             string disabledValue = isDisabled ? "disabled" : string.Empty;
@@ -18,9 +18,8 @@ namespace DFC.App.ContactUs.CustomControls.GenericCheckbox.Templates
             string idValue = name;
             string disabledClass = isDisabled ? " disabled" : string.Empty;
 
-            stringBuilder.Append(
-                $"<div class=\"govuk-checkboxes__item\">" +
-                $"<input class=\"govuk-checkboxes__input {className}\" id=\"{idValue}\" name=\"{nameValue}\" type=\"checkbox\" value=\"true\" {checkedValue} {disabledValue} data-val=\"true\" ");
+            stringBuilder.Append("<div class=\"govuk-checkboxes__item\">");
+            stringBuilder.Append($"<input class=\"govuk-checkboxes__input {className}\" id=\"{idValue}\" name=\"{nameValue}\" type=\"checkbox\" value=\"true\" {checkedValue} {disabledValue} data-val=\"true\" ");
 
             if (!string.IsNullOrWhiteSpace(errorMessage))
             {
@@ -34,11 +33,9 @@ namespace DFC.App.ContactUs.CustomControls.GenericCheckbox.Templates
 
             stringBuilder.Append("/>");
 
-            stringBuilder.Append(
-                $"<label class=\"checkbox{disabledClass} govuk-label govuk-checkboxes__label\" for=\"{idValue}\">" + label +
-                $"</label>" +
-                $"</div>");
+            stringBuilder.Append($"<label class=\"checkbox{disabledClass} govuk-label govuk-checkboxes__label\" for=\"{idValue}\">" + label + "</label>");
 
+            stringBuilder.Append("</div>");
             stringBuilder.Append("</div>");
 
             return stringBuilder.ToString();
