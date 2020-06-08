@@ -18,7 +18,7 @@ namespace DFC.App.ContactUs.CustomControls.GenericCheckbox.Templates
             string idValue = name;
             string disabledClass = isDisabled ? " disabled" : string.Empty;
 
-            stringBuilder.Append("<div class=\"govuk-checkboxes__item\">");
+            stringBuilder.Append("<div class=\"govuk-checkboxes__item dfc-composite-shell-margin-left-none\">");
             stringBuilder.Append($"<input class=\"govuk-checkboxes__input {className}\" id=\"{idValue}\" name=\"{nameValue}\" type=\"checkbox\" value=\"true\" {checkedValue} {disabledValue} data-val=\"true\" ");
 
             if (!string.IsNullOrWhiteSpace(errorMessage))
