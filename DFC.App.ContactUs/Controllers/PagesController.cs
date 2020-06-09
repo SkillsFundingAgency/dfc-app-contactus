@@ -1,8 +1,8 @@
 ﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services.PageService.Contracts;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Compui.Cosmos.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -39,7 +39,7 @@ namespace DFC.App.ContactUs.Controllers
                 viewModel.Documents = (from a in contentPageModels.OrderBy(o => o.CanonicalName)
                                        select mapper.Map<IndexDocumentViewModel>(a)).ToList();
 
-                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = "health" });
+                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = HealthController.HealthViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = HomeController.ThisViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = ChatController.ThisViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = WhyContactUsController.ThisViewCanonicalName });
@@ -209,7 +209,7 @@ namespace DFC.App.ContactUs.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.DocumentId).ConfigureAwait(false);
+            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.Id).ConfigureAwait(false);
             if (existingDocument != null)
             {
                 return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
@@ -236,7 +236,7 @@ namespace DFC.App.ContactUs.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.DocumentId).ConfigureAwait(false);
+            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.Id).ConfigureAwait(false);
             if (existingDocument == null)
             {
                 return new StatusCodeResult((int)HttpStatusCode.NotFound);

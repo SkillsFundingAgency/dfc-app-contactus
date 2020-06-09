@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.ContactUs.Data\DFC.App.ContactUs.Data.csproj" />
-    <ProjectReference Include="..\DFC.App.ContactUs.Services.PageService\DFC.App.ContactUs.Services.PageService.csproj" />
   </ItemGroup>
 
 </Project>

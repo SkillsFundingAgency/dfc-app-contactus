@@ -1,6 +1,5 @@
 ﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.Services.CmsApiProcessorService.Contracts;
 using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
 using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
@@ -65,7 +64,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
         {
             var model = new ContentPageModel()
             {
-                DocumentId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 CanonicalName = "an-article",
                 BreadcrumbTitle = "An article",
                 IncludeInSitemap = true,

@@ -1,7 +1,7 @@
 ﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services.PageService.Contracts;
+using DFC.Compui.Cosmos.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

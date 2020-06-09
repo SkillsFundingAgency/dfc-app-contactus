@@ -15,11 +15,6 @@ namespace DFC.App.ContactUs.Data.UnitTests.Validation
     {
         private const string GuidEmpty = "00000000-0000-0000-0000-000000000000";
 
-        [SetUp]
-        public void SetUp()
-        {
-        }
-
         [TestCase(null)]
         [TestCase(GuidEmpty)]
         public void CanCheckIfDocumentIdIsInvalid(Guid documentId)
@@ -29,7 +24,7 @@ namespace DFC.App.ContactUs.Data.UnitTests.Validation
             var vr = Validate(model);
 
             vr.Should().NotBeEmpty();
-            vr.Should().Contain(x => x.ErrorMessage == string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldInvalidGuid, nameof(model.DocumentId)));
+            vr.Should().Contain(x => x.ErrorMessage == string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldInvalidGuid, nameof(model.Id)));
             vr.Should().HaveCount(1);
         }
 
@@ -91,7 +86,7 @@ namespace DFC.App.ContactUs.Data.UnitTests.Validation
         {
             var model = new ContentPageModel
             {
-                DocumentId = documentId,
+                Id = documentId,
                 CanonicalName = canonicalName,
                 BreadcrumbTitle = canonicalName,
                 Version = Guid.NewGuid(),

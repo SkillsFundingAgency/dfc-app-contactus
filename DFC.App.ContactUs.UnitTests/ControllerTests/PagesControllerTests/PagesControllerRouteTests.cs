@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.Services.PageService.Contracts;
+using DFC.App.ContactUs.Models;
+using DFC.Compui.Cosmos.Contracts;
+using DFC.Compui.Sessionstate;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

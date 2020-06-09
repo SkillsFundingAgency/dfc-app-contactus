@@ -75,8 +75,8 @@ namespace DFC.App.ContactUs.MessageFunctionApp.UnitTests.Services
         {
             return new ContentPageModel
             {
+                Id = ContentPageId,
                 CanonicalName = TestPageName,
-                DocumentId = ContentPageId,
                 SequenceNumber = SequenceNumber,
                 Etag = null,
                 BreadcrumbTitle = BreadcrumbTitle,

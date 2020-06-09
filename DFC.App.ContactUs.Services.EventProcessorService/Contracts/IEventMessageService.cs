@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace DFC.App.ContactUs.Services.EventProcessorService.Contracts
 {
     public interface IEventMessageService<TModel>
-        where TModel : class, IServiceDataModel
+        where TModel : class, IEventDataModel
     {
         Task<IList<TModel>?> GetAllCachedCanonicalNamesAsync();
 
-        Task<HttpStatusCode> CreateAsync(TModel? upsertServiceDataModel);
+        Task<HttpStatusCode> CreateAsync(TModel? upsertDocumentModel);
 
-        Task<HttpStatusCode> UpdateAsync(TModel? upsertServiceDataModel);
+        Task<HttpStatusCode> UpdateAsync(TModel? upsertDocumentModel);
 
-        Task<HttpStatusCode> DeleteAsync(Guid documentId);
+        Task<HttpStatusCode> DeleteAsync(Guid id);
     }
 }
