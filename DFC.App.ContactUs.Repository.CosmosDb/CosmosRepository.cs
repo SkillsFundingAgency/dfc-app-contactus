@@ -29,6 +29,7 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
             this.cosmosDbConnection = cosmosDbConnection;
             this.documentClient = documentClient;
             this.env = env;
+            InitialiseDevEnvironment().GetAwaiter().GetResult();
         }
 
         private Uri DocumentCollectionUri => UriFactory.CreateDocumentCollectionUri(cosmosDbConnection.DatabaseId, cosmosDbConnection.CollectionId);

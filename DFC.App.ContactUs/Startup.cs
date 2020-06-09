@@ -58,13 +58,6 @@ namespace DFC.App.ContactUs
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper)
         {
-            app.UseCorrelationId(new CorrelationIdOptions
-            {
-                Header = "DssCorrelationId",
-                UseGuidForCorrelationId = true,
-                UpdateTraceIdentifier = false,
-            });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
