@@ -1,5 +1,4 @@
-﻿using DFC.App.ContactUs.ClientHandlers;
-using DFC.App.ContactUs.Data.Models;
+﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.HttpClientPolicies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -72,7 +71,6 @@ namespace DFC.App.ContactUs.Extensions
                         })
                         .AddPolicyHandlerFromRegistry($"{configurationSectionName}_{retryPolicyName}")
                         .AddPolicyHandlerFromRegistry($"{configurationSectionName}_{circuitBreakerPolicyName}")
-                        .AddHttpMessageHandler<CorrelationIdDelegatingHandler>()
                         .Services;
     }
 }

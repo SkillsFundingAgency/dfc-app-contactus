@@ -1,5 +1,6 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Repository.CosmosDb.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
@@ -17,7 +18,7 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
 {
     [ExcludeFromCodeCoverage]
     public class CosmosRepository<T> : ICosmosRepository<T>
-        where T : class, IDataModel
+        where T : RequestTrace, IDataModel
     {
         private readonly CosmosDbConnection cosmosDbConnection;
         private readonly IDocumentClient documentClient;
@@ -139,6 +140,13 @@ namespace DFC.App.ContactUs.Repository.CosmosDb
 
         public async Task<HttpStatusCode> UpsertAsync(T model)
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            model.AddTraceInformation();
+
             await InitialiseDevEnvironment().ConfigureAwait(false);
 
             var accessCondition = new AccessCondition { Condition = model.Etag, Type = AccessConditionType.IfMatch };

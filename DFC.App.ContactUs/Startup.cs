@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using CorrelationId;
 using DFC.App.ContactUs.Attributes;
-using DFC.App.ContactUs.ClientHandlers;
 using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
-using DFC.App.ContactUs.Filters;
 using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.HttpClientPolicies;
 using DFC.App.ContactUs.Models;
@@ -28,7 +26,6 @@ using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
 using DFC.App.ContactUs.Services.PageService;
 using DFC.App.ContactUs.Services.PageService.Contracts;
 using DFC.App.ContactUs.Services.Services.EmailService;
-using DFC.Logger.AppInsights.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -105,7 +102,6 @@ namespace DFC.App.ContactUs
             var documentClient = new DocumentClient(cosmosDbConnection!.EndpointUrl, cosmosDbConnection!.AccessKey);
             services.AddApplicationInsightsTelemetry();
             services.AddHttpContextAccessor();
-            services.AddCorrelationId();
             services.AddSingleton(new ServiceOpenDetailModel());
             services.AddSingleton(cosmosDbConnection);
             services.AddSingleton<IDocumentClient>(documentClient);
@@ -120,9 +116,7 @@ namespace DFC.App.ContactUs
             services.AddTransient<ICacheReloadService, CacheReloadService>();
             services.AddTransient<IApiService, ApiService>();
             services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
-            services.AddTransient<CorrelationIdDelegatingHandler>();
             services.AddAutoMapper(typeof(Startup).Assembly);
-            services.AddDFCLogging(configuration["ApplicationInsights:InstrumentationKey"]);
             services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
             services.AddSingleton(configuration.GetSection(nameof(FamApiRoutingOptions)).Get<FamApiRoutingOptions>() ?? new FamApiRoutingOptions());
@@ -140,9 +134,10 @@ namespace DFC.App.ContactUs
                 .AddPolicies(policyRegistry, nameof(FamApiRoutingOptions), policyOptions)
                 .AddHttpClient<IRoutingService, RoutingService, FamApiRoutingOptions>(configuration, nameof(FamApiRoutingOptions), nameof(PolicyOptions.HttpRetry), nameof(PolicyOptions.HttpCircuitBreaker));
 
+            services.AddApplicationInsightsTelemetry(configuration);
+
             services.AddMvc(config =>
                 {
-                    config.Filters.Add<LoggingAsynchActionFilter>();
                     config.RespectBrowserAcceptHeader = true;
                     config.ReturnHttpNotAcceptable = true;
                 })

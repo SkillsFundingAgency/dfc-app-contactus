@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.ContactUs.Data.Models
 {
-    public class ContentPageModel : IServiceDataModel
+    public class ContentPageModel : RequestTrace, IServiceDataModel
     {
         [Guid]
         [Required]
