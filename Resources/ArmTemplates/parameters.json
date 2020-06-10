@@ -38,6 +38,9 @@
         "cosmosDbCollectionName": {
             "value": "__cosmosDbCollectionName__"
         },
+        "cosmosSessionDbCollectionName": {
+            "value": "__cosmosSessionDbCollectionName__"
+        },
         "contactusAppDatabaseNeedsCreation": {
             "value": __CosmosDbDatabaseDoesntExist__
         },

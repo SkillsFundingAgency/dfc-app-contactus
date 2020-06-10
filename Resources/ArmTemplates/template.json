@@ -43,6 +43,12 @@
                 "description": "The name of the collection to create"
             }
         },
+        "cosmosSessionDbCollectionName": {
+            "type": "string",
+            "metadata": {
+                "description": "The name of the collection to create"
+            }
+        },
         "environment": {
             "type": "string"
         },
@@ -219,6 +225,26 @@
                             },
                             {
                                 "name": "Configuration__CosmosDbConnections__ContentPages__PartitionKey",
+                                "value": "[variables('cosmosDbCollectionPartitionKey')]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__SessionState__AccessKey",
+                                "value": "[parameters('cosmosDbKey')]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__SessionState__EndpointUrl",
+                                "value": "[variables('cosmosDbEndpoint')]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__SessionState__DatabaseId",
+                                "value": "[variables('cosmosDbDatabaseName')]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__SessionState__CollectionId",
+                                "value": "[parameters('cosmosSessionDbCollectionName')]"
+                            },
+                            {
+                                "name": "Configuration__CosmosDbConnections__SessionState__PartitionKey",
                                 "value": "[variables('cosmosDbCollectionPartitionKey')]"
                             },
                             {
@@ -399,6 +425,39 @@
                     },
                     "collectionName": {
                         "value": "[parameters('cosmosDbCollectionName')]"
+                    },
+                    "provisionRequestUnits": {
+                        "value": false
+                    },
+                    "partitionKey": {
+                        "value": "[variables('cosmosDbCollectionPartitionKey')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "[variables('CosmosDbDatabaseName')]"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[parameters('cosmosSessionDbCollectionName')]",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[parameters('CosmosDbResourceGroup')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'CosmosDb/cosmos-collection.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "accountName": {
+                        "value": "[parameters('cosmosDbName')]"
+                    },
+                    "databaseName": {
+                        "value": "[variables('cosmosDbDatabaseName')]"
+                    },
+                    "collectionName": {
+                        "value": "[parameters('cosmosSessionDbCollectionName')]"
                     },
                     "provisionRequestUnits": {
                         "value": false
