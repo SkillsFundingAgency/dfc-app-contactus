@@ -1,11 +1,15 @@
 ﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Enums;
+using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Compui.Sessionstate;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Mime;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
@@ -17,7 +21,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         {
             new object[] { HomeOption.Webchat, $"/{HomeController.WebchatRegistrationPath}/{ChatController.ThisViewCanonicalName}" },
             new object[] { HomeOption.SendAMessage, $"/{HomeController.RegistrationPath}/{WhyContactUsController.ThisViewCanonicalName}" },
-            new object[] { HomeOption.Callback, $"/{HomeController.RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Callback}" },
+            new object[] { HomeOption.Callback, $"/{HomeController.RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}" },
             new object[] { HomeOption.Sendletter, $"/{HomeController.RegistrationPath}/{HomeController.SendUsLetterCanonicalName}" },
         };
 
@@ -29,20 +33,27 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
         [MemberData(nameof(JsonMediaTypes))]
-        public void HomeControllerBodyPostReturnsSuccess(string mediaTypeName)
+        public async Task HomeControllerBodyPostReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            string expectedRedirectUrl = $"/{HomeController.WebchatRegistrationPath}/{ChatController.ThisViewCanonicalName}";
+            string expectedRedirectUrl = $"/{HomeController.RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}";
+            var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
             var viewModel = new HomeBodyViewModel
             {
-                SelectedOption = HomeOption.Webchat,
+                SelectedOption = HomeOption.Callback,
             };
             var controller = BuildHomeController(mediaTypeName);
 
+            A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
+            A.CallTo(() => FakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).Returns(HttpStatusCode.OK);
+
             // Act
-            var result = controller.HomeBody(viewModel);
+            var result = await controller.HomeBody(viewModel).ConfigureAwait(false);
 
             // Assert
+            A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).MustHaveHappenedOnceExactly();
+
             var redirectResult = Assert.IsType<RedirectResult>(result);
             Assert.Equal(expectedRedirectUrl, redirectResult.Url);
             Assert.False(redirectResult.Permanent);
@@ -52,19 +63,32 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
         [Theory]
         [MemberData(nameof(ValidSelectedOptions))]
-        public void HomeControllerBodyPostReturnsSuccessForValidOptions(HomeOption selectedOption, string expectedRedirectUrl)
+        public async Task HomeControllerBodyPostReturnsSuccessForValidOptions(HomeOption selectedOption, string expectedRedirectUrl)
         {
             // Arrange
+            var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
             var viewModel = new HomeBodyViewModel
             {
                 SelectedOption = selectedOption,
             };
             var controller = BuildHomeController(MediaTypeNames.Text.Html);
 
+            if (selectedOption == HomeOption.Callback)
+            {
+                A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
+                A.CallTo(() => FakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).Returns(HttpStatusCode.OK);
+            }
+
             // Act
-            var result = controller.HomeBody(viewModel);
+            var result = await controller.HomeBody(viewModel).ConfigureAwait(false);
 
             // Assert
+            if (selectedOption == HomeOption.Callback)
+            {
+                A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+                A.CallTo(() => FakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).MustHaveHappenedOnceExactly();
+            }
+
             var redirectResult = Assert.IsType<RedirectResult>(result);
             Assert.Equal(expectedRedirectUrl, redirectResult.Url);
             Assert.False(redirectResult.Permanent);
@@ -74,7 +98,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidSelectedOptions))]
-        public void HomeControllerBodyPostReturnsSameViewForInvalidModel(HomeOption selectedOption)
+        public async Task HomeControllerBodyPostReturnsSameViewForInvalidModel(HomeOption selectedOption)
         {
             // Arrange
             var viewModel = new HomeBodyViewModel
@@ -84,7 +108,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             var controller = BuildHomeController(MediaTypeNames.Text.Html);
 
             // Act
-            var result = controller.HomeBody(viewModel);
+            var result = await controller.HomeBody(viewModel).ConfigureAwait(false);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -95,7 +119,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void HomeControllerBodyPostReturnsNotAcceptable(string mediaTypeName)
+        public async Task HomeControllerBodyPostReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             var viewModel = new HomeBodyViewModel
@@ -105,7 +129,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             var controller = BuildHomeController(mediaTypeName);
 
             // Act
-            var result = controller.HomeBody(viewModel);
+            var result = await controller.HomeBody(viewModel).ConfigureAwait(false);
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

@@ -6,6 +6,7 @@ using DFC.App.ContactUs.Services.AreaRoutingService.HttpClientPolicies;
 using DFC.App.ContactUs.Services.EmailService.Contracts;
 using DFC.App.ContactUs.Services.EmailTemplateService.Contracts;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,14 +19,16 @@ namespace DFC.App.ContactUs.Controllers
         public const string ThisViewCanonicalName = "enter-your-details";
 
         private readonly AutoMapper.IMapper mapper;
+        private readonly ISessionStateService<SessionDataModel> sessionStateService;
         private readonly ISendGridEmailService<ContactUsEmailRequestModel> sendGridEmailService;
         private readonly IRoutingService routingService;
         private readonly FamApiRoutingOptions famApiRoutingOptions;
         private readonly ITemplateService templateService;
 
-        public EnterYourDetailsController(ILogger<EnterYourDetailsController> logger, AutoMapper.IMapper mapper, IRoutingService routingService, ISendGridEmailService<ContactUsEmailRequestModel> sendGridEmailService, FamApiRoutingOptions famApiRoutingOptions, ITemplateService templateService) : base(logger)
+        public EnterYourDetailsController(ILogger<EnterYourDetailsController> logger, AutoMapper.IMapper mapper, ISessionStateService<SessionDataModel> sessionStateService, IRoutingService routingService, ISendGridEmailService<ContactUsEmailRequestModel> sendGridEmailService, FamApiRoutingOptions famApiRoutingOptions, ITemplateService templateService) : base(logger, sessionStateService)
         {
             this.mapper = mapper;
+            this.sessionStateService = sessionStateService;
             this.routingService = routingService;
             this.sendGridEmailService = sendGridEmailService;
             this.famApiRoutingOptions = famApiRoutingOptions;
@@ -34,8 +37,9 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("pages/enter-your-details")]
-        public IActionResult EnterYourDetailsView(Category category = Category.None, string? moreDetail = null)
+        public async Task<IActionResult> EnterYourDetailsView()
         {
+            var sessionStateModel = await GetSessionStateAsync().ConfigureAwait(false);
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
                 CanonicalName = ThisViewCanonicalName,
@@ -51,8 +55,8 @@ namespace DFC.App.ContactUs.Controllers
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
                 EnterYourDetailsBodyViewModel = new EnterYourDetailsBodyViewModel
                 {
-                    SelectedCategory = category,
-                    MoreDetail = moreDetail,
+                    SelectedCategory = sessionStateModel?.State?.Category ?? Category.None,
+                    MoreDetail = sessionStateModel?.State?.MoreDetail,
                 },
             };
 
@@ -128,12 +132,13 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("pages/enter-your-details/body")]
-        public IActionResult EnterYourDetailsBody(Category category = Category.None, string? moreDetail = null)
+        public async Task<IActionResult> EnterYourDetailsBody()
         {
+            var sessionStateModel = await GetSessionStateAsync().ConfigureAwait(false);
             var viewModel = new EnterYourDetailsBodyViewModel
             {
-                SelectedCategory = category,
-                MoreDetail = moreDetail,
+                SelectedCategory = sessionStateModel?.State?.Category ?? Category.None,
+                MoreDetail = sessionStateModel?.State?.MoreDetail,
             };
 
             Logger.LogInformation($"{nameof(EnterYourDetailsBody)} has returned content");
@@ -149,6 +154,7 @@ namespace DFC.App.ContactUs.Controllers
             {
                 if (await SendEmailAsync(viewModel).ConfigureAwait(false))
                 {
+                    await DeleteSessionStateAsync().ConfigureAwait(false);
                     return Redirect($"/{RegistrationPath}/{HomeController.ThankyouForContactingUsCanonicalName}");
                 }
 

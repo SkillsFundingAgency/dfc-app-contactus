@@ -1,9 +1,12 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Models;
+using DFC.Compui.Sessionstate;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 
@@ -17,6 +20,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
         protected BaseWhyContactUsControllerTests()
         {
             Logger = A.Fake<ILogger<WhyContactUsController>>();
+            FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -37,19 +41,23 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
 
         protected ILogger<WhyContactUsController> Logger { get; }
 
+        protected ISessionStateService<SessionDataModel> FakeSessionStateService { get; }
+
         protected WhyContactUsController BuildWhyContactUsController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new WhyContactUsController(Logger)
+            var controller = new WhyContactUsController(Logger, FakeSessionStateService)
             {
                 ControllerContext = new ControllerContext()
                 {
                     HttpContext = httpContext,
                 },
             };
+
+            controller.Request.Headers.Add(Constants.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
 
             return controller;
         }

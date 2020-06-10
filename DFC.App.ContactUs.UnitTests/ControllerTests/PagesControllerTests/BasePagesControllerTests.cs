@@ -1,6 +1,8 @@
 ﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Models;
 using DFC.Compui.Cosmos.Contracts;
+using DFC.Compui.Sessionstate;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +18,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         protected BasePagesControllerTests()
         {
             Logger = A.Fake<ILogger<PagesController>>();
+            FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
             FakeContentPageService = A.Fake<IContentPageService<ContentPageModel>>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
         }
@@ -38,6 +41,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         protected ILogger<PagesController> Logger { get; }
 
+        protected ISessionStateService<SessionDataModel> FakeSessionStateService { get; }
+
         protected IContentPageService<ContentPageModel> FakeContentPageService { get; }
 
         protected AutoMapper.IMapper FakeMapper { get; }
@@ -48,7 +53,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new PagesController(Logger, FakeContentPageService, FakeMapper)
+            var controller = new PagesController(Logger, FakeSessionStateService, FakeContentPageService, FakeMapper)
             {
                 ControllerContext = new ControllerContext()
                 {

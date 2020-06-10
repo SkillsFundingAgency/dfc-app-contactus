@@ -1,7 +1,11 @@
-﻿using DFC.App.ContactUs.ViewModels;
+﻿using DFC.App.ContactUs.Models;
+using DFC.App.ContactUs.ViewModels;
+using DFC.Compui.Sessionstate;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsControllerTests
@@ -11,15 +15,20 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void EnterYourDetailsControllerBodyHtmlReturnsSuccess(string mediaTypeName)
+        public async Task EnterYourDetailsControllerBodyHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
+            var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
             var controller = BuildEnterYourDetailsController(mediaTypeName);
 
+            A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
+
             // Act
-            var result = controller.EnterYourDetailsBody();
+            var result = await controller.EnterYourDetailsBody().ConfigureAwait(false);
 
             // Assert
+            A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+
             var viewResult = Assert.IsType<ViewResult>(result);
             _ = Assert.IsAssignableFrom<EnterYourDetailsBodyViewModel>(viewResult.ViewData.Model);
 
@@ -28,15 +37,20 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void EnterYourDetailsControllerBodyJsonReturnsSuccess(string mediaTypeName)
+        public async Task EnterYourDetailsControllerBodyJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
+            var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
             var controller = BuildEnterYourDetailsController(mediaTypeName);
 
+            A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
+
             // Act
-            var result = controller.EnterYourDetailsBody();
+            var result = await controller.EnterYourDetailsBody().ConfigureAwait(false);
 
             // Assert
+            A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             Assert.NotNull(jsonResult.Value);
 
@@ -45,15 +59,20 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void EnterYourDetailsControllerBodyReturnsNotAcceptable(string mediaTypeName)
+        public async Task EnterYourDetailsControllerBodyReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
+            var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
             var controller = BuildEnterYourDetailsController(mediaTypeName);
 
+            A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
+
             // Act
-            var result = controller.EnterYourDetailsBody();
+            var result = await controller.EnterYourDetailsBody().ConfigureAwait(false);
 
             // Assert
+            A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+
             var statusResult = Assert.IsType<StatusCodeResult>(result);
 
             A.Equals((int)HttpStatusCode.NotAcceptable, statusResult.StatusCode);

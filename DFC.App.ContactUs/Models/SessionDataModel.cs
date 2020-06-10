@@ -1,11 +1,11 @@
-﻿using System;
+﻿using DFC.App.ContactUs.Enums;
 
 namespace DFC.App.ContactUs.Models
 {
     public class SessionDataModel
     {
-        public DateTime? CurrentDatetime { get; set; }
+        public Category Category { get; set; }
 
-        public int Visits { get; set; }
+        public string? MoreDetail { get; set; }
     }
 }

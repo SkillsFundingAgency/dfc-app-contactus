@@ -51,7 +51,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new ChatController(Logger, ChatOptions, FakeMapper)
+            return new ChatController(Logger, FakeSessionStateService, ChatOptions, FakeMapper)
             {
                 ControllerContext = new ControllerContext
                 {

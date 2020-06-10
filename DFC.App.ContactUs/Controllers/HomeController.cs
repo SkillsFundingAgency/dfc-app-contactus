@@ -2,10 +2,12 @@
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Controllers
 {
@@ -17,7 +19,7 @@ namespace DFC.App.ContactUs.Controllers
 
         private readonly ServiceOpenDetailModel serviceOpenDetailModel;
 
-        public HomeController(ILogger<HomeController> logger, ServiceOpenDetailModel serviceOpenDetailModel) : base(logger)
+        public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService, ServiceOpenDetailModel serviceOpenDetailModel) : base(logger, sessionStateService)
         {
             this.serviceOpenDetailModel = serviceOpenDetailModel;
         }
@@ -52,7 +54,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPost]
         [Route("pages/home")]
-        public IActionResult HomeView(HomeBodyViewModel? model)
+        public async Task<IActionResult> HomeView(HomeBodyViewModel? model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -63,7 +65,12 @@ namespace DFC.App.ContactUs.Controllers
                     case HomeOption.SendAMessage:
                         return Redirect($"/{LocalPath}/{WhyContactUsController.ThisViewCanonicalName}");
                     case HomeOption.Callback:
-                        return Redirect($"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Callback}");
+                        if (await SetSessionStateAsync(Category.Callback).ConfigureAwait(false))
+                        {
+                            return Redirect($"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}");
+                        }
+
+                        break;
                     case HomeOption.Sendletter:
                         return Redirect($"/{LocalPath}/{SendUsLetterCanonicalName}");
                 }
@@ -140,7 +147,7 @@ namespace DFC.App.ContactUs.Controllers
         [HttpPost]
         [Route("pages/home/body")]
         [Route("pages/body")]
-        public IActionResult HomeBody(HomeBodyViewModel? viewModel)
+        public async Task<IActionResult> HomeBody(HomeBodyViewModel? viewModel)
         {
             if (viewModel != null && ModelState.IsValid)
             {
@@ -151,7 +158,12 @@ namespace DFC.App.ContactUs.Controllers
                     case HomeOption.SendAMessage:
                         return Redirect($"/{RegistrationPath}/{WhyContactUsController.ThisViewCanonicalName}");
                     case HomeOption.Callback:
-                        return Redirect($"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Callback}");
+                        if (await SetSessionStateAsync(Category.Callback).ConfigureAwait(false))
+                        {
+                            return Redirect($"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}");
+                        }
+
+                        break;
                     case HomeOption.Sendletter:
                         return Redirect($"/{RegistrationPath}/{SendUsLetterCanonicalName}");
                 }

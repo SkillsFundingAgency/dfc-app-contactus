@@ -3,6 +3,7 @@ using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
 using DFC.Compui.Cosmos.Contracts;
+using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,7 +18,7 @@ namespace DFC.App.ContactUs.Controllers
         private readonly IContentPageService<ContentPageModel> contentPageService;
         private readonly AutoMapper.IMapper mapper;
 
-        public PagesController(ILogger<PagesController> logger, IContentPageService<ContentPageModel> contentPageService, AutoMapper.IMapper mapper) : base(logger)
+        public PagesController(ILogger<PagesController> logger, ISessionStateService<SessionDataModel> sessionStateService, IContentPageService<ContentPageModel> contentPageService, AutoMapper.IMapper mapper) : base(logger, sessionStateService)
         {
             this.contentPageService = contentPageService;
             this.mapper = mapper;
