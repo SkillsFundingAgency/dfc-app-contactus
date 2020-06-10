@@ -24,7 +24,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
                     BreadcrumbTitle = "Contact Us",
                     IncludeInSitemap = true,
                     Version = Guid.NewGuid(),
-                    Url = new Uri("https://localhost"),
+                    Url = new Uri("/aaa/bbb", UriKind.Relative),
                     Content = "<h1>A document</h1>",
                     LastReviewed = DateTime.UtcNow,
                 },
@@ -35,7 +35,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
                     BreadcrumbTitle = "In Sitemap",
                     IncludeInSitemap = true,
                     Version = Guid.NewGuid(),
-                    Url = new Uri("https://localhost"),
+                    Url = new Uri("/aaa/bbb", UriKind.Relative),
                     Content = "<h1>A document</h1>",
                     LastReviewed = DateTime.UtcNow,
                 },
@@ -46,7 +46,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
                     BreadcrumbTitle = "Not in Sitemap",
                     IncludeInSitemap = false,
                     Version = Guid.NewGuid(),
-                    Url = new Uri("https://localhost"),
+                    Url = new Uri("/aaa/bbb", UriKind.Relative),
                     Content = "<h1>A document</h1>",
                     LastReviewed = DateTime.UtcNow,
                 },
@@ -57,7 +57,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
                     BreadcrumbTitle = "Contains Alternative Name",
                     IncludeInSitemap = false,
                     Version = Guid.NewGuid(),
-                    Url = new Uri("https://localhost"),
+                    Url = new Uri("/aaa/bbb", UriKind.Relative),
                     AlternativeNames = new[] { AlternativeArticleName },
                     Content = "<h1>A document</h1>",
                     LastReviewed = DateTime.UtcNow,
@@ -66,9 +66,12 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
 
             var client = factory?.CreateClient();
 
-            client?.DefaultRequestHeaders.Accept.Clear();
+            client!.DefaultRequestHeaders.Accept.Clear();
 
-            contentPageModels.ForEach(f => client.PostAsync(url, f, new JsonMediaTypeFormatter()).GetAwaiter().GetResult());
+            foreach (var contentPageModel in contentPageModels)
+            {
+                var result = client.PostAsync(url, contentPageModel, new JsonMediaTypeFormatter()).GetAwaiter().GetResult();
+            }
         }
     }
 }

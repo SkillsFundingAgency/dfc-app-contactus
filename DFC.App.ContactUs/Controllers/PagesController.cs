@@ -40,6 +40,7 @@ namespace DFC.App.ContactUs.Controllers
                                        select mapper.Map<IndexDocumentViewModel>(a)).ToList();
 
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = HealthController.HealthViewCanonicalName });
+                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = SitemapController.SitemapViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = HomeController.ThisViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = ChatController.ThisViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = WhyContactUsController.ThisViewCanonicalName });

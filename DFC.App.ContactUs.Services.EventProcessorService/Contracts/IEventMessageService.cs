@@ -1,4 +1,4 @@
-﻿using DFC.App.ContactUs.Data.Contracts;
+﻿using DFC.Compui.Cosmos.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DFC.App.ContactUs.Services.EventProcessorService.Contracts
 {
     public interface IEventMessageService<TModel>
-        where TModel : class, IEventDataModel
+        where TModel : class, IContentPageModel
     {
         Task<IList<TModel>?> GetAllCachedCanonicalNamesAsync();
 

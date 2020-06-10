@@ -1,85 +1,104 @@
 ﻿using DFC.App.ContactUs.Data.Common;
 using DFC.App.ContactUs.Data.Models;
-using FluentAssertions;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Linq;
+using Xunit;
 
-namespace DFC.App.ContactUs.Data.UnitTests.Validation
+namespace DFC.App.ContactUs.Data.UnitTests.ValidationTests
 {
-    [TestFixture]
-    [Category("AppValidation.Tests")]
+    [Trait("Category", "ContentPageModel Validation Unit Tests")]
     public class ContentPageModelValidationTests
     {
         private const string GuidEmpty = "00000000-0000-0000-0000-000000000000";
 
-        [TestCase(null)]
-        [TestCase(GuidEmpty)]
+        [Theory]
+        [InlineData(null)]
+        [InlineData(GuidEmpty)]
         public void CanCheckIfDocumentIdIsInvalid(Guid documentId)
         {
+            // Arrange
             var model = CreateModel(documentId, "canonicalname1", "content1", new List<string>());
 
+            // Act
             var vr = Validate(model);
 
-            vr.Should().NotBeEmpty();
-            vr.Should().Contain(x => x.ErrorMessage == string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldInvalidGuid, nameof(model.Id)));
-            vr.Should().HaveCount(1);
+            // Assert
+            Assert.True(vr.Count == 1);
+            Assert.NotNull(vr.First(f => f.MemberNames.Any(a => a == nameof(model.Id))));
+            Assert.Equal(string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldInvalidGuid, nameof(model.Id)), vr.First(f => f.MemberNames.Any(a => a == nameof(model.Id))).ErrorMessage);
         }
 
-        [TestCase("abcdefghijklmnopqrstuvwxyz")]
-        [TestCase("0123456789")]
-        [TestCase("abc")]
-        [TestCase("xyz123")]
-        [TestCase("abc_def")]
-        [TestCase("abc-def")]
+        [Theory]
+        [InlineData("abcdefghijklmnopqrstuvwxyz")]
+        [InlineData("0123456789")]
+        [InlineData("abc")]
+        [InlineData("xyz123")]
+        [InlineData("abc_def")]
+        [InlineData("abc-def")]
         public void CanCheckIfCanonicalNameIsValid(string canonicalName)
         {
+            // Arrange
             var model = CreateModel(Guid.NewGuid(), canonicalName, "content", new List<string>());
 
+            // Act
             var vr = Validate(model);
 
-            vr.Should().BeEmpty();
+            // Assert
+            Assert.True(vr.Count == 0);
         }
 
-        [TestCase("ABCDEF")]
+        [Theory]
+        [InlineData("ABCDEF")]
         public void CanCheckIfCanonicalNameIsInvalid(string canonicalName)
         {
+            // Arrange
             var model = CreateModel(Guid.NewGuid(), canonicalName, "content", new List<string>());
 
+            // Act
             var vr = Validate(model);
 
-            vr.Should().NotBeEmpty();
-            vr.Should().Contain(x => x.ErrorMessage == string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldNotLowercase, nameof(model.CanonicalName)));
-            vr.Should().HaveCount(1);
+            // Assert
+            Assert.True(vr.Count > 0);
+            Assert.NotNull(vr.First(f => f.MemberNames.Any(a => a == nameof(model.CanonicalName))));
+            Assert.Equal(string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldNotLowercase, nameof(model.CanonicalName)), vr.First(f => f.MemberNames.Any(a => a == nameof(model.CanonicalName))).ErrorMessage);
         }
 
-        [TestCase("abcdefghijklmnopqrstuvwxyz")]
-        [TestCase("0123456789")]
-        [TestCase("abc")]
-        [TestCase("xyz123")]
-        [TestCase("abc_def")]
-        [TestCase("abc-def")]
+        [Theory]
+        [InlineData("abcdefghijklmnopqrstuvwxyz")]
+        [InlineData("0123456789")]
+        [InlineData("abc")]
+        [InlineData("xyz123")]
+        [InlineData("abc_def")]
+        [InlineData("abc-def")]
         public void CanCheckIfAlternativeNameIsValid(string alternativeName)
         {
+            // Arrange
             var model = CreateModel(Guid.NewGuid(), "canonicalname1", "content1", new List<string>() { alternativeName });
 
+            // Act
             var vr = Validate(model);
 
-            vr.Should().BeEmpty();
+            // Assert
+            Assert.True(vr.Count == 0);
         }
 
-        [TestCase("ABCDEF")]
+        [Theory]
+        [InlineData("ABCDEF")]
         public void CanCheckIfAlternativeNameIsInvalid(string alternativeName)
         {
+            // Arrange
             var model = CreateModel(Guid.NewGuid(), "canonicalname1", "content1", new List<string>() { alternativeName });
 
+            // Act
             var vr = Validate(model);
 
-            vr.Should().NotBeEmpty();
-            vr.Should().Contain(x => x.ErrorMessage == string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldNotLowercase, nameof(model.AlternativeNames)));
-            vr.Should().HaveCount(1);
+            // Assert
+            Assert.True(vr.Count > 0);
+            Assert.NotNull(vr.First(f => f.MemberNames.Any(a => a == nameof(model.AlternativeNames))));
+            Assert.Equal(string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldNotLowercase, nameof(model.AlternativeNames)), vr.First(f => f.MemberNames.Any(a => a == nameof(model.AlternativeNames))).ErrorMessage);
         }
 
         private ContentPageModel CreateModel(Guid documentId, string canonicalName, string content, List<string> alternativeNames)
@@ -90,7 +109,7 @@ namespace DFC.App.ContactUs.Data.UnitTests.Validation
                 CanonicalName = canonicalName,
                 BreadcrumbTitle = canonicalName,
                 Version = Guid.NewGuid(),
-                Url = new Uri("https://localhost"),
+                Url = new Uri("aaa-bbb", UriKind.Relative),
                 Content = content,
                 AlternativeNames = alternativeNames.ToArray(),
                 LastReviewed = DateTime.UtcNow,

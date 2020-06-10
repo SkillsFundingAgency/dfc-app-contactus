@@ -1,5 +1,4 @@
-﻿using DFC.App.ContactUs.Data.Contracts;
-using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
+﻿using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
 using DFC.Compui.Cosmos.Contracts;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,20 +10,20 @@ using System.Threading.Tasks;
 namespace DFC.App.ContactUs.Services.EventProcessorService
 {
     public class EventMessageService<TModel> : IEventMessageService<TModel>
-           where TModel : class, IEventDataModel
+           where TModel : class, IContentPageModel
     {
         private readonly ILogger<EventMessageService<TModel>> logger;
-        private readonly IDocumentService<TModel> documentService;
+        private readonly IContentPageService<TModel> contentPageService;
 
-        public EventMessageService(ILogger<EventMessageService<TModel>> logger, IDocumentService<TModel> documentService)
+        public EventMessageService(ILogger<EventMessageService<TModel>> logger, IContentPageService<TModel> contentPageService)
         {
             this.logger = logger;
-            this.documentService = documentService;
+            this.contentPageService = contentPageService;
         }
 
         public async Task<IList<TModel>?> GetAllCachedCanonicalNamesAsync()
         {
-            var serviceDataModels = await documentService.GetAllAsync().ConfigureAwait(false);
+            var serviceDataModels = await contentPageService.GetAllAsync().ConfigureAwait(false);
 
             return serviceDataModels.ToList();
         }
@@ -36,13 +35,13 @@ namespace DFC.App.ContactUs.Services.EventProcessorService
                 return HttpStatusCode.BadRequest;
             }
 
-            var existingDocument = await documentService.GetByIdAsync(upsertDocumentModel.Id).ConfigureAwait(false);
+            var existingDocument = await contentPageService.GetByIdAsync(upsertDocumentModel.Id).ConfigureAwait(false);
             if (existingDocument != null)
             {
                 return HttpStatusCode.AlreadyReported;
             }
 
-            var response = await documentService.UpsertAsync(upsertDocumentModel).ConfigureAwait(false);
+            var response = await contentPageService.UpsertAsync(upsertDocumentModel).ConfigureAwait(false);
 
             logger.LogInformation($"{nameof(CreateAsync)} has upserted content for: {upsertDocumentModel.CanonicalName} with response code {response}");
 
@@ -56,7 +55,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService
                 return HttpStatusCode.BadRequest;
             }
 
-            var existingDocument = await documentService.GetByIdAsync(upsertDocumentModel.Id).ConfigureAwait(false);
+            var existingDocument = await contentPageService.GetByIdAsync(upsertDocumentModel.Id).ConfigureAwait(false);
             if (existingDocument == null)
             {
                 return HttpStatusCode.NotFound;
@@ -69,7 +68,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService
 
             upsertDocumentModel.Etag = existingDocument.Etag;
 
-            var response = await documentService.UpsertAsync(upsertDocumentModel).ConfigureAwait(false);
+            var response = await contentPageService.UpsertAsync(upsertDocumentModel).ConfigureAwait(false);
 
             logger.LogInformation($"{nameof(UpdateAsync)} has upserted content for: {upsertDocumentModel.CanonicalName} with response code {response}");
 
@@ -78,7 +77,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService
 
         public async Task<HttpStatusCode> DeleteAsync(Guid id)
         {
-            var isDeleted = await documentService.DeleteAsync(id).ConfigureAwait(false);
+            var isDeleted = await contentPageService.DeleteAsync(id).ConfigureAwait(false);
 
             if (isDeleted)
             {
