@@ -341,7 +341,11 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
                 Title = "A title",
                 Description = "a description",
                 Keywords = "some keywords",
-                Content = "<h1>A document</h1>",
+                ContentItemUrls = new List<Uri> { new Uri("https://localhost/one"), new Uri("https://localhost/two"), new Uri("https://localhost/three"), },
+                ContentItems = new List<ContactUsApiContentItemModel>
+                {
+                    new ContactUsApiContentItemModel { Row = 1, Column = 1, Width = 50, Content = "<h1>A document</h1>", },
+                },
                 Published = DateTime.UtcNow,
             };
 

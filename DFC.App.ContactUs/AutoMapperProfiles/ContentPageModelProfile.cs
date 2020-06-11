@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DFC.App.ContactUs.AutoMapperProfiles.ValuerConverters;
 using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Models;
@@ -41,6 +42,7 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
                 .ForMember(d => d.Etag, s => s.Ignore())
                 .ForMember(d => d.PartitionKey, s => s.Ignore())
                 .ForMember(d => d.SequenceNumber, s => s.Ignore())
+                .ForMember(d => d.Content, opt => opt.ConvertUsing(new ContentItemsConverter(), a => a.ContentItems))
                 .ForPath(d => d.LastReviewed, s => s.MapFrom(a => a.Published))
                 .ForPath(d => d.MetaTags.Title, s => s.MapFrom(a => a.Title))
                 .ForPath(d => d.MetaTags.Description, s => s.MapFrom(a => a.Description))

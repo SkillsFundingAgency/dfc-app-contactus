@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -53,7 +54,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
                 IncludeInSitemap = true,
                 Version = Guid.NewGuid(),
                 Url = new Uri("https://localhost"),
-                Content = "<h1>A document</h1>",
+                ContentItemUrls = new List<Uri> { new Uri("https://localhost/one"), new Uri("https://localhost/two"), new Uri("https://localhost/three"), },
+                ContentItems = new List<ContactUsApiContentItemModel>
+                {
+                    new ContactUsApiContentItemModel { Row = 1, Column = 1, Width = 50, Content = "<h1>A document</h1>", },
+                },
                 Published = DateTime.UtcNow,
             };
 

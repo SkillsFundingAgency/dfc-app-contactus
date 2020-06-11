@@ -32,7 +32,7 @@ namespace DFC.App.ContactUs.HostedServices
         {
             try
             {
-                logger.LogInformation($"Reload cache started");
+                logger.LogInformation("Reload cache started");
 
                 var summaryList = await GetSummaryListAsync().ConfigureAwait(false);
 
@@ -57,11 +57,11 @@ namespace DFC.App.ContactUs.HostedServices
                     await DeleteStaleCacheEntriesAsync(summaryList, stoppingToken).ConfigureAwait(false);
                 }
 
-                logger.LogInformation($"Reload cache completed");
+                logger.LogInformation("Reload cache completed");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Error in cache reload");
+                logger.LogError(ex, "Error in cache reload");
             }
         }
 

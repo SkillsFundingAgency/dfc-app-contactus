@@ -31,7 +31,22 @@ namespace DFC.App.ContactUs.Services.CmsApiProcessorService
 
         public async Task<ContactUsApiDataModel?> GetItemAsync(Uri url)
         {
-            return await apiDataProcessorService.GetAsync<ContactUsApiDataModel>(httpClient, url).ConfigureAwait(false);
+            var contactUsApiDataModel = await apiDataProcessorService.GetAsync<ContactUsApiDataModel>(httpClient, url).ConfigureAwait(false);
+
+            if (contactUsApiDataModel?.ContentItemUrls != null)
+            {
+                foreach (var contentItemUrl in contactUsApiDataModel.ContentItemUrls)
+                {
+                    var contactUsApiContentItemModel = await apiDataProcessorService.GetAsync<ContactUsApiContentItemModel>(httpClient, contentItemUrl).ConfigureAwait(false);
+
+                    if (contactUsApiContentItemModel != null)
+                    {
+                        contactUsApiDataModel.ContentItems.Add(contactUsApiContentItemModel);
+                    }
+                }
+            }
+
+            return contactUsApiDataModel;
         }
     }
 }

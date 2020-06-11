@@ -73,6 +73,7 @@ namespace DFC.App.ContactUs.Controllers
             {
                 if (await SendEmailAsync(model).ConfigureAwait(false))
                 {
+                    await DeleteSessionStateAsync().ConfigureAwait(false);
                     return Redirect($"/{LocalPath}/{HomeController.ThankyouForContactingUsCanonicalName}");
                 }
 
