@@ -48,7 +48,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             new string[] { MediaTypeNames.Application.Json },
         };
 
-        protected ILogger<EnterYourDetailsController> Logger;
+        protected ILogger<EnterYourDetailsController> Logger { get; }
 
         protected ISessionStateService<SessionDataModel> FakeSessionStateService { get; }
 
@@ -76,7 +76,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
                 },
             };
 
-            controller.Request.Headers.Add(Constants.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
+            controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
 
             return controller;
         }

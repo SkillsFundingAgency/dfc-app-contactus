@@ -54,7 +54,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
             var controller = BuildEnterYourDetailsController(MediaTypeNames.Text.Html);
 
-            controller.Request.Headers.Add(Constants.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
+            controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
 
             A.CallTo(() => fakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
 
@@ -76,7 +76,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             // Arrange
             var controller = BuildEnterYourDetailsController(MediaTypeNames.Text.Html);
 
-            controller.Request.Headers.Add(Constants.CompositeSessionIdHeaderName, string.Empty);
+            controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, string.Empty);
 
             // Act
             var result = await controller.EnterYourDetailsBody().ConfigureAwait(false);

@@ -57,7 +57,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
                 },
             };
 
-            controller.Request.Headers.Add(Constants.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
+            controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
 
             return controller;
         }

@@ -46,7 +46,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             };
             var controller = BuildHomeController(MediaTypeNames.Text.Html);
 
-            controller.Request.Headers.Add(Constants.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
+            controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
 
             A.CallTo(() => fakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
             A.CallTo(() => fakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).Returns(saveStatusCode);
@@ -75,7 +75,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             };
             var controller = BuildHomeController(MediaTypeNames.Text.Html);
 
-            controller.Request.Headers.Add(Constants.CompositeSessionIdHeaderName, string.Empty);
+            controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, string.Empty);
 
             // Act
             var result = await controller.HomeBody(viewModel).ConfigureAwait(false);

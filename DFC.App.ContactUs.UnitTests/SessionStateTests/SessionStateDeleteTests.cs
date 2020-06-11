@@ -60,7 +60,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             var controller = BuildEnterYourDetailsController(MediaTypeNames.Text.Html);
 
-            controller.Request.Headers.Add(Constants.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
+            controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
 
             A.CallTo(() => fakeTemplateService.GetTemplateByNameAsync(A<string>.Ignored)).Returns(expectedEmailTemplate);
             A.CallTo(() => fakeRoutingService.GetAsync(A<string>.Ignored)).Returns(A.Dummy<RoutingDetailModel>());
@@ -92,7 +92,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             var controller = BuildEnterYourDetailsController(MediaTypeNames.Text.Html);
 
-            controller.Request.Headers.Add(Constants.CompositeSessionIdHeaderName, string.Empty);
+            controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, string.Empty);
 
             // Act
             var result = await controller.EnterYourDetailsBody(viewModel).ConfigureAwait(false);
