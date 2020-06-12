@@ -19,7 +19,6 @@ namespace DFC.App.ContactUs.Controllers
         public const string ThisViewCanonicalName = "enter-your-details";
 
         private readonly AutoMapper.IMapper mapper;
-        private readonly ISessionStateService<SessionDataModel> sessionStateService;
         private readonly ISendGridEmailService<ContactUsEmailRequestModel> sendGridEmailService;
         private readonly IRoutingService routingService;
         private readonly FamApiRoutingOptions famApiRoutingOptions;
@@ -28,7 +27,6 @@ namespace DFC.App.ContactUs.Controllers
         public EnterYourDetailsController(ILogger<EnterYourDetailsController> logger, AutoMapper.IMapper mapper, ISessionStateService<SessionDataModel> sessionStateService, IRoutingService routingService, ISendGridEmailService<ContactUsEmailRequestModel> sendGridEmailService, FamApiRoutingOptions famApiRoutingOptions, ITemplateService templateService) : base(logger, sessionStateService)
         {
             this.mapper = mapper;
-            this.sessionStateService = sessionStateService;
             this.routingService = routingService;
             this.sendGridEmailService = sendGridEmailService;
             this.famApiRoutingOptions = famApiRoutingOptions;
