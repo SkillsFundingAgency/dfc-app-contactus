@@ -127,21 +127,5 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             response.EnsureSuccessStatusCode();
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
-
-        [Fact]
-        public async Task DeletePagesEndpointsReturnNotFound()
-        {
-            // Arrange
-            var uri = new Uri($"/pages/{Guid.NewGuid()}", UriKind.Relative);
-            var client = factory.CreateClient();
-
-            client.DefaultRequestHeaders.Accept.Clear();
-
-            // Act
-            var response = await client.DeleteAsync(uri).ConfigureAwait(false);
-
-            // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        }
     }
 }

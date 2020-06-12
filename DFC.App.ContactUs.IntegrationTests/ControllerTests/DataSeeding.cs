@@ -1,5 +1,6 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Models;
+using Microsoft.Azure.EventGrid.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -12,55 +13,27 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
         public const string SendUsLetterArticleName = HomeController.SendUsLetterCanonicalName;
         public const string AlternativeArticleName = "alternative-name";
 
+        private const string EventTypePublished = "published";
+        private const string WebhookApiUrl = "api/webhook/ReceiveContactUsEvents";
+
         public static void SeedDefaultArticles(CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory)
         {
-            const string url = "/pages";
-            var contentPageModels = new List<ContentPageModel>()
+            var eventGridEventDataItems = new List<EventGridEventData>()
             {
-                new ContentPageModel()
+                new EventGridEventData()
                 {
-                    Id = Guid.Parse("5DDE75FF-8B32-4746-9712-2672E5C540DB"),
-                    CanonicalName = SendUsLetterArticleName,
-                    BreadcrumbTitle = "Contact Us",
-                    IncludeInSitemap = true,
-                    Version = Guid.NewGuid(),
-                    Url = new Uri("/aaa/bbb", UriKind.Relative),
-                    Content = "<h1>A document</h1>",
-                    LastReviewed = DateTime.UtcNow,
+                    ItemId = "3627EDA0-A5EF-405F-BD91-349FCAD91105",
+                    DisplayText = "Send us a letter",
                 },
-                new ContentPageModel()
+                new EventGridEventData()
                 {
-                    Id = Guid.Parse("9244BFF6-BA0C-40DB-AD52-A293C37441B1"),
-                    CanonicalName = "in-sitemap",
-                    BreadcrumbTitle = "In Sitemap",
-                    IncludeInSitemap = true,
-                    Version = Guid.NewGuid(),
-                    Url = new Uri("/aaa/bbb", UriKind.Relative),
-                    Content = "<h1>A document</h1>",
-                    LastReviewed = DateTime.UtcNow,
+                    ItemId = "46CB08FD-613E-4E72-8C08-39A8B256844E",
+                    DisplayText = "Thank you for contacting us",
                 },
-                new ContentPageModel()
+                new EventGridEventData()
                 {
-                    Id = Guid.Parse("C0103C26-E7C9-4008-BF66-1B2DB192177E"),
-                    CanonicalName = "not-in-sitemap",
-                    BreadcrumbTitle = "Not in Sitemap",
-                    IncludeInSitemap = false,
-                    Version = Guid.NewGuid(),
-                    Url = new Uri("/aaa/bbb", UriKind.Relative),
-                    Content = "<h1>A document</h1>",
-                    LastReviewed = DateTime.UtcNow,
-                },
-                new ContentPageModel()
-                {
-                    Id = Guid.Parse("DA9C1643-8937-4D09-843C-102E15CA3D1B"),
-                    CanonicalName = "contains-alternative-name",
-                    BreadcrumbTitle = "Contains Alternative Name",
-                    IncludeInSitemap = false,
-                    Version = Guid.NewGuid(),
-                    Url = new Uri("/aaa/bbb", UriKind.Relative),
-                    AlternativeNames = new[] { AlternativeArticleName },
-                    Content = "<h1>A document</h1>",
-                    LastReviewed = DateTime.UtcNow,
+                    ItemId ="EDFC8852-9820-4F29-B006-9FBD46CAB646",
+                    DisplayText = "test-grid-4-x-3",
                 },
             };
 
@@ -68,10 +41,31 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
 
             client!.DefaultRequestHeaders.Accept.Clear();
 
-            foreach (var contentPageModel in contentPageModels)
+            foreach (var eventGridEventData in eventGridEventDataItems)
             {
-                var result = client.PostAsync(url, contentPageModel, new JsonMediaTypeFormatter()).GetAwaiter().GetResult();
+                eventGridEventData.Api = "https://localhost:44354/home/item/contact-us/" + eventGridEventData.ItemId;
+                var eventGridEvents = BuildValidEventGridEvent(EventTypePublished, eventGridEventData);
+                var uri = new Uri("/" + WebhookApiUrl, UriKind.Relative);
+                var result = client.PostAsync(uri, eventGridEvents, new JsonMediaTypeFormatter()).GetAwaiter().GetResult();
             }
+        }
+
+        private static EventGridEvent[] BuildValidEventGridEvent<TModel>(string eventType, TModel data)
+        {
+            var models = new EventGridEvent[]
+            {
+                new EventGridEvent
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Subject = "contact-us/an-integration-test-name",
+                    Data = data,
+                    EventType = eventType,
+                    EventTime = DateTime.Now,
+                    DataVersion = "1.0",
+                },
+            };
+
+            return models;
         }
     }
 }

@@ -26,7 +26,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = "a-canonical-name",
                 PartitionKey = "partition-key",
-                SequenceNumber = 1,
                 Version = Guid.NewGuid(),
                 BreadcrumbTitle = "Title",
                 IncludeInSitemap = true,
