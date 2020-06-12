@@ -5,6 +5,7 @@ using Xunit;
 
 namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
 {
+    [Trait("Category", "Integration - Automapper")]
     public class AutoMapperProfileTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> factory;

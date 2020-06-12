@@ -57,7 +57,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
                 ContentItemUrls = new List<Uri> { new Uri("https://localhost/one"), new Uri("https://localhost/two"), new Uri("https://localhost/three"), },
                 ContentItems = new List<ContactUsApiContentItemModel>
                 {
-                    new ContactUsApiContentItemModel { Row = 1, Column = 1, Width = 50, Content = "<h1>A document</h1>", },
+                    new ContactUsApiContentItemModel { Justify = 1, Ordinal = 1, Width = 50, Content = "<h1>A document</h1>", },
                 },
                 Published = DateTime.UtcNow,
             };
