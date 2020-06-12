@@ -6,7 +6,7 @@ namespace DFC.App.ContactUs.ViewModels
 {
     public class EnterYourDetailsBodyViewModel
     {
-        public const string TermsAndConditionsLabel = "I accept the <a class='govuk-link' href='/help/terms-and-conditions' target='_blank'>terms and conditions</a> and I am 13 or over.";
+        public const string TermsAndConditionsLabel = "I accept the <a id='TermsAndConditionsLink' class='govuk-link' href='/help/terms-and-conditions' target='_blank'>terms and conditions</a> and I am 13 or over.";
         public const string TermsAndConditionsValidationError = "You must accept our Terms and Conditions";
 
         private const string RegExForName = "^[a-zA-Z ]+(([',.\\-][a-zA-Z ])?[a-zA-Z ]*)*$";
