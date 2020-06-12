@@ -75,8 +75,8 @@ namespace DFC.App.ContactUs.MessageFunctionApp.UnitTests.Services
         {
             return new ContentPageModel
             {
+                Id = ContentPageId,
                 CanonicalName = TestPageName,
-                DocumentId = ContentPageId,
                 SequenceNumber = SequenceNumber,
                 Etag = null,
                 BreadcrumbTitle = BreadcrumbTitle,
@@ -84,7 +84,7 @@ namespace DFC.App.ContactUs.MessageFunctionApp.UnitTests.Services
                 AlternativeNames = AlternativeNames,
                 Content = Content,
                 LastReviewed = LastModified,
-                MetaTags = new MetaTagsModel()
+                MetaTags = new Compui.Cosmos.Models.MetaTagsModel()
                 {
                     Title = Title,
                     Description = Description,

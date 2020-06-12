@@ -26,7 +26,9 @@ namespace DFC.App.ContactUs.Services.CmsApiProcessorService.Models
 
         public string? Keywords { get; set; }
 
-        public string? Content { get; set; }
+        public IList<Uri>? ContentItemUrls { get; set; }
+
+        public IList<ContactUsApiContentItemModel> ContentItems { get; set; } = new List<ContactUsApiContentItemModel>();
 
         public DateTime? Published { get; set; }
     }

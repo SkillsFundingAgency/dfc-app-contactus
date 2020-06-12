@@ -19,10 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{1DD6EE44-7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.ContactUs.Data", "DFC.App.ContactUs.Data\DFC.App.ContactUs.Data.csproj", "{4714657D-B7BC-481E-8232-1418577BBB2E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{71B78636-E4C3-49E6-AC9E-793886F9E73D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.ContactUs.Repository.CosmosDb", "DFC.App.ContactUs.Repository.CosmosDb\DFC.App.ContactUs.Repository.CosmosDb.csproj", "{DFA77AC4-F819-4A3C-9EEA-8B4C9CCE6E61}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{6DF16001-56C9-4D30-9AFC-14156B01996E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.ContactUs", "DFC.App.ContactUs\DFC.App.ContactUs.csproj", "{56C3A071-4699-47F5-9D92-FA36AE4D9784}"
@@ -67,21 +63,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.ContactUs.Services.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.ContactUs.Services.EventProcessorService.UnitTests", "DFC.App.ContactUs.Services.EventProcessorService.UnitTests\DFC.App.ContactUs.Services.EventProcessorService.UnitTests.csproj", "{768C369C-E14B-41D3-9194-B0FB333A44A1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.ContactUs.Services.PageService", "DFC.App.ContactUs.Services.PageService\DFC.App.ContactUs.Services.PageService.csproj", "{4608D1F9-5065-42FE-8159-32A1F78468D8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.ContactUs.Services.PageService.UnitTests", "DFC.App.ContactUs.Services.PageService.UnitTests\DFC.App.ContactUs.Services.PageService.UnitTests.csproj", "{BA08F896-FFC8-4DD8-BFD9-BF2377B51BF8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.ContactUs.Services.EmailTemplateService", "DFC.App.ContactUs.Services.EmailTemplateService\DFC.App.ContactUs.Services.EmailTemplateService.csproj", "{D25A1725-83A3-43E4-9CBA-381FEBDBEE0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.ContactUs.Services.CmsApiProcessorService", "DFC.App.ContactUs.Services.CmsApiProcessorService\DFC.App.ContactUs.Services.CmsApiProcessorService.csproj", "{864A9663-9F3E-438C-9337-8050E22BB694}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.ContactUs.Services.CmsApiProcessorService", "DFC.App.ContactUs.Services.CmsApiProcessorService\DFC.App.ContactUs.Services.CmsApiProcessorService.csproj", "{864A9663-9F3E-438C-9337-8050E22BB694}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.ContactUs.Services.AreaRoutingService.UnitTests", "DFC.App.ContactUs.Services.AreaRoutingService.UnitTests\DFC.App.ContactUs.Services.AreaRoutingService.UnitTests.csproj", "{47D4FCFD-856F-4CF4-AFB2-BFDFA554351E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.ContactUs.Services.AreaRoutingService.UnitTests", "DFC.App.ContactUs.Services.AreaRoutingService.UnitTests\DFC.App.ContactUs.Services.AreaRoutingService.UnitTests.csproj", "{47D4FCFD-856F-4CF4-AFB2-BFDFA554351E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.ContactUs.Services.CmsApiProcessorService.UnitTests", "DFC.App.ContactUs.Services.CmsApiProcessorService.UnitTests\DFC.App.ContactUs.Services.CmsApiProcessorService.UnitTests.csproj", "{02D89AA3-05FF-4A3E-8055-3CECB9B90D8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.ContactUs.Services.CmsApiProcessorService.UnitTests", "DFC.App.ContactUs.Services.CmsApiProcessorService.UnitTests\DFC.App.ContactUs.Services.CmsApiProcessorService.UnitTests.csproj", "{02D89AA3-05FF-4A3E-8055-3CECB9B90D8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.ContactUs.Services.EmailService.UnitTests", "DFC.App.ContactUs.Services.EmailService.UnitTests\DFC.App.ContactUs.Services.EmailService.UnitTests.csproj", "{A74F9D65-B5F9-41AA-9EB1-DA1809ED4D5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.ContactUs.Services.EmailService.UnitTests", "DFC.App.ContactUs.Services.EmailService.UnitTests\DFC.App.ContactUs.Services.EmailService.UnitTests.csproj", "{A74F9D65-B5F9-41AA-9EB1-DA1809ED4D5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.ContactUs.Services.EmailTemplateService.UnitTests", "DFC.App.ContactUs.Services.EmailTemplateService.UnitTests\DFC.App.ContactUs.Services.EmailTemplateService.UnitTests.csproj", "{15129880-E1D4-42FD-9813-9F1B5BEF7383}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.ContactUs.Services.EmailTemplateService.UnitTests", "DFC.App.ContactUs.Services.EmailTemplateService.UnitTests\DFC.App.ContactUs.Services.EmailTemplateService.UnitTests.csproj", "{15129880-E1D4-42FD-9813-9F1B5BEF7383}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,10 +85,6 @@ Global
 		{4714657D-B7BC-481E-8232-1418577BBB2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4714657D-B7BC-481E-8232-1418577BBB2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4714657D-B7BC-481E-8232-1418577BBB2E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DFA77AC4-F819-4A3C-9EEA-8B4C9CCE6E61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFA77AC4-F819-4A3C-9EEA-8B4C9CCE6E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFA77AC4-F819-4A3C-9EEA-8B4C9CCE6E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFA77AC4-F819-4A3C-9EEA-8B4C9CCE6E61}.Release|Any CPU.Build.0 = Release|Any CPU
 		{56C3A071-4699-47F5-9D92-FA36AE4D9784}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{56C3A071-4699-47F5-9D92-FA36AE4D9784}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56C3A071-4699-47F5-9D92-FA36AE4D9784}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -145,14 +133,6 @@ Global
 		{768C369C-E14B-41D3-9194-B0FB333A44A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{768C369C-E14B-41D3-9194-B0FB333A44A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{768C369C-E14B-41D3-9194-B0FB333A44A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4608D1F9-5065-42FE-8159-32A1F78468D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4608D1F9-5065-42FE-8159-32A1F78468D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4608D1F9-5065-42FE-8159-32A1F78468D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4608D1F9-5065-42FE-8159-32A1F78468D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BA08F896-FFC8-4DD8-BFD9-BF2377B51BF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA08F896-FFC8-4DD8-BFD9-BF2377B51BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BA08F896-FFC8-4DD8-BFD9-BF2377B51BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA08F896-FFC8-4DD8-BFD9-BF2377B51BF8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D25A1725-83A3-43E4-9CBA-381FEBDBEE0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D25A1725-83A3-43E4-9CBA-381FEBDBEE0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D25A1725-83A3-43E4-9CBA-381FEBDBEE0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -183,7 +163,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4714657D-B7BC-481E-8232-1418577BBB2E} = {1DD6EE44-7073-4949-AD97-34636DF62CB5}
-		{DFA77AC4-F819-4A3C-9EEA-8B4C9CCE6E61} = {71B78636-E4C3-49E6-AC9E-793886F9E73D}
 		{6704B261-C73E-430F-839D-65EE898D9B35} = {33ACC3C7-7AE6-4B54-9C8C-0E8F4CABCE5D}
 		{371C259A-99AF-4DEA-B3DA-F8038AF24E86} = {0C896E2B-3CA0-4674-98AC-948C514E629E}
 		{222A5A44-9E89-4D9C-A85B-4C1826EF57F2} = {371C259A-99AF-4DEA-B3DA-F8038AF24E86}
@@ -202,8 +181,6 @@ Global
 		{B57B010F-0F1F-42BB-BE32-4A39F259D112} = {3CA2376D-635F-400C-B3FA-9D0E931F48A4}
 		{3D595DAB-F7E9-4326-AE12-7312B1BC5753} = {6DF16001-56C9-4D30-9AFC-14156B01996E}
 		{768C369C-E14B-41D3-9194-B0FB333A44A1} = {3CA2376D-635F-400C-B3FA-9D0E931F48A4}
-		{4608D1F9-5065-42FE-8159-32A1F78468D8} = {6DF16001-56C9-4D30-9AFC-14156B01996E}
-		{BA08F896-FFC8-4DD8-BFD9-BF2377B51BF8} = {3CA2376D-635F-400C-B3FA-9D0E931F48A4}
 		{D25A1725-83A3-43E4-9CBA-381FEBDBEE0A} = {6DF16001-56C9-4D30-9AFC-14156B01996E}
 		{864A9663-9F3E-438C-9337-8050E22BB694} = {6DF16001-56C9-4D30-9AFC-14156B01996E}
 		{47D4FCFD-856F-4CF4-AFB2-BFDFA554351E} = {3CA2376D-635F-400C-B3FA-9D0E931F48A4}

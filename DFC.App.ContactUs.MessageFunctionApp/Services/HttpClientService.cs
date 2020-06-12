@@ -33,7 +33,7 @@ namespace DFC.App.ContactUs.MessageFunctionApp.Services
                 if (!response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for POST, Id: {contentPageModel?.DocumentId}.");
+                    logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for POST, Id: {contentPageModel?.Id}.");
                     response.EnsureSuccessStatusCode();
                 }
 
@@ -52,7 +52,7 @@ namespace DFC.App.ContactUs.MessageFunctionApp.Services
                 if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.NotFound)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for Put type {typeof(ContentPageModel)}, Id: {contentPageModel?.DocumentId}");
+                    logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for Put type {typeof(ContentPageModel)}, Id: {contentPageModel?.Id}");
                     response.EnsureSuccessStatusCode();
                 }
 

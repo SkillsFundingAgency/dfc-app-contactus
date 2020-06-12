@@ -28,6 +28,8 @@ Clone the project and open the solution in Visual Studio 2019.
 |Item	|Purpose|
 |-------|-------|
 |Azure Cosmos DB | Document storage |
+|DFC.Compui.Sessionstate|Session State storage in Cosmos|
+|DFC.Compui.Cosmos|Content page storage in Cosmos|
 
 ## Local Config Files
 
@@ -43,7 +45,7 @@ Once you have cloned the public repo you need to remove the -template part from 
 
 The project contains a number of "appsettings-template.json" and "local.settings-template.json" files which contain Contact Us appsettings for the web app, function app and the integration test projects. To use these files, copy them to "appsettings.json" and "local.settings.json" respectively and edit and replace the configuration item values with values suitable for your environment.
 
-By default, the appsettings include a local Azure Cosmos Emulator configuration using the well known configuration values. These may be changed to suit your environment if you are not using the Azure Cosmos Emulator.
+By default, the appsettings include local Azure Cosmos Emulator configurations using the well known configuration values for Content Page storage and Session State storage (in separate collections). These may be changed to suit your environment if you are not using the Azure Cosmos Emulator.
 
 This app using the FAM API for Postcode routing. To make use of it you will require an APIM API key for that service.
 
@@ -53,7 +55,7 @@ This app also uses SendGrid to send email messages. The configuration section "S
 
 To run this product locally, you will need to configure the list of dependencies, once configured and the configuration files updated, it should be F5 to run and debug locally. The application can be run using IIS Express or full IIS.
 
-To run the project, start the web application. Once running, browse to the main entrypoint which is the "https://localhost:44340/pages". This will list all of the Contact Us pages available and from here, you can navigate to the individual contact us pages.
+To run the project, start the web application. Once running, browse to the main entry point which is the "https://localhost:44340/pages". This will list all of the Contact Us views and pages available and from here, you can navigate to the individual contact us pages.
 
 The Contact Us app is designed to be run from within the Composite UI, therefore running the Contact Us app outside of the Composite UI will only show simple views of the data.
 

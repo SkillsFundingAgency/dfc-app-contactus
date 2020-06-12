@@ -1,7 +1,7 @@
 ﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
-using DFC.App.ContactUs.Services.PageService.Contracts;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Compui.Cosmos.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,6 +13,8 @@ namespace DFC.App.ContactUs.Controllers
 {
     public class HealthController : Controller
     {
+        public const string HealthViewCanonicalName = "health";
+
         private readonly ILogger<HealthController> logger;
         private readonly IContentPageService<ContentPageModel> contentPageService;
         private readonly string resourceName = typeof(Program).Namespace!;

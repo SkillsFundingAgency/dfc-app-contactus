@@ -1,11 +1,8 @@
-﻿using AutoMapper;
-using DFC.App.ContactUs.Controllers;
+﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.Services.PageService.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net;
@@ -16,19 +13,8 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 {
     [Trait("Category", "Pages Controller Unit Tests")]
-    public class PagesControllerRouteTests
+    public class PagesControllerRouteTests : BasePagesControllerTests
     {
-        private readonly ILogger<PagesController> logger;
-        private readonly IContentPageService<ContentPageModel> fakeContentPageService;
-        private readonly IMapper fakeMapper;
-
-        public PagesControllerRouteTests()
-        {
-            logger = A.Fake<ILogger<PagesController>>();
-            fakeContentPageService = A.Fake<IContentPageService<ContentPageModel>>();
-            fakeMapper = A.Fake<IMapper>();
-        }
-
         public static IEnumerable<object[]> PagesRouteDataOk => new List<object[]>
         {
             new object[] { "/", string.Empty, nameof(PagesController.Index) },
@@ -64,14 +50,14 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var controller = BuildController(route);
             var expectedResult = new ContentPageModel() { Content = "<h1>A document</h1>" };
 
-            A.CallTo(() => fakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await RunControllerAction(controller, article, actionMethod).ConfigureAwait(false);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            A.CallTo(() => fakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
             controller.Dispose();
         }
@@ -115,7 +101,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new PagesController(logger, fakeContentPageService, fakeMapper)
+            return new PagesController(Logger, FakeSessionStateService, FakeContentPageService, FakeMapper)
             {
                 ControllerContext = new ControllerContext
                 {

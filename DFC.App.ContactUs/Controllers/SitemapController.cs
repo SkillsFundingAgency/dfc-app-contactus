@@ -1,7 +1,7 @@
 ﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services.PageService.Contracts;
+using DFC.Compui.Cosmos.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,6 +13,8 @@ namespace DFC.App.ContactUs.Controllers
 {
     public class SitemapController : Controller
     {
+        public const string SitemapViewCanonicalName = "sitemap";
+
         private readonly ILogger<SitemapController> logger;
         private readonly IContentPageService<ContentPageModel> contentPageService;
 
@@ -20,6 +22,15 @@ namespace DFC.App.ContactUs.Controllers
         {
             this.logger = logger;
             this.contentPageService = contentPageService;
+        }
+
+        [HttpGet]
+        [Route("pages/sitemap")]
+        public async Task<IActionResult> SitemapView()
+        {
+            var result = await Sitemap().ConfigureAwait(false);
+
+            return result;
         }
 
         [HttpGet]

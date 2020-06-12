@@ -1,10 +1,12 @@
 ﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Models;
+using DFC.Compui.Sessionstate;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 
@@ -17,6 +19,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         protected BaseHomeControllerTests()
         {
             Logger = A.Fake<ILogger<HomeController>>();
+            FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
             FakeServiceOpenDetailModel = A.Fake<ServiceOpenDetailModel>();
         }
 
@@ -38,6 +41,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
         protected ILogger<HomeController> Logger { get; }
 
+        protected ISessionStateService<SessionDataModel> FakeSessionStateService { get; }
+
         protected ServiceOpenDetailModel FakeServiceOpenDetailModel { get; }
 
         protected HomeController BuildHomeController(string mediaTypeName)
@@ -46,13 +51,15 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(Logger, FakeServiceOpenDetailModel)
+            var controller = new HomeController(Logger, FakeSessionStateService, FakeServiceOpenDetailModel)
             {
                 ControllerContext = new ControllerContext()
                 {
                     HttpContext = httpContext,
                 },
             };
+
+            controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
 
             return controller;
         }

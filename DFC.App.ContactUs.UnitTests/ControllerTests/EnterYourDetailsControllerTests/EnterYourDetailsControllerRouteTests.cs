@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsControllerTests
@@ -18,23 +19,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
     [Trait("Category", "EnterYourDetails Controller Unit Tests")]
     public class EnterYourDetailsControllerRouteTests : BaseEnterYourDetailsControllerTests
     {
-        private readonly ILogger<EnterYourDetailsController> logger;
-        private readonly AutoMapper.IMapper mapper;
-        private readonly IRoutingService routingService;
-        private readonly ISendGridEmailService<ContactUsEmailRequestModel> sendGridEmialService;
-        private readonly FamApiRoutingOptions famApiRoutingOptions;
-        private readonly ITemplateService templateService;
-
-        public EnterYourDetailsControllerRouteTests()
-        {
-            logger = A.Fake<ILogger<EnterYourDetailsController>>();
-            mapper = A.Fake<AutoMapper.IMapper>();
-            routingService = A.Fake<IRoutingService>();
-            sendGridEmialService = A.Fake<ISendGridEmailService<ContactUsEmailRequestModel>>();
-            famApiRoutingOptions = A.Fake<FamApiRoutingOptions>();
-            templateService = A.Fake<ITemplateService>();
-        }
-
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
             new object[] { $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}",  nameof(EnterYourDetailsController.EnterYourDetailsView) },
@@ -45,13 +29,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
 
         [Theory]
         [MemberData(nameof(RouteDataOk))]
-        public void EnterYourDetailsControllerUsingPagesViewRouteForOkResult(string route, string actionMethod)
+        public async Task EnterYourDetailsControllerUsingPagesViewRouteForOkResult(string route, string actionMethod)
         {
             // Arrange
             var controller = BuildController(route);
 
             // Act
-            var result = RunControllerAction(controller, actionMethod);
+            var result = await RunControllerActionAsync(controller, actionMethod).ConfigureAwait(false);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
@@ -59,13 +43,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             controller.Dispose();
         }
 
-        private IActionResult RunControllerAction(EnterYourDetailsController controller, string actionName)
+        private async Task<IActionResult> RunControllerActionAsync(EnterYourDetailsController controller, string actionName)
         {
             return actionName switch
             {
                 nameof(EnterYourDetailsController.EnterYourDetailsHtmlHead) => controller.EnterYourDetailsHtmlHead(),
                 nameof(EnterYourDetailsController.EnterYourDetailsBreadcrumb) => controller.EnterYourDetailsBreadcrumb(),
-                _ => controller.EnterYourDetailsBody(),
+                _ => await controller.EnterYourDetailsBody().ConfigureAwait(false),
             };
         }
 
@@ -75,7 +59,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new EnterYourDetailsController(logger, mapper, routingService, sendGridEmialService, famApiRoutingOptions, templateService)
+            return new EnterYourDetailsController(Logger, FakeMapper, FakeSessionStateService, FakeRoutingService, FakeSendGridEmailService, FakeFamApiRoutingOptions, FakeTemplateService)
             {
                 ControllerContext = new ControllerContext
                 {

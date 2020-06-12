@@ -4,11 +4,13 @@ using DFC.App.ContactUs.Services.AreaRoutingService.Contracts;
 using DFC.App.ContactUs.Services.AreaRoutingService.HttpClientPolicies;
 using DFC.App.ContactUs.Services.EmailService.Contracts;
 using DFC.App.ContactUs.Services.EmailTemplateService.Contracts;
+using DFC.Compui.Sessionstate;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 
@@ -19,11 +21,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
         protected const string LocalPath = "pages";
         protected const string RegistrationPath = "contact-us";
 
-        private readonly ILogger<EnterYourDetailsController> logger;
-
         protected BaseEnterYourDetailsControllerTests()
         {
-            logger = A.Fake<ILogger<EnterYourDetailsController>>();
+            Logger = A.Fake<ILogger<EnterYourDetailsController>>();
+            FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
             FakeRoutingService = A.Fake<IRoutingService>();
             FakeSendGridEmailService = A.Fake<ISendGridEmailService<ContactUsEmailRequestModel>>();
@@ -47,6 +48,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             new string[] { MediaTypeNames.Application.Json },
         };
 
+        protected ILogger<EnterYourDetailsController> Logger { get; }
+
+        protected ISessionStateService<SessionDataModel> FakeSessionStateService { get; }
+
         protected AutoMapper.IMapper FakeMapper { get; }
 
         protected ISendGridEmailService<ContactUsEmailRequestModel> FakeSendGridEmailService { get; }
@@ -63,13 +68,15 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new EnterYourDetailsController(logger, FakeMapper, FakeRoutingService, FakeSendGridEmailService, FakeFamApiRoutingOptions, FakeTemplateService)
+            var controller = new EnterYourDetailsController(Logger, FakeMapper, FakeSessionStateService, FakeRoutingService, FakeSendGridEmailService, FakeFamApiRoutingOptions, FakeTemplateService)
             {
                 ControllerContext = new ControllerContext()
                 {
                     HttpContext = httpContext,
                 },
             };
+
+            controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
 
             return controller;
         }

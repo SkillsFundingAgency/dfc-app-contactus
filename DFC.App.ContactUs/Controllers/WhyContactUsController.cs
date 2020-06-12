@@ -2,10 +2,11 @@
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Net;
+using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Controllers
 {
@@ -13,7 +14,7 @@ namespace DFC.App.ContactUs.Controllers
     {
         public const string ThisViewCanonicalName = "why-do-you-want-to-contact-us";
 
-        public WhyContactUsController(ILogger<WhyContactUsController> logger) : base(logger)
+        public WhyContactUsController(ILogger<WhyContactUsController> logger, ISessionStateService<SessionDataModel> sessionStateService) : base(logger, sessionStateService)
         {
         }
 
@@ -44,7 +45,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPost]
         [Route("pages/why-do-you-want-to-contact-us")]
-        public IActionResult WhyContactUsView(WhyContactUsBodyViewModel? model)
+        public async Task<IActionResult> WhyContactUsView(WhyContactUsBodyViewModel? model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -55,7 +56,12 @@ namespace DFC.App.ContactUs.Controllers
                     case Category.Website:
                     case Category.Feedback:
                     case Category.SomethingElse:
-                        return Redirect($"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={model.SelectedCategory}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}={WebUtility.UrlEncode(model.MoreDetail)}");
+                        if (await SetSessionStateAsync(model.SelectedCategory.Value, model.MoreDetail).ConfigureAwait(false))
+                        {
+                            return Redirect($"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}");
+                        }
+
+                        break;
                 }
             }
 
@@ -123,7 +129,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpPost]
         [Route("pages/why-do-you-want-to-contact-us/body")]
-        public IActionResult WhyContactUsBody(WhyContactUsBodyViewModel? viewModel)
+        public async Task<IActionResult> WhyContactUsBody(WhyContactUsBodyViewModel? viewModel)
         {
             if (viewModel != null && ModelState.IsValid)
             {
@@ -134,7 +140,12 @@ namespace DFC.App.ContactUs.Controllers
                     case Category.Website:
                     case Category.Feedback:
                     case Category.SomethingElse:
-                        return Redirect($"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={viewModel.SelectedCategory}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}={WebUtility.UrlEncode(viewModel.MoreDetail)}");
+                        if (await SetSessionStateAsync(viewModel.SelectedCategory.Value, viewModel.MoreDetail).ConfigureAwait(false))
+                        {
+                            return Redirect($"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}");
+                        }
+
+                        break;
                 }
             }
 

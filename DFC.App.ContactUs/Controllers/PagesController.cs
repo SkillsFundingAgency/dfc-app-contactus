@@ -1,8 +1,9 @@
 ﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services.PageService.Contracts;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Compui.Cosmos.Contracts;
+using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,7 +18,7 @@ namespace DFC.App.ContactUs.Controllers
         private readonly IContentPageService<ContentPageModel> contentPageService;
         private readonly AutoMapper.IMapper mapper;
 
-        public PagesController(ILogger<PagesController> logger, IContentPageService<ContentPageModel> contentPageService, AutoMapper.IMapper mapper) : base(logger)
+        public PagesController(ILogger<PagesController> logger, ISessionStateService<SessionDataModel> sessionStateService, IContentPageService<ContentPageModel> contentPageService, AutoMapper.IMapper mapper) : base(logger, sessionStateService)
         {
             this.contentPageService = contentPageService;
             this.mapper = mapper;
@@ -39,7 +40,8 @@ namespace DFC.App.ContactUs.Controllers
                 viewModel.Documents = (from a in contentPageModels.OrderBy(o => o.CanonicalName)
                                        select mapper.Map<IndexDocumentViewModel>(a)).ToList();
 
-                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = "health" });
+                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = HealthController.HealthViewCanonicalName });
+                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = SitemapController.SitemapViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = HomeController.ThisViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = ChatController.ThisViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = WhyContactUsController.ThisViewCanonicalName });
@@ -209,7 +211,7 @@ namespace DFC.App.ContactUs.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.DocumentId).ConfigureAwait(false);
+            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.Id).ConfigureAwait(false);
             if (existingDocument != null)
             {
                 return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
@@ -236,7 +238,7 @@ namespace DFC.App.ContactUs.Controllers
                 return BadRequest(ModelState);
             }
 
-            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.DocumentId).ConfigureAwait(false);
+            var existingDocument = await contentPageService.GetByIdAsync(upsertContentPageModel.Id).ConfigureAwait(false);
             if (existingDocument == null)
             {
                 return new StatusCodeResult((int)HttpStatusCode.NotFound);

@@ -320,7 +320,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
             var model = new ContactUsSummaryItemModel()
             {
                 CanonicalName = "an-article",
-                Url = new Uri("https://localhost"),
+                Url = new Uri("/aaa/bbb", UriKind.Relative),
                 Published = DateTime.UtcNow,
             };
 
@@ -336,12 +336,16 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
                 Version = Guid.NewGuid(),
                 BreadcrumbTitle = "An article",
                 IncludeInSitemap = true,
-                Url = new Uri("https://localhost"),
+                Url = new Uri("/aaa/bbb", UriKind.Relative),
                 AlternativeNames = new string[] { "alt-name-1", "alt-name-2" },
                 Title = "A title",
                 Description = "a description",
                 Keywords = "some keywords",
-                Content = "<h1>A document</h1>",
+                ContentItemUrls = new List<Uri> { new Uri("https://localhost/one"), new Uri("https://localhost/two"), new Uri("https://localhost/three"), },
+                ContentItems = new List<ContactUsApiContentItemModel>
+                {
+                    new ContactUsApiContentItemModel { Row = 1, Column = 1, Width = 50, Content = "<h1>A document</h1>", },
+                },
                 Published = DateTime.UtcNow,
             };
 
@@ -352,12 +356,12 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
         {
             var model = new ContentPageModel()
             {
-                DocumentId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 CanonicalName = "an-article",
                 BreadcrumbTitle = "An article",
                 IncludeInSitemap = true,
                 Version = Guid.NewGuid(),
-                Url = new Uri("https://localhost"),
+                Url = new Uri("/aaa/bbb", UriKind.Relative),
                 Content = "<h1>A document</h1>",
                 LastReviewed = DateTime.UtcNow,
             };

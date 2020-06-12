@@ -1,10 +1,7 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests;
-using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
@@ -15,15 +12,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
     [Trait("Category", "Home Controller Unit Tests")]
     public class HomeControllerRouteTests : BaseHomeControllerTests
     {
-        private readonly ILogger<HomeController> logger;
-        private readonly ServiceOpenDetailModel fakeServiceOpenDetailModel;
-
-        public HomeControllerRouteTests()
-        {
-            logger = A.Fake<ILogger<HomeController>>();
-            fakeServiceOpenDetailModel = A.Fake<ServiceOpenDetailModel>();
-        }
-
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
             new object[] { $"/{LocalPath}/{HomeController.ThisViewCanonicalName}", nameof(HomeController.HomeView) },
@@ -64,7 +52,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new HomeController(logger, fakeServiceOpenDetailModel)
+            return new HomeController(Logger, FakeSessionStateService, FakeServiceOpenDetailModel)
             {
                 ControllerContext = new ControllerContext
                 {

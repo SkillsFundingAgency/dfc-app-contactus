@@ -1,11 +1,15 @@
 ﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Enums;
+using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Compui.Sessionstate;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Mime;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTests
@@ -15,11 +19,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
     {
         public static IEnumerable<object[]> ValidSelectedCategories => new List<object[]>
         {
-            new object[] { Category.AdviceGuidance, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.AdviceGuidance}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}=" + WebUtility.UrlEncode($"Some {Category.AdviceGuidance} details") },
-            new object[] { Category.Courses, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Courses}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}=" + WebUtility.UrlEncode($"Some {Category.Courses} details") },
-            new object[] { Category.Website, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Website}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}=" + WebUtility.UrlEncode($"Some {Category.Website} details") },
-            new object[] { Category.Feedback, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.Feedback}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}=" + WebUtility.UrlEncode($"Some {Category.Feedback} details") },
-            new object[] { Category.SomethingElse, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={Category.SomethingElse}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}=" + WebUtility.UrlEncode($"Some {Category.SomethingElse} details") },
+            new object[] { Category.AdviceGuidance, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}" },
+            new object[] { Category.Courses, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}" },
+            new object[] { Category.Website, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}" },
+            new object[] { Category.Feedback, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}" },
+            new object[] { Category.SomethingElse, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}" },
         };
 
         public static IEnumerable<object[]> InvalidSelectedCategories => new List<object[]>
@@ -31,12 +35,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
         [MemberData(nameof(JsonMediaTypes))]
-        public void WhyContactUsControllerViewPostReturnsSuccess(string mediaTypeName)
+        public async Task WhyContactUsControllerViewPostReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             const Category selectedCategory = Category.AdviceGuidance;
             string moreDetail = $"Some {selectedCategory} details";
-            string expectedRedirectUrl = $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}?{nameof(Category)}={selectedCategory}&{nameof(WhyContactUsBodyViewModel.MoreDetail)}={WebUtility.UrlEncode(moreDetail)}";
+            string expectedRedirectUrl = $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}";
+            var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
             var viewModel = new WhyContactUsBodyViewModel
             {
                 SelectedCategory = selectedCategory,
@@ -44,10 +49,16 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             };
             var controller = BuildWhyContactUsController(mediaTypeName);
 
+            A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
+            A.CallTo(() => FakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).Returns(HttpStatusCode.OK);
+
             // Act
-            var result = controller.WhyContactUsView(viewModel);
+            var result = await controller.WhyContactUsView(viewModel).ConfigureAwait(false);
 
             // Assert
+            A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).MustHaveHappenedOnceExactly();
+
             var redirectResult = Assert.IsType<RedirectResult>(result);
             Assert.Equal(expectedRedirectUrl, redirectResult.Url);
             Assert.False(redirectResult.Permanent);
@@ -57,9 +68,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
 
         [Theory]
         [MemberData(nameof(ValidSelectedCategories))]
-        public void WhyContactUsControllerViewPostRedirectsSuccessfully(Category selectedCategory, string expectedRedirectUrl)
+        public async Task WhyContactUsControllerViewPostRedirectsSuccessfully(Category selectedCategory, string expectedRedirectUrl)
         {
             // Arrange
+            var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
             var viewModel = new WhyContactUsBodyViewModel
             {
                 SelectedCategory = selectedCategory,
@@ -67,10 +79,16 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             };
             var controller = BuildWhyContactUsController(MediaTypeNames.Text.Html);
 
+            A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
+            A.CallTo(() => FakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).Returns(HttpStatusCode.OK);
+
             // Act
-            var result = controller.WhyContactUsView(viewModel);
+            var result = await controller.WhyContactUsView(viewModel).ConfigureAwait(false);
 
             // Assert
+            A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).MustHaveHappenedOnceExactly();
+
             var redirectResult = Assert.IsType<RedirectResult>(result);
             Assert.Equal(expectedRedirectUrl, redirectResult.Url);
             Assert.False(redirectResult.Permanent);
@@ -80,7 +98,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
 
         [Theory]
         [MemberData(nameof(InvalidSelectedCategories))]
-        public void WhyContactUsControllerViewPostReturnsSameViewForInvalidCategory(Category selectedCategory)
+        public async Task WhyContactUsControllerViewPostReturnsSameViewForInvalidCategory(Category selectedCategory)
         {
             // Arrange
             var viewModel = new WhyContactUsBodyViewModel
@@ -93,7 +111,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             controller.ModelState.AddModelError(nameof(WhyContactUsBodyViewModel.SelectedCategory), "Fake error");
 
             // Act
-            var result = controller.WhyContactUsView(viewModel);
+            var result = await controller.WhyContactUsView(viewModel).ConfigureAwait(false);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -103,7 +121,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
         }
 
         [Fact]
-        public void WhyContactUsControllerViewPostReturnsSameViewForInvalidModel()
+        public async Task WhyContactUsControllerViewPostReturnsSameViewForInvalidModel()
         {
             // Arrange
             var viewModel = new WhyContactUsBodyViewModel();
@@ -112,7 +130,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             controller.ModelState.AddModelError(nameof(WhyContactUsBodyViewModel.SelectedCategory), "Fake error");
 
             // Act
-            var result = controller.WhyContactUsView(viewModel);
+            var result = await controller.WhyContactUsView(viewModel).ConfigureAwait(false);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -123,7 +141,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void WhyContactUsControllerViewPostReturnsNotAcceptable(string mediaTypeName)
+        public async Task WhyContactUsControllerViewPostReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             var viewModel = new WhyContactUsBodyViewModel
@@ -135,7 +153,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             controller.ModelState.AddModelError(nameof(WhyContactUsBodyViewModel.SelectedCategory), "Fake error");
 
             // Act
-            var result = controller.WhyContactUsView(viewModel);
+            var result = await controller.WhyContactUsView(viewModel).ConfigureAwait(false);
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

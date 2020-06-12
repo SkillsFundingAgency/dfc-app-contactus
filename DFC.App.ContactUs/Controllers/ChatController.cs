@@ -1,6 +1,7 @@
 ﻿using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,7 +14,7 @@ namespace DFC.App.ContactUs.Controllers
         private readonly ChatOptions chatOptions;
         private readonly AutoMapper.IMapper mapper;
 
-        public ChatController(ILogger<ChatController> logger, ChatOptions chatOptions, AutoMapper.IMapper mapper) : base(logger)
+        public ChatController(ILogger<ChatController> logger, ISessionStateService<SessionDataModel> sessionStateService, ChatOptions chatOptions, AutoMapper.IMapper mapper) : base(logger, sessionStateService)
         {
             this.chatOptions = chatOptions;
             this.mapper = mapper;

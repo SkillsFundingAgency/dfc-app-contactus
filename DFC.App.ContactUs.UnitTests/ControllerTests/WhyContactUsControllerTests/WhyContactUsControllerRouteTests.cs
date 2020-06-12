@@ -1,8 +1,6 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
@@ -13,13 +11,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
     [Trait("Category", "WhyContactUs Controller Unit Tests")]
     public class WhyContactUsControllerRouteTests : BaseWhyContactUsControllerTests
     {
-        private readonly ILogger<WhyContactUsController> logger;
-
-        public WhyContactUsControllerRouteTests()
-        {
-            logger = A.Fake<ILogger<WhyContactUsController>>();
-        }
-
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
             new object[] { $"/{LocalPath}/{WhyContactUsController.ThisViewCanonicalName}",  nameof(WhyContactUsController.WhyContactUsView) },
@@ -60,7 +51,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new WhyContactUsController(logger)
+            return new WhyContactUsController(Logger, FakeSessionStateService)
             {
                 ControllerContext = new ControllerContext
                 {

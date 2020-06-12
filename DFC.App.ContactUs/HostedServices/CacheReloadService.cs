@@ -32,7 +32,7 @@ namespace DFC.App.ContactUs.HostedServices
         {
             try
             {
-                logger.LogInformation($"Reload cache started");
+                logger.LogInformation("Reload cache started");
 
                 var summaryList = await GetSummaryListAsync().ConfigureAwait(false);
 
@@ -57,11 +57,11 @@ namespace DFC.App.ContactUs.HostedServices
                     await DeleteStaleCacheEntriesAsync(summaryList, stoppingToken).ConfigureAwait(false);
                 }
 
-                logger.LogInformation($"Reload cache completed");
+                logger.LogInformation("Reload cache completed");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Error in cache reload");
+                logger.LogError(ex, "Error in cache reload");
             }
         }
 
@@ -191,17 +191,17 @@ namespace DFC.App.ContactUs.HostedServices
                     return;
                 }
 
-                logger.LogInformation($"Deleting cache with {staleContentPage.CanonicalName} - {staleContentPage.DocumentId}");
+                logger.LogInformation($"Deleting cache with {staleContentPage.CanonicalName} - {staleContentPage.Id}");
 
-                var deletionResult = await eventMessageService.DeleteAsync(staleContentPage.DocumentId).ConfigureAwait(false);
+                var deletionResult = await eventMessageService.DeleteAsync(staleContentPage.Id).ConfigureAwait(false);
 
                 if (deletionResult == HttpStatusCode.OK)
                 {
-                    logger.LogInformation($"Deleted stale cache item {staleContentPage.CanonicalName} - {staleContentPage.DocumentId}");
+                    logger.LogInformation($"Deleted stale cache item {staleContentPage.CanonicalName} - {staleContentPage.Id}");
                 }
                 else
                 {
-                    logger.LogError($"Cache delete error status {deletionResult} from {staleContentPage.CanonicalName} - {staleContentPage.DocumentId}");
+                    logger.LogError($"Cache delete error status {deletionResult} from {staleContentPage.CanonicalName} - {staleContentPage.Id}");
                 }
             }
         }
