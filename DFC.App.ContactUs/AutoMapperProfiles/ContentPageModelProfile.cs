@@ -41,7 +41,6 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
                 .ForMember(d => d.Id, s => s.MapFrom(a => a.ItemId))
                 .ForMember(d => d.Etag, s => s.Ignore())
                 .ForMember(d => d.PartitionKey, s => s.Ignore())
-                .ForMember(d => d.SequenceNumber, s => s.Ignore())
                 .ForMember(d => d.Content, opt => opt.ConvertUsing(new ContentItemsConverter(), a => a.ContentItems))
                 .ForPath(d => d.LastReviewed, s => s.MapFrom(a => a.Published))
                 .ForPath(d => d.MetaTags.Title, s => s.MapFrom(a => a.Title))

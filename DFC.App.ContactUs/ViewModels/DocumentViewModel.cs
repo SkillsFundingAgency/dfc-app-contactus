@@ -20,10 +20,6 @@ namespace DFC.App.ContactUs.ViewModels
         [Display(Name = "PartitionKey")]
         public string? PartitionKey { get; set; }
 
-        [Obsolete("May be removed once Service Bus and Message Function app removed from solution")]
-        [Display(Name = "Sequence Number")]
-        public long SequenceNumber { get; set; }
-
         [Required]
         public Guid? Version { get; set; }
 
