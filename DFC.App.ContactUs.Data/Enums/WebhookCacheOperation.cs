@@ -6,5 +6,4 @@
         CreateOrUpdate,
         Delete,
     }
-
 }
