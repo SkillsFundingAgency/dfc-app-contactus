@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore;
+﻿using DFC.Compui.Telemetry.HostExtensions;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.ApplicationInsights;
 using System.Diagnostics.CodeAnalysis;
-using DFC.Compui.Telemetry.HostExtensions;
 
 namespace DFC.App.ContactUs
 {

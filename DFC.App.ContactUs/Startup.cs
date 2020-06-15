@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DFC.App.ContactUs.Attributes;
-using DFC.App.ContactUs.ClientHandlers;
 using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
@@ -18,6 +17,7 @@ using DFC.App.ContactUs.Services.Services.EmailService;
 using DFC.Compui.Cosmos;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
+using DFC.Compui.Telemetry;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +29,6 @@ using SendGrid;
 using SendGrid.Helpers.Reliability;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using DFC.Compui.Telemetry;
 
 namespace DFC.App.ContactUs
 {
@@ -83,7 +82,6 @@ namespace DFC.App.ContactUs
 
             services.AddApplicationInsightsTelemetry();
             services.AddHttpContextAccessor();
-            services.AddCorrelationId();
             services.AddSingleton<IContentCacheService>(new ContentCacheService());
             services.AddSingleton(new ServiceOpenDetailModel());
             services.AddSingleton<ValidationHtmlAttributeProvider, CustomValidationHtmlAttributeProvider>();
@@ -96,7 +94,6 @@ namespace DFC.App.ContactUs
             services.AddTransient<IApiService, ApiService>();
             services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
             services.AddTransient<IWebhooksService, WebhooksService>();
-            services.AddTransient<CorrelationIdDelegatingHandler>();
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
