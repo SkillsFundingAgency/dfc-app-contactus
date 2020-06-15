@@ -39,6 +39,8 @@ using SendGrid;
 using SendGrid.Helpers.Reliability;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using DFC.Compui.Telemetry;
+using DFC.Compui.Telemetry.HostedService;
 
 namespace DFC.App.ContactUs
 {
@@ -116,6 +118,7 @@ namespace DFC.App.ContactUs
             services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
             services.AddSingleton(configuration.GetSection(nameof(FamApiRoutingOptions)).Get<FamApiRoutingOptions>() ?? new FamApiRoutingOptions());
+            services.AddHostedServiceTelemetryWrapper();
             services.AddHostedService<CacheReloadBackgroundService>();
 
             const string AppSettingsPolicies = "Policies";
