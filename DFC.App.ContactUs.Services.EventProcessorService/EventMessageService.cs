@@ -1,4 +1,4 @@
-﻿using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
+﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.Compui.Cosmos.Contracts;
 using Microsoft.Extensions.Logging;
 using System;
@@ -59,11 +59,6 @@ namespace DFC.App.ContactUs.Services.EventProcessorService
             if (existingDocument == null)
             {
                 return HttpStatusCode.NotFound;
-            }
-
-            if (upsertDocumentModel.Version.Equals(existingDocument.Version))
-            {
-                return HttpStatusCode.AlreadyReported;
             }
 
             upsertDocumentModel.Etag = existingDocument.Etag;

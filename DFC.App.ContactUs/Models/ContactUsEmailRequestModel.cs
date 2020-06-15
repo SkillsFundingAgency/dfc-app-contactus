@@ -1,4 +1,4 @@
-﻿using DFC.App.ContactUs.Services.EmailService.Contracts;
+﻿using DFC.App.ContactUs.Data.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
+using DFC.App.ContactUs.Data.Models;
+using Microsoft.AspNetCore.Html;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace DFC.App.ContactUs.AutoMapperProfiles.ValuerConverters
 {
-    public class ContentItemsConverter : IValueConverter<IList<ContactUsApiContentItemModel>, string?>
+    public class ContentItemsConverter : IValueConverter<IList<ContentItemModel>?, HtmlString?>
     {
         private readonly Dictionary<int, string> columnWidthClasses = new Dictionary<int, string>
         {
@@ -23,7 +24,7 @@ namespace DFC.App.ContactUs.AutoMapperProfiles.ValuerConverters
             { 3, "govuk-grid-column-right" },
         };
 
-        public string? Convert(IList<ContactUsApiContentItemModel>? sourceMember, ResolutionContext context)
+        public HtmlString? Convert(IList<ContentItemModel>? sourceMember, ResolutionContext context)
         {
             if (sourceMember == null || !sourceMember.Any())
             {
@@ -50,7 +51,7 @@ namespace DFC.App.ContactUs.AutoMapperProfiles.ValuerConverters
                 result.Append("</div>");
             }
 
-            return result.ToString();
+            return new HtmlString(result.ToString());
         }
     }
 }

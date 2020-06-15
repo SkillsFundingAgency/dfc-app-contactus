@@ -1,29 +1,23 @@
 ﻿using AutoMapper;
 using DFC.App.ContactUs.Attributes;
+using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.HttpClientPolicies;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.Services.ApiProcessorService;
-using DFC.App.ContactUs.Services.ApiProcessorService.Contracts;
 using DFC.App.ContactUs.Services.AreaRoutingService;
-using DFC.App.ContactUs.Services.AreaRoutingService.Contracts;
-using DFC.App.ContactUs.Services.AreaRoutingService.HttpClientPolicies;
+using DFC.App.ContactUs.Services.CacheContentService;
 using DFC.App.ContactUs.Services.CmsApiProcessorService;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.Contracts;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.HttpClientPolicies;
 using DFC.App.ContactUs.Services.EmailService;
-using DFC.App.ContactUs.Services.EmailService.Contracts;
-using DFC.App.ContactUs.Services.EmailService.Models;
 using DFC.App.ContactUs.Services.EmailTemplateService;
-using DFC.App.ContactUs.Services.EmailTemplateService.Contracts;
 using DFC.App.ContactUs.Services.EventProcessorService;
-using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
 using DFC.App.ContactUs.Services.Services.EmailService;
 using DFC.Compui.Cosmos;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
+using DFC.Compui.Telemetry;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +29,6 @@ using SendGrid;
 using SendGrid.Helpers.Reliability;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using DFC.Compui.Telemetry;
 
 namespace DFC.App.ContactUs
 {
@@ -89,6 +82,7 @@ namespace DFC.App.ContactUs
 
             services.AddApplicationInsightsTelemetry();
             services.AddHttpContextAccessor();
+            services.AddSingleton<IContentCacheService>(new ContentCacheService());
             services.AddSingleton(new ServiceOpenDetailModel());
             services.AddSingleton<ValidationHtmlAttributeProvider, CustomValidationHtmlAttributeProvider>();
             services.AddSingleton(ConfigureSendGridClient());
@@ -99,6 +93,7 @@ namespace DFC.App.ContactUs
             services.AddTransient<ICacheReloadService, CacheReloadService>();
             services.AddTransient<IApiService, ApiService>();
             services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
+            services.AddTransient<IWebhooksService, WebhooksService>();
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());

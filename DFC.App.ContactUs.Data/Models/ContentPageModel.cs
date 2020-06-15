@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.ContactUs.Data.Models
@@ -8,5 +9,9 @@ namespace DFC.App.ContactUs.Data.Models
         [Required]
         [JsonProperty(Order = -10)]
         public override string PartitionKey => "static-page";
+
+        public new string? Content { get; set; }
+
+        public IList<ContentItemModel>? ContentItems { get; set; }
     }
 }

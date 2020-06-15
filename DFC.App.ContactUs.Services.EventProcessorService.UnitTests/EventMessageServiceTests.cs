@@ -138,36 +138,12 @@ namespace DFC.App.ContactUs.Services.EventProcessorService.UnitTests
         }
 
         [Fact]
-        public async Task EventMessageServiceUpdateAsyncReturnsnotFoundWhenNotExists()
+        public async Task EventMessageServiceUpdateAsyncReturnsNotFoundWhenNotExists()
         {
             // arrange
             ContentPageModel? existingContentPageModel = null;
             var contentPageModel = A.Fake<ContentPageModel>();
-            var expectedResult = HttpStatusCode.AlreadyReported;
-
-            A.CallTo(() => fakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(existingContentPageModel);
-
-            var eventMessageService = new EventMessageService<ContentPageModel>(fakeLogger, fakeContentPageService);
-
-            // act
-            var result = await eventMessageService.UpdateAsync(contentPageModel).ConfigureAwait(false);
-
-            // assert
-            A.CallTo(() => fakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeContentPageService.UpsertAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
-            A.Equals(result, expectedResult);
-        }
-
-        [Fact]
-        public async Task EventMessageServiceUpdateAsyncReturnsAlreadyReportedWhenAlreadyExists()
-        {
-            // arrange
-            var existingContentPageModel = A.Fake<ContentPageModel>();
-            var contentPageModel = A.Fake<ContentPageModel>();
-            var expectedResult = HttpStatusCode.AlreadyReported;
-
-            existingContentPageModel.Version = Guid.NewGuid();
-            contentPageModel.Version = existingContentPageModel.Version;
+            var expectedResult = HttpStatusCode.NotFound;
 
             A.CallTo(() => fakeContentPageService.GetByIdAsync(A<Guid>.Ignored)).Returns(existingContentPageModel);
 

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using DFC.App.ContactUs.AutoMapperProfiles.ValuerConverters;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
+using DFC.App.ContactUs.Data.Models;
+using Microsoft.AspNetCore.Html;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -13,12 +15,14 @@ namespace DFC.App.ContactUs.UnitTests
         public void ContentItemsConverterTestsReturnsSuccess()
         {
             // Arrange
-            const string expectedResult = "<div class=\"govuk-grid-column-one-half\">this is content</div>";
+            var expectedResult = new HtmlString("<div class=\"govuk-grid-column-one-half\">this is content</div>");
             var converter = new ContentItemsConverter();
-            IList<ContactUsApiContentItemModel> sourceMember = new List<ContactUsApiContentItemModel>
+            IList<ContentItemModel> sourceMember = new List<ContentItemModel>
             {
-                new ContactUsApiContentItemModel
+                new ContentItemModel
                 {
+                    ItemId = Guid.NewGuid(),
+                    Url = new Uri("https://somewhere.com/some-item"),
                     Ordinal = 1,
                     Justify = 1,
                     Width = 50,
@@ -31,7 +35,8 @@ namespace DFC.App.ContactUs.UnitTests
             var result = converter.Convert(sourceMember, context);
 
             // Assert
-            Assert.Equal(expectedResult, result);
+            Assert.NotNull(result);
+            Assert.Equal(expectedResult.Value, result!.Value);
         }
 
         [Fact]
@@ -39,7 +44,7 @@ namespace DFC.App.ContactUs.UnitTests
         {
             // Arrange
             var converter = new ContentItemsConverter();
-            IList<ContactUsApiContentItemModel>? sourceMember = null;
+            IList<ContentItemModel>? sourceMember = null;
             var context = new ResolutionContext(null, null);
 
             // Act

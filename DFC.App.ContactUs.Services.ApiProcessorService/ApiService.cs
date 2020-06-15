@@ -1,4 +1,4 @@
-﻿using DFC.App.ContactUs.Services.ApiProcessorService.Contracts;
+﻿using DFC.App.ContactUs.Data.Contracts;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;

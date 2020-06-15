@@ -1,10 +1,8 @@
-﻿using DFC.App.ContactUs.Enums;
+﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services.AreaRoutingService.Contracts;
-using DFC.App.ContactUs.Services.AreaRoutingService.HttpClientPolicies;
-using DFC.App.ContactUs.Services.EmailService.Contracts;
-using DFC.App.ContactUs.Services.EmailTemplateService.Contracts;
 using DFC.App.ContactUs.ViewModels;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;

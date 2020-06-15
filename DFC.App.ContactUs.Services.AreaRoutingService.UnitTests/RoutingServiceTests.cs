@@ -1,6 +1,5 @@
-using DFC.App.ContactUs.Services.ApiProcessorService.Contracts;
-using DFC.App.ContactUs.Services.AreaRoutingService.HttpClientPolicies;
-using DFC.App.ContactUs.Services.AreaRoutingService.Models;
+using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Models;
 using FakeItEasy;
 using System;
 using System.Net.Http;

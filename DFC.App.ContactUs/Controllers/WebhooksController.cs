@@ -1,7 +1,6 @@
-﻿using DFC.App.ContactUs.Data.Models;
+﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Enums;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.Contracts;
-using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.EventGrid;
 using Microsoft.Azure.EventGrid.Models;
@@ -18,33 +17,24 @@ namespace DFC.App.ContactUs.Controllers
     [Route("api/webhook")]
     public class WebhooksController : Controller
     {
-        private readonly Dictionary<string, CacheOperation> acceptedEventTypes = new Dictionary<string, CacheOperation>
+        private readonly Dictionary<string, WebhookCacheOperation> acceptedEventTypes = new Dictionary<string, WebhookCacheOperation>
         {
-            { "draft", CacheOperation.CreateOrUpdate },
-            { "published", CacheOperation.CreateOrUpdate },
-            { "draft-discarded", CacheOperation.Delete },
-            { "unpublished", CacheOperation.Delete },
-            { "deleted", CacheOperation.Delete },
+            { "draft", WebhookCacheOperation.CreateOrUpdate },
+            { "published", WebhookCacheOperation.CreateOrUpdate },
+            { "draft-discarded", WebhookCacheOperation.Delete },
+            { "unpublished", WebhookCacheOperation.Delete },
+            { "deleted", WebhookCacheOperation.Delete },
         };
 
         private readonly ILogger<WebhooksController> logger;
-        private readonly AutoMapper.IMapper mapper;
-        private readonly IEventMessageService<ContentPageModel> eventMessageService;
-        private readonly ICmsApiService cmsApiService;
+        private readonly IWebhooksService webhookService;
 
-        public WebhooksController(ILogger<WebhooksController> logger, AutoMapper.IMapper mapper, IEventMessageService<ContentPageModel> eventMessageService, ICmsApiService cmsApiService)
+        public WebhooksController(
+            ILogger<WebhooksController> logger,
+            IWebhooksService webhookService)
         {
             this.logger = logger;
-            this.mapper = mapper;
-            this.eventMessageService = eventMessageService;
-            this.cmsApiService = cmsApiService;
-        }
-
-        private enum CacheOperation
-        {
-            None,
-            CreateOrUpdate,
-            Delete,
+            this.webhookService = webhookService;
         }
 
         [HttpPost]
@@ -85,7 +75,7 @@ namespace DFC.App.ContactUs.Controllers
                 }
                 else if (eventGridEvent.Data is EventGridEventData eventGridEventData)
                 {
-                    if (!Guid.TryParse(eventGridEventData.ItemId, out Guid contentPageId))
+                    if (!Guid.TryParse(eventGridEventData.ItemId, out Guid contentId))
                     {
                         throw new InvalidDataException($"Invalid Guid for EventGridEvent.Data.ItemId '{eventGridEventData.ItemId}'");
                     }
@@ -99,9 +89,9 @@ namespace DFC.App.ContactUs.Controllers
 
                     logger.LogInformation($"Got Event Id: {eventId}: {eventGridEvent.EventType}: Cache operation: {cacheOperation} {url}");
 
-                    var result = await ProcessMessageAsync(cacheOperation, eventId, contentPageId, url).ConfigureAwait(false);
+                    var result = await webhookService.ProcessMessageAsync(cacheOperation, eventId, contentId, url).ConfigureAwait(false);
 
-                    LogResult(eventId, contentPageId, result);
+                    LogResult(eventId, contentId, result);
                 }
                 else
                 {
@@ -110,41 +100,6 @@ namespace DFC.App.ContactUs.Controllers
             }
 
             return Ok();
-        }
-
-        private async Task<HttpStatusCode> ProcessMessageAsync(CacheOperation cacheOperation, Guid eventId, Guid contentPageId, Uri url)
-        {
-            switch (cacheOperation)
-            {
-                case CacheOperation.Delete:
-                    return await eventMessageService.DeleteAsync(contentPageId).ConfigureAwait(false);
-                case CacheOperation.CreateOrUpdate:
-                    var apiDataModel = await cmsApiService.GetItemAsync(url).ConfigureAwait(false);
-                    var contentPageModel = mapper.Map<ContentPageModel>(apiDataModel);
-
-                    if (contentPageModel == null)
-                    {
-                        return HttpStatusCode.NoContent;
-                    }
-
-                    if (!TryValidateModel(contentPageModel))
-                    {
-                        return HttpStatusCode.BadRequest;
-                    }
-
-                    var result = await eventMessageService.UpdateAsync(contentPageModel).ConfigureAwait(false);
-
-                    if (result == HttpStatusCode.NotFound)
-                    {
-                        result = await eventMessageService.CreateAsync(contentPageModel).ConfigureAwait(false);
-                    }
-
-                    return result;
-
-                default:
-                    logger.LogError($"Event Id: {eventId} got unknown cache operation - {cacheOperation}");
-                    return HttpStatusCode.BadRequest;
-            }
         }
 
         private void LogResult(Guid eventId, Guid contentPageId, HttpStatusCode result)

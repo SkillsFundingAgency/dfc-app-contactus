@@ -1,13 +1,6 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services.AreaRoutingService.Contracts;
-using DFC.App.ContactUs.Services.AreaRoutingService.HttpClientPolicies;
-using DFC.App.ContactUs.Services.EmailService.Contracts;
-using DFC.App.ContactUs.Services.EmailTemplateService.Contracts;
-using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;

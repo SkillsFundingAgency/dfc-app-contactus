@@ -1,8 +1,5 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.Contracts;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
-using DFC.App.ContactUs.Services.EventProcessorService.Contracts;
+using DFC.App.ContactUs.Data.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -31,56 +27,18 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
         protected BaseWebhooksControllerTests()
         {
             Logger = A.Fake<ILogger<WebhooksController>>();
-            FakeEventMessageService = A.Fake<IEventMessageService<ContentPageModel>>();
-            FakeCmsApiService = A.Fake<ICmsApiService>();
-            FakeMapper = A.Fake<AutoMapper.IMapper>();
+            FakeWebhooksService = A.Fake<IWebhooksService>();
         }
+
+        protected Guid ItemIdForCreate { get; } = Guid.NewGuid();
+
+        protected Guid ItemIdForUpdate { get; } = Guid.NewGuid();
+
+        protected Guid ItemIdForDelete { get; } = Guid.NewGuid();
 
         protected ILogger<WebhooksController> Logger { get; }
 
-        protected IEventMessageService<ContentPageModel> FakeEventMessageService { get; }
-
-        protected ICmsApiService FakeCmsApiService { get; }
-
-        protected AutoMapper.IMapper FakeMapper { get; }
-
-        protected static ContactUsApiDataModel BuildValidContactUsApiDataModel()
-        {
-            var model = new ContactUsApiDataModel()
-            {
-                ItemId = Guid.NewGuid(),
-                CanonicalName = "an-article",
-                BreadcrumbTitle = "An article",
-                IncludeInSitemap = true,
-                Version = Guid.NewGuid(),
-                Url = new Uri("https://localhost"),
-                ContentItemUrls = new List<Uri> { new Uri("https://localhost/one"), new Uri("https://localhost/two"), new Uri("https://localhost/three"), },
-                ContentItems = new List<ContactUsApiContentItemModel>
-                {
-                    new ContactUsApiContentItemModel { Justify = 1, Ordinal = 1, Width = 50, Content = "<h1>A document</h1>", },
-                },
-                Published = DateTime.UtcNow,
-            };
-
-            return model;
-        }
-
-        protected static ContentPageModel BuildValidContentPageModel()
-        {
-            var model = new ContentPageModel()
-            {
-                Id = Guid.NewGuid(),
-                CanonicalName = "an-article",
-                BreadcrumbTitle = "An article",
-                IncludeInSitemap = true,
-                Version = Guid.NewGuid(),
-                Url = new Uri("https://localhost"),
-                Content = "<h1>A document</h1>",
-                LastReviewed = DateTime.UtcNow,
-            };
-
-            return model;
-        }
+        protected IWebhooksService FakeWebhooksService { get; }
 
         protected static EventGridEvent[] BuildValidEventGridEvent<TModel>(string eventType, TModel data)
         {
@@ -116,7 +74,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new WebhooksController(Logger, FakeMapper, FakeEventMessageService, FakeCmsApiService)
+            var controller = new WebhooksController(Logger, FakeWebhooksService)
             {
                 ControllerContext = new ControllerContext()
                 {
