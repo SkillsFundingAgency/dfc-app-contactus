@@ -2,7 +2,6 @@
 using DFC.App.ContactUs.Attributes;
 using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
-using DFC.App.ContactUs.Filters;
 using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.HttpClientPolicies;
 using DFC.App.ContactUs.Models;
@@ -121,7 +120,6 @@ namespace DFC.App.ContactUs
 
             services.AddMvc(config =>
                 {
-                    config.Filters.Add<LoggingAsynchActionFilter>();
                     config.RespectBrowserAcceptHeader = true;
                     config.ReturnHttpNotAcceptable = true;
                 })
