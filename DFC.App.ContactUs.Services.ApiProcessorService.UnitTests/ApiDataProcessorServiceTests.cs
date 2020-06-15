@@ -1,5 +1,5 @@
-﻿using DFC.App.ContactUs.Services.ApiProcessorService.Contracts;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
+﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Models;
 using FakeItEasy;
 using Newtonsoft.Json;
 using System;

@@ -1,4 +1,4 @@
-﻿using DFC.App.ContactUs.Services.EmailTemplateService.Contracts;
+﻿using DFC.App.ContactUs.Data.Contracts;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
@@ -17,7 +17,7 @@ namespace DFC.App.ContactUs.Services.EmailTemplateService
         {
             logger.LogInformation($"{nameof(GetTemplateByNameAsync)} loading email template: {templateName}");
 
-            var template = TemporaryEmbeddedResource.GetApiRequestFile($"{this.GetType().Namespace}.Temp.EmailTemplates.{templateName}.html");
+            var template = TemporaryEmbeddedResource.GetApiRequestFile($"{GetType().Namespace}.Temp.EmailTemplates.{templateName}.html");
 
             logger.LogInformation($"{nameof(GetTemplateByNameAsync)} loaded email template: {templateName}");
 

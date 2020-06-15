@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.Services.CmsApiProcessorService.HttpClientPolicies;
+﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Models;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Threading;

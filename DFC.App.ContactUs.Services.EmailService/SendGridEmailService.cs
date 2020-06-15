@@ -1,4 +1,4 @@
-﻿using DFC.App.ContactUs.Services.EmailService.Contracts;
+﻿using DFC.App.ContactUs.Data.Contracts;
 using Microsoft.Extensions.Logging;
 using SendGrid;
 using SendGrid.Helpers.Mail;

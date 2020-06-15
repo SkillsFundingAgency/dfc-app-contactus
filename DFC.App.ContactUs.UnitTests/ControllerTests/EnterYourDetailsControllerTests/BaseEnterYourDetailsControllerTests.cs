@@ -1,9 +1,7 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services.AreaRoutingService.Contracts;
-using DFC.App.ContactUs.Services.AreaRoutingService.HttpClientPolicies;
-using DFC.App.ContactUs.Services.EmailService.Contracts;
-using DFC.App.ContactUs.Services.EmailTemplateService.Contracts;
 using DFC.Compui.Sessionstate;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;

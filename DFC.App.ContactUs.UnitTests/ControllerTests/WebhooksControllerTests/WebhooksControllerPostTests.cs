@@ -1,6 +1,7 @@
-﻿using DFC.App.ContactUs.Data.Models;
+﻿using DFC.App.ContactUs.Data.Enums;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
+using DFC.App.ContactUs.Services;
+using DFC.App.ContactUs.Services.CacheContentService;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.EventGrid.Models;
@@ -39,30 +40,21 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
         [Theory]
         [MemberData(nameof(PublishedEvents))]
-        public async Task WebhooksControllerPublishCreatePostReturnsSuccess(string mediaTypeName, string eventType)
+        public async Task WebhooksControllerPublishCreatePostReturnsOkForCreate(string mediaTypeName, string eventType)
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.OK;
-            var expectedValidApiModel = BuildValidContactUsApiDataModel();
-            var expectedValidModel = BuildValidContentPageModel();
-            var eventGridEvents = BuildValidEventGridEvent(eventType, new EventGridEventData { ItemId = Guid.NewGuid().ToString(), Api = "https://somewhere.com", });
+            var eventGridEvents = BuildValidEventGridEvent(eventType, new EventGridEventData { ItemId = ItemIdForCreate.ToString(), Api = "https://somewhere.com", });
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).Returns(expectedValidApiModel);
-            A.CallTo(() => FakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).Returns(expectedValidModel);
-            A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.NotFound);
-            A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.Created);
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(HttpStatusCode.Created);
 
             // Act
             var result = await controller.ReceiveContactUsEvents().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             var okResult = Assert.IsType<OkResult>(result);
 
             Assert.Equal((int)expectedResponse, okResult.StatusCode);
@@ -72,28 +64,21 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
         [Theory]
         [MemberData(nameof(PublishedEvents))]
-        public async Task WebhooksControllerPublishUpdatePostReturnsSuccess(string mediaTypeName, string eventType)
+        public async Task WebhooksControllerPublishUpdatePostReturnsOk(string mediaTypeName, string eventType)
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.OK;
-            var expectedValidApiModel = BuildValidContactUsApiDataModel();
-            var expectedValidModel = BuildValidContentPageModel();
-            var eventGridEvents = BuildValidEventGridEvent(eventType, new EventGridEventData { ItemId = Guid.NewGuid().ToString(), Api = "https://somewhere.com", });
+            var eventGridEvents = BuildValidEventGridEvent(eventType, new EventGridEventData { ItemId = ItemIdForUpdate.ToString(), Api = "https://somewhere.com", });
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).Returns(expectedValidApiModel);
-            A.CallTo(() => FakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).Returns(expectedValidModel);
-            A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.OK);
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(expectedResponse);
 
             // Act
             var result = await controller.ReceiveContactUsEvents().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeMapper.Map<ContentPageModel>(A<ContactUsApiDataModel>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             var okResult = Assert.IsType<OkResult>(result);
 
             Assert.Equal((int)expectedResponse, okResult.StatusCode);
@@ -107,20 +92,17 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.OK;
-            var eventGridEvents = BuildValidEventGridEvent(eventType, new EventGridEventData { ItemId = Guid.NewGuid().ToString(), Api = "https://somewhere.com", });
+            var eventGridEvents = BuildValidEventGridEvent(eventType, new EventGridEventData { ItemId = ItemIdForDelete.ToString(), Api = "https://somewhere.com", });
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(expectedResponse);
 
             // Act
             var result = await controller.ReceiveContactUsEvents().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             var okResult = Assert.IsType<OkResult>(result);
 
             Assert.Equal((int)expectedResponse, okResult.StatusCode);
@@ -130,26 +112,45 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
 
         [Theory]
         [MemberData(nameof(PublishedEvents))]
-        public async Task WebhooksControllerPublishUpdatePostReturnsAlreadyReported(string mediaTypeName, string eventType)
+        public async Task WebhooksControllerPublishCreatePostReturnsOkForAlreadyReported(string mediaTypeName, string eventType)
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.OK;
-            var expectedValidApiModel = BuildValidContactUsApiDataModel();
-            var eventGridEvents = BuildValidEventGridEvent(eventType, new EventGridEventData { ItemId = Guid.NewGuid().ToString(), Api = "https://somewhere.com", });
+            var eventGridEvents = BuildValidEventGridEvent(eventType, new EventGridEventData { ItemId = ItemIdForCreate.ToString(), Api = "https://somewhere.com", });
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).Returns(expectedValidApiModel);
-            A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).Returns(HttpStatusCode.AlreadyReported);
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(HttpStatusCode.AlreadyReported);
 
             // Act
             var result = await controller.ReceiveContactUsEvents().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
+            var okResult = Assert.IsType<OkResult>(result);
+
+            Assert.Equal((int)expectedResponse, okResult.StatusCode);
+
+            controller.Dispose();
+        }
+
+        [Theory]
+        [MemberData(nameof(PublishedEvents))]
+        public async Task WebhooksControllerPublishCreatePostReturnsOkForConflict(string mediaTypeName, string eventType)
+        {
+            // Arrange
+            const HttpStatusCode expectedResponse = HttpStatusCode.OK;
+            var eventGridEvents = BuildValidEventGridEvent(eventType, new EventGridEventData { ItemId = ItemIdForCreate.ToString(), Api = "https://somewhere.com", });
+            var controller = BuildWebhooksController(mediaTypeName);
+            controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
+
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(HttpStatusCode.Conflict);
+
+            // Act
+            var result = await controller.ReceiveContactUsEvents().ConfigureAwait(false);
+
+            // Assert
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             var okResult = Assert.IsType<OkResult>(result);
 
             Assert.Equal((int)expectedResponse, okResult.StatusCode);
@@ -167,16 +168,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             eventGridEvents.First().Id = id;
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
-
             // Act
             await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveContactUsEvents().ConfigureAwait(false)).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
 
             controller.Dispose();
         }
@@ -190,16 +186,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var controller = BuildWebhooksController(MediaTypeNames.Application.Json);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
-
             // Act
             await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveContactUsEvents().ConfigureAwait(false)).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
 
             controller.Dispose();
         }
@@ -212,16 +203,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var controller = BuildWebhooksController(MediaTypeNames.Application.Json);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
-
             // Act
             await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveContactUsEvents().ConfigureAwait(false)).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
 
             controller.Dispose();
         }
@@ -234,16 +220,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var controller = BuildWebhooksController(MediaTypeNames.Application.Json);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
-
             // Act
             await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveContactUsEvents().ConfigureAwait(false)).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeCmsApiService.GetItemAsync(A<Uri>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeEventMessageService.UpdateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeEventMessageService.CreateAsync(A<ContentPageModel>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
 
             controller.Dispose();
         }
@@ -262,6 +243,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var result = await controller.ReceiveContactUsEvents().ConfigureAwait(false);
 
             // Assert
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
+
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var response = Assert.IsAssignableFrom<SubscriptionValidationResponse>(jsonResult.Value);
 

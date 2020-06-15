@@ -32,7 +32,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
                 },
                 new EventGridEventData()
                 {
-                    ItemId ="EDFC8852-9820-4F29-B006-9FBD46CAB646",
+                    ItemId = "EDFC8852-9820-4F29-B006-9FBD46CAB646",
                     DisplayText = "test-grid-4-x-3",
                 },
             };

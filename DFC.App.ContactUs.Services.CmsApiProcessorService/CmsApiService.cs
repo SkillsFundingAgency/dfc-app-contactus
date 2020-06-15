@@ -1,7 +1,5 @@
-﻿using DFC.App.ContactUs.Services.ApiProcessorService.Contracts;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.Contracts;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.HttpClientPolicies;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
+﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -37,7 +35,7 @@ namespace DFC.App.ContactUs.Services.CmsApiProcessorService
             {
                 foreach (var contentItemUrl in contactUsApiDataModel.ContentItemUrls)
                 {
-                    var contactUsApiContentItemModel = await apiDataProcessorService.GetAsync<ContactUsApiContentItemModel>(httpClient, contentItemUrl).ConfigureAwait(false);
+                    var contactUsApiContentItemModel = await GetContentItemAsync(contentItemUrl).ConfigureAwait(false);
 
                     if (contactUsApiContentItemModel != null)
                     {
@@ -47,6 +45,11 @@ namespace DFC.App.ContactUs.Services.CmsApiProcessorService
             }
 
             return contactUsApiDataModel;
+        }
+
+        public async Task<ContactUsApiContentItemModel?> GetContentItemAsync(Uri url)
+        {
+            return await apiDataProcessorService.GetAsync<ContactUsApiContentItemModel>(httpClient, url).ConfigureAwait(false);
         }
     }
 }

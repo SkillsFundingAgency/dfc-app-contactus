@@ -1,6 +1,5 @@
-using DFC.App.ContactUs.Services.ApiProcessorService.Contracts;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.HttpClientPolicies;
-using DFC.App.ContactUs.Services.CmsApiProcessorService.Models;
+using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Models;
 using FakeItEasy;
 using System;
 using System.Collections.Generic;
@@ -67,6 +66,25 @@ namespace DFC.App.ContactUs.Services.CmsApiProcessorService.UnitTests
             // assert
             A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiDataModel>(A<HttpClient>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiContentItemModel>(A<HttpClient>.Ignored, A<Uri>.Ignored)).MustHaveHappened(expectedResult.ContentItemUrls.Count, Times.Exactly);
+            A.Equals(result, expectedResult);
+        }
+
+        [Fact]
+        public async Task CmsApiServiceGetContentItemReturnsSuccess()
+        {
+            // arrange
+            var expectedResult = A.Fake<ContactUsApiContentItemModel>();
+            var url = new Uri($"{CmsApiClientOptions.BaseAddress}api/someitemcontent", UriKind.Absolute);
+
+            A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiContentItemModel>(A<HttpClient>.Ignored, A<Uri>.Ignored)).Returns(expectedResult);
+
+            var cmsApiService = new CmsApiService(CmsApiClientOptions, fakeApiDataProcessorService, fakeHttpClient);
+
+            // act
+            var result = await cmsApiService.GetContentItemAsync(url).ConfigureAwait(false);
+
+            // assert
+            A.CallTo(() => fakeApiDataProcessorService.GetAsync<ContactUsApiContentItemModel>(A<HttpClient>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             A.Equals(result, expectedResult);
         }
     }

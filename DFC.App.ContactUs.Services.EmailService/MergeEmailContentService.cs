@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.Services.EmailService.Contracts;
+﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Models;
 
 namespace DFC.App.ContactUs.Services.EmailService
 {
