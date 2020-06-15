@@ -60,11 +60,4 @@
 
 
 
-  <ItemGroup>
-    <Folder Include="ClientHandlers\" />
-    <Folder Include="Filters\" />
-  </ItemGroup>
-
-
-
 </Project>
