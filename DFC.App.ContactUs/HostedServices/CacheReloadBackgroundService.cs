@@ -12,12 +12,14 @@ namespace DFC.App.ContactUs.HostedServices
         private readonly ILogger<CacheReloadBackgroundService> logger;
         private readonly CmsApiClientOptions cmsApiClientOptions;
         private readonly ICacheReloadService cacheReloadService;
+        private readonly IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper;
 
-        public CacheReloadBackgroundService(ILogger<CacheReloadBackgroundService> logger, CmsApiClientOptions cmsApiClientOptions, ICacheReloadService cacheReloadService)
+        public CacheReloadBackgroundService(ILogger<CacheReloadBackgroundService> logger, CmsApiClientOptions cmsApiClientOptions, ICacheReloadService cacheReloadService, IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper)
         {
             this.logger = logger;
             this.cmsApiClientOptions = cmsApiClientOptions;
             this.cacheReloadService = cacheReloadService;
+            this.hostedServiceTelemetryWrapper = hostedServiceTelemetryWrapper;
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
@@ -38,7 +40,7 @@ namespace DFC.App.ContactUs.HostedServices
         {
             if (cmsApiClientOptions.BaseAddress != null)
             {
-                var cacheReloadServiceTask = cacheReloadService.Reload(stoppingToken);
+                var cacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(() => cacheReloadService.Reload(stoppingToken), nameof(CacheReloadBackgroundService));
 
                 return cacheReloadServiceTask;
             }

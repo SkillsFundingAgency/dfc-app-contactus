@@ -1,4 +1,4 @@
- Digital First Careers – Contact Us app
+### Digital First Careers – Contact Us app
 
 ## Introduction
 
@@ -38,7 +38,6 @@ Once you have cloned the public repo you need to remove the -template part from 
 | Location | Filename | Rename to |
 |-------|-------|-------|
 | DFC.App.ContactUs.IntegrationTests | appsettings-template.json | appsettings.json |
-| DFC.App.ContactUs.MessageFunctionApp | local.settings-template.json | local.settings.json |
 | DFC.App.ContactUs | appsettings-template.json | appsettings.json |
 
 ## Configuring to run locally
