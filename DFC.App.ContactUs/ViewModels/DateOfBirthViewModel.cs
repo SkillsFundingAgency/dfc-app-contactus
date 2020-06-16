@@ -5,9 +5,9 @@ namespace DFC.App.ContactUs.ViewModels
 {
     public class DateOfBirthViewModel : DateViewModel
     {
-        private const string InvalidCharactersDayValidationError = "Please enter numbers 1 to 31 for day of birth";
-        private const string InvalidCharactersMonthValidationError = "Please enter numbers 1 to 12 for month of birth";
-        private const string InvalidCharactersYearValidationError = "Please enter numbers for a 4 digit year of birth after 1900";
+        private const string InvalidCharactersDayValidationError = "Enter a valid date of birth. Day must be a number from 1 to 31";
+        private const string InvalidCharactersMonthValidationError = "Enter a valid date of birth. Month must be a number from 1 to 12";
+        private const string InvalidCharactersYearValidationError = "Enter a valid date of birth. Year must be a 4 digit number after 1900";
 
         public DateOfBirthViewModel() : base()
         {
