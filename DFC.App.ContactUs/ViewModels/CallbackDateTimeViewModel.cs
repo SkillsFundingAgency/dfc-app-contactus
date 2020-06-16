@@ -5,11 +5,11 @@ namespace DFC.App.ContactUs.ViewModels
 {
     public class CallbackDateTimeViewModel : DateViewModel
     {
-        private const string InvalidCharactersDayValidationError = "Please enter numbers 1 to 31 for a day for us to call you back";
-        private const string InvalidCharactersMonthValidationError = "Please enter numbers 1 to 12 for a month for us to call you back";
-        private const string InvalidCharactersYearValidationError = "Please enter numbers for a 4 digit year for us to call you back";
-        private const string InvalidCharactersHourValidationError = "Please enter numbers 0 to 23 for an hour for us to call you back";
-        private const string InvalidCharactersMinuteValidationError = "Please enter numbers 0 to 59 for a minute for us to call you back";
+        private const string InvalidCharactersDayValidationError = "Enter a valid call back date. Day must be a number from 1 to 31";
+        private const string InvalidCharactersMonthValidationError = "Enter a valid call back date. Month must be a number from 1 to 12";
+        private const string InvalidCharactersYearValidationError = "Enter a valid call back date. Year must be a 4 digit number after 1900";
+        private const string InvalidCharactersHourValidationError = "Enter a valid call back time. Hour must be a number from 0 to 23";
+        private const string InvalidCharactersMinuteValidationError = "Enter a valid call back time. Minute must be a number from 0 to 59";
 
         public CallbackDateTimeViewModel() : base()
         {
