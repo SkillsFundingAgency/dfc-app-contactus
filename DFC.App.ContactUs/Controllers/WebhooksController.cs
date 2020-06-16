@@ -38,8 +38,8 @@ namespace DFC.App.ContactUs.Controllers
         }
 
         [HttpPost]
-        [Route("ReceiveContactUsEvents")]
-        public async Task<IActionResult> ReceiveContactUsEvents()
+        [Route("ReceiveEvents")]
+        public async Task<IActionResult> ReceiveEvents()
         {
             using var reader = new StreamReader(Request.Body, Encoding.UTF8);
             string requestContent = await reader.ReadToEndAsync().ConfigureAwait(false);

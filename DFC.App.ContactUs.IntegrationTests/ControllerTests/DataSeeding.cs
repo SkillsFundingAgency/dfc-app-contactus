@@ -14,7 +14,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
         public const string AlternativeArticleName = "alternative-name";
 
         private const string EventTypePublished = "published";
-        private const string WebhookApiUrl = "api/webhook/ReceiveContactUsEvents";
+        private const string WebhookApiUrl = "api/webhook/ReceiveEvents";
 
         public static void SeedDefaultArticles(CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory)
         {

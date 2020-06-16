@@ -13,7 +13,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.WebhooksControllerT
     public class WebhooksControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.ContactUs.Startup>>
     {
         private const string EventTypePublished = "published";
-        private const string WebhookApiUrl = "/api/webhook/ReceiveContactUsEvents";
+        private const string WebhookApiUrl = "/api/webhook/ReceiveEvents";
 
         private readonly CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory;
 
