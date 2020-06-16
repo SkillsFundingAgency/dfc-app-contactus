@@ -290,6 +290,10 @@
                             {
                                 "name": "FamApiRoutingOptions__NoReplyEmailAddress",
                                 "value": "[parameters('NoReplyEmailAddress')]"
+                            },
+                            {
+                                "name": "Configuration__ApplicationName",
+                                "value": "DFC.App.ContactUs"
                             }
                         ]
                     }
