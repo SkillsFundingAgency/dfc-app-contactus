@@ -468,6 +468,9 @@
                     },
                     "partitionKey": {
                         "value": "[variables('cosmosDbCollectionPartitionKey')]"
+                    },
+                    "timeToLive": {
+                        "value": 2419200
                     }
                 }
             },
