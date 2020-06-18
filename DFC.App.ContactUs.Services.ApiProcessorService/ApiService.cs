@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
@@ -9,10 +10,17 @@ namespace DFC.App.ContactUs.Services.ApiProcessorService
     public class ApiService : IApiService
     {
         private readonly ILogger<ApiService> logger;
+        private readonly CmsApiClientOptions clientOptions;
 
-        public ApiService(ILogger<ApiService> logger)
+        public ApiService(ILogger<ApiService> logger, CmsApiClientOptions clientOptions)
         {
             this.logger = logger;
+            this.clientOptions = clientOptions;
+        }
+
+        public async Task<string?> GetAsync(HttpClient httpClient, string contentType, string acceptHeader)
+        {
+            return await GetAsync(httpClient, new Uri($"{this.clientOptions.BaseAddress}/{contentType}"), acceptHeader).ConfigureAwait(false);
         }
 
         public async Task<string?> GetAsync(HttpClient httpClient, Uri url, string acceptHeader)
@@ -25,6 +33,7 @@ namespace DFC.App.ContactUs.Services.ApiProcessorService
 
             request.Headers.Accept.Clear();
             request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(acceptHeader));
+            request.Headers.Add("Ocp-Apim-Subscription-Key", clientOptions.ApiKey);
 
             try
             {

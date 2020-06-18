@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Helpers;
 using DFC.App.ContactUs.Data.Models;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,16 +17,18 @@ namespace DFC.App.ContactUs.Services.CacheContentService
         private readonly ILogger<CacheReloadService> logger;
         private readonly AutoMapper.IMapper mapper;
         private readonly IEventMessageService<ContentPageModel> eventMessageService;
-        private readonly ICmsApiService cmsApiService;
         private readonly IContentCacheService contentCacheService;
+        private readonly ICmsApiService cmsApiService;
+        private readonly IEmailReloadService emailReloadService;
 
-        public CacheReloadService(ILogger<CacheReloadService> logger, AutoMapper.IMapper mapper, IEventMessageService<ContentPageModel> eventMessageService, ICmsApiService cmsApiService, IContentCacheService contentCacheService)
+        public CacheReloadService(ILogger<CacheReloadService> logger, AutoMapper.IMapper mapper, IEventMessageService<ContentPageModel> eventMessageService, ICmsApiService cmsApiService, IContentCacheService contentCacheService, IEmailReloadService emailReloadService)
         {
             this.logger = logger;
             this.mapper = mapper;
             this.eventMessageService = eventMessageService;
             this.cmsApiService = cmsApiService;
             this.contentCacheService = contentCacheService;
+            this.emailReloadService = emailReloadService;
         }
 
         public async Task Reload(CancellationToken stoppingToken)
@@ -33,6 +36,8 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             try
             {
                 logger.LogInformation("Reload cache started");
+
+                await emailReloadService.Reload(stoppingToken).ConfigureAwait(false);
 
                 var summaryList = await GetSummaryListAsync().ConfigureAwait(false);
 

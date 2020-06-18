@@ -1,6 +1,7 @@
-﻿@model Category
+﻿@using Category = DFC.App.ContactUs.Data.Enums.Category
+@model DFC.App.ContactUs.Data.Enums.Category
 
-@{ 
+@{
     var showErrorClass = string.Empty;
     var errorKey = nameof(WhyContactUsBodyViewModel.SelectedCategory);
 

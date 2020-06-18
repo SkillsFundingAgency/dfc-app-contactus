@@ -94,6 +94,7 @@ namespace DFC.App.ContactUs
             services.AddTransient<IApiService, ApiService>();
             services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
             services.AddTransient<IWebhooksService, WebhooksService>();
+            services.AddTransient<IEmailReloadService, EmailReloadService>();
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
@@ -108,6 +109,10 @@ namespace DFC.App.ContactUs
             services
                 .AddPolicies(policyRegistry, nameof(CmsApiClientOptions), policyOptions)
                 .AddHttpClient<ICmsApiService, CmsApiService, CmsApiClientOptions>(configuration, nameof(CmsApiClientOptions), nameof(PolicyOptions.HttpRetry), nameof(PolicyOptions.HttpCircuitBreaker));
+
+            services
+                .AddPolicies(policyRegistry, "ContentApi", policyOptions)
+                .AddHttpClient<IContentApiService<EmailApiDataModel>, ContentApiService<EmailApiDataModel>, CmsApiClientOptions>(configuration, nameof(CmsApiClientOptions), nameof(PolicyOptions.HttpRetry), nameof(PolicyOptions.HttpCircuitBreaker));
 
             services
                 .AddPolicies(policyRegistry, nameof(FamApiRoutingOptions), policyOptions)

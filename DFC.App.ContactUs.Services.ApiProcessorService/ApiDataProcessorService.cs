@@ -30,5 +30,20 @@ namespace DFC.App.ContactUs.Services.ApiProcessorService
 
             return default;
         }
+
+        public async Task<TApiModel?> GetAsync<TApiModel>(HttpClient httpClient, string contentType)
+           where TApiModel : class
+        {
+            _ = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+
+            var response = await apiService.GetAsync(httpClient, contentType, MediaTypeNames.Application.Json).ConfigureAwait(false);
+
+            if (!string.IsNullOrWhiteSpace(response))
+            {
+                return JsonConvert.DeserializeObject<TApiModel>(response);
+            }
+
+            return default;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Enums;
+using DFC.App.ContactUs.Data.Helpers;
 using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
@@ -167,7 +168,8 @@ namespace DFC.App.ContactUs.Controllers
         {
             Logger.LogInformation($"{nameof(SendEmailAsync)} preparing email");
 
-            var templateName = model.SelectedCategory == Category.Callback ? "CallbackTemplate" : "OnlineMessageTemplate";
+            //Todo - guid work here
+            var templateName = model.SelectedCategory.GetEmailKey().ToString();
             var template = await templateService.GetTemplateByNameAsync(templateName).ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(template))
