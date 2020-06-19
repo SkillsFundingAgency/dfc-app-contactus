@@ -20,18 +20,36 @@ namespace DFC.App.ContactUs.Services.CmsApiProcessorService
             this.httpClient = httpClient;
         }
 
-        public async Task<IList<TModel>?> GetAll<TModel>()
-            where TModel : class
+        public async Task<IList<ContactUsSummaryItemModel>?> GetSummaryAsync()
         {
             var url = new Uri($"{cmsApiClientOptions.BaseAddress}{cmsApiClientOptions.SummaryEndpoint}", UriKind.Absolute);
 
-            return await apiDataProcessorService.GetAsync<IList<TModel>>(httpClient, url).ConfigureAwait(false);
+            return await apiDataProcessorService.GetAsync<IList<ContactUsSummaryItemModel>>(httpClient, url).ConfigureAwait(false);
         }
 
-        public async Task<TModel?> GetContentItemAsync<TModel>(Uri url)
-            where TModel : class
+        public async Task<ContactUsApiDataModel?> GetItemAsync(Uri url)
         {
-            return await apiDataProcessorService.GetAsync<TModel>(httpClient, url).ConfigureAwait(false);
+            var contactUsApiDataModel = await apiDataProcessorService.GetAsync<ContactUsApiDataModel>(httpClient, url).ConfigureAwait(false);
+
+            if (contactUsApiDataModel?.ContentItemUrls != null)
+            {
+                foreach (var contentItemUrl in contactUsApiDataModel.ContentItemUrls)
+                {
+                    var contactUsApiContentItemModel = await GetContentItemAsync(contentItemUrl).ConfigureAwait(false);
+
+                    if (contactUsApiContentItemModel != null)
+                    {
+                        contactUsApiDataModel.ContentItems.Add(contactUsApiContentItemModel);
+                    }
+                }
+            }
+
+            return contactUsApiDataModel;
+        }
+
+        public async Task<ContactUsApiContentItemModel?> GetContentItemAsync(Uri url)
+        {
+            return await apiDataProcessorService.GetAsync<ContactUsApiContentItemModel>(httpClient, url).ConfigureAwait(false);
         }
     }
 }
