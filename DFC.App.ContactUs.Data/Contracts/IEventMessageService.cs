@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DFC.App.ContactUs.Data.Contracts
 {
     public interface IEventMessageService<TModel>
-        where TModel : class, IContentPageModel
+        where TModel : class, IDocumentModel
     {
         Task<IList<TModel>?> GetAllCachedCanonicalNamesAsync();
 

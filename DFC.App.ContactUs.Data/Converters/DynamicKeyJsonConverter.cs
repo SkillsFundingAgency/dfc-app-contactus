@@ -24,7 +24,7 @@ namespace DFC.App.ContactUs.Data.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
-            var listToReturn = new List<Link>();
+            var listToReturn = new List<LinkModel>();
 
             JArray array = JArray.Load(reader);
 
@@ -37,7 +37,7 @@ namespace DFC.App.ContactUs.Data.Converters
                     var relationship = propAsObj.Properties().FirstOrDefault(x => x.Name.ToLower() == "relationship");
                     var href = propAsObj.Properties().FirstOrDefault(x => x.Name.ToLower() == "href");
 
-                    listToReturn.Add(new Link() { LinkValue = new KeyValuePair<string, LinkContent>(prop.Name, new LinkContent { Href = new Uri(href.Value.ToString()), Relationship = relationship.Value.ToString() }) });
+                    listToReturn.Add(new LinkModel() { LinkValue = new KeyValuePair<string, LinkContentModel>(prop.Name, new LinkContentModel { Href = new Uri(href.Value.ToString()), Relationship = relationship.Value.ToString() }) });
                 }
             }
 

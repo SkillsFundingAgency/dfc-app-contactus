@@ -2,7 +2,7 @@
 
 namespace DFC.App.ContactUs.Data.Models
 {
-    public class LinkContent
+    public class LinkContentModel
     {
         public Uri? Href { get; set; }
 
