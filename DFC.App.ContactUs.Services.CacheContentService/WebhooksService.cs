@@ -19,6 +19,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
         private readonly IEventMessageService<ContentPageModel> eventMessageService;
         private readonly ICmsApiService cmsApiService;
         private readonly IContentPageService<ContentPageModel> contentPageService;
+        private readonly IEmailReloadService emailReloadService;
         private readonly IContentCacheService contentCacheService;
 
         public WebhooksService(
@@ -27,7 +28,8 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             IEventMessageService<ContentPageModel> eventMessageService,
             ICmsApiService cmsApiService,
             IContentPageService<ContentPageModel> contentPageService,
-            IContentCacheService contentCacheService)
+            IContentCacheService contentCacheService,
+            IEmailReloadService emailReloadService)
         {
             this.logger = logger;
             this.mapper = mapper;
@@ -35,32 +37,35 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             this.cmsApiService = cmsApiService;
             this.contentPageService = contentPageService;
             this.contentCacheService = contentCacheService;
+            this.emailReloadService = emailReloadService;
         }
 
         public async Task<HttpStatusCode> ProcessMessageAsync(WebhookCacheOperation webhookCacheOperation, Guid eventId, Guid contentId, Uri url)
         {
             bool isContentItem = contentCacheService.CheckIsContentItem(contentId);
 
+            var contentType = url.Segments[url.Segments.Length - 2];
+
             switch (webhookCacheOperation)
             {
                 case WebhookCacheOperation.Delete:
                     if (isContentItem)
                     {
-                        return await DeleteContentItemAsync(contentId).ConfigureAwait(false);
+                        return await DeleteContentItemAsync(contentId, contentType).ConfigureAwait(false);
                     }
                     else
                     {
-                        return await DeleteContentAsync(contentId).ConfigureAwait(false);
+                        return await DeleteContentAsync(contentId, contentType).ConfigureAwait(false);
                     }
 
                 case WebhookCacheOperation.CreateOrUpdate:
                     if (isContentItem)
                     {
-                        return await ProcessContentItemAsync(url, contentId).ConfigureAwait(false);
+                        return await ProcessContentItemAsync(url, contentId, contentType).ConfigureAwait(false);
                     }
                     else
                     {
-                        return await ProcessContentAsync(url, contentId).ConfigureAwait(false);
+                        return await ProcessContentAsync(url, contentId, contentType).ConfigureAwait(false);
                     }
 
                 default:
@@ -69,7 +74,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             }
         }
 
-        public async Task<HttpStatusCode> ProcessContentAsync(Uri url, Guid contentId)
+        public async Task<HttpStatusCode> ProcessContentAsync(Uri url, Guid contentId, string contentType)
         {
             var apiDataModel = await cmsApiService.GetItemAsync(url).ConfigureAwait(false);
             var contentPageModel = mapper.Map<ContentPageModel>(apiDataModel);
@@ -101,7 +106,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             return contentResult;
         }
 
-        public async Task<HttpStatusCode> ProcessContentItemAsync(Uri url, Guid contentItemId)
+        public async Task<HttpStatusCode> ProcessContentItemAsync(Uri url, Guid contentItemId, string contentType)
         {
             var contentIds = contentCacheService.GetContentIdsContainingContentItemId(contentItemId);
 
@@ -132,7 +137,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             return HttpStatusCode.OK;
         }
 
-        public async Task<HttpStatusCode> DeleteContentAsync(Guid contentId)
+        public async Task<HttpStatusCode> DeleteContentAsync(Guid contentId, string contentType)
         {
             var result = await eventMessageService.DeleteAsync(contentId).ConfigureAwait(false);
 
@@ -144,7 +149,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             return result;
         }
 
-        public async Task<HttpStatusCode> DeleteContentItemAsync(Guid contentItemId)
+        public async Task<HttpStatusCode> DeleteContentItemAsync(Guid contentItemId, string contentType)
         {
             var contentIds = contentCacheService.GetContentIdsContainingContentItemId(contentItemId);
 

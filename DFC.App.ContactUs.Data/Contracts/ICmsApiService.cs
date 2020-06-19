@@ -7,10 +7,10 @@ namespace DFC.App.ContactUs.Data.Contracts
 {
     public interface ICmsApiService
     {
-        Task<IList<ContactUsSummaryItemModel>?> GetSummaryAsync();
+        Task<IList<TModel>?> GetAll<TModel>()
+            where TModel : class;
 
-        Task<ContactUsApiDataModel?> GetItemAsync(Uri url);
-
-        Task<ContactUsApiContentItemModel?> GetContentItemAsync(Uri url);
+        Task<TModel?> GetContentItemAsync<TModel>(Uri url)
+            where TModel : class;
     }
 }
