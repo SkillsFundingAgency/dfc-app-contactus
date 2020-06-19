@@ -17,7 +17,8 @@
     validationParameters.Append("\"displayName\": \"" + @ViewData["ErrorMessageFieldName"]?.ToString() + "\", ");
     validationParameters.Append("\"minDate\": \"" + @ViewData["minDate"]?.ToString() + "\", ");
     validationParameters.Append("\"maxDate\": \"" + @ViewData["maxDate"]?.ToString() + "\", ");
-    validationParameters.Append("\"dateRangeError\": \"" + @ViewData["dateRangeError"]?.ToString() + "\"");
+    validationParameters.Append("\"minDateError\": \"" + @ViewData["minDateError"]?.ToString() + "\", ");
+    validationParameters.Append("\"maxDateError\": \"" + @ViewData["maxDateError"]?.ToString() + "\"");
     validationParameters.Append(" }");
 
     if (Model.IncludeTimeValue)
