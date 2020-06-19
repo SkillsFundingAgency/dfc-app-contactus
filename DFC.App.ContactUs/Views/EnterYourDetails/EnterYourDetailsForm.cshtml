@@ -22,7 +22,8 @@
             ErrorMessageFieldName = "Your date of birth",
             minDate = "1900-01-01",
             maxDate = DateTime.Today.AddYears(-13).ToString("yyyy-MM-dd"),
-            dateRangeError = "You must be over 13 to use this service"
+            minDateError = "Enter a valid date of birth. Year must be a 4 digit number after 1900",
+            maxDateError = "You must be over 13 to use this service"
         })
         @Html.EditorFor(model => model.Postcode)
 
@@ -33,7 +34,8 @@
                 ErrorMessageFieldName = "The callback date and time",
                 minDate = DateTime.Today.ToString("yyyy-MM-dd"),
                 maxDate = DateTime.Today.AddMonths(3).ToString("yyyy-MM-dd"),
-                dateRangeError = "The callback date and time must be within 3 months",
+                minDateError = "The callback date and time must be within 3 months",
+                maxDateError = "The callback date and time must be within 3 months",
                 ShowLabelAsHeader = "yes"
             })
         }

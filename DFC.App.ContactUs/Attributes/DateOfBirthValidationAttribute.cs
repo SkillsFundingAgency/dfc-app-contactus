@@ -9,10 +9,12 @@ namespace DFC.App.ContactUs.Attributes
     public class DateOfBirthValidationAttribute : ValidationAttribute, IClientModelValidator
     {
         private readonly int yearsAgo;
+        private readonly DateTime minimumDate;
 
-        public DateOfBirthValidationAttribute(int yearsAgo)
+        public DateOfBirthValidationAttribute(int yearsAgo, string minimumDateString)
         {
             this.yearsAgo = yearsAgo;
+            this.minimumDate = DateTime.ParseExact(minimumDateString, "yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
 
         private enum ErrorType
@@ -21,7 +23,8 @@ namespace DFC.App.ContactUs.Attributes
             AllFieldMissing,
             MissingField,
             InvalidDate,
-            OutOfRange,
+            TooLow,
+            TooHigh,
         }
 
         public void AddValidation(ClientModelValidationContext context)
@@ -53,13 +56,21 @@ namespace DFC.App.ContactUs.Attributes
                         {
                             var dt = dateViewModel.Value;
 
-                            if (dt!.Value.Date <= DateTime.Today.AddYears(0 - yearsAgo))
+                            if (dt!.Value.Date >= minimumDate)
                             {
-                                return ValidationResult.Success;
+                                if (dt!.Value.Date <= DateTime.Today.AddYears(0 - yearsAgo))
+                                {
+                                    return ValidationResult.Success;
+                                }
+                                else
+                                {
+                                    errorType = ErrorType.TooHigh;
+                                    validationFieldName = nameof(dateViewModel.Year);
+                                }
                             }
                             else
                             {
-                                errorType = ErrorType.OutOfRange;
+                                errorType = ErrorType.TooLow;
                                 validationFieldName = nameof(dateViewModel.Year);
                             }
                         }
@@ -88,7 +99,8 @@ namespace DFC.App.ContactUs.Attributes
                 ErrorType.InvalidDate => string.Format(CultureInfo.InvariantCulture, "{0} is not a valid date", validationContext.DisplayName),
                 ErrorType.AllFieldMissing => string.Format(CultureInfo.InvariantCulture, "Enter your {0}", validationContext.DisplayName.ToLowerInvariant()),
                 ErrorType.MissingField => string.Format(CultureInfo.InvariantCulture, "{0} must include a {1}", validationContext.DisplayName, missingFieldName.ToLowerInvariant()),
-                ErrorType.OutOfRange => string.Format(CultureInfo.InvariantCulture, "You must be over {0} to use this service", yearsAgo),
+                ErrorType.TooLow => string.Format(CultureInfo.InvariantCulture, "You must have been born after {0}", minimumDate.ToString("dd/MM/yyyy")),
+                ErrorType.TooHigh => string.Format(CultureInfo.InvariantCulture, "You must be over {0} to use this service", yearsAgo),
                 _ => string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName),
             };
 

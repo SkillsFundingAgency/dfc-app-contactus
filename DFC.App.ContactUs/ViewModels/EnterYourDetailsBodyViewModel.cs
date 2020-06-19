@@ -1,5 +1,6 @@
 ﻿using DFC.App.ContactUs.Attributes;
 using DFC.App.ContactUs.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.ContactUs.ViewModels
@@ -47,7 +48,7 @@ namespace DFC.App.ContactUs.ViewModels
         public string? TelephoneNumber { get; set; }
 
         [Display(Name = "Date of birth", Description = "For example, 31 3 1980")]
-        [DateOfBirthValidation(13, ErrorMessage = "{0}")]
+        [DateOfBirthValidation(13, "1900-01-01", ErrorMessage = "{0}")]
         [DataType("DateTimeEditor")]
         public DateOfBirthViewModel? DateOfBirth { get; set; } = new DateOfBirthViewModel();
 
