@@ -30,7 +30,7 @@ namespace DFC.App.ContactUs.Services.ApiProcessorService.UnitTests
             var fakeHttpRequestSender = A.Fake<IFakeHttpRequestSender>();
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
             var httpClient = new HttpClient(fakeHttpMessageHandler);
-            var apiService = new ApiService(logger);
+            var apiService = new ApiService(logger, new Data.Models.CmsApiClientOptions());
             var url = new Uri("https://www.somewhere.com", UriKind.Absolute);
 
             A.CallTo(() => fakeHttpRequestSender.Send(A<HttpRequestMessage>.Ignored)).Returns(httpResponse);
@@ -57,7 +57,7 @@ namespace DFC.App.ContactUs.Services.ApiProcessorService.UnitTests
             var fakeHttpRequestSender = A.Fake<IFakeHttpRequestSender>();
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
             var httpClient = new HttpClient(fakeHttpMessageHandler);
-            var apiService = new ApiService(logger);
+            var apiService = new ApiService(logger, new Data.Models.CmsApiClientOptions());
             var url = new Uri("https://www.somewhere.com", UriKind.Absolute);
 
             A.CallTo(() => fakeHttpRequestSender.Send(A<HttpRequestMessage>.Ignored)).Returns(httpResponse);
@@ -84,7 +84,7 @@ namespace DFC.App.ContactUs.Services.ApiProcessorService.UnitTests
             var fakeHttpRequestSender = A.Fake<IFakeHttpRequestSender>();
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
             var httpClient = new HttpClient(fakeHttpMessageHandler);
-            var apiService = new ApiService(logger);
+            var apiService = new ApiService(logger, new Data.Models.CmsApiClientOptions());
             var url = new Uri("https://www.somewhere.com", UriKind.Absolute);
 
             A.CallTo(() => fakeHttpRequestSender.Send(A<HttpRequestMessage>.Ignored)).Returns(httpResponse);

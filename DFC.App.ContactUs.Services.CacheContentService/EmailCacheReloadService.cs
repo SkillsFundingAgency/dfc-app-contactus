@@ -17,7 +17,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
         private readonly ILogger<CacheReloadService> logger;
         private readonly AutoMapper.IMapper mapper;
 
-        public EmailCacheReloadService(ICmsApiService cmsApiService, IContentApiService<EmailApiDataModel> contentApiService, ILogger<CacheReloadService> logger, IDocumentService<EmailModel> emailEventService, AutoMapper.IMapper mapper)
+        public EmailCacheReloadService(IContentApiService<EmailApiDataModel> contentApiService, ILogger<CacheReloadService> logger, IDocumentService<EmailModel> emailEventService, AutoMapper.IMapper mapper)
         {
             this.emailDocumentService = emailEventService;
             this.contentApiService = contentApiService;
@@ -39,16 +39,6 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             {
                 logger.LogError(ex, $"Error in email cache reload - URI {uri}");
             }
-        }
-
-        private async Task ReloadSingleTemplate(Uri uri)
-        {
-            var email = await contentApiService.GetById(uri).ConfigureAwait(false);
-
-            //Add the e-mail to cache
-            var mappedEmail = mapper.Map<EmailModel>(email);
-
-            await emailDocumentService.UpsertAsync(mappedEmail).ConfigureAwait(false);
         }
 
         public async Task Reload(CancellationToken stoppingToken)
@@ -94,6 +84,16 @@ namespace DFC.App.ContactUs.Services.CacheContentService
 
                 await emailDocumentService.UpsertAsync(mappedEmail).ConfigureAwait(false);
             }
+        }
+
+        private async Task ReloadSingleTemplate(Uri uri)
+        {
+            var email = await contentApiService.GetById(uri).ConfigureAwait(false);
+
+            //Add the e-mail to cache
+            var mappedEmail = mapper.Map<EmailModel>(email);
+
+            await emailDocumentService.UpsertAsync(mappedEmail).ConfigureAwait(false);
         }
     }
 }

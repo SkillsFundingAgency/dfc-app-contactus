@@ -169,12 +169,12 @@ namespace DFC.App.ContactUs.Controllers
             Logger.LogInformation($"{nameof(SendEmailAsync)} preparing email");
 
             //Todo - guid work here
-            var templateName = model.SelectedCategory.GetEmailKey().ToString();
-            var template = await templateService.GetTemplateByNameAsync(templateName).ConfigureAwait(false);
+            var templateKey = model.SelectedCategory.GetEmailKey();
+            var template = await templateService.GetTemplateByKeyAsync(templateKey).ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(template))
             {
-                Logger.LogError($"{nameof(SendEmailAsync)} failed to load email template: {templateName}");
+                Logger.LogError($"{nameof(SendEmailAsync)} failed to load email template: {templateKey}");
                 return false;
             }
 

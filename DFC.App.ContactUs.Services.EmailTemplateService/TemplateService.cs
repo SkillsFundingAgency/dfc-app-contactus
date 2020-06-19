@@ -1,5 +1,8 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Models;
+using DFC.Compui.Cosmos.Contracts;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Services.EmailTemplateService
@@ -7,21 +10,28 @@ namespace DFC.App.ContactUs.Services.EmailTemplateService
     public class TemplateService : ITemplateService
     {
         private readonly ILogger<TemplateService> logger;
+        private readonly IDocumentService<EmailModel> emailDocumentService;
 
-        public TemplateService(ILogger<TemplateService> logger)
+        public TemplateService(ILogger<TemplateService> logger, IDocumentService<EmailModel> emailDocumentService)
         {
             this.logger = logger;
+            this.emailDocumentService = emailDocumentService;
         }
 
-        public async Task<string?> GetTemplateByNameAsync(string templateName)
+        public async Task<string?> GetTemplateByKeyAsync(Guid templateKey)
         {
-            logger.LogInformation($"{nameof(GetTemplateByNameAsync)} loading email template: {templateName}");
+            logger.LogInformation($"{nameof(GetTemplateByKeyAsync)} loading email template: {templateKey}");
 
-            var template = TemporaryEmbeddedResource.GetApiRequestFile($"{GetType().Namespace}.Temp.EmailTemplates.{templateName}.html");
+            var template = await emailDocumentService.GetByIdAsync(templateKey).ConfigureAwait(false);
 
-            logger.LogInformation($"{nameof(GetTemplateByNameAsync)} loaded email template: {templateName}");
+            if (template == null)
+            {
+                throw new InvalidOperationException($"Email Template - {templateKey} not found");
+            }
 
-            return template;
+            logger.LogInformation($"{nameof(GetTemplateByKeyAsync)} loaded email template: {templateKey}");
+
+            return template.Body;
         }
     }
 }
