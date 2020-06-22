@@ -35,14 +35,14 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             {
                 logger.LogInformation("Reload cache started");
 
-                var summaryList = await GetSummaryListAsync().ConfigureAwait(false);
-
                 if (stoppingToken.IsCancellationRequested)
                 {
                     logger.LogWarning("Reload cache cancelled");
 
                     return;
                 }
+
+                var summaryList = await GetSummaryListAsync().ConfigureAwait(false);
 
                 if (summaryList != null && summaryList.Any())
                 {
