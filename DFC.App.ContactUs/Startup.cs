@@ -92,7 +92,7 @@ namespace DFC.App.ContactUs
             services.AddTransient<ISendGridEmailService<ContactUsEmailRequestModel>, SendGridEmailService<ContactUsEmailRequestModel>>();
             services.AddTransient<ITemplateService, TemplateService>();
             services.AddTransient<IEventMessageService<ContentPageModel>, EventMessageService<ContentPageModel>>();
-            services.AddTransient<ISharedContentCacheReloadService, ContentPageModelCacheReloadService>();
+            services.AddTransient<ISharedContentCacheReloadService, SharedContentCacheReloadService>();
             services.AddTransient<IApiService, ApiService>();
             services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
             services.AddTransient<IWebhooksService, WebhooksService>();

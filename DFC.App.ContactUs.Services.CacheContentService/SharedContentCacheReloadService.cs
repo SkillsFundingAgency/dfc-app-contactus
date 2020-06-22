@@ -12,15 +12,15 @@ using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Services.CacheContentService
 {
-    public class ContentPageModelCacheReloadService : ISharedContentCacheReloadService
+    public class SharedContentCacheReloadService : ISharedContentCacheReloadService
     {
-        private readonly ILogger<ContentPageModelCacheReloadService> logger;
+        private readonly ILogger<SharedContentCacheReloadService> logger;
         private readonly AutoMapper.IMapper mapper;
         private readonly IEventMessageService<ContentPageModel> eventMessageService;
         private readonly IContentCacheService contentCacheService;
         private readonly IContentApiService<ContactUsSummaryItemModel> cmsApiService;
 
-        public ContentPageModelCacheReloadService(ILogger<ContentPageModelCacheReloadService> logger, AutoMapper.IMapper mapper, IEventMessageService<ContentPageModel> eventMessageService, IContentApiService<ContactUsSummaryItemModel> cmsApiService, IContentCacheService contentCacheService)
+        public SharedContentCacheReloadService(ILogger<SharedContentCacheReloadService> logger, AutoMapper.IMapper mapper, IEventMessageService<ContentPageModel> eventMessageService, IContentApiService<ContactUsSummaryItemModel> cmsApiService, IContentCacheService contentCacheService)
         {
             this.logger = logger;
             this.mapper = mapper;

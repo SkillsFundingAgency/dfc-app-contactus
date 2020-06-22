@@ -14,10 +14,10 @@ namespace DFC.App.ContactUs.Services.CacheContentService
     {
         private readonly IDocumentService<EmailModel> emailDocumentService;
         private readonly IContentApiService<EmailApiDataModel> contentApiService;
-        private readonly ILogger<ContentPageModelCacheReloadService> logger;
+        private readonly ILogger<EmailCacheReloadService> logger;
         private readonly AutoMapper.IMapper mapper;
 
-        public EmailCacheReloadService(IContentApiService<EmailApiDataModel> contentApiService, ILogger<ContentPageModelCacheReloadService> logger, IDocumentService<EmailModel> emailEventService, AutoMapper.IMapper mapper)
+        public EmailCacheReloadService(IContentApiService<EmailApiDataModel> contentApiService, ILogger<EmailCacheReloadService> logger, IDocumentService<EmailModel> emailEventService, AutoMapper.IMapper mapper)
         {
             this.emailDocumentService = emailEventService;
             this.contentApiService = contentApiService;
@@ -46,6 +46,13 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             try
             {
                 logger.LogInformation("Reload All email cache started");
+
+                if (stoppingToken.IsCancellationRequested)
+                {
+                    logger.LogWarning("Reload email cache cancelled");
+
+                    return;
+                }
 
                 await ReloadEmailTemplates(stoppingToken).ConfigureAwait(false);
 

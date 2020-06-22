@@ -15,7 +15,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
     [Trait("Category", "Cache Reload background service Unit Tests")]
     public class CacheReloadServiceTests
     {
-        private readonly ILogger<ContentPageModelCacheReloadService> fakeLogger = A.Fake<ILogger<ContentPageModelCacheReloadService>>();
+        private readonly ILogger<SharedContentCacheReloadService> fakeLogger = A.Fake<ILogger<SharedContentCacheReloadService>>();
         private readonly AutoMapper.IMapper fakeMapper = A.Fake<AutoMapper.IMapper>();
         private readonly CmsApiClientOptions fakeCmsApiClientOptions = A.Dummy<CmsApiClientOptions>();
         private readonly IEventMessageService<ContentPageModel> fakeEventMessageService = A.Fake<IEventMessageService<ContentPageModel>>();
@@ -53,7 +53,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
             A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
             A.CallTo(() => fakeContentCacheService.AddOrReplace(A<Guid>.Ignored, A<List<Guid>>.Ignored));
 
-            var cacheReloadService = new ContentPageModelCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
+            var cacheReloadService = new SharedContentCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
 
             // act
             await cacheReloadService.Reload(cancellationToken).ConfigureAwait(false);
@@ -79,7 +79,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
 
             A.CallTo(() => fakeContentApiService.GetAll(A<string>.Ignored)).Returns(fakeContactUsSummaryItemModels);
 
-            var cacheReloadService = new ContentPageModelCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
+            var cacheReloadService = new SharedContentCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
 
             // act
             await cacheReloadService.Reload(cancellationToken).ConfigureAwait(false);
@@ -112,7 +112,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
 
             A.CallTo(() => fakeEventMessageService.GetAllCachedCanonicalNamesAsync()).Returns(fakeCachedContentPageModels);
 
-            var cacheReloadService = new ContentPageModelCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
+            var cacheReloadService = new SharedContentCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
 
             // act
             await cacheReloadService.DeleteStaleCacheEntriesAsync(fakeContactUsSummaryItemModels, cancellationToken).ConfigureAwait(false);
@@ -132,7 +132,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
 
             A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.OK);
 
-            var cacheReloadService = new ContentPageModelCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
+            var cacheReloadService = new SharedContentCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
 
             // act
             await cacheReloadService.DeleteStaleItemsAsync(fakeContentPageModels, cancellationToken).ConfigureAwait(false);
@@ -151,7 +151,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
 
             A.CallTo(() => fakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).Returns(HttpStatusCode.NotFound);
 
-            var cacheReloadService = new ContentPageModelCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
+            var cacheReloadService = new SharedContentCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
 
             // act
             await cacheReloadService.DeleteStaleItemsAsync(fakeContentPageModels, cancellationToken).ConfigureAwait(false);
@@ -168,7 +168,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
             var cancellationToken = new CancellationToken(true);
             var fakeContentPageModels = BuldFakeContentPageModels(NumberOfDeletions);
 
-            var cacheReloadService = new ContentPageModelCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
+            var cacheReloadService = new SharedContentCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
 
             // act
             await cacheReloadService.DeleteStaleItemsAsync(fakeContentPageModels, cancellationToken).ConfigureAwait(false);
@@ -182,7 +182,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
         public void CacheReloadServiceTryValidateModelForValidAndInvalid(ContentPageModel contentPageModel, bool expectedResult)
         {
             // arrange
-            var cacheReloadService = new ContentPageModelCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
+            var cacheReloadService = new SharedContentCacheReloadService(fakeLogger, fakeMapper, fakeEventMessageService, fakeContentApiService, fakeContentCacheService);
 
             // act
             var result = cacheReloadService.TryValidateModel(contentPageModel);
