@@ -31,10 +31,6 @@ namespace DFC.App.ContactUs.Services.ApiProcessorService
 
             using var request = new HttpRequestMessage(HttpMethod.Get, url);
 
-            request.Headers.Accept.Clear();
-            request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(acceptHeader));
-            request.Headers.Add("Ocp-Apim-Subscription-Key", clientOptions.ApiKey);
-
             try
             {
                 var response = await httpClient.SendAsync(request).ConfigureAwait(false);
