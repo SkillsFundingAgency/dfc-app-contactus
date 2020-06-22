@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Services.CacheContentService
 {
-    public class EmailCacheReloadService : IEmailReloadService
+    public class EmailCacheReloadService : IEmailCacheReloadService
     {
         private readonly IDocumentService<EmailModel> emailDocumentService;
         private readonly IContentApiService<EmailApiDataModel> contentApiService;
-        private readonly ILogger<CacheReloadService> logger;
+        private readonly ILogger<ContentPageModelCacheReloadService> logger;
         private readonly AutoMapper.IMapper mapper;
 
-        public EmailCacheReloadService(IContentApiService<EmailApiDataModel> contentApiService, ILogger<CacheReloadService> logger, IDocumentService<EmailModel> emailEventService, AutoMapper.IMapper mapper)
+        public EmailCacheReloadService(IContentApiService<EmailApiDataModel> contentApiService, ILogger<ContentPageModelCacheReloadService> logger, IDocumentService<EmailModel> emailEventService, AutoMapper.IMapper mapper)
         {
             this.emailDocumentService = emailEventService;
             this.contentApiService = contentApiService;
@@ -25,7 +25,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             this.mapper = mapper;
         }
 
-        public async Task Reload(Uri uri)
+        public async Task ReloadCacheItem(Uri uri)
         {
             try
             {

@@ -8,6 +8,7 @@ namespace DFC.App.ContactUs.Data.Contracts
         where TApiResponseModel : class
     {
         Task<IEnumerable<TApiResponseModel>> GetAll(string contentType);
+
         Task<TApiResponseModel> GetById(Uri uri);
     }
 }

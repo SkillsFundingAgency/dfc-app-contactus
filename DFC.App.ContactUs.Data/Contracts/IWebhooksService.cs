@@ -11,10 +11,6 @@ namespace DFC.App.ContactUs.Data.Contracts
 
         Task<HttpStatusCode> DeleteContentItemAsync(Guid contentItemId, string contentType);
 
-        Task<HttpStatusCode> ProcessContentAsync(Uri url, Guid contentId, string contentType);
-
-        Task<HttpStatusCode> ProcessContentItemAsync(Uri url, Guid contentItemId, string contentType);
-
-        Task<HttpStatusCode> ProcessMessageAsync(WebhookCacheOperation webhookCacheOperation, Guid eventId, Guid contentId, Uri url);
+        Task<HttpStatusCode> ProcessMessageAsync(WebhookCacheOperation webhookCacheOperation, Guid eventId, Uri url);
     }
 }

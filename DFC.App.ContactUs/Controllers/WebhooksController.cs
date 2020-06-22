@@ -85,11 +85,16 @@ namespace DFC.App.ContactUs.Controllers
                         throw new InvalidDataException($"Invalid Api url '{eventGridEventData.Api}' received for Event Id: {eventId}");
                     }
 
+                    if (url == null)
+                    {
+                        throw new InvalidDataException($"Invalid url '{url}' received for Event Id: {eventId}");
+                    }
+
                     var cacheOperation = acceptedEventTypes[eventGridEvent.EventType];
 
                     logger.LogInformation($"Got Event Id: {eventId}: {eventGridEvent.EventType}: Cache operation: {cacheOperation} {url}");
 
-                    var result = await webhookService.ProcessMessageAsync(cacheOperation, eventId, contentId, url).ConfigureAwait(false);
+                    var result = await webhookService.ProcessMessageAsync(cacheOperation, eventId, url).ConfigureAwait(false);
 
                     LogResult(eventId, contentId, result);
                 }

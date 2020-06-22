@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Data.Contracts
 {
-    public interface IEmailReloadService
+    public interface IEmailCacheReloadService
     {
         Task Reload(CancellationToken stoppingToken);
-        Task Reload(Uri uri);
+        Task ReloadCacheItem(Uri uri);
     }
 }

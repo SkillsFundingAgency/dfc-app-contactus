@@ -12,23 +12,21 @@ using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Services.CacheContentService
 {
-    public class CacheReloadService : ICacheReloadService
+    public class ContentPageModelCacheReloadService : ISharedContentCacheReloadService
     {
-        private readonly ILogger<CacheReloadService> logger;
+        private readonly ILogger<ContentPageModelCacheReloadService> logger;
         private readonly AutoMapper.IMapper mapper;
         private readonly IEventMessageService<ContentPageModel> eventMessageService;
         private readonly IContentCacheService contentCacheService;
-        private readonly ICmsApiService cmsApiService;
-        private readonly IEmailReloadService emailReloadService;
+        private readonly IContentApiService<ContactUsSummaryItemModel> cmsApiService;
 
-        public CacheReloadService(ILogger<CacheReloadService> logger, AutoMapper.IMapper mapper, IEventMessageService<ContentPageModel> eventMessageService, ICmsApiService cmsApiService, IContentCacheService contentCacheService, IEmailReloadService emailReloadService)
+        public ContentPageModelCacheReloadService(ILogger<ContentPageModelCacheReloadService> logger, AutoMapper.IMapper mapper, IEventMessageService<ContentPageModel> eventMessageService, IContentApiService<ContactUsSummaryItemModel> cmsApiService, IContentCacheService contentCacheService)
         {
             this.logger = logger;
             this.mapper = mapper;
             this.eventMessageService = eventMessageService;
             this.cmsApiService = cmsApiService;
             this.contentCacheService = contentCacheService;
-            this.emailReloadService = emailReloadService;
         }
 
         public async Task Reload(CancellationToken stoppingToken)
@@ -36,8 +34,6 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             try
             {
                 logger.LogInformation("Reload cache started");
-
-                await emailReloadService.Reload(stoppingToken).ConfigureAwait(false);
 
                 var summaryList = await GetSummaryListAsync().ConfigureAwait(false);
 
@@ -74,11 +70,13 @@ namespace DFC.App.ContactUs.Services.CacheContentService
         {
             logger.LogInformation("Get summary list");
 
-            var summaryList = await cmsApiService.GetSummaryAsync().ConfigureAwait(false);
+            // TODO - Filter shared content down by items Contact Us cares about
+            // Correct key being passed to shared-content?
+            var summaryList = await cmsApiService.GetAll("shared-content").ConfigureAwait(false);
 
             logger.LogInformation("Get summary list completed");
 
-            return summaryList;
+            return summaryList.ToList();
         }
 
         public async Task ProcessSummaryListAsync(IList<ContactUsSummaryItemModel>? summaryList, CancellationToken stoppingToken)
@@ -89,6 +87,11 @@ namespace DFC.App.ContactUs.Services.CacheContentService
 
             foreach (var item in summaryList.OrderBy(o => o.Published))
             {
+                if (item == null || item.Url == null)
+                {
+                    continue;
+                }
+
                 if (stoppingToken.IsCancellationRequested)
                 {
                     logger.LogWarning("Process summary list cancelled");
@@ -96,25 +99,23 @@ namespace DFC.App.ContactUs.Services.CacheContentService
                     return;
                 }
 
-                await GetAndSaveItemAsync(item, stoppingToken).ConfigureAwait(false);
+                await GetAndSaveItemAsync(item.Url, stoppingToken).ConfigureAwait(false);
             }
 
             logger.LogInformation("Process summary list completed");
         }
 
-        public async Task GetAndSaveItemAsync(ContactUsSummaryItemModel item, CancellationToken stoppingToken)
+        public async Task GetAndSaveItemAsync(Uri url, CancellationToken stoppingToken)
         {
-            _ = item ?? throw new ArgumentNullException(nameof(item));
-
             try
             {
-                logger.LogInformation($"Get details for {item.CanonicalName} - {item.Url}");
+                logger.LogInformation($"Get details for {url}");
 
-                var apiDataModel = await cmsApiService.GetItemAsync(item.Url!).ConfigureAwait(false);
+                var apiDataModel = await cmsApiService.GetById(url).ConfigureAwait(false);
 
                 if (apiDataModel == null)
                 {
-                    logger.LogWarning($"No details returned from {item.CanonicalName} - {item.Url}");
+                    logger.LogWarning($"No details returned from {url}");
 
                     return;
                 }
@@ -130,33 +131,33 @@ namespace DFC.App.ContactUs.Services.CacheContentService
 
                 if (!TryValidateModel(contentPageModel))
                 {
-                    logger.LogError($"Validation failure for {item.CanonicalName} - {item.Url}");
+                    logger.LogError($"Validation failure for {url}");
 
                     return;
                 }
 
-                logger.LogInformation($"Updating cache with {item.CanonicalName} - {item.Url}");
+                logger.LogInformation($"Updating cache with {url}");
 
                 var result = await eventMessageService.UpdateAsync(contentPageModel).ConfigureAwait(false);
 
                 if (result == HttpStatusCode.NotFound)
                 {
-                    logger.LogInformation($"Does not exist, creating cache with {item.CanonicalName} - {item.Url}");
+                    logger.LogInformation($"Does not exist, creating cache with {url}");
 
                     result = await eventMessageService.CreateAsync(contentPageModel).ConfigureAwait(false);
 
                     if (result == HttpStatusCode.Created)
                     {
-                        logger.LogInformation($"Created cache with {item.CanonicalName} - {item.Url}");
+                        logger.LogInformation($"Created cache with {url}");
                     }
                     else
                     {
-                        logger.LogError($"Cache create error status {result} from {item.CanonicalName} - {item.Url}");
+                        logger.LogError($"Cache create error status {result} from {url}");
                     }
                 }
                 else
                 {
-                    logger.LogInformation($"Updated cache with {item.CanonicalName} - {item.Url}");
+                    logger.LogInformation($"Updated cache with {url}");
                 }
 
                 var contentItemIds = contentPageModel.ContentItems.Where(w => w.ItemId.HasValue).Select(s => s.ItemId!.Value).ToList();
@@ -164,7 +165,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Error in get and save for {item.CanonicalName} - {item.Url}");
+                logger.LogError(ex, $"Error in get and save for {url}");
             }
         }
 
@@ -233,6 +234,11 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             }
 
             return isValid;
+        }
+
+        public async Task ReloadCacheItem(Uri url)
+        {
+            await GetAndSaveItemAsync(url, CancellationToken.None).ConfigureAwait(false);
         }
     }
 }
