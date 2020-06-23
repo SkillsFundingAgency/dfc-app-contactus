@@ -30,7 +30,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
         {
             Guid id = GetIdFromUrl(eventId, url);
 
-            if(url.Segments.Length < 3)
+            if (url.Segments.Length < 3)
             {
                 throw new InvalidDataException($"URI: {url} doesn't contian enough segments for a Content Type and Id");
             }
@@ -42,19 +42,19 @@ namespace DFC.App.ContactUs.Services.CacheContentService
                 case WebhookCacheOperation.Delete:
                     switch (contentType.ToUpperInvariant())
                     {
-                        case "email":
+                        case "EMAIL":
                             return await emailModelEventMessageService.DeleteAsync(id).ConfigureAwait(false);
                         default:
                             logger.LogInformation($"{nameof(WebhookCacheOperation.Delete)} Event Id: {eventId} does not require processing in this application");
-                            return HttpStatusCode.OK;
+                            return HttpStatusCode.NotFound;
                     }
 
                 case WebhookCacheOperation.CreateOrUpdate:
                     switch (contentType.ToUpperInvariant())
                     {
-                        case "email":
+                        case "EMAIL":
                             await emailReloadService.ReloadCacheItem(url).ConfigureAwait(false);
-                            return HttpStatusCode.OK;
+                            return HttpStatusCode.Created;
                         default:
                             logger.LogInformation($"{nameof(WebhookCacheOperation.CreateOrUpdate)} Event Id: {eventId} does not require processing in this application");
                             return HttpStatusCode.OK;

@@ -20,7 +20,7 @@
 //            A.CallTo(() => FakeContentCacheService.Remove(A<Guid>.Ignored));
 
 //            // Act
-//            var result = await service.DeleteContentAsync(ContentIdForDelete).ConfigureAwait(false);
+//            var result = await service.ProcessMessageAsync(ContentIdForDelete).ConfigureAwait(false);
 
 //            // Assert
 //            A.CallTo(() => FakeEventMessageService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
