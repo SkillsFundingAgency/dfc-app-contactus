@@ -106,12 +106,7 @@ namespace DFC.App.ContactUs.Controllers
                 throw new InvalidDataException($"Invalid Api url '{eventGridEventData.Api}' received for Event Id: {eventId}");
             }
 
-            if (localUrl == null)
-            {
-                throw new InvalidDataException($"Invalid url '{localUrl}' received for Event Id: {eventId}");
-            }
-
-            url = localUrl;
+            url = localUrl ?? throw new InvalidDataException($"Invalid url '{localUrl}' received for Event Id: {eventId}");
         }
 
         private void LogResult(Guid eventId, Guid contentPageId, HttpStatusCode result)
