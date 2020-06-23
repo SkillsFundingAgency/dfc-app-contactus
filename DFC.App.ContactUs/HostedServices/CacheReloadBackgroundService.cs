@@ -12,7 +12,6 @@ namespace DFC.App.ContactUs.HostedServices
     {
         private readonly ILogger<CacheReloadBackgroundService> logger;
         private readonly CmsApiClientOptions cmsApiClientOptions;
-        private readonly ISharedContentCacheReloadService sharedContentCacheReloadService;
         private readonly IEmailCacheReloadService emailCacheReloadService;
         private readonly IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper;
 
@@ -20,7 +19,6 @@ namespace DFC.App.ContactUs.HostedServices
         {
             this.logger = logger;
             this.cmsApiClientOptions = cmsApiClientOptions;
-            //this.sharedContentCacheReloadService = sharedContentCacheReloadService;
             this.hostedServiceTelemetryWrapper = hostedServiceTelemetryWrapper;
             this.emailCacheReloadService = emailCacheReloadService;
         }
@@ -47,7 +45,6 @@ namespace DFC.App.ContactUs.HostedServices
                 return Task.CompletedTask;
             }
 
-            //var contentPageModelCacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(() => sharedContentCacheReloadService.Reload(stoppingToken), nameof(CacheReloadBackgroundService));
             var emailCacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(() => emailCacheReloadService.Reload(stoppingToken), nameof(CacheReloadBackgroundService));
 
             return Task.CompletedTask;
