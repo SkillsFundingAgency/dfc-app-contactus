@@ -75,7 +75,7 @@ namespace DFC.App.ContactUs.Controllers
                 }
                 else if (eventGridEvent.Data is EventGridEventData eventGridEventData)
                 {
-                    ValidateData(eventId, eventGridEventData, out Guid contentId, out Uri? url);
+                    ValidateData(eventId, eventGridEventData, out Guid contentId, out Uri url);
 
                     var cacheOperation = acceptedEventTypes[eventGridEvent.EventType];
 
@@ -94,22 +94,24 @@ namespace DFC.App.ContactUs.Controllers
             return Ok();
         }
 
-        private static void ValidateData(Guid eventId, EventGridEventData eventGridEventData, out Guid contentId, out Uri? url)
+        private static void ValidateData(Guid eventId, EventGridEventData eventGridEventData, out Guid contentId, out Uri url)
         {
             if (!Guid.TryParse(eventGridEventData.ItemId, out contentId))
             {
                 throw new InvalidDataException($"Invalid Guid for EventGridEvent.Data.ItemId '{eventGridEventData.ItemId}'");
             }
 
-            if (!Uri.TryCreate(eventGridEventData.Api, UriKind.Absolute, out url))
+            if (!Uri.TryCreate(eventGridEventData.Api, UriKind.Absolute, out var localUrl))
             {
                 throw new InvalidDataException($"Invalid Api url '{eventGridEventData.Api}' received for Event Id: {eventId}");
             }
 
-            if (url == null)
+            if (localUrl == null)
             {
-                throw new InvalidDataException($"Invalid url '{url}' received for Event Id: {eventId}");
+                throw new InvalidDataException($"Invalid url '{localUrl}' received for Event Id: {eventId}");
             }
+
+            url = localUrl;
         }
 
         private void LogResult(Guid eventId, Guid contentPageId, HttpStatusCode result)
