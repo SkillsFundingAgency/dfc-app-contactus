@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Services.CmsApiProcessorService
@@ -28,6 +27,5 @@ namespace DFC.App.ContactUs.Services.CmsApiProcessorService
         {
             return await apiDataProcessorService.GetAsync<TApiResponseModel>(httpClient, uri).ConfigureAwait(false) ?? throw new InvalidOperationException($"{nameof(GetById)} returned null for request uri {uri}");
         }
-
     }
 }

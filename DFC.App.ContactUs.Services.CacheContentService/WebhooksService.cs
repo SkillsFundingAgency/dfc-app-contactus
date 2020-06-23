@@ -28,22 +28,19 @@ namespace DFC.App.ContactUs.Services.CacheContentService
 
         public async Task<HttpStatusCode> ProcessMessageAsync(WebhookCacheOperation webhookCacheOperation, Guid eventId, Uri url)
         {
-            if (url == null)
+            Guid id = GetIdFromUrl(eventId, url);
+
+            if(url.Segments.Length < 3)
             {
-                throw new ArgumentNullException(nameof(url));
+                throw new InvalidDataException($"URI: {url} doesn't contian enough segments for a Content Type and Id");
             }
 
-            if (!Guid.TryParse(url.Segments.LastOrDefault(), out Guid id))
-            {
-                throw new InvalidDataException($"Invalid id '{id}' received for Event Id: {eventId}");
-            }
-
-            var contentType = url.Segments[url.Segments.Length - 2].Trim('/').ToLowerInvariant();
+            var contentType = url.Segments[url.Segments.Length - 2].Trim('/').ToUpperInvariant();
 
             switch (webhookCacheOperation)
             {
                 case WebhookCacheOperation.Delete:
-                    switch (contentType.ToLowerInvariant())
+                    switch (contentType.ToUpperInvariant())
                     {
                         case "email":
                             return await emailModelEventMessageService.DeleteAsync(id).ConfigureAwait(false);
@@ -53,7 +50,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
                     }
 
                 case WebhookCacheOperation.CreateOrUpdate:
-                    switch (contentType.ToLowerInvariant())
+                    switch (contentType.ToUpperInvariant())
                     {
                         case "email":
                             await emailReloadService.ReloadCacheItem(url).ConfigureAwait(false);
@@ -67,6 +64,21 @@ namespace DFC.App.ContactUs.Services.CacheContentService
                     logger.LogError($"Event Id: {eventId} got unknown cache operation - {webhookCacheOperation}");
                     return HttpStatusCode.BadRequest;
             }
+        }
+
+        private static Guid GetIdFromUrl(Guid eventId, Uri url)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            if (!Guid.TryParse(url.Segments.LastOrDefault(), out Guid id))
+            {
+                throw new InvalidDataException($"Invalid id '{id}' received for Event Id: {eventId}");
+            }
+
+            return id;
         }
     }
 }

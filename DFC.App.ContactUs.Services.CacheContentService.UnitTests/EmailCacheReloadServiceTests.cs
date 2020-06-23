@@ -61,17 +61,13 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
         public async Task EmailCacheReloadServiceReloadAllReloadSingleItem()
         {
             //Arrange
-            var fakeEmails = new List<EmailApiDataModel>();
-            foreach (var key in EmailKeyHelper.GetEmailKeys())
-            {
-                fakeEmails.Add(new EmailApiDataModel { Body = "<h1>Test</h1>", Url = new Uri($"http://somehost.com/{key}") });
-            }
+            var fakeEmail = new EmailApiDataModel { Body = "<h1>Test</h1>", Url = new Uri($"http://somehost.com/9f4b6845-2f6f-43e8-a6c3-fb5a4cc3fd31") };
 
-            A.CallTo(() => fakeContentApiService.GetById(A<Uri>.Ignored)).Returns(fakeEmails.FirstOrDefault());
+            A.CallTo(() => fakeContentApiService.GetById(A<Uri>.Ignored)).Returns(fakeEmail);
             var emailReloadService = new EmailCacheReloadService(fakeContentApiService, A.Fake<ILogger<EmailCacheReloadService>>(), fakeEmailDocumentService, fakeMapper);
 
             //Act
-            await emailReloadService.ReloadCacheItem(fakeEmails.FirstOrDefault().Url).ConfigureAwait(false);
+            await emailReloadService.ReloadCacheItem(new Uri($"http://somehost.com/9f4b6845-2f6f-43e8-a6c3-fb5a4cc3fd31")).ConfigureAwait(false);
 
             //Assert
             A.CallTo(() => fakeContentApiService.GetById(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
