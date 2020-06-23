@@ -48,6 +48,33 @@ namespace DFC.App.ContactUs.Services.ApiProcessorService.UnitTests
         }
 
         [Fact]
+        public async Task ApiServiceReturnsOkStatusCodeForValidContentType()
+        {
+            // arrange
+            const HttpStatusCode expectedResult = HttpStatusCode.OK;
+            const string expectedResponse = "Expected response string";
+            var httpResponse = new HttpResponseMessage { StatusCode = expectedResult, Content = new StringContent(expectedResponse) };
+            var fakeHttpRequestSender = A.Fake<IFakeHttpRequestSender>();
+            var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
+            var httpClient = new HttpClient(fakeHttpMessageHandler);
+            var apiService = new ApiService(logger, new Data.Models.CmsApiClientOptions() { BaseAddress = new Uri("https://www.somewhere.com") });
+            var url = new Uri("https://www.somewhere.com", UriKind.Absolute);
+
+            A.CallTo(() => fakeHttpRequestSender.Send(A<HttpRequestMessage>.Ignored)).Returns(httpResponse);
+
+            // act
+            var result = await apiService.GetAsync(httpClient, "email", MediaTypeNames.Application.Json).ConfigureAwait(false);
+
+            // assert
+            A.CallTo(() => fakeHttpRequestSender.Send(A<HttpRequestMessage>.Ignored)).MustHaveHappenedOnceExactly();
+            Assert.Equal(expectedResponse, result);
+
+            httpResponse.Dispose();
+            httpClient.Dispose();
+            fakeHttpMessageHandler.Dispose();
+        }
+
+        [Fact]
         public async Task ApiServiceReturnsNotFoundStatusCode()
         {
             // arrange
