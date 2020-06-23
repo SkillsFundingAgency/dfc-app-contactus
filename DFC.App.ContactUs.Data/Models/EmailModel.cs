@@ -2,9 +2,11 @@
 using DFC.Compui.Telemetry.Models;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.ContactUs.Data.Models
 {
+    [ExcludeFromCodeCoverage]
     public class EmailModel : RequestTrace, IDocumentModel
     {
         [JsonProperty("id")]
