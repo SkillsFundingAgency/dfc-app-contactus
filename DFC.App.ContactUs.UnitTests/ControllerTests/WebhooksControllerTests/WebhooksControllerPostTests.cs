@@ -48,13 +48,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(HttpStatusCode.Created);
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(HttpStatusCode.Created);
 
             // Act
             var result = await controller.ReceiveEvents().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             var okResult = Assert.IsType<OkResult>(result);
 
             Assert.Equal((int)expectedResponse, okResult.StatusCode);
@@ -72,13 +72,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(expectedResponse);
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(expectedResponse);
 
             // Act
             var result = await controller.ReceiveEvents().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             var okResult = Assert.IsType<OkResult>(result);
 
             Assert.Equal((int)expectedResponse, okResult.StatusCode);
@@ -96,13 +96,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(expectedResponse);
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(expectedResponse);
 
             // Act
             var result = await controller.ReceiveEvents().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             var okResult = Assert.IsType<OkResult>(result);
 
             Assert.Equal((int)expectedResponse, okResult.StatusCode);
@@ -120,13 +120,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(HttpStatusCode.AlreadyReported);
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(HttpStatusCode.AlreadyReported);
 
             // Act
             var result = await controller.ReceiveEvents().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             var okResult = Assert.IsType<OkResult>(result);
 
             Assert.Equal((int)expectedResponse, okResult.StatusCode);
@@ -144,13 +144,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var controller = BuildWebhooksController(mediaTypeName);
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(HttpStatusCode.Conflict);
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).Returns(HttpStatusCode.Conflict);
 
             // Act
             var result = await controller.ReceiveEvents().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
             var okResult = Assert.IsType<OkResult>(result);
 
             Assert.Equal((int)expectedResponse, okResult.StatusCode);
@@ -172,7 +172,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveEvents().ConfigureAwait(false)).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
 
             controller.Dispose();
         }
@@ -190,7 +190,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveEvents().ConfigureAwait(false)).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
 
             controller.Dispose();
         }
@@ -207,7 +207,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveEvents().ConfigureAwait(false)).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
 
             controller.Dispose();
         }
@@ -224,7 +224,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveEvents().ConfigureAwait(false)).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
 
             controller.Dispose();
         }
@@ -243,7 +243,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhooksControllerTests
             var result = await controller.ReceiveEvents().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Uri>.Ignored)).MustNotHaveHappened();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var response = Assert.IsAssignableFrom<SubscriptionValidationResponse>(jsonResult.Value);

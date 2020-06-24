@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 namespace DFC.App.ContactUs.Services.EventProcessorService
 {
     public class EventMessageService<TModel> : IEventMessageService<TModel>
-           where TModel : class, IContentPageModel
+           where TModel : class, IDocumentModel
     {
         private readonly ILogger<EventMessageService<TModel>> logger;
-        private readonly IContentPageService<TModel> contentPageService;
+        private readonly IDocumentService<TModel> contentPageService;
 
-        public EventMessageService(ILogger<EventMessageService<TModel>> logger, IContentPageService<TModel> contentPageService)
+        public EventMessageService(ILogger<EventMessageService<TModel>> logger, IDocumentService<TModel> contentPageService)
         {
             this.logger = logger;
             this.contentPageService = contentPageService;
@@ -43,7 +43,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService
 
             var response = await contentPageService.UpsertAsync(upsertDocumentModel).ConfigureAwait(false);
 
-            logger.LogInformation($"{nameof(CreateAsync)} has upserted content for: {upsertDocumentModel.CanonicalName} with response code {response}");
+            logger.LogInformation($"{nameof(CreateAsync)} has upserted content for: {upsertDocumentModel.Id} with response code {response}");
 
             return response;
         }
@@ -65,7 +65,7 @@ namespace DFC.App.ContactUs.Services.EventProcessorService
 
             var response = await contentPageService.UpsertAsync(upsertDocumentModel).ConfigureAwait(false);
 
-            logger.LogInformation($"{nameof(UpdateAsync)} has upserted content for: {upsertDocumentModel.CanonicalName} with response code {response}");
+            logger.LogInformation($"{nameof(UpdateAsync)} has upserted content for: {upsertDocumentModel.Id} with response code {response}");
 
             return response;
         }

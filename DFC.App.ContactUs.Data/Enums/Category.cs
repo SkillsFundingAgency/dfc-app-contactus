@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace DFC.App.ContactUs.Enums
+namespace DFC.App.ContactUs.Data.Enums
 {
     public enum Category
     {

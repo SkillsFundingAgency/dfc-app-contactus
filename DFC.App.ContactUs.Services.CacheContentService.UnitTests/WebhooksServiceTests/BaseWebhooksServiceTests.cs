@@ -1,10 +1,8 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
-using DFC.Compui.Cosmos.Contracts;
 using FakeItEasy;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 
 namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServiceTests
 {
@@ -19,11 +17,9 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
         protected BaseWebhooksServiceTests()
         {
             Logger = A.Fake<ILogger<WebhooksService>>();
-            FakeEventMessageService = A.Fake<IEventMessageService<ContentPageModel>>();
-            FakeCmsApiService = A.Fake<ICmsApiService>();
-            FakeContentPageService = A.Fake<IContentPageService<ContentPageModel>>();
-            FakeContentCacheService = A.Fake<IContentCacheService>();
+            FakeEmailEventMessageService = A.Fake<IEventMessageService<EmailModel>>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
+            FakeEmailCacheReloadService = A.Fake<IEmailCacheReloadService>();
         }
 
         protected Guid ContentIdForCreate { get; } = Guid.NewGuid();
@@ -40,32 +36,17 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
 
         protected ILogger<WebhooksService> Logger { get; }
 
-        protected IEventMessageService<ContentPageModel> FakeEventMessageService { get; }
-
-        protected ICmsApiService FakeCmsApiService { get; }
-
-        protected IContentPageService<ContentPageModel> FakeContentPageService { get; }
-
-        protected IContentCacheService FakeContentCacheService { get; }
+        protected IEventMessageService<EmailModel> FakeEmailEventMessageService { get; }
 
         protected AutoMapper.IMapper FakeMapper { get; }
 
-        protected static ContactUsApiDataModel BuildValidContactUsApiContentModel()
+        protected IEmailCacheReloadService FakeEmailCacheReloadService { get; }
+
+        protected static EmailApiDataModel BuildValidEmailApiModel()
         {
-            var model = new ContactUsApiDataModel
+            var model = new EmailApiDataModel
             {
-                ItemId = Guid.NewGuid(),
-                CanonicalName = "an-article",
-                BreadcrumbTitle = "An article",
-                IncludeInSitemap = true,
-                Version = Guid.NewGuid(),
-                Url = new Uri("https://localhost"),
-                ContentItemUrls = new List<Uri> { new Uri("https://localhost/one"), new Uri("https://localhost/two"), new Uri("https://localhost/three"), },
-                ContentItems = new List<ContactUsApiContentItemModel>
-                {
-                    BuildValidContactUsApiContentItemDataModel(),
-                },
-                Published = DateTime.UtcNow,
+                Body = "<h1>Test</h1>",
             };
 
             return model;
@@ -84,24 +65,12 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
             return model;
         }
 
-        protected ContentPageModel BuildValidContentPageModel()
+        protected EmailModel BuildValidEmailModel()
         {
-            var model = new ContentPageModel()
+            var model = new EmailModel()
             {
                 Id = ContentIdForUpdate,
-                CanonicalName = "an-article",
-                BreadcrumbTitle = "An article",
-                IncludeInSitemap = true,
-                Version = Guid.NewGuid(),
-                Url = new Uri("https://localhost"),
-                Content = null,
-                ContentItems = new List<ContentItemModel>
-                {
-                    BuildValidContentItemModel(ContentItemIdForCreate),
-                    BuildValidContentItemModel(ContentItemIdForUpdate),
-                    BuildValidContentItemModel(ContentItemIdForDelete),
-                },
-                LastReviewed = DateTime.UtcNow,
+                Body = "<h1>Test</h1>",
             };
 
             return model;
@@ -121,7 +90,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
 
         protected WebhooksService BuildWebhooksService()
         {
-            var service = new WebhooksService(Logger, FakeMapper, FakeEventMessageService, FakeCmsApiService, FakeContentPageService, FakeContentCacheService);
+            var service = new WebhooksService(Logger, FakeEmailEventMessageService, FakeEmailCacheReloadService);
 
             return service;
         }

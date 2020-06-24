@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Data.Contracts
 {
     public interface ITemplateService
     {
-        Task<string?> GetTemplateByNameAsync(string templateName);
+        Task<string?> GetTemplateByKeyAsync(Guid templateKey);
     }
 }

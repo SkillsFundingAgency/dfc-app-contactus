@@ -1,11 +1,9 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Enums;
 using DFC.App.ContactUs.Data.Models;
-using DFC.Compui.Cosmos.Contracts;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -15,52 +13,51 @@ namespace DFC.App.ContactUs.Services.CacheContentService
     public class WebhooksService : IWebhooksService
     {
         private readonly ILogger<WebhooksService> logger;
-        private readonly AutoMapper.IMapper mapper;
-        private readonly IEventMessageService<ContentPageModel> eventMessageService;
-        private readonly ICmsApiService cmsApiService;
-        private readonly IContentPageService<ContentPageModel> contentPageService;
-        private readonly IContentCacheService contentCacheService;
+        private readonly IEventMessageService<EmailModel> emailModelEventMessageService;
+        private readonly IEmailCacheReloadService emailReloadService;
 
         public WebhooksService(
             ILogger<WebhooksService> logger,
-            AutoMapper.IMapper mapper,
-            IEventMessageService<ContentPageModel> eventMessageService,
-            ICmsApiService cmsApiService,
-            IContentPageService<ContentPageModel> contentPageService,
-            IContentCacheService contentCacheService)
+            IEventMessageService<EmailModel> emailModelEventMessageService,
+            IEmailCacheReloadService emailReloadService)
         {
             this.logger = logger;
-            this.mapper = mapper;
-            this.eventMessageService = eventMessageService;
-            this.cmsApiService = cmsApiService;
-            this.contentPageService = contentPageService;
-            this.contentCacheService = contentCacheService;
+            this.emailModelEventMessageService = emailModelEventMessageService;
+            this.emailReloadService = emailReloadService;
         }
 
-        public async Task<HttpStatusCode> ProcessMessageAsync(WebhookCacheOperation webhookCacheOperation, Guid eventId, Guid contentId, Uri url)
+        public async Task<HttpStatusCode> ProcessMessageAsync(WebhookCacheOperation webhookCacheOperation, Guid eventId, Uri url)
         {
-            bool isContentItem = contentCacheService.CheckIsContentItem(contentId);
+            Guid id = GetIdFromUrl(eventId, url);
+
+            if (url.Segments.Length < 3)
+            {
+                throw new InvalidDataException($"URI: {url} doesn't contian enough segments for a Content Type and Id");
+            }
+
+            var contentType = url.Segments[url.Segments.Length - 2].Trim('/').ToUpperInvariant();
 
             switch (webhookCacheOperation)
             {
                 case WebhookCacheOperation.Delete:
-                    if (isContentItem)
+                    switch (contentType.ToUpperInvariant())
                     {
-                        return await DeleteContentItemAsync(contentId).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        return await DeleteContentAsync(contentId).ConfigureAwait(false);
+                        case "EMAIL":
+                            return await emailModelEventMessageService.DeleteAsync(id).ConfigureAwait(false);
+                        default:
+                            logger.LogInformation($"{nameof(WebhookCacheOperation.Delete)} Event Id: {eventId} does not require processing in this application");
+                            return HttpStatusCode.NotFound;
                     }
 
                 case WebhookCacheOperation.CreateOrUpdate:
-                    if (isContentItem)
+                    switch (contentType.ToUpperInvariant())
                     {
-                        return await ProcessContentItemAsync(url, contentId).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        return await ProcessContentAsync(url, contentId).ConfigureAwait(false);
+                        case "EMAIL":
+                            await emailReloadService.ReloadCacheItem(url).ConfigureAwait(false);
+                            return HttpStatusCode.Created;
+                        default:
+                            logger.LogInformation($"{nameof(WebhookCacheOperation.CreateOrUpdate)} Event Id: {eventId} does not require processing in this application");
+                            return HttpStatusCode.OK;
                     }
 
                 default:
@@ -69,132 +66,19 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             }
         }
 
-        public async Task<HttpStatusCode> ProcessContentAsync(Uri url, Guid contentId)
+        private static Guid GetIdFromUrl(Guid eventId, Uri url)
         {
-            var apiDataModel = await cmsApiService.GetItemAsync(url).ConfigureAwait(false);
-            var contentPageModel = mapper.Map<ContentPageModel>(apiDataModel);
-
-            if (contentPageModel == null)
+            if (url == null)
             {
-                return HttpStatusCode.NoContent;
+                throw new ArgumentNullException(nameof(url));
             }
 
-            if (!TryValidateModel(contentPageModel))
+            if (!Guid.TryParse(url.Segments.LastOrDefault(), out Guid id))
             {
-                return HttpStatusCode.BadRequest;
+                throw new InvalidDataException($"Invalid id '{id}' received for Event Id: {eventId}");
             }
 
-            var contentResult = await eventMessageService.UpdateAsync(contentPageModel).ConfigureAwait(false);
-
-            if (contentResult == HttpStatusCode.NotFound)
-            {
-                contentResult = await eventMessageService.CreateAsync(contentPageModel).ConfigureAwait(false);
-            }
-
-            if (contentResult == HttpStatusCode.OK || contentResult == HttpStatusCode.Created)
-            {
-                var contentItemIds = (from a in contentPageModel.ContentItems select a.ItemId!.Value).ToList();
-
-                contentCacheService.AddOrReplace(contentId, contentItemIds);
-            }
-
-            return contentResult;
-        }
-
-        public async Task<HttpStatusCode> ProcessContentItemAsync(Uri url, Guid contentItemId)
-        {
-            var contentIds = contentCacheService.GetContentIdsContainingContentItemId(contentItemId);
-
-            if (!contentIds.Any())
-            {
-                return HttpStatusCode.NoContent;
-            }
-
-            var apiDataContentItemModel = await cmsApiService.GetContentItemAsync(url).ConfigureAwait(false);
-
-            foreach (var contentId in contentIds)
-            {
-                var contentPageModel = await contentPageService.GetByIdAsync(contentId).ConfigureAwait(false);
-
-                if (contentPageModel != null)
-                {
-                    var contentItemModel = contentPageModel.ContentItems.FirstOrDefault(f => f.ItemId == contentItemId);
-
-                    if (contentItemModel != null)
-                    {
-                        mapper.Map(apiDataContentItemModel, contentItemModel);
-
-                        await eventMessageService.UpdateAsync(contentPageModel).ConfigureAwait(false);
-                    }
-                }
-            }
-
-            return HttpStatusCode.OK;
-        }
-
-        public async Task<HttpStatusCode> DeleteContentAsync(Guid contentId)
-        {
-            var result = await eventMessageService.DeleteAsync(contentId).ConfigureAwait(false);
-
-            if (result == HttpStatusCode.OK)
-            {
-                contentCacheService.Remove(contentId);
-            }
-
-            return result;
-        }
-
-        public async Task<HttpStatusCode> DeleteContentItemAsync(Guid contentItemId)
-        {
-            var contentIds = contentCacheService.GetContentIdsContainingContentItemId(contentItemId);
-
-            if (!contentIds.Any())
-            {
-                return HttpStatusCode.NoContent;
-            }
-
-            foreach (var contentId in contentIds)
-            {
-                var contentPageModel = await contentPageService.GetByIdAsync(contentId).ConfigureAwait(false);
-
-                if (contentPageModel != null)
-                {
-                    var contentItemModel = contentPageModel.ContentItems.FirstOrDefault(f => f.ItemId == contentItemId);
-
-                    if (contentItemModel != null)
-                    {
-                        contentPageModel.ContentItems!.Remove(contentItemModel);
-
-                        var result = await eventMessageService.UpdateAsync(contentPageModel).ConfigureAwait(false);
-
-                        if (result == HttpStatusCode.OK)
-                        {
-                            contentCacheService.RemoveContentItem(contentId, contentItemId);
-                        }
-                    }
-                }
-            }
-
-            return HttpStatusCode.OK;
-        }
-
-        public bool TryValidateModel(ContentPageModel contentPageModel)
-        {
-            _ = contentPageModel ?? throw new ArgumentNullException(nameof(contentPageModel));
-
-            var validationContext = new ValidationContext(contentPageModel, null, null);
-            var validationResults = new List<ValidationResult>();
-            var isValid = Validator.TryValidateObject(contentPageModel, validationContext, validationResults, true);
-
-            if (!isValid && validationResults.Any())
-            {
-                foreach (var validationResult in validationResults)
-                {
-                    logger.LogError($"Error validating {contentPageModel.CanonicalName} - {contentPageModel.Url}: {string.Join(",", validationResult.MemberNames)} - {validationResult.ErrorMessage}");
-                }
-            }
-
-            return isValid;
+            return id;
         }
     }
 }

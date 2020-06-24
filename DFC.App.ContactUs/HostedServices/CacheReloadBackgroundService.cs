@@ -12,15 +12,15 @@ namespace DFC.App.ContactUs.HostedServices
     {
         private readonly ILogger<CacheReloadBackgroundService> logger;
         private readonly CmsApiClientOptions cmsApiClientOptions;
-        private readonly ICacheReloadService cacheReloadService;
+        private readonly IEmailCacheReloadService emailCacheReloadService;
         private readonly IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper;
 
-        public CacheReloadBackgroundService(ILogger<CacheReloadBackgroundService> logger, CmsApiClientOptions cmsApiClientOptions, ICacheReloadService cacheReloadService, IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper)
+        public CacheReloadBackgroundService(ILogger<CacheReloadBackgroundService> logger, CmsApiClientOptions cmsApiClientOptions, /*ISharedContentCacheReloadService sharedContentCacheReloadService,*/ IEmailCacheReloadService emailCacheReloadService, IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper)
         {
             this.logger = logger;
             this.cmsApiClientOptions = cmsApiClientOptions;
-            this.cacheReloadService = cacheReloadService;
             this.hostedServiceTelemetryWrapper = hostedServiceTelemetryWrapper;
+            this.emailCacheReloadService = emailCacheReloadService;
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)
@@ -39,12 +39,13 @@ namespace DFC.App.ContactUs.HostedServices
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if (cmsApiClientOptions.BaseAddress != null)
+            if (cmsApiClientOptions.BaseAddress == null)
             {
-                var cacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(() => cacheReloadService.Reload(stoppingToken), nameof(CacheReloadBackgroundService));
-
-                return cacheReloadServiceTask;
+                logger.LogInformation($"CMS Api Client Base Address is null, skipping Cache Reload");
+                return Task.CompletedTask;
             }
+
+            var emailCacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(() => emailCacheReloadService.Reload(stoppingToken), nameof(CacheReloadBackgroundService));
 
             return Task.CompletedTask;
         }

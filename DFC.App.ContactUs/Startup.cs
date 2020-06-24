@@ -78,6 +78,8 @@ namespace DFC.App.ContactUs
             var cosmosDbConnectionContentPages = configuration.GetSection(CosmosDbContentPagesConfigAppSettings).Get<CosmosDbConnection>();
             var cosmosDbConnectionSessionState = configuration.GetSection(CosmosDbSessionStateConfigAppSettings).Get<CosmosDbConnection>();
             services.AddContentPageServices<ContentPageModel>(cosmosDbConnectionContentPages, env.IsDevelopment());
+            services.AddDocumentServices<EmailModel>(cosmosDbConnectionContentPages, env.IsDevelopment());
+            services.AddDocumentServices<ContentPageModel>(cosmosDbConnectionContentPages, env.IsDevelopment());
             services.AddSessionStateServices<SessionDataModel>(cosmosDbConnectionSessionState, env.IsDevelopment());
 
             services.AddApplicationInsightsTelemetry();
@@ -89,11 +91,12 @@ namespace DFC.App.ContactUs
             services.AddTransient<IMergeEmailContentService, MergeEmailContentService>();
             services.AddTransient<ISendGridEmailService<ContactUsEmailRequestModel>, SendGridEmailService<ContactUsEmailRequestModel>>();
             services.AddTransient<ITemplateService, TemplateService>();
-            services.AddTransient<IEventMessageService<ContentPageModel>, EventMessageService<ContentPageModel>>();
-            services.AddTransient<ICacheReloadService, CacheReloadService>();
+            services.AddTransient<IEventMessageService<EmailModel>, EventMessageService<EmailModel>>();
             services.AddTransient<IApiService, ApiService>();
             services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
             services.AddTransient<IWebhooksService, WebhooksService>();
+            services.AddTransient<IEmailCacheReloadService, EmailCacheReloadService>();
+
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
@@ -107,7 +110,7 @@ namespace DFC.App.ContactUs
 
             services
                 .AddPolicies(policyRegistry, nameof(CmsApiClientOptions), policyOptions)
-                .AddHttpClient<ICmsApiService, CmsApiService, CmsApiClientOptions>(configuration, nameof(CmsApiClientOptions), nameof(PolicyOptions.HttpRetry), nameof(PolicyOptions.HttpCircuitBreaker));
+                .AddHttpClient<IContentApiService<EmailApiDataModel>, ContentApiService<EmailApiDataModel>, CmsApiClientOptions>(configuration, nameof(CmsApiClientOptions), nameof(PolicyOptions.HttpRetry), nameof(PolicyOptions.HttpCircuitBreaker));
 
             services
                 .AddPolicies(policyRegistry, nameof(FamApiRoutingOptions), policyOptions)

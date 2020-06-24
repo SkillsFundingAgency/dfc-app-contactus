@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.ViewModels;
+﻿using DFC.App.ContactUs.Data.Enums;
+using DFC.App.ContactUs.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         {
             // Arrange
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
-            viewModel.SelectedCategory = Enums.Category.SomethingElse;
+            viewModel.SelectedCategory = Category.SomethingElse;
             viewModel.EmailAddress = null;
 
             // Act
