@@ -19,7 +19,7 @@ namespace DFC.App.ContactUs.Models
 
         public string? Query { get; set; }
 
-        public DateTime? CallbackDateTime { get; set; }
+        public string? CallbackDateTime { get; set; }
 
         public string? Subject { get; set; }
 
@@ -44,7 +44,7 @@ namespace DFC.App.ContactUs.Models
                     { nameof(DateOfBirth), DateOfBirth.HasValue ? DateOfBirth.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : null },
                     { nameof(Postcode), Postcode },
                     { nameof(Query), Query },
-                    { nameof(CallbackDateTime), CallbackDateTime.HasValue ? CallbackDateTime.Value.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture) : null },
+                    { nameof(CallbackDateTime), CallbackDateTime },
                 };
             }
         }

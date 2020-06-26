@@ -1,15 +1,19 @@
 ﻿using DFC.App.ContactUs.Attributes;
 using DFC.App.ContactUs.Data.Enums;
-using DFC.App.ContactUs.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace DFC.App.ContactUs.ViewModels
 {
     public class EnterYourDetailsBodyViewModel
     {
-        public const string TermsAndConditionsLabel = "I accept the <a id='TermsAndConditionsLink' class='govuk-link' href='/help/terms-and-conditions' target='_blank'>terms and conditions</a> and I am 13 or over.";
+        public const string TermsAndConditionsLabel = "I accept the <a id='TermsAndConditionsLink' class='govuk-link' href='/help/terms-and-conditions' target='_blank'>terms and conditions</a>";
         public const string TermsAndConditionsValidationError = "You must accept our Terms and Conditions";
+
+        public const string CallbackDateOptionValidationError = "Choose a callback date";
+        public const string CallbackTimeOptionValidationError = "Choose a callback time";
 
         private const string RegExForName = "^[a-zA-Z ]+(([',.\\-][a-zA-Z ])?[a-zA-Z ]*)*$";
         private const string RegExForPostcode = "^([bB][fF][pP][oO]\\s{0,1}[0-9]{1,4}|[gG][iI][rR]\\s{0,1}0[aA][aA]|[a-pr-uwyzA-PR-UWYZ]([0-9]{1,2}|([a-hk-yA-HK-Y][0-9]|[a-hk-yA-HK-Y][0-9]([0-9]|[abehmnprv-yABEHMNPRV-Y]))|[0-9][a-hjkps-uwA-HJKPS-UW])\\s{0,1}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2})$";
@@ -19,6 +23,49 @@ namespace DFC.App.ContactUs.ViewModels
         private const string StringLengthValidationError = "{0} is limited to between 1 and {1} characters";
 
         private const string InvalidCharactersValidationError = "{0} is too long or contains invalid characters";
+
+        public static Dictionary<CallbackDateOption, string> DateLabels
+        {
+            get
+            {
+                var dateLabels = new Dictionary<CallbackDateOption, string>();
+                var dateValue = DateTime.Today;
+
+                if (DateTime.Now.Hour >= 16)
+                {
+                    dateValue = dateValue.AddDays(1);
+                }
+
+                for (var i = CallbackDateOption.Today; i <= CallbackDateOption.TodayPlus5; i++)
+                {
+                    if (dateValue.DayOfWeek == DayOfWeek.Saturday)
+                    {
+                        dateValue = dateValue.AddDays(1);
+                    }
+
+                    if (dateValue.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        dateValue = dateValue.AddDays(1);
+                    }
+
+                    string daySuffix = (dateValue.Day % 10) switch
+                    {
+                        1 => "st",
+                        2 => "nd",
+                        3 => "rd",
+                        _ => "th",
+                    };
+
+                    var labelString = dateValue.ToString("dddd d?? MMMM", CultureInfo.InvariantCulture).Replace("??", daySuffix, StringComparison.OrdinalIgnoreCase);
+
+                    dateLabels.Add(i, labelString);
+
+                    dateValue = dateValue.AddDays(1);
+                }
+
+                return dateLabels;
+            }
+        }
 
         [Display(Name = "First name")]
         [Required(ErrorMessage = "Enter your first name")]
@@ -60,10 +107,17 @@ namespace DFC.App.ContactUs.ViewModels
         [DataType("Postcode")]
         public string? Postcode { get; set; }
 
-        [Display(Name = "When do you want us to contact you?", Description = "For example, 31 7 2020 10 45")]
-        [CallbackDateTimeValidation(3, nameof(CallbackDateTimeIsRequired), ErrorMessage = "The callback date and time")]
-        [DataType("DateTimeEditor")]
-        public CallbackDateTimeViewModel? CallbackDateTime { get; set; } = new CallbackDateTimeViewModel();
+        [Display(Name = "Pick a day for us to call you")]
+        [RequiredWhenTrue(nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackDateOptionValidationError)]
+  //      [Range((int)CallbackDateOption.Today, (int)CallbackDateOption.TodayPlus4, ErrorMessage = CallbackDateOptionValidationError)]
+        [EnumDataType(typeof(CallbackDateOption))]
+        public CallbackDateOption? CallbackDateOptionSelected { get; set; }
+
+        [Display(Name = "Pick a time for us to call you")]
+        [RequiredWhenTrue(nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackTimeOptionValidationError)]
+ //       [Range((int)CallbackTimeOption.Band1, (int)CallbackTimeOption.Band5, ErrorMessage = CallbackTimeOptionValidationError)]
+        [EnumDataType(typeof(CallbackTimeOption))]
+        public CallbackTimeOption? CallbackTimeOptionSelected { get; set; }
 
         [Display(Name = "Terms and conditions")]
         [Compare(nameof(IsTrue), ErrorMessage = TermsAndConditionsValidationError)]

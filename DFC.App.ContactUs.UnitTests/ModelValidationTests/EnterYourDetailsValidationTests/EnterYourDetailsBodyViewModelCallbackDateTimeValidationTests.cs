@@ -1,6 +1,5 @@
 ﻿using DFC.App.ContactUs.Data.Enums;
 using DFC.App.ContactUs.ViewModels;
-using System;
 using System.Linq;
 using Xunit;
 
@@ -10,11 +9,29 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
     public class EnterYourDetailsBodyViewModelCallbackDateTimeValidationTests
     {
         [Fact]
+        public void EnterYourDetailsBodyViewModelValidationReturnsSuccessCallbackValid()
+        {
+            // Arrange
+            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
+            viewModel.CallbackDateOptionSelected = CallbackDateOption.TodayPlus1;
+            viewModel.CallbackTimeOptionSelected = CallbackTimeOption.Band3;
+            viewModel.SelectedCategory = Category.Callback;
+
+            // Act
+            var (isValid, validationResults) = ModelValidator.TryValidateModel(viewModel);
+
+            // Assert
+            Assert.True(isValid);
+            Assert.True(validationResults.Count == 0);
+        }
+
+        [Fact]
         public void EnterYourDetailsBodyViewModelValidationReturnsSuccessCallbackNotRequired()
         {
             // Arrange
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
-            viewModel.CallbackDateTime = null;
+            viewModel.CallbackDateOptionSelected = null;
+            viewModel.CallbackTimeOptionSelected = null;
             viewModel.SelectedCategory = Category.AdviceGuidance;
 
             // Act
@@ -26,11 +43,12 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         }
 
         [Fact]
-        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForCallbackDateTimeMissingDateViewModel()
+        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForCallbackDateMissing()
         {
             // Arrange
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
-            viewModel.CallbackDateTime = null;
+            viewModel.CallbackDateOptionSelected = null;
+            viewModel.CallbackTimeOptionSelected = CallbackTimeOption.Band3;
             viewModel.SelectedCategory = Category.Callback;
 
             // Act
@@ -39,16 +57,17 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             // Assert
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
-            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime))));
-            Assert.Contains("Enter the callback date and time", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime))).ErrorMessage, StringComparison.Ordinal);
+            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateOptionSelected))));
+            Assert.Equal(EnterYourDetailsBodyViewModel.CallbackDateOptionValidationError, validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateOptionSelected))).ErrorMessage);
         }
 
         [Fact]
-        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForCallbackDateTimeMissing()
+        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForCallbackTimeMissing()
         {
             // Arrange
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
-            viewModel.CallbackDateTime = new CallbackDateTimeViewModel();
+            viewModel.CallbackDateOptionSelected = CallbackDateOption.TodayPlus1;
+            viewModel.CallbackTimeOptionSelected = null;
             viewModel.SelectedCategory = Category.Callback;
 
             // Act
@@ -57,26 +76,8 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             // Assert
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
-            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime))));
-            Assert.Contains("Enter the callback date and time", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime))).ErrorMessage, StringComparison.Ordinal);
-        }
-
-        [Fact]
-        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForCallbackDateTimeNotInTheFuture()
-        {
-            // Arrange
-            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
-            viewModel.CallbackDateTime = new CallbackDateTimeViewModel(DateTime.Now.AddMinutes(-1));
-            viewModel.SelectedCategory = Category.Callback;
-
-            // Act
-            var (isValid, validationResults) = ModelValidator.TryValidateModel(viewModel);
-
-            // Assert
-            Assert.False(isValid);
-            Assert.True(validationResults.Count > 0);
-            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime.Month))));
-            Assert.Contains("must be within", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackDateTime.Month))).ErrorMessage, StringComparison.Ordinal);
+            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected))));
+            Assert.Equal(EnterYourDetailsBodyViewModel.CallbackTimeOptionValidationError, validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected))).ErrorMessage);
         }
     }
 }

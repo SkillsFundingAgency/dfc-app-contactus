@@ -1,0 +1,34 @@
+﻿@model CallbackTimeOption?
+
+@{
+    var showErrorClass = string.Empty;
+    var errorKey = nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected);
+
+    if (ViewData.ModelState.Keys.Contains(errorKey))
+    {
+        if (ViewData.ModelState[errorKey] != null && ViewData.ModelState[errorKey].Errors.Any())
+        {
+            showErrorClass = "govuk-form-group--error";
+        }
+    }
+}
+
+<div class="govuk-form-group @showErrorClass">
+    <h3 class="govuk-heading">
+        @Html.DisplayNameFor(model => model)
+    </h3>
+
+    @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected) + "-error" })
+
+    <div class="govuk-radios">
+        @foreach (var option in (CallbackTimeOption[])Enum.GetValues(typeof(CallbackTimeOption)))
+        {
+            var radioId = option == CallbackTimeOption.Band1 ? nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected) : $"{option}-option";
+
+            <div class="govuk-radios__item">
+                <input class="govuk-radios__input" name="@nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected)" id="@radioId" type="radio" value="@option" data-val="true" data-val-required="@EnterYourDetailsBodyViewModel.CallbackTimeOptionValidationError">
+                <label class="govuk-label govuk-radios__label" for="@radioId">@option.GetDescription()</label>
+            </div>
+        }
+    </div>
+</div>
