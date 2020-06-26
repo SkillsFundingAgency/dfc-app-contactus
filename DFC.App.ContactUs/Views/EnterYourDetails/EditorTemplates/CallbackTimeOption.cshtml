@@ -1,6 +1,7 @@
 ﻿@model CallbackTimeOption?
 
 @{
+    var disabledTimeBands = EnterYourDetailsBodyViewModel.DisabledTimeBands;
     var showErrorClass = string.Empty;
     var errorKey = nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected);
 
@@ -14,21 +15,32 @@
 }
 
 <div class="govuk-form-group @showErrorClass">
-    <h3 class="govuk-heading">
-        @Html.DisplayNameFor(model => model)
-    </h3>
+    <fieldset class="govuk-fieldset" aria-describedby="@nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected)-error">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            <h3 class="govuk-fieldset__heading">
+                @Html.DisplayNameFor(model => model)
+            </h3>
+        </legend>
 
-    @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected) + "-error" })
+        @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected) + "-error" })
 
-    <div class="govuk-radios">
-        @foreach (var option in (CallbackTimeOption[])Enum.GetValues(typeof(CallbackTimeOption)))
-        {
-            var radioId = option == CallbackTimeOption.Band1 ? nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected) : $"{option}-option";
+        <div class="govuk-radios">
+            @foreach (var option in (CallbackTimeOption[])Enum.GetValues(typeof(CallbackTimeOption)))
+            {
+                var radioId = option == CallbackTimeOption.Band1 ? nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected) : $"{option}-option";
 
-            <div class="govuk-radios__item">
-                <input class="govuk-radios__input" name="@nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected)" id="@radioId" type="radio" value="@option" data-val="true" data-val-required="@EnterYourDetailsBodyViewModel.CallbackTimeOptionValidationError">
-                <label class="govuk-label govuk-radios__label" for="@radioId">@option.GetDescription()</label>
-            </div>
-        }
-    </div>
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input dfc-app-contact-us-CallbackTimeOption" 
+                           name="@nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected)" 
+                           id="@radioId" 
+                           type="radio" 
+                           value="@option" 
+                           data-val="true" 
+                           data-val-required="@EnterYourDetailsBodyViewModel.CallbackTimeOptionValidationError" 
+                           data-disabled="@disabledTimeBands[option]">
+                    <label class="govuk-label govuk-radios__label" for="@radioId">@option.GetDescription()</label>
+                </div>
+            }
+        </div>
+    </fieldset>
 </div>

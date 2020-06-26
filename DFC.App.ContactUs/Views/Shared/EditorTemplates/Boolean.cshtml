@@ -16,10 +16,15 @@
             showErrorClass = govukFormGroupErrorClass;
         }
     }
+
+    @if (!string.IsNullOrWhiteSpace(ViewData.ModelMetadata.Description))
+    {
+        hintId = ViewData.ModelMetadata.Name + "-hint";
+    }
 }
 
 <div class="govuk-form-group @showErrorClass">
-    <fieldset class="govuk-fieldset" aria-describedby="nationality-hint nationality-error">
+    <fieldset class="govuk-fieldset" aria-describedby="@hintId @ViewData.ModelMetadata.Name-error">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
             <h3 class="govuk-fieldset__heading">
                 @Html.DisplayNameFor(model => model)
@@ -28,8 +33,6 @@
 
         @if (!string.IsNullOrWhiteSpace(ViewData.ModelMetadata.Description))
         {
-            hintId = ViewData.ModelMetadata.Name + "-hint";
-
             <span id="@hintId" class="govuk-hint">
                 @ViewData.ModelMetadata.Description
             </span>

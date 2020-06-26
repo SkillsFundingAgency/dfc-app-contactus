@@ -24,6 +24,29 @@ namespace DFC.App.ContactUs.ViewModels
 
         private const string InvalidCharactersValidationError = "{0} is too long or contains invalid characters";
 
+        public static Dictionary<CallbackTimeOption, bool> DisabledTimeBands
+        {
+            get
+            {
+                var timeBandStart = new Dictionary<CallbackTimeOption, int>
+                {
+                    { CallbackTimeOption.Band1, 8 },
+                    { CallbackTimeOption.Band2, 10 },
+                    { CallbackTimeOption.Band3, 12 },
+                    { CallbackTimeOption.Band4, 14 },
+                    { CallbackTimeOption.Band5, 16 },
+                };
+                var disabledTimeBands = new Dictionary<CallbackTimeOption, bool>();
+
+                for (var i = CallbackTimeOption.Band1; i <= CallbackTimeOption.Band5; i++)
+                {
+                    disabledTimeBands.Add(i, DateTime.Now.Date == DateTime.Today && DateTime.Now.Hour >= timeBandStart[i]);
+                }
+
+                return disabledTimeBands;
+            }
+        }
+
         public static Dictionary<CallbackDateOption, string> DateLabels
         {
             get
@@ -109,13 +132,13 @@ namespace DFC.App.ContactUs.ViewModels
 
         [Display(Name = "Pick a day for us to call you")]
         [RequiredWhenTrue(nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackDateOptionValidationError)]
-  //      [Range((int)CallbackDateOption.Today, (int)CallbackDateOption.TodayPlus4, ErrorMessage = CallbackDateOptionValidationError)]
+        //      [Range((int)CallbackDateOption.Today, (int)CallbackDateOption.TodayPlus4, ErrorMessage = CallbackDateOptionValidationError)]
         [EnumDataType(typeof(CallbackDateOption))]
         public CallbackDateOption? CallbackDateOptionSelected { get; set; }
 
         [Display(Name = "Pick a time for us to call you")]
         [RequiredWhenTrue(nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackTimeOptionValidationError)]
- //       [Range((int)CallbackTimeOption.Band1, (int)CallbackTimeOption.Band5, ErrorMessage = CallbackTimeOptionValidationError)]
+        //       [Range((int)CallbackTimeOption.Band1, (int)CallbackTimeOption.Band5, ErrorMessage = CallbackTimeOptionValidationError)]
         [EnumDataType(typeof(CallbackTimeOption))]
         public CallbackTimeOption? CallbackTimeOptionSelected { get; set; }
 
