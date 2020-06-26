@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Linq;
 
 namespace DFC.App.ContactUs.ViewModels
 {
@@ -24,11 +25,11 @@ namespace DFC.App.ContactUs.ViewModels
 
         private const string InvalidCharactersValidationError = "{0} is too long or contains invalid characters";
 
-        public static Dictionary<CallbackTimeOption, bool> DisabledTimeBands
+        public static Dictionary<CallbackTimeOption, int> TimeBandStarts
         {
             get
             {
-                var timeBandStart = new Dictionary<CallbackTimeOption, int>
+                return new Dictionary<CallbackTimeOption, int>
                 {
                     { CallbackTimeOption.Band1, 8 },
                     { CallbackTimeOption.Band2, 10 },
@@ -36,11 +37,19 @@ namespace DFC.App.ContactUs.ViewModels
                     { CallbackTimeOption.Band4, 14 },
                     { CallbackTimeOption.Band5, 16 },
                 };
+            }
+        }
+
+        public static Dictionary<CallbackTimeOption, bool> DisabledTimeBands
+        {
+            get
+            {
                 var disabledTimeBands = new Dictionary<CallbackTimeOption, bool>();
+                bool isToday = DateTime.Now.Date == DateTime.Today && DateTime.Now.Hour < TimeBandStarts[TimeBandStarts.Keys.Last()];
 
                 for (var i = CallbackTimeOption.Band1; i <= CallbackTimeOption.Band5; i++)
                 {
-                    disabledTimeBands.Add(i, DateTime.Now.Date == DateTime.Today && DateTime.Now.Hour >= timeBandStart[i]);
+                    disabledTimeBands.Add(i, isToday && DateTime.Now.Hour >= TimeBandStarts[i]);
                 }
 
                 return disabledTimeBands;
@@ -54,7 +63,7 @@ namespace DFC.App.ContactUs.ViewModels
                 var dateLabels = new Dictionary<CallbackDateOption, string>();
                 var dateValue = DateTime.Today;
 
-                if (DateTime.Now.Hour >= 16)
+                if (DateTime.Now.Hour >= TimeBandStarts[TimeBandStarts.Keys.Last()])
                 {
                     dateValue = dateValue.AddDays(1);
                 }
