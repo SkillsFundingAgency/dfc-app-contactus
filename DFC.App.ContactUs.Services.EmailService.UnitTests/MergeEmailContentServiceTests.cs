@@ -1,4 +1,7 @@
+using DFC.App.ContactUs.Data.Enums;
+using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
+using DFC.App.ContactUs.ViewModels;
 using System;
 using System.Globalization;
 using Xunit;
@@ -20,7 +23,7 @@ namespace DFC.App.ContactUs.Services.EmailService.UnitTests
                 DateOfBirth = DateTime.Now.AddYears(-14),
                 Postcode = "CV1 1CV",
                 Query = "I need more details please",
-                CallbackDateTime = DateTime.Now.AddDays(1),
+                CallbackDateTime = $"{EnterYourDetailsBodyViewModel.DateLabels[CallbackDateOption.TodayPlus1]}, {CallbackTimeOption.Band3.GetDescription()}",
             };
             var content = $"{nameof(contactUsEmailRequestModel.GivenName)} = {{{nameof(contactUsEmailRequestModel.GivenName)}}}" + Environment.NewLine +
                           $"{nameof(contactUsEmailRequestModel.FamilyName)} = {{{nameof(contactUsEmailRequestModel.FamilyName)}}}" + Environment.NewLine +
@@ -38,7 +41,7 @@ namespace DFC.App.ContactUs.Services.EmailService.UnitTests
                                 .Replace($"{{{nameof(contactUsEmailRequestModel.DateOfBirth)}}}", contactUsEmailRequestModel.DateOfBirth.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture), System.StringComparison.OrdinalIgnoreCase)
                                 .Replace($"{{{nameof(contactUsEmailRequestModel.Postcode)}}}", contactUsEmailRequestModel.Postcode, System.StringComparison.OrdinalIgnoreCase)
                                 .Replace($"{{{nameof(contactUsEmailRequestModel.Query)}}}", contactUsEmailRequestModel.Query, System.StringComparison.OrdinalIgnoreCase)
-                                .Replace($"{{{nameof(contactUsEmailRequestModel.CallbackDateTime)}}}", contactUsEmailRequestModel.CallbackDateTime.Value.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture), System.StringComparison.OrdinalIgnoreCase);
+                                .Replace($"{{{nameof(contactUsEmailRequestModel.CallbackDateTime)}}}", contactUsEmailRequestModel.CallbackDateTime, System.StringComparison.OrdinalIgnoreCase);
 
             var mergeEmailContentService = new MergeEmailContentService();
 

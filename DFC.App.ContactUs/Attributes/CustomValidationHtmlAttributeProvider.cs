@@ -47,13 +47,15 @@ namespace DFC.App.ContactUs.Attributes
                 {
                     { nameof(EnterYourDetailsBodyViewModel.EmailAddress), nameof(EnterYourDetailsBodyViewModel.EmailAddressIsRequired) },
                     { nameof(EnterYourDetailsBodyViewModel.TelephoneNumber), nameof(EnterYourDetailsBodyViewModel.TelephoneNumberIsRequired) },
-                    { nameof(EnterYourDetailsBodyViewModel.CallbackDateTime), nameof(EnterYourDetailsBodyViewModel.CallbackDateTimeIsRequired) },
+                    { nameof(EnterYourDetailsBodyViewModel.CallbackDateOptionSelected), nameof(EnterYourDetailsBodyViewModel.CallbackDateTimeIsRequired) },
+                    { nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected), nameof(EnterYourDetailsBodyViewModel.CallbackDateTimeIsRequired) },
                 };
             var errorMessages = new Dictionary<string, string>()
                 {
                     { nameof(EnterYourDetailsBodyViewModel.EmailAddress), "Enter your email address" },
                     { nameof(EnterYourDetailsBodyViewModel.TelephoneNumber), "Enter your telephone number" },
-                    { nameof(EnterYourDetailsBodyViewModel.CallbackDateTime), "Enter when you want us to contact you" },
+                    { nameof(EnterYourDetailsBodyViewModel.CallbackDateOptionSelected), EnterYourDetailsBodyViewModel.CallbackDateOptionValidationError },
+                    { nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected), EnterYourDetailsBodyViewModel.CallbackTimeOptionValidationError },
                 };
 
             if (properties.Keys.Contains(modelExplorer.Metadata.PropertyName))

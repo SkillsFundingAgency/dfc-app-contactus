@@ -92,7 +92,7 @@ namespace DFC.App.ContactUs.Controllers
                 Logger.LogInformation($"Getting the session state - compositeSessionId = {compositeSessionId}");
 
                 var sessionStateModel = await SessionStateService.GetAsync(compositeSessionId.Value).ConfigureAwait(false);
-                sessionStateModel.Ttl = 300;
+                sessionStateModel.Ttl = 43200;
                 sessionStateModel.State!.Category = category;
                 sessionStateModel.State!.MoreDetail = moreDetail;
 

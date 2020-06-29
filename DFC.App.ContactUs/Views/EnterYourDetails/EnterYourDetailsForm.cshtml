@@ -7,12 +7,34 @@
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 class="govuk-fieldset__heading">Enter your details</h1>
         </legend>
-        <p class="govuk-body">
-            We need your details so that one of our advisers can contact you.
-        </p>
-        <p class="govuk-body">
-            Our advisers will use your date of birth and postcode to give you information that's relevant to you, for example on courses and funding.
-        </p>
+
+        @if (Model.CallbackDateTimeIsRequired)
+        {
+            <p class="govuk-body">
+                Complete this form to book a phone call with one of our advisers.
+            </p>
+            <p class="govuk-body">
+                Our advisers will use your details to email you with relevant information, like using your postcode to find courses available near you.
+            </p>
+            <p class="govuk-body">
+                To book a phone call you must:
+            </p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>
+                    be at least 13 years old
+                </li>
+            </ul>
+        }
+        else
+        {
+            <p class="govuk-body">
+                We need your details so that one of our advisers can contact you.
+            </p>
+            <p class="govuk-body">
+                Our advisers will use your date of birth and postcode to give you information that's relevant to you, for example on courses and funding.
+            </p>
+        }
+
         @Html.EditorFor(model => model.FirstName)
         @Html.EditorFor(model => model.FamilyName)
         @Html.EditorFor(model => model.EmailAddress)
@@ -29,15 +51,8 @@
 
         @if (Model.CallbackDateTimeIsRequired)
         {
-            @Html.EditorFor(model => model.CallbackDateTime, new
-            {
-                ErrorMessageFieldName = "The callback date and time",
-                minDate = DateTime.Today.ToString("yyyy-MM-dd"),
-                maxDate = DateTime.Today.AddMonths(3).ToString("yyyy-MM-dd"),
-                minDateError = "The callback date and time must be within 3 months",
-                maxDateError = "The callback date and time must be within 3 months",
-                ShowLabelAsHeader = "yes"
-            })
+            @Html.EditorFor(model => model.CallbackDateOptionSelected)
+            @Html.EditorFor(model => model.CallbackTimeOptionSelected)
         }
 
         @Html.EditorFor(model => model.TermsAndConditionsAccepted, new

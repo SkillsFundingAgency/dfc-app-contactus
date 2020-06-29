@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -6,6 +7,7 @@ namespace DFC.App.ContactUs.Data.Models
 {
     public class ContactUsApiDataModel : IApiDataModel
     {
+        [JsonProperty(PropertyName = "id")]
         public Guid? ItemId { get; set; }
 
         public string? CanonicalName { get; set; }
