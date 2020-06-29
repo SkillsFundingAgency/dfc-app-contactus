@@ -1,0 +1,48 @@
+﻿@model CallbackTimeOption?
+
+@{
+    var disabledTimeBands = EnterYourDetailsBodyViewModel.DisabledTimeBands;
+    var showErrorClass = string.Empty;
+    var errorKey = nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected);
+
+    if (ViewData.ModelState.Keys.Contains(errorKey))
+    {
+        if (ViewData.ModelState[errorKey] != null && ViewData.ModelState[errorKey].Errors.Any())
+        {
+            showErrorClass = "govuk-form-group--error";
+        }
+    }
+}
+
+<div class="govuk-form-group @showErrorClass">
+    <fieldset class="govuk-fieldset" aria-describedby="@nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected)-error">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+            <h3 class="govuk-fieldset__heading">
+                @Html.DisplayNameFor(model => model)
+            </h3>
+        </legend>
+
+        @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected) + "-error" })
+
+        <div class="govuk-radios">
+            @foreach (var option in (CallbackTimeOption[])Enum.GetValues(typeof(CallbackTimeOption)))
+            {
+                var radioId = option == CallbackTimeOption.Band1 ? nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected) : $"{option}-option";
+                var showChecked = Model == option ? "checked=checked" : string.Empty;
+
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input dfc-app-contact-us-CallbackTimeOption" 
+                           name="@nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected)" 
+                           id="@radioId" 
+                           type="radio"
+                           @showChecked 
+                           value="@option" 
+                           data-val="true" 
+                           data-val-required="@EnterYourDetailsBodyViewModel.CallbackTimeOptionValidationError" 
+                           data-disabled="@disabledTimeBands[option]">
+                    <label class="govuk-label govuk-radios__label" for="@radioId">@option.GetDescription()</label>
+                </div>
+            }
+        </div>
+    </fieldset>
+</div>
