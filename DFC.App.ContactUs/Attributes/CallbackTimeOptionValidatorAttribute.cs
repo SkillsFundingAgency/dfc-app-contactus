@@ -9,6 +9,15 @@ namespace DFC.App.ContactUs.Attributes
 {
     public class CallbackTimeOptionValidatorAttribute : ValidationAttribute, IClientModelValidator
     {
+        private readonly string comparisonProperty;
+
+        public CallbackTimeOptionValidatorAttribute(string? comparisonProperty)
+        {
+            _ = comparisonProperty ?? throw new ArgumentNullException(nameof(comparisonProperty));
+
+            this.comparisonProperty = comparisonProperty;
+        }
+
         public void AddValidation(ClientModelValidationContext context)
         {
             _ = context ?? throw new ArgumentNullException(nameof(context));
@@ -24,16 +33,19 @@ namespace DFC.App.ContactUs.Attributes
 
             ErrorMessage = ErrorMessageString;
 
-            if (value != null)
-            {
-                var callbackTimeOptionValue = (CallbackTimeOption)value;
+            var property = validationContext.ObjectType.GetProperty(comparisonProperty);
 
-                if (EnterYourDetailsBodyViewModel.FirstDateIsForToday && EnterYourDetailsBodyViewModel.DisabledTimeBands[callbackTimeOptionValue])
+            if (property != null && value != null)
                 {
-                    var errorMessage = string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName.ToLowerInvariant());
-                    return new ValidationResult(errorMessage, new[] { validationContext.MemberName });
+                    var callbackTimeOptionValue = (CallbackTimeOption)value;
+                    var callbackDateOption = (CallbackDateOption?)property.GetValue(validationContext.ObjectInstance);
+
+                    if (callbackDateOption == CallbackDateOption.Today && EnterYourDetailsBodyViewModel.FirstDateIsForToday && EnterYourDetailsBodyViewModel.DisabledTimeBands[callbackTimeOptionValue])
+                    {
+                        var errorMessage = string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName.ToLowerInvariant());
+                        return new ValidationResult(errorMessage, new[] { validationContext.MemberName });
+                    }
                 }
-            }
 
             return ValidationResult.Success;
         }

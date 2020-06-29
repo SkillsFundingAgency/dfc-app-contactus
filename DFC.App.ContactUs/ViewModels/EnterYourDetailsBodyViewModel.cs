@@ -154,7 +154,7 @@ namespace DFC.App.ContactUs.ViewModels
 
         [Display(Name = "Pick a time for us to call you")]
         [RequiredWhenTrue(nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackTimeOptionValidationError)]
-        [CallbackTimeOptionValidator(ErrorMessage = "This time period has expired. Choose a different time")]
+        [CallbackTimeOptionValidator(nameof(CallbackDateOptionSelected), ErrorMessage = "This time period has expired. Choose a different time")]
         [EnumDataType(typeof(CallbackTimeOption))]
         public CallbackTimeOption? CallbackTimeOptionSelected { get; set; }
 
