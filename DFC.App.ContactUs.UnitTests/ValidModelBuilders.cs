@@ -11,7 +11,7 @@ namespace DFC.App.ContactUs.UnitTests
             return new EnterYourDetailsBodyViewModel
             {
                 FirstName = "Mark Anthony",
-                FamilyName = "Mark Anthony",
+                LastName = "Mark Anthony",
                 EmailAddress = "abc@def.com",
                 TelephoneNumber = "0123456789",
                 DateOfBirth = new DateOfBirthViewModel(DateTime.Today.AddYears(-13)),

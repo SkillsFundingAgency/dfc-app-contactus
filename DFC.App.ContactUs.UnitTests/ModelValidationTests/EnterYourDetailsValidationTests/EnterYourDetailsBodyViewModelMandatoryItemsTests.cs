@@ -27,7 +27,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             var expectedErrors = new Dictionary<string, string>
             {
                 { nameof(EnterYourDetailsBodyViewModel.FirstName), "Enter your" },
-                { nameof(EnterYourDetailsBodyViewModel.FamilyName), "Enter your" },
+                { nameof(EnterYourDetailsBodyViewModel.LastName), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.DateOfBirth), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.Postcode), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.TelephoneNumber), "Enter your" },
@@ -63,7 +63,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             var expectedErrors = new Dictionary<string, string>
             {
                 { nameof(EnterYourDetailsBodyViewModel.FirstName), "Enter your" },
-                { nameof(EnterYourDetailsBodyViewModel.FamilyName), "Enter your" },
+                { nameof(EnterYourDetailsBodyViewModel.LastName), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.DateOfBirth), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.Postcode), "Enter your" },
                 { nameof(EnterYourDetailsBodyViewModel.EmailAddress), "Enter your" },

@@ -7,9 +7,9 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValidationTests
 {
     [Trait("Category", "EnterYourDetailsBodyViewModel Validation Unit Tests")]
-    public class EnterYourDetailsBodyViewModelFamilyNameValidationTests
+    public class EnterYourDetailsBodyViewModelLastNameValidationTests
     {
-        public static IEnumerable<object[]> ValidFamilyNames => new List<object[]>
+        public static IEnumerable<object[]> ValidLastNames => new List<object[]>
         {
             new string[] { "Mark Anthony" },
             new string[] { "Mark-Anthony" },
@@ -18,7 +18,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             new string[] { "M. Anthony, Tony" },
         };
 
-        public static IEnumerable<object[]> InvalidFamilyNames => new List<object[]>
+        public static IEnumerable<object[]> InvalidLastNames => new List<object[]>
         {
             new string[] { "Mark (Anthony)" },
             new string[] { "Mark [Anthony]" },
@@ -27,11 +27,11 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         };
 
         [Fact]
-        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForFamilyNameMissing()
+        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForLastNameMissing()
         {
             // Arrange
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
-            viewModel.FamilyName = null;
+            viewModel.LastName = null;
 
             // Act
             var (isValid, validationResults) = ModelValidator.TryValidateModel(viewModel);
@@ -39,16 +39,16 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             // Assert
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
-            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.FamilyName))));
-            Assert.Contains("Enter your", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.FamilyName))).ErrorMessage, StringComparison.Ordinal);
+            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.LastName))));
+            Assert.Contains("Enter your", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.LastName))).ErrorMessage, StringComparison.Ordinal);
         }
 
         [Fact]
-        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForFamilyNameTooLong()
+        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForLastNameTooLong()
         {
             // Arrange
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
-            viewModel.FamilyName = string.Empty.PadLeft(101, 'a');
+            viewModel.LastName = string.Empty.PadLeft(101, 'a');
 
             // Act
             var (isValid, validationResults) = ModelValidator.TryValidateModel(viewModel);
@@ -56,17 +56,17 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             // Assert
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
-            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.FamilyName))));
-            Assert.Contains("is limited to between 1 and", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.FamilyName))).ErrorMessage, StringComparison.Ordinal);
+            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.LastName))));
+            Assert.Contains("is limited to between 1 and", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.LastName))).ErrorMessage, StringComparison.Ordinal);
         }
 
         [Theory]
-        [MemberData(nameof(InvalidFamilyNames))]
-        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForFamilyNameInvalid(string familyName)
+        [MemberData(nameof(InvalidLastNames))]
+        public void EnterYourDetailsBodyViewModelValidationReturnsErrorForLastNameInvalid(string lastName)
         {
             // Arrange
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
-            viewModel.FamilyName = familyName;
+            viewModel.LastName = lastName;
 
             // Act
             var (isValid, validationResults) = ModelValidator.TryValidateModel(viewModel);
@@ -74,17 +74,17 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             // Assert
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
-            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.FamilyName))));
-            Assert.Contains("contains invalid characters", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.FamilyName))).ErrorMessage, StringComparison.Ordinal);
+            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.LastName))));
+            Assert.Contains("contains invalid characters", validationResults.First(f => f.MemberNames.Any(a => a == nameof(EnterYourDetailsBodyViewModel.LastName))).ErrorMessage, StringComparison.Ordinal);
         }
 
         [Theory]
-        [MemberData(nameof(ValidFamilyNames))]
-        public void EnterYourDetailsBodyViewModelValidationReturnsSuccessForValidFamilyName(string familyName)
+        [MemberData(nameof(ValidLastNames))]
+        public void EnterYourDetailsBodyViewModelValidationReturnsSuccessForValidLastName(string lastName)
         {
             // Arrange
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
-            viewModel.FamilyName = familyName;
+            viewModel.LastName = lastName;
 
             // Act
             var (isValid, validationResults) = ModelValidator.TryValidateModel(viewModel);

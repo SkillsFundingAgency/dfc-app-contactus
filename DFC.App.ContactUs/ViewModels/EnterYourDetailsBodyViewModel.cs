@@ -114,12 +114,12 @@ namespace DFC.App.ContactUs.ViewModels
         [DataType("PersonName")]
         public string? FirstName { get; set; }
 
-        [Display(Name = "Family name")]
-        [Required(ErrorMessage = "Enter your family name")]
+        [Display(Name = "Last name")]
+        [Required(ErrorMessage = "Enter your last name")]
         [StringLength(100, ErrorMessage = StringLengthValidationError)]
         [RegularExpression(RegExForName, ErrorMessage = InvalidCharactersValidationError)]
         [DataType("PersonName")]
-        public string? FamilyName { get; set; }
+        public string? LastName { get; set; }
 
         [Display(Name = "Email address")]
         [RequiredWhenTrue(nameof(EmailAddressIsRequired), ErrorMessage = "Enter your {0}")]
