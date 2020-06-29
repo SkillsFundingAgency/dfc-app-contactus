@@ -4,37 +4,37 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTests
 {
-    [Trait("Category", "WhyContactUs Controller Unit Tests")]
-    public class WhyContactUsControllerBodyTests : BaseWhyContactUsControllerTests
+    [Trait("Category", "HowCanWeHelp Controller Unit Tests")]
+    public class HowCanWeHelpControllerBodyTests : BaseHowCanWeHelpControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void WhyContactUsControllerBodyHtmlReturnsSuccess(string mediaTypeName)
+        public void HowCanWeHelpControllerBodyHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildWhyContactUsController(mediaTypeName);
+            var controller = BuildHowCanWeHelpController(mediaTypeName);
 
             // Act
-            var result = controller.WhyContactUsBody();
+            var result = controller.HowCanWeHelpBody();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            _ = Assert.IsAssignableFrom<WhyContactUsBodyViewModel>(viewResult.ViewData.Model);
+            _ = Assert.IsAssignableFrom<HowCanWeHelpBodyViewModel>(viewResult.ViewData.Model);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void WhyContactUsControllerBodyJsonReturnsSuccess(string mediaTypeName)
+        public void HowCanWeHelpControllerBodyJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildWhyContactUsController(mediaTypeName);
+            var controller = BuildHowCanWeHelpController(mediaTypeName);
 
             // Act
-            var result = controller.WhyContactUsBody();
+            var result = controller.HowCanWeHelpBody();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
@@ -45,13 +45,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void WhyContactUsControllerBodyReturnsNotAcceptable(string mediaTypeName)
+        public void HowCanWeHelpControllerBodyReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildWhyContactUsController(mediaTypeName);
+            var controller = BuildHowCanWeHelpController(mediaTypeName);
 
             // Act
-            var result = controller.WhyContactUsBody();
+            var result = controller.HowCanWeHelpBody();
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

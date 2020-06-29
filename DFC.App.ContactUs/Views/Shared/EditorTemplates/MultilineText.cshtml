@@ -21,7 +21,7 @@
 
 <div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="@strLenAttr.MaximumLength">
     <div class="govuk-form-group @showErrorClass">
-        @Html.LabelFor(model => model, new { @class = "govuk-label" })
+        @Html.LabelFor(model => model, new { @class = "govuk-label dfc-composite-shell-multiline-label" })
 
         @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = ViewData.ModelMetadata.Name + "-error" })
 

@@ -1,4 +1,4 @@
-﻿@model WhyContactUsViewModel
+﻿@model HowCanWeHelpViewModel
 
 @{
     Layout = "_LocalLayout";
@@ -13,9 +13,9 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <form asp-route="/pages/why-do-you-want-to-contact-us" method="post" class="compui-validation">
+        <form asp-route="/pages/how-can-we-help" method="post" class="compui-validation">
 
-            <partial name="WhyContactUsForm" model="@Model.WhyContactUsBodyViewModel" />
+            <partial name="HowCanWeHelpForm" model="@Model.HowCanWeHelpBodyViewModel" />
 
         </form>
     </div>

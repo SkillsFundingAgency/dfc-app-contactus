@@ -5,20 +5,20 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTests
 {
-    [Trait("Category", "WhyContactUs Controller Unit Tests")]
-    public class WhyContactUsControllerBreadcrumbTests : BaseWhyContactUsControllerTests
+    [Trait("Category", "HowCanWeHelp Controller Unit Tests")]
+    public class HowCanWeHelpControllerBreadcrumbTests : BaseHowCanWeHelpControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void WhyContactUsControllerBreadcrumbHtmlReturnsSuccess(string mediaTypeName)
+        public void HowCanWeHelpControllerBreadcrumbHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildWhyContactUsController(mediaTypeName);
+            var controller = BuildHowCanWeHelpController(mediaTypeName);
 
             // Act
-            var result = controller.WhyContactUsBreadcrumb();
+            var result = controller.HowCanWeHelpBreadcrumb();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -31,13 +31,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void WhyContactUsControllerBreadcrumbJsonReturnsSuccess(string mediaTypeName)
+        public void HowCanWeHelpControllerBreadcrumbJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildWhyContactUsController(mediaTypeName);
+            var controller = BuildHowCanWeHelpController(mediaTypeName);
 
             // Act
-            var result = controller.WhyContactUsBreadcrumb();
+            var result = controller.HowCanWeHelpBreadcrumb();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
@@ -50,13 +50,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void WhyContactUsControllerBreadcrumbReturnsNotAcceptable(string mediaTypeName)
+        public void HowCanWeHelpControllerBreadcrumbReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildWhyContactUsController(mediaTypeName);
+            var controller = BuildHowCanWeHelpController(mediaTypeName);
 
             // Act
-            var result = controller.WhyContactUsBreadcrumb();
+            var result = controller.HowCanWeHelpBreadcrumb();
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

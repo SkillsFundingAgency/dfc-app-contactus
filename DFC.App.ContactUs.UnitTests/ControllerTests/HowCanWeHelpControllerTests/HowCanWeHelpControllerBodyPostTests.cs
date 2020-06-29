@@ -1,6 +1,5 @@
 ﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Data.Enums;
-using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
 using DFC.Compui.Sessionstate;
@@ -14,10 +13,10 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTests
 {
-    [Trait("Category", "WhyContactUs Controller Unit Tests")]
-    public class WhyContactUsControllerBodyPostTests : BaseWhyContactUsControllerTests
+    [Trait("Category", "HowCanWeHelp Controller Unit Tests")]
+    public class HowCanWeHelpControllerBodyPostTests : BaseHowCanWeHelpControllerTests
     {
         public static IEnumerable<object[]> ValidSelectedCategories => new List<object[]>
         {
@@ -25,7 +24,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             new object[] { Category.Courses, },
             new object[] { Category.Website, },
             new object[] { Category.Feedback, },
-            new object[] { Category.SomethingElse, },
+            new object[] { Category.Other, },
         };
 
         public static IEnumerable<object[]> InvalidSelectedCategories => new List<object[]>
@@ -37,25 +36,25 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
         [MemberData(nameof(JsonMediaTypes))]
-        public async Task WhyContactUsControllerBodyPostReturnsSuccess(string mediaTypeName)
+        public async Task HowCanWeHelpControllerBodyPostReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             const Category selectedCategory = Category.Website;
             string moreDetail = $"Some {selectedCategory} details";
             string expectedRedirectUrl = $"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}";
             var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
-            var viewModel = new WhyContactUsBodyViewModel
+            var viewModel = new HowCanWeHelpBodyViewModel
             {
                 SelectedCategory = selectedCategory,
                 MoreDetail = moreDetail,
             };
-            var controller = BuildWhyContactUsController(mediaTypeName);
+            var controller = BuildHowCanWeHelpController(mediaTypeName);
 
             A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
             A.CallTo(() => FakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).Returns(HttpStatusCode.OK);
 
             // Act
-            var result = await controller.WhyContactUsBody(viewModel).ConfigureAwait(false);
+            var result = await controller.HowCanWeHelpBody(viewModel).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
@@ -70,24 +69,24 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
 
         [Theory]
         [MemberData(nameof(ValidSelectedCategories))]
-        public async Task WhyContactUsControllerBodyPostReturnsSuccessForValidCategories(Category selectedCategory)
+        public async Task HowCanWeHelpControllerBodyPostReturnsSuccessForValidCategories(Category selectedCategory)
         {
             // Arrange
             string moreDetail = $"Some {selectedCategory} details";
             string expectedRedirectUrl = $"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}";
             var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
-            var viewModel = new WhyContactUsBodyViewModel
+            var viewModel = new HowCanWeHelpBodyViewModel
             {
                 SelectedCategory = selectedCategory,
                 MoreDetail = moreDetail,
             };
-            var controller = BuildWhyContactUsController(MediaTypeNames.Text.Html);
+            var controller = BuildHowCanWeHelpController(MediaTypeNames.Text.Html);
 
             A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
             A.CallTo(() => FakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).Returns(HttpStatusCode.OK);
 
             // Act
-            var result = await controller.WhyContactUsBody(viewModel).ConfigureAwait(false);
+            var result = await controller.HowCanWeHelpBody(viewModel).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
@@ -102,22 +101,22 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
 
         [Theory]
         [MemberData(nameof(InvalidSelectedCategories))]
-        public async Task WhyContactUsControllerBodyPostReturnsSameViewForInvalidCategory(Category selectedCategory)
+        public async Task HowCanWeHelpControllerBodyPostReturnsSameViewForInvalidCategory(Category selectedCategory)
         {
             // Arrange
-            var viewModel = new WhyContactUsBodyViewModel
+            var viewModel = new HowCanWeHelpBodyViewModel
             {
                 SelectedCategory = selectedCategory,
                 MoreDetail = "some more detail",
             };
-            var controller = BuildWhyContactUsController(MediaTypeNames.Text.Html);
+            var controller = BuildHowCanWeHelpController(MediaTypeNames.Text.Html);
 
             // Act
-            var result = await controller.WhyContactUsBody(viewModel).ConfigureAwait(false);
+            var result = await controller.HowCanWeHelpBody(viewModel).ConfigureAwait(false);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<WhyContactUsBodyViewModel>(viewResult.ViewData.Model);
+            var model = Assert.IsAssignableFrom<HowCanWeHelpBodyViewModel>(viewResult.ViewData.Model);
 
             model.SelectedCategory.Should().Be(selectedCategory);
 
@@ -125,37 +124,37 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
         }
 
         [Fact]
-        public async Task WhyContactUsControllerBodyPostReturnsSameViewForInvalidModel()
+        public async Task HowCanWeHelpControllerBodyPostReturnsSameViewForInvalidModel()
         {
             // Arrange
-            var viewModel = new WhyContactUsBodyViewModel();
-            var controller = BuildWhyContactUsController(MediaTypeNames.Text.Html);
+            var viewModel = new HowCanWeHelpBodyViewModel();
+            var controller = BuildHowCanWeHelpController(MediaTypeNames.Text.Html);
 
-            controller.ModelState.AddModelError(nameof(WhyContactUsBodyViewModel.SelectedCategory), "Fake error");
+            controller.ModelState.AddModelError(nameof(HowCanWeHelpBodyViewModel.SelectedCategory), "Fake error");
 
             // Act
-            var result = await controller.WhyContactUsBody(viewModel).ConfigureAwait(false);
+            var result = await controller.HowCanWeHelpBody(viewModel).ConfigureAwait(false);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            _ = Assert.IsAssignableFrom<WhyContactUsBodyViewModel>(viewResult.ViewData.Model);
+            _ = Assert.IsAssignableFrom<HowCanWeHelpBodyViewModel>(viewResult.ViewData.Model);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public async Task WhyContactUsControllerBodyPostReturnsNotAcceptable(string mediaTypeName)
+        public async Task HowCanWeHelpControllerBodyPostReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            var viewModel = new WhyContactUsBodyViewModel
+            var viewModel = new HowCanWeHelpBodyViewModel
             {
                 SelectedCategory = Category.None,
             };
-            var controller = BuildWhyContactUsController(mediaTypeName);
+            var controller = BuildHowCanWeHelpController(mediaTypeName);
 
             // Act
-            var result = await controller.WhyContactUsBody(viewModel).ConfigureAwait(false);
+            var result = await controller.HowCanWeHelpBody(viewModel).ConfigureAwait(false);
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

@@ -44,7 +44,7 @@ namespace DFC.App.ContactUs.Controllers
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = SitemapController.SitemapViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = HomeController.ThisViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = ChatController.ThisViewCanonicalName });
-                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = WhyContactUsController.ThisViewCanonicalName });
+                viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = HowCanWeHelpController.ThisViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = EnterYourDetailsController.ThisViewCanonicalName });
 
                 Logger.LogInformation($"{nameof(Index)} has succeeded");

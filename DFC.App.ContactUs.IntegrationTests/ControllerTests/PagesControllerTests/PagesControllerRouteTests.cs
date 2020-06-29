@@ -45,10 +45,10 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             new object[] { "/pages/enter-your-details/htmlhead" },
             new object[] { "/pages/enter-your-details/breadcrumb" },
             new object[] { "/pages/enter-your-details/body" },
-            new object[] { "/pages/why-do-you-want-to-contact-us" },
-            new object[] { "/pages/why-do-you-want-to-contact-us/htmlhead" },
-            new object[] { "/pages/why-do-you-want-to-contact-us/breadcrumb" },
-            new object[] { "/pages/why-do-you-want-to-contact-us/body" },
+            new object[] { "/pages/how-can-we-help" },
+            new object[] { "/pages/how-can-we-help/htmlhead" },
+            new object[] { "/pages/how-can-we-help/breadcrumb" },
+            new object[] { "/pages/how-can-we-help/body" },
         };
 
         public static IEnumerable<object[]> PagesNoContentRouteData => new List<object[]>

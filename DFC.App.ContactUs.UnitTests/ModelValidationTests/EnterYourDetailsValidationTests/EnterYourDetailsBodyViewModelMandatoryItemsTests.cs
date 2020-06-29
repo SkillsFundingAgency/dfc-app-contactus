@@ -17,7 +17,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             new object[] { Category.Courses },
             new object[] { Category.Website },
             new object[] { Category.Feedback },
-            new object[] { Category.SomethingElse },
+            new object[] { Category.Other },
         };
 
         [Fact]

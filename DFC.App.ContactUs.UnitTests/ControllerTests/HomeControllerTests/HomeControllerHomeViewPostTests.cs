@@ -20,7 +20,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         public static IEnumerable<object[]> ValidSelectedOptions => new List<object[]>
         {
             new object[] { HomeOption.Webchat, $"/{LocalPath}/{ChatController.ThisViewCanonicalName}" },
-            new object[] { HomeOption.SendAMessage, $"/{LocalPath}/{WhyContactUsController.ThisViewCanonicalName}" },
+            new object[] { HomeOption.SendAMessage, $"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}" },
             new object[] { HomeOption.Callback, $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}" },
             new object[] { HomeOption.Sendletter, $"/{LocalPath}/{HomeController.SendUsLetterCanonicalName}" },
         };

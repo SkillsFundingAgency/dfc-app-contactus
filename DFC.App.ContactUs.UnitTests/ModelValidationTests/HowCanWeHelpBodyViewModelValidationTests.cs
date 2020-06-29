@@ -5,14 +5,14 @@ using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ModelValidationTests
 {
-    [Trait("Category", "WhyContactUsBodyViewModel Validation Unit Tests")]
-    public class WhyContactUsBodyViewModelValidationTests
+    [Trait("Category", "HowCanWeHelpBodyViewModel Validation Unit Tests")]
+    public class HowCanWeHelpBodyViewModelValidationTests
     {
         [Fact]
-        public void WhyContactUsBodyViewModelValidationReturnsSuccessForValidModel()
+        public void HowCanWeHelpBodyViewModelValidationReturnsSuccessForValidModel()
         {
             // Arrange
-            var viewModel = new WhyContactUsBodyViewModel
+            var viewModel = new HowCanWeHelpBodyViewModel
             {
                 SelectedCategory = Category.Website,
                 MoreDetail = "some more details",
@@ -27,10 +27,10 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests
         }
 
         [Fact]
-        public void WhyContactUsBodyViewModelValidationReturnsErrorForCategoryInvalid()
+        public void HowCanWeHelpBodyViewModelValidationReturnsErrorForCategoryInvalid()
         {
             // Arrange
-            var viewModel = new WhyContactUsBodyViewModel
+            var viewModel = new HowCanWeHelpBodyViewModel
             {
                 SelectedCategory = Category.None,
                 MoreDetail = "some more details",
@@ -42,15 +42,15 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests
             // Assert
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
-            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(WhyContactUsBodyViewModel.SelectedCategory))));
-            Assert.Equal(WhyContactUsBodyViewModel.SelectedCategoryValidationError, validationResults.First(f => f.MemberNames.Any(a => a == nameof(WhyContactUsBodyViewModel.SelectedCategory))).ErrorMessage);
+            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(HowCanWeHelpBodyViewModel.SelectedCategory))));
+            Assert.Equal(HowCanWeHelpBodyViewModel.SelectedCategoryValidationError, validationResults.First(f => f.MemberNames.Any(a => a == nameof(HowCanWeHelpBodyViewModel.SelectedCategory))).ErrorMessage);
         }
 
         [Fact]
-        public void WhyContactUsBodyViewModelValidationReturnsErrorForMoreDetailMissing()
+        public void HowCanWeHelpBodyViewModelValidationReturnsErrorForMoreDetailMissing()
         {
             // Arrange
-            var viewModel = new WhyContactUsBodyViewModel
+            var viewModel = new HowCanWeHelpBodyViewModel
             {
                 SelectedCategory = Category.Website,
                 MoreDetail = null,
@@ -62,15 +62,15 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests
             // Assert
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
-            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(WhyContactUsBodyViewModel.MoreDetail))));
-            Assert.Equal(WhyContactUsBodyViewModel.MoreDetailRequiredError, validationResults.First(f => f.MemberNames.Any(a => a == nameof(WhyContactUsBodyViewModel.MoreDetail))).ErrorMessage);
+            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(HowCanWeHelpBodyViewModel.MoreDetail))));
+            Assert.Equal(HowCanWeHelpBodyViewModel.MoreDetailRequiredError, validationResults.First(f => f.MemberNames.Any(a => a == nameof(HowCanWeHelpBodyViewModel.MoreDetail))).ErrorMessage);
         }
 
         [Fact]
-        public void WhyContactUsBodyViewModelValidationReturnsErrorForMoreDetailTooLong()
+        public void HowCanWeHelpBodyViewModelValidationReturnsErrorForMoreDetailTooLong()
         {
             // Arrange
-            var viewModel = new WhyContactUsBodyViewModel
+            var viewModel = new HowCanWeHelpBodyViewModel
             {
                 SelectedCategory = Category.Website,
                 MoreDetail = string.Empty.PadLeft(1001, '-'),
@@ -82,8 +82,8 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests
             // Assert
             Assert.False(isValid);
             Assert.True(validationResults.Count > 0);
-            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(WhyContactUsBodyViewModel.MoreDetail))));
-            Assert.Equal("Message is limited to between 1 and 1000 characters", validationResults.First(f => f.MemberNames.Any(a => a == nameof(WhyContactUsBodyViewModel.MoreDetail))).ErrorMessage);
+            Assert.NotNull(validationResults.First(f => f.MemberNames.Any(a => a == nameof(HowCanWeHelpBodyViewModel.MoreDetail))));
+            Assert.Equal("Message is limited to between 1 and 1000 characters", validationResults.First(f => f.MemberNames.Any(a => a == nameof(HowCanWeHelpBodyViewModel.MoreDetail))).ErrorMessage);
         }
     }
 }

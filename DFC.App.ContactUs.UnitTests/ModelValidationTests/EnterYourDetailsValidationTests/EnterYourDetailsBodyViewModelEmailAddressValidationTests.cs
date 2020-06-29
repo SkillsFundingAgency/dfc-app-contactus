@@ -30,7 +30,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
         {
             // Arrange
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
-            viewModel.SelectedCategory = Category.SomethingElse;
+            viewModel.SelectedCategory = Category.Other;
             viewModel.EmailAddress = null;
 
             // Act
