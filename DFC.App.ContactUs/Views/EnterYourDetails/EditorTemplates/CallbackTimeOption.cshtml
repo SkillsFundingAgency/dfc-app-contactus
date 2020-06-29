@@ -28,12 +28,14 @@
             @foreach (var option in (CallbackTimeOption[])Enum.GetValues(typeof(CallbackTimeOption)))
             {
                 var radioId = option == CallbackTimeOption.Band1 ? nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected) : $"{option}-option";
+                var showChecked = Model == option ? "checked=checked" : string.Empty;
 
                 <div class="govuk-radios__item">
                     <input class="govuk-radios__input dfc-app-contact-us-CallbackTimeOption" 
                            name="@nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected)" 
                            id="@radioId" 
-                           type="radio" 
+                           type="radio"
+                           @showChecked 
                            value="@option" 
                            data-val="true" 
                            data-val-required="@EnterYourDetailsBodyViewModel.CallbackTimeOptionValidationError" 

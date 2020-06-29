@@ -22,9 +22,10 @@
             if (option != HomeOption.None)
             {
                 var radioId = option == HomeOption.Webchat ? nameof(HomeBodyViewModel.SelectedOption) : $"{option}-option";
+                var showChecked = Model == option ? "checked=checked" : string.Empty;
 
                 <div class="govuk-radios__item">
-                    <input class="govuk-radios__input" name="@nameof(HomeBodyViewModel.SelectedOption)" id="@radioId" type="radio" value="@option" data-val="true" data-val-required="@HomeBodyViewModel.SelectedOptionValidationError">
+                    <input class="govuk-radios__input" name="@nameof(HomeBodyViewModel.SelectedOption)" id="@radioId" type="radio" @showChecked value="@option" data-val="true" data-val-required="@HomeBodyViewModel.SelectedOptionValidationError">
                     <label class="govuk-label govuk-radios__label" for="@radioId">@option.GetDescription()</label>
                 </div>
             }

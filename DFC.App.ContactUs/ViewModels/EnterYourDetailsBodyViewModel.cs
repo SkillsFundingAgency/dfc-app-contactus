@@ -40,12 +40,20 @@ namespace DFC.App.ContactUs.ViewModels
             }
         }
 
+        public static bool FirstDateIsForToday
+        {
+            get
+            {
+                return DateTime.Now.Date == DateTime.Today && DateTime.Now.Hour < TimeBandStarts[TimeBandStarts.Keys.Last()];
+            }
+        }
+
         public static Dictionary<CallbackTimeOption, bool> DisabledTimeBands
         {
             get
             {
                 var disabledTimeBands = new Dictionary<CallbackTimeOption, bool>();
-                bool isToday = DateTime.Now.Date == DateTime.Today && DateTime.Now.Hour < TimeBandStarts[TimeBandStarts.Keys.Last()];
+                bool isToday = FirstDateIsForToday;
 
                 for (var i = CallbackTimeOption.Band1; i <= CallbackTimeOption.Band5; i++)
                 {
@@ -63,7 +71,7 @@ namespace DFC.App.ContactUs.ViewModels
                 var dateLabels = new Dictionary<CallbackDateOption, string>();
                 var dateValue = DateTime.Today;
 
-                if (DateTime.Now.Hour >= TimeBandStarts[TimeBandStarts.Keys.Last()])
+                if (!FirstDateIsForToday)
                 {
                     dateValue = dateValue.AddDays(1);
                 }
@@ -141,13 +149,12 @@ namespace DFC.App.ContactUs.ViewModels
 
         [Display(Name = "Pick a day for us to call you")]
         [RequiredWhenTrue(nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackDateOptionValidationError)]
-        //      [Range((int)CallbackDateOption.Today, (int)CallbackDateOption.TodayPlus4, ErrorMessage = CallbackDateOptionValidationError)]
         [EnumDataType(typeof(CallbackDateOption))]
         public CallbackDateOption? CallbackDateOptionSelected { get; set; }
 
         [Display(Name = "Pick a time for us to call you")]
         [RequiredWhenTrue(nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackTimeOptionValidationError)]
-        //       [Range((int)CallbackTimeOption.Band1, (int)CallbackTimeOption.Band5, ErrorMessage = CallbackTimeOptionValidationError)]
+        [CallbackTimeOptionValidator(ErrorMessage = "This time period has expired. Choose a different time")]
         [EnumDataType(typeof(CallbackTimeOption))]
         public CallbackTimeOption? CallbackTimeOptionSelected { get; set; }
 

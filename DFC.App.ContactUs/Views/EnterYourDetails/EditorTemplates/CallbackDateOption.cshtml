@@ -28,9 +28,17 @@
             @foreach (var option in (CallbackDateOption[])Enum.GetValues(typeof(CallbackDateOption)))
             {
                 var radioId = option == CallbackDateOption.Today ? nameof(EnterYourDetailsBodyViewModel.CallbackDateOptionSelected) : $"{option}-option";
+                var showChecked = Model == option ? "checked=checked" : string.Empty;
 
                 <div class="govuk-radios__item">
-                    <input class="govuk-radios__input" name="@nameof(EnterYourDetailsBodyViewModel.CallbackDateOptionSelected)" id="@radioId" type="radio" value="@option" data-val="true" data-val-required="@EnterYourDetailsBodyViewModel.CallbackDateOptionValidationError">
+                    <input class="govuk-radios__input" 
+                           name="@nameof(EnterYourDetailsBodyViewModel.CallbackDateOptionSelected)" 
+                           id="@radioId" 
+                           type="radio" 
+                           @showChecked 
+                           value="@option"
+                           data-val="true" 
+                           data-val-required="@EnterYourDetailsBodyViewModel.CallbackDateOptionValidationError">
                     <label class="govuk-label govuk-radios__label" for="@radioId">@dateLabels[option]</label>
                 </div>
             }
