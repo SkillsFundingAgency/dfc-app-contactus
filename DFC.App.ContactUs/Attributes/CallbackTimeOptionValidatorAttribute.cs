@@ -9,13 +9,13 @@ namespace DFC.App.ContactUs.Attributes
 {
     public class CallbackTimeOptionValidatorAttribute : ValidationAttribute, IClientModelValidator
     {
-        private readonly string comparisonProperty;
+        private readonly string callbackDateOptionProperty;
 
-        public CallbackTimeOptionValidatorAttribute(string? comparisonProperty)
+        public CallbackTimeOptionValidatorAttribute(string? callbackDateOptionProperty)
         {
-            _ = comparisonProperty ?? throw new ArgumentNullException(nameof(comparisonProperty));
+            _ = callbackDateOptionProperty ?? throw new ArgumentNullException(nameof(callbackDateOptionProperty));
 
-            this.comparisonProperty = comparisonProperty;
+            this.callbackDateOptionProperty = callbackDateOptionProperty;
         }
 
         public void AddValidation(ClientModelValidationContext context)
@@ -33,7 +33,7 @@ namespace DFC.App.ContactUs.Attributes
 
             ErrorMessage = ErrorMessageString;
 
-            var property = validationContext.ObjectType.GetProperty(comparisonProperty);
+            var property = validationContext.ObjectType.GetProperty(callbackDateOptionProperty);
             if (property != null && value != null)
             {
                 var callbackTimeOptionValue = (CallbackTimeOption)value;
