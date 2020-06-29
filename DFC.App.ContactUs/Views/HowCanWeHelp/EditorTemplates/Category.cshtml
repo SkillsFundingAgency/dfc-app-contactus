@@ -3,7 +3,7 @@
 
 @{
     var showErrorClass = string.Empty;
-    var errorKey = nameof(WhyContactUsBodyViewModel.SelectedCategory);
+    var errorKey = nameof(HowCanWeHelpBodyViewModel.SelectedCategory);
 
     if (ViewData.ModelState.Keys.Contains(errorKey))
     {
@@ -15,18 +15,18 @@
 }
 
 <div class="govuk-form-group @showErrorClass">
-    @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = nameof(WhyContactUsBodyViewModel.SelectedCategory) + "-error" })
+    @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = nameof(HowCanWeHelpBodyViewModel.SelectedCategory) + "-error" })
 
     <div class="govuk-radios">
         @foreach (var category in (Category[])Enum.GetValues(typeof(Category)))
         {
             if (category != Category.None && category != Category.Callback)
             {
-                var radioId = category == Category.AdviceGuidance ? nameof(WhyContactUsBodyViewModel.SelectedCategory) : $"{category}-option";
+                var radioId = category == Category.AdviceGuidance ? nameof(HowCanWeHelpBodyViewModel.SelectedCategory) : $"{category}-option";
                 var showChecked = Model == category ? "checked=checked" : string.Empty;
 
                 <div class="govuk-radios__item">
-                    <input class="govuk-radios__input" name="@nameof(WhyContactUsBodyViewModel.SelectedCategory)" id="@radioId" type="radio" @showChecked value="@category" data-val="true" data-val-required="@WhyContactUsBodyViewModel.SelectedCategoryValidationError">
+                    <input class="govuk-radios__input" name="@nameof(HowCanWeHelpBodyViewModel.SelectedCategory)" id="@radioId" type="radio" @showChecked value="@category" data-val="true" data-val-required="@HowCanWeHelpBodyViewModel.SelectedCategoryValidationError">
                     <label class="govuk-label govuk-radios__label" for="@radioId">@category.GetDescription()</label>
                 </div>
             }

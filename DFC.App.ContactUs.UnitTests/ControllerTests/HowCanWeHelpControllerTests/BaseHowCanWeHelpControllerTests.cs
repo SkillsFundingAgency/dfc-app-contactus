@@ -10,16 +10,16 @@ using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTests
 {
-    public abstract class BaseWhyContactUsControllerTests
+    public abstract class BaseHowCanWeHelpControllerTests
     {
         protected const string LocalPath = "pages";
         protected const string RegistrationPath = "contact-us";
 
-        protected BaseWhyContactUsControllerTests()
+        protected BaseHowCanWeHelpControllerTests()
         {
-            Logger = A.Fake<ILogger<WhyContactUsController>>();
+            Logger = A.Fake<ILogger<HowCanWeHelpController>>();
             FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
         }
 
@@ -39,17 +39,17 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WhyContactUsControllerTest
             new string[] { MediaTypeNames.Application.Json },
         };
 
-        protected ILogger<WhyContactUsController> Logger { get; }
+        protected ILogger<HowCanWeHelpController> Logger { get; }
 
         protected ISessionStateService<SessionDataModel> FakeSessionStateService { get; }
 
-        protected WhyContactUsController BuildWhyContactUsController(string mediaTypeName)
+        protected HowCanWeHelpController BuildHowCanWeHelpController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new WhyContactUsController(Logger, FakeSessionStateService)
+            var controller = new HowCanWeHelpController(Logger, FakeSessionStateService)
             {
                 ControllerContext = new ControllerContext()
                 {

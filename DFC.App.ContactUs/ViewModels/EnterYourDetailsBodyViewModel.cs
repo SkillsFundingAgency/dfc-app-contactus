@@ -114,12 +114,12 @@ namespace DFC.App.ContactUs.ViewModels
         [DataType("PersonName")]
         public string? FirstName { get; set; }
 
-        [Display(Name = "Family name")]
-        [Required(ErrorMessage = "Enter your family name")]
+        [Display(Name = "Last name")]
+        [Required(ErrorMessage = "Enter your last name")]
         [StringLength(100, ErrorMessage = StringLengthValidationError)]
         [RegularExpression(RegExForName, ErrorMessage = InvalidCharactersValidationError)]
         [DataType("PersonName")]
-        public string? FamilyName { get; set; }
+        public string? LastName { get; set; }
 
         [Display(Name = "Email address")]
         [RequiredWhenTrue(nameof(EmailAddressIsRequired), ErrorMessage = "Enter your {0}")]
@@ -154,7 +154,7 @@ namespace DFC.App.ContactUs.ViewModels
 
         [Display(Name = "Pick a time for us to call you")]
         [RequiredWhenTrue(nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackTimeOptionValidationError)]
-        [CallbackTimeOptionValidator(ErrorMessage = "This time period has expired. Choose a different time")]
+        [CallbackTimeOptionValidator(nameof(CallbackDateOptionSelected), ErrorMessage = "This time period has expired. Choose a different time")]
         [EnumDataType(typeof(CallbackTimeOption))]
         public CallbackTimeOption? CallbackTimeOptionSelected { get; set; }
 

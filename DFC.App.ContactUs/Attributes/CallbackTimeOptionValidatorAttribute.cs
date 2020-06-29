@@ -9,6 +9,15 @@ namespace DFC.App.ContactUs.Attributes
 {
     public class CallbackTimeOptionValidatorAttribute : ValidationAttribute, IClientModelValidator
     {
+        private readonly string callbackDateOptionProperty;
+
+        public CallbackTimeOptionValidatorAttribute(string? callbackDateOptionProperty)
+        {
+            _ = callbackDateOptionProperty ?? throw new ArgumentNullException(nameof(callbackDateOptionProperty));
+
+            this.callbackDateOptionProperty = callbackDateOptionProperty;
+        }
+
         public void AddValidation(ClientModelValidationContext context)
         {
             _ = context ?? throw new ArgumentNullException(nameof(context));
@@ -24,11 +33,13 @@ namespace DFC.App.ContactUs.Attributes
 
             ErrorMessage = ErrorMessageString;
 
-            if (value != null)
+            var property = validationContext.ObjectType.GetProperty(callbackDateOptionProperty);
+            if (property != null && value != null)
             {
                 var callbackTimeOptionValue = (CallbackTimeOption)value;
+                var callbackDateOption = (CallbackDateOption?)property.GetValue(validationContext.ObjectInstance);
 
-                if (EnterYourDetailsBodyViewModel.FirstDateIsForToday && EnterYourDetailsBodyViewModel.DisabledTimeBands[callbackTimeOptionValue])
+                if (callbackDateOption == CallbackDateOption.Today && EnterYourDetailsBodyViewModel.FirstDateIsForToday && EnterYourDetailsBodyViewModel.DisabledTimeBands[callbackTimeOptionValue])
                 {
                     var errorMessage = string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName.ToLowerInvariant());
                     return new ValidationResult(errorMessage, new[] { validationContext.MemberName });

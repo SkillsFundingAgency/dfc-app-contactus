@@ -13,6 +13,7 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
         {
             CreateMap<EnterYourDetailsBodyViewModel, ContactUsEmailRequestModel>()
                 .ForMember(d => d.GivenName, s => s.MapFrom(a => a.FirstName))
+                .ForMember(d => d.FamilyName, s => s.MapFrom(a => a.LastName))
                 .ForMember(d => d.DateOfBirth, s => s.MapFrom(a => a.DateOfBirth != null ? a.DateOfBirth.Value : default))
                 .ForMember(d => d.CallbackDateTime, s => s.MapFrom(a => a.CallbackDateOptionSelected.HasValue && a.CallbackTimeOptionSelected.HasValue ? $"{EnterYourDetailsBodyViewModel.DateLabels[a.CallbackDateOptionSelected.Value]}, {a.CallbackTimeOptionSelected.Value.GetDescription()}" : string.Empty))
                 .ForMember(d => d.Query, s => s.MapFrom(a => a.MoreDetail))

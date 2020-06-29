@@ -14,8 +14,8 @@ namespace DFC.App.ContactUs.Data.Enums
         Website,
         [Description("Give feedback")]
         Feedback,
-        [Description("Something else")]
-        SomethingElse,
+        [Description("Other")]
+        Other,
         [Description("Callback request")]
         Callback,
     }

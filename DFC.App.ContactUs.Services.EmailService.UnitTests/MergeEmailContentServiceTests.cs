@@ -17,7 +17,7 @@ namespace DFC.App.ContactUs.Services.EmailService.UnitTests
             var contactUsEmailRequestModel = new ContactUsEmailRequestModel
             {
                 GivenName = "First name",
-                FamilyName = "Last name",
+                FamilyName = "Family name",
                 FromEmailAddress = "me@me.com",
                 TelephoneNumber = "0123456789",
                 DateOfBirth = DateTime.Now.AddYears(-14),

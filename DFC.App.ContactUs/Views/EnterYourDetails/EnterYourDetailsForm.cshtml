@@ -28,15 +28,12 @@
         else
         {
             <p class="govuk-body">
-                We need your details so that one of our advisers can contact you.
-            </p>
-            <p class="govuk-body">
-                Our advisers will use your date of birth and postcode to give you information that's relevant to you, for example on courses and funding.
+                Our advisers will use your details to email you with relevant information, like using your postcode to find courses available near you.
             </p>
         }
 
         @Html.EditorFor(model => model.FirstName)
-        @Html.EditorFor(model => model.FamilyName)
+        @Html.EditorFor(model => model.LastName)
         @Html.EditorFor(model => model.EmailAddress)
         @Html.EditorFor(model => model.TelephoneNumber)
         @Html.EditorFor(model => model.DateOfBirth, new

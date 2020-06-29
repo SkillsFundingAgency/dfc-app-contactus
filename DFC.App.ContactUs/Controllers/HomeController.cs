@@ -64,7 +64,7 @@ namespace DFC.App.ContactUs.Controllers
                     case HomeOption.Webchat:
                         return Redirect($"/{LocalPath}/{ChatController.ThisViewCanonicalName}");
                     case HomeOption.SendAMessage:
-                        return Redirect($"/{LocalPath}/{WhyContactUsController.ThisViewCanonicalName}");
+                        return Redirect($"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}");
                     case HomeOption.Callback:
                         if (await SetSessionStateAsync(Category.Callback).ConfigureAwait(false))
                         {
@@ -157,7 +157,7 @@ namespace DFC.App.ContactUs.Controllers
                     case HomeOption.Webchat:
                         return Redirect($"/{WebchatRegistrationPath}/{ChatController.ThisViewCanonicalName}");
                     case HomeOption.SendAMessage:
-                        return Redirect($"/{RegistrationPath}/{WhyContactUsController.ThisViewCanonicalName}");
+                        return Redirect($"/{RegistrationPath}/{HowCanWeHelpController.ThisViewCanonicalName}");
                     case HomeOption.Callback:
                         if (await SetSessionStateAsync(Category.Callback).ConfigureAwait(false))
                         {
