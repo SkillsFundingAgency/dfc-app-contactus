@@ -34,18 +34,17 @@ namespace DFC.App.ContactUs.Attributes
             ErrorMessage = ErrorMessageString;
 
             var property = validationContext.ObjectType.GetProperty(comparisonProperty);
-
             if (property != null && value != null)
-                {
-                    var callbackTimeOptionValue = (CallbackTimeOption)value;
-                    var callbackDateOption = (CallbackDateOption?)property.GetValue(validationContext.ObjectInstance);
+            {
+                var callbackTimeOptionValue = (CallbackTimeOption)value;
+                var callbackDateOption = (CallbackDateOption?)property.GetValue(validationContext.ObjectInstance);
 
-                    if (callbackDateOption == CallbackDateOption.Today && EnterYourDetailsBodyViewModel.FirstDateIsForToday && EnterYourDetailsBodyViewModel.DisabledTimeBands[callbackTimeOptionValue])
-                    {
-                        var errorMessage = string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName.ToLowerInvariant());
-                        return new ValidationResult(errorMessage, new[] { validationContext.MemberName });
-                    }
+                if (callbackDateOption == CallbackDateOption.Today && EnterYourDetailsBodyViewModel.FirstDateIsForToday && EnterYourDetailsBodyViewModel.DisabledTimeBands[callbackTimeOptionValue])
+                {
+                    var errorMessage = string.Format(CultureInfo.InvariantCulture, ErrorMessage, validationContext.DisplayName.ToLowerInvariant());
+                    return new ValidationResult(errorMessage, new[] { validationContext.MemberName });
                 }
+            }
 
             return ValidationResult.Success;
         }
