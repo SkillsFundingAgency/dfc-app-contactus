@@ -6,13 +6,13 @@ namespace DFC.App.ContactUs.Enums
     {
         [Description("None")]
         None,
-        [Description("Speak to an adviser using webchat")]
+        [Description("Chat online")]
         Webchat,
-        [Description("Send us an online message. We'll email you back")]
+        [Description("By email")]
         SendAMessage,
-        [Description("Ask us to call you back")]
+        [Description("Ask us to call you")]
         Callback,
-        [Description("Send us a letter")]
+        [Description("By post")]
         Sendletter,
     }
 }
