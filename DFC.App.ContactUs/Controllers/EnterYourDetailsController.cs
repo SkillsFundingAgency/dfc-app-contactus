@@ -54,6 +54,7 @@ namespace DFC.App.ContactUs.Controllers
                 {
                     SelectedCategory = sessionStateModel?.State?.Category ?? Category.None,
                     MoreDetail = sessionStateModel?.State?.MoreDetail,
+                    IsCallback = sessionStateModel?.State?.IsCallback ?? false,
                 },
             };
 
@@ -137,6 +138,7 @@ namespace DFC.App.ContactUs.Controllers
             {
                 SelectedCategory = sessionStateModel?.State?.Category ?? Category.None,
                 MoreDetail = sessionStateModel?.State?.MoreDetail,
+                IsCallback = sessionStateModel?.State?.IsCallback ?? false,
             };
 
             Logger.LogInformation($"{nameof(EnterYourDetailsBody)} has returned content");
@@ -169,7 +171,7 @@ namespace DFC.App.ContactUs.Controllers
             Logger.LogInformation($"{nameof(SendEmailAsync)} preparing email");
 
             //Todo - guid work here
-            var templateKey = model.SelectedCategory.GetEmailKey();
+            var templateKey = EmailKeyHelper.GetEmailKey(model.IsCallback);
             var template = await templateService.GetTemplateByKeyAsync(templateKey).ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(template))
@@ -181,7 +183,7 @@ namespace DFC.App.ContactUs.Controllers
             var routingDetailModel = await routingService.GetAsync(model.Postcode!).ConfigureAwait(false);
             var contactUsRequestModel = mapper.Map<ContactUsEmailRequestModel>(model);
 
-            if (model.SelectedCategory == Category.Callback)
+            if (model.IsCallback)
             {
                 contactUsRequestModel.FromEmailAddress = famApiRoutingOptions.NoReplyEmailAddress;
             }

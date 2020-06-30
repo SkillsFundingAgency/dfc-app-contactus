@@ -38,7 +38,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
         public async Task SessionStateSetWithValidSessionIdHeaderReturnsSuccessForCallback(HttpStatusCode saveStatusCode)
         {
             // Arrange
-            var expectedRedirectUrl = $"/{HomeController.RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}";
+            var expectedRedirectUrl = $"/{HomeController.RegistrationPath}/{HowCanWeHelpController.ThisViewCanonicalName}";
             var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
             var viewModel = new HomeBodyViewModel
             {

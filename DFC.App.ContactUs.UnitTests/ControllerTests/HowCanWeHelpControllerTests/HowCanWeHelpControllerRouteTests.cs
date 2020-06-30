@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTests
@@ -21,13 +22,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTest
 
         [Theory]
         [MemberData(nameof(RouteDataOk))]
-        public void HowCanWeHelpControllerUsingPagesViewRouteForOkResult(string route, string actionMethod)
+        public async Task HowCanWeHelpControllerUsingPagesViewRouteForOkResult(string route, string actionMethod)
         {
             // Arrange
             var controller = BuildController(route);
 
             // Act
-            var result = RunControllerAction(controller, actionMethod);
+            var result = await RunControllerAction(controller, actionMethod).ConfigureAwait(false);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
@@ -35,13 +36,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTest
             controller.Dispose();
         }
 
-        private IActionResult RunControllerAction(HowCanWeHelpController controller, string actionName)
+        private async Task<IActionResult> RunControllerAction(HowCanWeHelpController controller, string actionName)
         {
             return actionName switch
             {
                 nameof(HowCanWeHelpController.HowCanWeHelpHtmlHead) => controller.HowCanWeHelpHtmlHead(),
                 nameof(HowCanWeHelpController.HowCanWeHelpBreadcrumb) => controller.HowCanWeHelpBreadcrumb(),
-                _ => controller.HowCanWeHelpBody(),
+                _ => await controller.HowCanWeHelpBody().ConfigureAwait(false),
             };
         }
 

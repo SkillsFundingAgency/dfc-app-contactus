@@ -29,7 +29,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTest
         public static IEnumerable<object[]> InvalidSelectedCategories => new List<object[]>
         {
             new object[] { Category.None },
-            new object[] { Category.Callback },
         };
 
         [Theory]

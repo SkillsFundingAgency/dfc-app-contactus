@@ -84,7 +84,7 @@ namespace DFC.App.ContactUs.Controllers
             return default;
         }
 
-        protected async Task<bool> SetSessionStateAsync(Category category, string? moreDetail = null)
+        protected async Task<bool> SetSessionStateAsync(Category category, string? moreDetail = null, bool isCallback = false)
         {
             var compositeSessionId = Request.CompositeSessionId();
             if (compositeSessionId.HasValue)
@@ -95,6 +95,7 @@ namespace DFC.App.ContactUs.Controllers
                 sessionStateModel.Ttl = 43200;
                 sessionStateModel.State!.Category = category;
                 sessionStateModel.State!.MoreDetail = moreDetail;
+                sessionStateModel.State!.IsCallback = isCallback;
 
                 Logger.LogInformation($"Saving the session state - compositeSessionId = {compositeSessionId}");
 

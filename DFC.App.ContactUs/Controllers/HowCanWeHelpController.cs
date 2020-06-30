@@ -22,8 +22,9 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("pages/how-can-we-help")]
-        public IActionResult HowCanWeHelpView()
+        public async Task<IActionResult> HowCanWeHelpView()
         {
+            var sessionStateModel = await GetSessionStateAsync().ConfigureAwait(false);
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
                 CanonicalName = ThisViewCanonicalName,
@@ -37,7 +38,11 @@ namespace DFC.App.ContactUs.Controllers
                     Title = Title + PageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
-                HowCanWeHelpBodyViewModel = new HowCanWeHelpBodyViewModel(),
+                HowCanWeHelpBodyViewModel = new HowCanWeHelpBodyViewModel
+                {
+                    SelectedCategory = sessionStateModel?.State?.Category ?? Category.None,
+                    IsCallback = sessionStateModel?.State?.IsCallback ?? false,
+                },
             };
 
             Logger.LogWarning($"{nameof(HowCanWeHelpView)} has returned content");
@@ -58,7 +63,7 @@ namespace DFC.App.ContactUs.Controllers
                     case Category.Website:
                     case Category.Feedback:
                     case Category.Other:
-                        if (await SetSessionStateAsync(model.SelectedCategory.Value, model.MoreDetail).ConfigureAwait(false))
+                        if (await SetSessionStateAsync(model.SelectedCategory.Value, model.MoreDetail, model.IsCallback).ConfigureAwait(false))
                         {
                             return Redirect($"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}");
                         }
@@ -120,9 +125,14 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("pages/how-can-we-help/body")]
-        public IActionResult HowCanWeHelpBody()
+        public async Task<IActionResult> HowCanWeHelpBody()
         {
-            var viewModel = new HowCanWeHelpBodyViewModel();
+            var sessionStateModel = await GetSessionStateAsync().ConfigureAwait(false);
+            var viewModel = new HowCanWeHelpBodyViewModel
+            {
+                SelectedCategory = sessionStateModel?.State?.Category ?? Category.None,
+                IsCallback = sessionStateModel?.State?.IsCallback ?? false,
+            };
 
             Logger.LogInformation($"{nameof(HowCanWeHelpBody)} has returned content");
 
@@ -142,7 +152,7 @@ namespace DFC.App.ContactUs.Controllers
                     case Category.Website:
                     case Category.Feedback:
                     case Category.Other:
-                        if (await SetSessionStateAsync(viewModel.SelectedCategory.Value, viewModel.MoreDetail).ConfigureAwait(false))
+                        if (await SetSessionStateAsync(viewModel.SelectedCategory.Value, viewModel.MoreDetail, viewModel.IsCallback).ConfigureAwait(false))
                         {
                             return Redirect($"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}");
                         }

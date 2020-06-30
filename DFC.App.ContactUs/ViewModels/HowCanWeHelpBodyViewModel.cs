@@ -24,5 +24,7 @@ namespace DFC.App.ContactUs.ViewModels
         [RegularExpression(RegExForMoreDetail, ErrorMessage = MoreDetailInvalidCharactersValidationError)]
         [StringLength(1000, ErrorMessage = MoreDetailLengthValidationError)]
         public string? MoreDetail { get; set; }
+
+        public bool IsCallback { get; set; }
     }
 }

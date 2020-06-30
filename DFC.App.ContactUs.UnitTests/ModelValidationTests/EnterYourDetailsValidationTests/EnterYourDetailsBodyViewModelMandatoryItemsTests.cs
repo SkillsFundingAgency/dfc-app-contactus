@@ -1,5 +1,4 @@
 ﻿using DFC.App.ContactUs.Data.Enums;
-using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -36,7 +35,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             };
             var viewModel = new EnterYourDetailsBodyViewModel
             {
-                SelectedCategory = Category.Callback,
+                IsCallback = true,
             };
 
             // Act

@@ -47,8 +47,8 @@ namespace DFC.App.ContactUs.Attributes
                 {
                     { nameof(EnterYourDetailsBodyViewModel.EmailAddress), nameof(EnterYourDetailsBodyViewModel.EmailAddressIsRequired) },
                     { nameof(EnterYourDetailsBodyViewModel.TelephoneNumber), nameof(EnterYourDetailsBodyViewModel.TelephoneNumberIsRequired) },
-                    { nameof(EnterYourDetailsBodyViewModel.CallbackDateOptionSelected), nameof(EnterYourDetailsBodyViewModel.CallbackDateTimeIsRequired) },
-                    { nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected), nameof(EnterYourDetailsBodyViewModel.CallbackDateTimeIsRequired) },
+                    { nameof(EnterYourDetailsBodyViewModel.CallbackDateOptionSelected), nameof(EnterYourDetailsBodyViewModel.IsCallback) },
+                    { nameof(EnterYourDetailsBodyViewModel.CallbackTimeOptionSelected), nameof(EnterYourDetailsBodyViewModel.IsCallback) },
                 };
             var errorMessages = new Dictionary<string, string>()
                 {

@@ -19,7 +19,8 @@ namespace DFC.App.ContactUs.UnitTests
                 CallbackDateOptionSelected = CallbackDateOption.TodayPlus1,
                 CallbackTimeOptionSelected = CallbackTimeOption.Band3,
                 TermsAndConditionsAccepted = true,
-                SelectedCategory = Category.Callback,
+                SelectedCategory = Category.Feedback,
+                IsCallback = true,
                 MoreDetail = "some more detail",
             };
         }
