@@ -27,8 +27,10 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("pages/home")]
-        public IActionResult HomeView()
+        public async Task<IActionResult> HomeView()
         {
+            await DeleteSessionStateAsync().ConfigureAwait(false);
+
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
                 CanonicalName = ThisViewCanonicalName,
@@ -64,11 +66,16 @@ namespace DFC.App.ContactUs.Controllers
                     case HomeOption.Webchat:
                         return Redirect($"/{LocalPath}/{ChatController.ThisViewCanonicalName}");
                     case HomeOption.SendAMessage:
-                        return Redirect($"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}");
-                    case HomeOption.Callback:
-                        if (await SetSessionStateAsync(Category.Callback).ConfigureAwait(false))
+                        if (await SetSessionStateAsync(Category.None, null, false).ConfigureAwait(false))
                         {
-                            return Redirect($"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}");
+                            return Redirect($"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}");
+                        }
+
+                        break;
+                    case HomeOption.Callback:
+                        if (await SetSessionStateAsync(Category.None, null, true).ConfigureAwait(false))
+                        {
+                            return Redirect($"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}");
                         }
 
                         break;
@@ -133,8 +140,10 @@ namespace DFC.App.ContactUs.Controllers
         [HttpGet]
         [Route("pages/home/body")]
         [Route("pages/body")]
-        public IActionResult HomeBody()
+        public async Task<IActionResult> HomeBody()
         {
+            await DeleteSessionStateAsync().ConfigureAwait(false);
+
             var viewModel = new HomeBodyViewModel()
             {
                 ServiceOpenDetailModel = serviceOpenDetailModel,
@@ -157,11 +166,16 @@ namespace DFC.App.ContactUs.Controllers
                     case HomeOption.Webchat:
                         return Redirect($"/{WebchatRegistrationPath}/{ChatController.ThisViewCanonicalName}");
                     case HomeOption.SendAMessage:
-                        return Redirect($"/{RegistrationPath}/{HowCanWeHelpController.ThisViewCanonicalName}");
-                    case HomeOption.Callback:
-                        if (await SetSessionStateAsync(Category.Callback).ConfigureAwait(false))
+                        if (await SetSessionStateAsync(Category.None, null, false).ConfigureAwait(false))
                         {
-                            return Redirect($"/{RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}");
+                            return Redirect($"/{RegistrationPath}/{HowCanWeHelpController.ThisViewCanonicalName}");
+                        }
+
+                        break;
+                    case HomeOption.Callback:
+                        if (await SetSessionStateAsync(Category.None, null, true).ConfigureAwait(false))
+                        {
+                            return Redirect($"/{RegistrationPath}/{HowCanWeHelpController.ThisViewCanonicalName}");
                         }
 
                         break;

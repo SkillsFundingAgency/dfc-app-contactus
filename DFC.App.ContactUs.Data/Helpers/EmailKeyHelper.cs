@@ -1,5 +1,4 @@
-﻿using DFC.App.ContactUs.Data.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace DFC.App.ContactUs.Data.Helpers
@@ -10,9 +9,9 @@ namespace DFC.App.ContactUs.Data.Helpers
 
         private static Guid OnlineMessageTemplateKey => Guid.Parse("e11a1195-801d-479b-84b6-f5e443abfb86");
 
-        public static Guid GetEmailKey(this Category category)
+        public static Guid GetEmailKey(bool isCallback)
         {
-            if (category == Category.Callback)
+            if (isCallback)
             {
                 return CallbackTemplateKey;
             }

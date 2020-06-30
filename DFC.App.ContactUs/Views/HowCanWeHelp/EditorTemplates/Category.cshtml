@@ -20,7 +20,7 @@
     <div class="govuk-radios">
         @foreach (var category in (Category[])Enum.GetValues(typeof(Category)))
         {
-            if (category != Category.None && category != Category.Callback)
+            if (category != Category.None)
             {
                 var radioId = category == Category.AdviceGuidance ? nameof(HowCanWeHelpBodyViewModel.SelectedCategory) : $"{category}-option";
                 var showChecked = Model == category ? "checked=checked" : string.Empty;

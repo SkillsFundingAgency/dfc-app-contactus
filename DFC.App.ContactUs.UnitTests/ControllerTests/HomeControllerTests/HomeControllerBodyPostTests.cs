@@ -21,7 +21,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         {
             new object[] { HomeOption.Webchat, $"/{HomeController.WebchatRegistrationPath}/{ChatController.ThisViewCanonicalName}" },
             new object[] { HomeOption.SendAMessage, $"/{HomeController.RegistrationPath}/{HowCanWeHelpController.ThisViewCanonicalName}" },
-            new object[] { HomeOption.Callback, $"/{HomeController.RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}" },
+            new object[] { HomeOption.Callback, $"/{HomeController.RegistrationPath}/{HowCanWeHelpController.ThisViewCanonicalName}" },
             new object[] { HomeOption.Sendletter, $"/{HomeController.RegistrationPath}/{HomeController.SendUsLetterCanonicalName}" },
         };
 
@@ -36,7 +36,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         public async Task HomeControllerBodyPostReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            string expectedRedirectUrl = $"/{HomeController.RegistrationPath}/{EnterYourDetailsController.ThisViewCanonicalName}";
+            string expectedRedirectUrl = $"/{HomeController.RegistrationPath}/{HowCanWeHelpController.ThisViewCanonicalName}";
             var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
             var viewModel = new HomeBodyViewModel
             {
@@ -73,7 +73,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             };
             var controller = BuildHomeController(MediaTypeNames.Text.Html);
 
-            if (selectedOption == HomeOption.Callback)
+            if (selectedOption == HomeOption.SendAMessage || selectedOption == HomeOption.Callback)
             {
                 A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
                 A.CallTo(() => FakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).Returns(HttpStatusCode.OK);
@@ -83,7 +83,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             var result = await controller.HomeBody(viewModel).ConfigureAwait(false);
 
             // Assert
-            if (selectedOption == HomeOption.Callback)
+            if (selectedOption == HomeOption.SendAMessage || selectedOption == HomeOption.Callback)
             {
                 A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
                 A.CallTo(() => FakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).MustHaveHappenedOnceExactly();

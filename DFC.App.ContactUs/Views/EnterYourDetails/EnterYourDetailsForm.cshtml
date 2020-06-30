@@ -8,7 +8,7 @@
             <h1 class="govuk-fieldset__heading">Enter your details</h1>
         </legend>
 
-        @if (Model.CallbackDateTimeIsRequired)
+        @if (Model.IsCallback)
         {
             <p class="govuk-body">
                 Complete this form to book a phone call with one of our advisers.
@@ -46,7 +46,7 @@
         })
         @Html.EditorFor(model => model.Postcode)
 
-        @if (Model.CallbackDateTimeIsRequired)
+        @if (Model.IsCallback)
         {
             @Html.EditorFor(model => model.CallbackDateOptionSelected)
             @Html.EditorFor(model => model.CallbackTimeOptionSelected)
@@ -61,6 +61,7 @@
 
         @Html.HiddenFor(model => model.SelectedCategory)
         @Html.HiddenFor(model => model.MoreDetail)
+        @Html.HiddenFor(model => model.IsCallback)
         @Html.Hidden(nameof(Model.IsTrue), "true")
     </fieldset>
 

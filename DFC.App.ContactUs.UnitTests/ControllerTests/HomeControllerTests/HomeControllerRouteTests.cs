@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
@@ -22,13 +23,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(RouteDataOk))]
-        public void PagesControllerUsingPagesViewRouteForOkResult(string route, string actionMethod)
+        public async Task PagesControllerUsingPagesViewRouteForOkResult(string route, string actionMethod)
         {
             // Arrange
             var controller = BuildController(route);
 
             // Act
-            var result = RunControllerAction(controller, actionMethod);
+            var result = await RunControllerAction(controller, actionMethod).ConfigureAwait(false);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
@@ -36,13 +37,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             controller.Dispose();
         }
 
-        private IActionResult RunControllerAction(HomeController controller, string actionName)
+        private async Task<IActionResult> RunControllerAction(HomeController controller, string actionName)
         {
             return actionName switch
             {
                 nameof(HomeController.HomeHtmlHead) => controller.HomeHtmlHead(),
                 nameof(HomeController.HomeBreadcrumb) => controller.HomeBreadcrumb(),
-                _ => controller.HomeBody(),
+                _ => await controller.HomeBody().ConfigureAwait(false),
             };
         }
 

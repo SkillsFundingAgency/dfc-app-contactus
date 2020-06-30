@@ -15,7 +15,6 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.CallbackDateOptionSelected = CallbackDateOption.TodayPlus1;
             viewModel.CallbackTimeOptionSelected = CallbackTimeOption.Band3;
-            viewModel.SelectedCategory = Category.Callback;
 
             // Act
             var (isValid, validationResults) = ModelValidator.TryValidateModel(viewModel);
@@ -33,6 +32,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             viewModel.CallbackDateOptionSelected = null;
             viewModel.CallbackTimeOptionSelected = null;
             viewModel.SelectedCategory = Category.AdviceGuidance;
+            viewModel.IsCallback = false;
 
             // Act
             var (isValid, validationResults) = ModelValidator.TryValidateModel(viewModel);
@@ -49,7 +49,6 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.CallbackDateOptionSelected = null;
             viewModel.CallbackTimeOptionSelected = CallbackTimeOption.Band3;
-            viewModel.SelectedCategory = Category.Callback;
 
             // Act
             var (isValid, validationResults) = ModelValidator.TryValidateModel(viewModel);
@@ -68,7 +67,6 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.CallbackDateOptionSelected = CallbackDateOption.TodayPlus1;
             viewModel.CallbackTimeOptionSelected = null;
-            viewModel.SelectedCategory = Category.Callback;
 
             // Act
             var (isValid, validationResults) = ModelValidator.TryValidateModel(viewModel);

@@ -11,11 +11,11 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTests
 {
     [Trait("Category", "HowCanWeHelp Controller Unit Tests")]
-    public class HowCanWeHelpControllerBodyTests : BaseHowCanWeHelpControllerTests
+    public class HowCanWeHelpControllerViewTests : BaseHowCanWeHelpControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async Task HowCanWeHelpControllerBodyHtmlReturnsSuccess(string mediaTypeName)
+        public async Task HowCanWeHelpControllerViewHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildHowCanWeHelpController(mediaTypeName);
@@ -24,20 +24,20 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTest
             A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
 
             // Act
-            var result = await controller.HowCanWeHelpBody().ConfigureAwait(false);
+            var result = await controller.HowCanWeHelpView().ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappened();
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            _ = Assert.IsAssignableFrom<HowCanWeHelpBodyViewModel>(viewResult.ViewData.Model);
+            _ = Assert.IsAssignableFrom<HowCanWeHelpViewModel>(viewResult.ViewData.Model);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async Task HowCanWeHelpControllerBodyJsonReturnsSuccess(string mediaTypeName)
+        public async Task HowCanWeHelpControllersViewJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildHowCanWeHelpController(mediaTypeName);
@@ -46,20 +46,20 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTest
             A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
 
             // Act
-            var result = await controller.HowCanWeHelpBody().ConfigureAwait(false);
+            var result = await controller.HowCanWeHelpView().ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappened();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            Assert.NotNull(jsonResult.Value);
+            _ = Assert.IsAssignableFrom<HowCanWeHelpViewModel>(jsonResult.Value);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public async Task HowCanWeHelpControllerBodyReturnsNotAcceptable(string mediaTypeName)
+        public async Task HowCanWeHelpControllerViewReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             var controller = BuildHowCanWeHelpController(mediaTypeName);
@@ -68,7 +68,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTest
             A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
 
             // Act
-            var result = await controller.HowCanWeHelpBody().ConfigureAwait(false);
+            var result = await controller.HowCanWeHelpView().ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappened();

@@ -31,6 +31,7 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             // Arrange
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             viewModel.SelectedCategory = Category.Other;
+            viewModel.IsCallback = false;
             viewModel.EmailAddress = null;
 
             // Act

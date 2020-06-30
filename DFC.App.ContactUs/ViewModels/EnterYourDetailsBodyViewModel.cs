@@ -148,12 +148,12 @@ namespace DFC.App.ContactUs.ViewModels
         public string? Postcode { get; set; }
 
         [Display(Name = "Pick a day for us to call you")]
-        [RequiredWhenTrue(nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackDateOptionValidationError)]
+        [RequiredWhenTrue(nameof(IsCallback), ErrorMessage = CallbackDateOptionValidationError)]
         [EnumDataType(typeof(CallbackDateOption))]
         public CallbackDateOption? CallbackDateOptionSelected { get; set; }
 
         [Display(Name = "Pick a time for us to call you")]
-        [RequiredWhenTrue(nameof(CallbackDateTimeIsRequired), ErrorMessage = CallbackTimeOptionValidationError)]
+        [RequiredWhenTrue(nameof(IsCallback), ErrorMessage = CallbackTimeOptionValidationError)]
         [CallbackTimeOptionValidator(nameof(CallbackDateOptionSelected), ErrorMessage = "This time period has expired. Choose a different time")]
         [EnumDataType(typeof(CallbackTimeOption))]
         public CallbackTimeOption? CallbackTimeOptionSelected { get; set; }
@@ -168,11 +168,13 @@ namespace DFC.App.ContactUs.ViewModels
 
         public Category SelectedCategory { get; set; }
 
+        public bool IsCallback { get; set; }
+
         public bool EmailAddressIsRequired
         {
             get
             {
-                return SelectedCategory != Category.Callback;
+                return !IsCallback;
             }
         }
 
@@ -180,15 +182,7 @@ namespace DFC.App.ContactUs.ViewModels
         {
             get
             {
-                return SelectedCategory == Category.Callback;
-            }
-        }
-
-        public bool CallbackDateTimeIsRequired
-        {
-            get
-            {
-                return SelectedCategory == Category.Callback;
+                return IsCallback;
             }
         }
     }
