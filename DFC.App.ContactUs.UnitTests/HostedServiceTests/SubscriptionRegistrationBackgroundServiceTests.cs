@@ -79,6 +79,7 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
             serviceToTest.Dispose();
             httpResponse.Dispose();
             fakeHttpMessageHandler.Dispose();
+            httpClient.Dispose();
         }
     }
 }
