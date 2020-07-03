@@ -293,7 +293,7 @@
                             },
                             {
                                 "name": "Configuration__ApplicationName",
-                                "value": "DFC.App.ContactUs"
+                                "value": "DFC-App-ContactUs"
                             }
                         ]
                     }
