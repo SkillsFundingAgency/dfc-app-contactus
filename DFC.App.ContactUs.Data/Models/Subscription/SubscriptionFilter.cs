@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace DFC.App.ContactUs.Data.Models.Subscription
 {
     public class SubscriptionFilter
     {
-        public SubscriptionPropertyContainsFilter PropertyContainsFilter { get; set; }
+        public List<SubscriptionPropertyContainsFilter>? PropertyContainsFilters { get; set; }
     }
 }

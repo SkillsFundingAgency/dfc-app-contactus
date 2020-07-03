@@ -1,18 +1,15 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Data.Models.Subscription;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using DFC.App.ContactUs.Data.Models.Subscription;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using System.Text;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using System.Linq;
-using Microsoft.Extensions.Logging;
-using DFC.App.ContactUs.Data.Models;
 
 namespace DFC.App.ContactUs.HostedServices
 {
@@ -45,7 +42,7 @@ namespace DFC.App.ContactUs.HostedServices
             var webhookReceiverUrl = $"{webhookSettings.ApplicationWebhookReceiverEndpointUrl ?? throw new ArgumentException(nameof(webhookSettings.ApplicationWebhookReceiverEndpointUrl))}api/webhook/receiveevents";
 
             logger.LogInformation($"Registering subscription for endpoint: {webhookReceiverUrl}");
-            var subscriptionRequest = new SubscriptionRequest { Endpoint = new Uri(webhookReceiverUrl), Name = subscribeName.Replace(".", "-", StringComparison.CurrentCultureIgnoreCase), Filter = new SubscriptionFilter { PropertyContainsFilter = new SubscriptionPropertyContainsFilter { Key = "subject", Values = new List<string> { "email" }.ToArray() } } };
+            var subscriptionRequest = new SubscriptionRequest { Endpoint = new Uri(webhookReceiverUrl), Name = subscribeName.Replace(".", "-", StringComparison.CurrentCultureIgnoreCase), Filter = new SubscriptionFilter { PropertyContainsFilters = new List<SubscriptionPropertyContainsFilter>() { new SubscriptionPropertyContainsFilter { Key = "subject", Values = new List<string> { "email" }.ToArray() } } } };
 
             var content = new StringContent(JsonConvert.SerializeObject(subscriptionRequest), Encoding.UTF8, "application/json");
 
