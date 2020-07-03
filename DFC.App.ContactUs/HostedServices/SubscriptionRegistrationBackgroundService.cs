@@ -37,7 +37,7 @@ namespace DFC.App.ContactUs.HostedServices
         {
             logger.LogInformation("Subscription registration started");
 
-            var subscribeName = configuration["Configuration:ApplicationName"] ?? throw new ArgumentException("Configuration:ApplicationName not present in IConfiguration");
+            var subscribeName = !string.IsNullOrEmpty(configuration["Configuration:ApplicationName"]) ? configuration["Configuration:ApplicationName"] : throw new ArgumentException("Configuration:ApplicationName not present in IConfiguration");
 
             var webhookReceiverUrl = $"{webhookSettings.ApplicationWebhookReceiverEndpointUrl ?? throw new ArgumentException(nameof(webhookSettings.ApplicationWebhookReceiverEndpointUrl))}api/webhook/receiveevents";
 
