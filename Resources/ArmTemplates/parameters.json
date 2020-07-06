@@ -62,6 +62,9 @@
         "ApimProxyAddress": {
             "value": "__ApimProxyAddress__"
         },
+        "ApimCompositeKey": {
+            "value": "__ApimCompositeKey__"
+        },
         "ApimFutureAccessModelKey": {
             "value": "__ApimFutureAccessModelKey__"
         },
