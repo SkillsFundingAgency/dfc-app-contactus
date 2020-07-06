@@ -23,9 +23,14 @@ namespace DFC.App.ContactUs.Services.CmsApiProcessorService
             return await apiDataProcessorService.GetAsync<IEnumerable<TApiResponseModel>>(httpClient, contentType).ConfigureAwait(false) ?? throw new InvalidOperationException($"{nameof(GetAll)} returned null for content type {contentType}");
         }
 
+        public async Task<TApiResponseModel> GetById(string contentType, string id)
+        {
+            return await apiDataProcessorService.GetAsync<TApiResponseModel>(httpClient, contentType, id).ConfigureAwait(false) ?? throw new InvalidOperationException($"{nameof(GetById)} returned null for request {contentType} {id}");
+        }
+
         public async Task<TApiResponseModel> GetById(Uri uri)
         {
-            return await apiDataProcessorService.GetAsync<TApiResponseModel>(httpClient, uri).ConfigureAwait(false) ?? throw new InvalidOperationException($"{nameof(GetById)} returned null for request uri {uri}");
+            return await apiDataProcessorService.GetAsync<TApiResponseModel>(httpClient, uri).ConfigureAwait(false) ?? throw new InvalidOperationException($"{nameof(GetById)} returned null for request {uri}");
         }
     }
 }

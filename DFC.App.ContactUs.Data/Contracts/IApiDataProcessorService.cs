@@ -9,6 +9,9 @@ namespace DFC.App.ContactUs.Data.Contracts
         Task<TApiModel?> GetAsync<TApiModel>(HttpClient httpClient, Uri url)
             where TApiModel : class;
 
+        Task<TApiModel?> GetAsync<TApiModel>(HttpClient httpClient, string contentType, string id)
+          where TApiModel : class;
+
         Task<TApiModel?> GetAsync<TApiModel>(HttpClient httpClient, string contentType)
           where TApiModel : class;
     }

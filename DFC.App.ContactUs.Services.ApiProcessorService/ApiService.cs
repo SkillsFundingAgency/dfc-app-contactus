@@ -18,6 +18,11 @@ namespace DFC.App.ContactUs.Services.ApiProcessorService
             this.clientOptions = clientOptions;
         }
 
+        public async Task<string?> GetAsync(HttpClient httpClient, string contentType, string id, string acceptHeader)
+        {
+            return await GetAsync(httpClient, new Uri($"{this.clientOptions.BaseAddress}/{contentType}/{id}"), acceptHeader).ConfigureAwait(false);
+        }
+
         public async Task<string?> GetAsync(HttpClient httpClient, string contentType, string acceptHeader)
         {
             return await GetAsync(httpClient, new Uri($"{this.clientOptions.BaseAddress}/{contentType}"), acceptHeader).ConfigureAwait(false);
