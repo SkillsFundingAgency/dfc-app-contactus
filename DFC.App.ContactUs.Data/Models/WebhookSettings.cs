@@ -4,8 +4,8 @@ namespace DFC.App.ContactUs.Data.Models
 {
     public class WebhookSettings
     {
-        public Uri? SubscriptionApiEndpointUrl { get; set; }
+        public Uri? SubscriptionsApiBaseAddress { get; set; }
 
-        public Uri? ApplicationWebhookReceiverEndpointUrl { get; set; }
+        public Uri? WebhookReceiverEndpoint { get; set; }
     }
 }

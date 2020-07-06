@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.Data.Models;
+﻿using DFC.App.ContactUs.Data.Helpers;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Data.Models.Subscription;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -39,14 +41,15 @@ namespace DFC.App.ContactUs.HostedServices
 
             var subscribeName = !string.IsNullOrEmpty(configuration["Configuration:ApplicationName"]) ? configuration["Configuration:ApplicationName"] : throw new ArgumentException("Configuration:ApplicationName not present in IConfiguration");
 
-            var webhookReceiverUrl = $"{webhookSettings.ApplicationWebhookReceiverEndpointUrl ?? throw new ArgumentException(nameof(webhookSettings.ApplicationWebhookReceiverEndpointUrl))}api/webhook/receiveevents";
+            var webhookReceiverUrl = $"{webhookSettings.WebhookReceiverEndpoint ?? throw new ArgumentException(nameof(webhookSettings.WebhookReceiverEndpoint))}api/webhook/receiveevents";
 
             logger.LogInformation($"Registering subscription for endpoint: {webhookReceiverUrl}");
-            var subscriptionRequest = new SubscriptionRequest { Endpoint = new Uri(webhookReceiverUrl), Name = subscribeName.Replace(".", "-", StringComparison.CurrentCultureIgnoreCase), Filter = new SubscriptionFilter { PropertyContainsFilters = new List<SubscriptionPropertyContainsFilter>() { new SubscriptionPropertyContainsFilter { Key = "subject", Values = new List<string> { "email" }.ToArray() } } } };
+
+            var subscriptionRequest = new SubscriptionRequest { Endpoint = new Uri(webhookReceiverUrl), Name = subscribeName, Filter = new SubscriptionFilter { PropertyContainsFilters = new List<SubscriptionPropertyContainsFilter>() { new SubscriptionPropertyContainsFilter { Key = "subject", Values = EmailKeyHelper.GetEmailKeys().Select(z => z.ToString()).ToArray() } } } };
 
             var content = new StringContent(JsonConvert.SerializeObject(subscriptionRequest), Encoding.UTF8, "application/json");
 
-            var result = await httpClient.PostAsync(webhookSettings.SubscriptionApiEndpointUrl, content).ConfigureAwait(false);
+            var result = await httpClient.PostAsync(webhookSettings.SubscriptionsApiBaseAddress, content).ConfigureAwait(false);
 
             if (!result.IsSuccessStatusCode)
             {
