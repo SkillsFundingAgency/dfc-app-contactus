@@ -47,6 +47,17 @@ namespace DFC.App.ContactUs.HostedServices
 
             var emailCacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(() => emailCacheReloadService.Reload(stoppingToken), nameof(CacheReloadBackgroundService));
 
+            if (!emailCacheReloadServiceTask.IsCompletedSuccessfully)
+            {
+                logger.LogInformation("Email Cache Reload Service didn't complete successfully");
+
+                if (emailCacheReloadServiceTask.Exception != null)
+                {
+                    logger.LogError(emailCacheReloadServiceTask.Exception.ToString());
+                    throw emailCacheReloadServiceTask.Exception;
+                }
+            }
+
             return Task.CompletedTask;
         }
     }
