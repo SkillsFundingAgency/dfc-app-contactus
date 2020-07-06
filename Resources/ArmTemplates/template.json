@@ -96,6 +96,12 @@
         },
         "NoReplyEmailAddress": {
             "type": "string"
+        },
+        "SubscriptionApiEndpointUrl": {
+            "type": "string"
+        },
+        "ApplicationWebhookReceiverEndpointUrl": {
+            "type": "string"
         }
     },
     "variables": {
@@ -293,7 +299,15 @@
                             },
                             {
                                 "name": "Configuration__ApplicationName",
-                                "value": "DFC.App.ContactUs"
+                                "value": "DFC-App-ContactUs"
+                            },
+                            {
+                                "name": "WebhookSettings__SubscriptionApiEndpointUrl",
+                                "value": "[parameters('SubscriptionApiEndpointUrl')]"
+                            },
+                            {
+                                "name": "WebhookSettings__ApplicationWebhookReceiverEndpointUrl",
+                                "value": "[parameters('ApplicationWebhookReceiverEndpointUrl')]"
                             }
                         ]
                     }

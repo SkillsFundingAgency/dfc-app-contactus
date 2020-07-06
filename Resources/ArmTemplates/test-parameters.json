@@ -61,6 +61,12 @@
         },
         "NoReplyEmailAddress": {
             "value": "no-replyfoo@contso.com"
+        },
+        "SubscriptionApiEndpointUrl": {
+            "value": "https://url"
+        },
+        "ApplicationWebhookReceiverEndpointUrl": {
+            "value": "https://url"
         }
     }
 }
