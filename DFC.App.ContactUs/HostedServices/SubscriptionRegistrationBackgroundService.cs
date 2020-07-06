@@ -45,7 +45,7 @@ namespace DFC.App.ContactUs.HostedServices
 
             logger.LogInformation($"Registering subscription for endpoint: {webhookReceiverUrl}");
 
-            var subscriptionRequest = new SubscriptionRequest { Endpoint = new Uri(webhookReceiverUrl), Name = subscribeName, Filter = new SubscriptionFilter { PropertyContainsFilters = new List<SubscriptionPropertyContainsFilter>() { new SubscriptionPropertyContainsFilter { Key = "subject", Values = EmailKeyHelper.GetEmailKeys().Select(z => z.ToString()).ToArray() } } } };
+            var subscriptionRequest = new SubscriptionRequest { Endpoint = new Uri(webhookReceiverUrl), Name = subscribeName, Filter = new SubscriptionFilter { IncludeEventTypes = webhookSettings.IncludeEventTypes, PropertyContainsFilters = new List<SubscriptionPropertyContainsFilter>() { new SubscriptionPropertyContainsFilter { Key = "subject", Values = EmailKeyHelper.GetEmailKeys().Select(z => z.ToString()).ToArray() } } } };
 
             var content = new StringContent(JsonConvert.SerializeObject(subscriptionRequest), Encoding.UTF8, "application/json");
 
