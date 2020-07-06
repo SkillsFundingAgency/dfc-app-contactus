@@ -59,8 +59,8 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
         {
             //Arrange
             A.CallTo(() => configuration["Configuration:ApplicationName"]).Returns("test-app");
-            webhookSettings.WebhookReceiverEndpoint = new Uri("https://somewebhookreceiver.com/receive");
-            webhookSettings.SubscriptionsApiBaseAddress = new Uri("https://somewheretosubscribeto.com");
+            webhookSettings.ApplicationWebhookReceiverEndpointUrl = new Uri("https://somewebhookreceiver.com/receive");
+            webhookSettings.SubscriptionApiEndpointUrl = new Uri("https://somewheretosubscribeto.com");
 
             var httpResponse = new HttpResponseMessage { StatusCode = System.Net.HttpStatusCode.OK };
             var fakeHttpRequestSender = A.Fake<IFakeHttpRequestSender>();
@@ -89,8 +89,8 @@ namespace DFC.App.ContactUs.UnitTests.HostedServiceTests
         {
             //Arrange
             A.CallTo(() => configuration["Configuration:ApplicationName"]).Returns("test-app");
-            webhookSettings.WebhookReceiverEndpoint = new Uri("https://somewebhookreceiver.com/receive");
-            webhookSettings.SubscriptionsApiBaseAddress = new Uri("https://somewheretosubscribeto.com");
+            webhookSettings.ApplicationWebhookReceiverEndpointUrl = new Uri("https://somewebhookreceiver.com/receive");
+            webhookSettings.SubscriptionApiEndpointUrl = new Uri("https://somewheretosubscribeto.com");
 
             var httpResponse = new HttpResponseMessage { StatusCode = System.Net.HttpStatusCode.InternalServerError };
             var fakeHttpRequestSender = A.Fake<IFakeHttpRequestSender>();

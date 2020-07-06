@@ -41,7 +41,7 @@ namespace DFC.App.ContactUs.HostedServices
 
             var subscribeName = !string.IsNullOrEmpty(configuration["Configuration:ApplicationName"]) ? configuration["Configuration:ApplicationName"] : throw new ArgumentException("Configuration:ApplicationName not present in IConfiguration");
 
-            var webhookReceiverUrl = $"{webhookSettings.WebhookReceiverEndpoint ?? throw new ArgumentException(nameof(webhookSettings.WebhookReceiverEndpoint))}api/webhook/receiveevents";
+            var webhookReceiverUrl = $"{webhookSettings.ApplicationWebhookReceiverEndpointUrl ?? throw new ArgumentException(nameof(webhookSettings.ApplicationWebhookReceiverEndpointUrl))}";
 
             logger.LogInformation($"Registering subscription for endpoint: {webhookReceiverUrl}");
 
@@ -49,7 +49,7 @@ namespace DFC.App.ContactUs.HostedServices
 
             var content = new StringContent(JsonConvert.SerializeObject(subscriptionRequest), Encoding.UTF8, "application/json");
 
-            var result = await httpClient.PostAsync(webhookSettings.SubscriptionsApiBaseAddress, content).ConfigureAwait(false);
+            var result = await httpClient.PostAsync(webhookSettings.SubscriptionApiEndpointUrl, content).ConfigureAwait(false);
 
             if (!result.IsSuccessStatusCode)
             {
