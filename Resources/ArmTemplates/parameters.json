@@ -73,6 +73,12 @@
         },
         "NoReplyEmailAddress": {
             "value": "__NoReplyEmailAddress__"
+        },
+        "SubscriptionApiEndpointUrl": {
+            "value": "__SubscriptionApiEndpointUrl__"
+        },
+        "ApplicationWebhookReceiverEndpointUrl": {
+            "value": "__ApplicationWebhookReceiverEndpointUrl__"
         }
     }
 }
