@@ -91,6 +91,9 @@
         "ApimCompositeKey": {
             "type": "string"
         },
+        "ApimContentKey": {
+            "type": "string"
+        },
         "SendGridKey": {
             "type": "string"
         },
@@ -262,7 +265,7 @@
                             },
                             {
                                 "name": "CmsApiClientOptions__ApiKey",
-                                "value": "[parameters('ApimCompositeKey')]"
+                                "value": "[parameters('ApimContentKey')]"
                             },
                             {
                                 "name": "CmsApiClientOptions__BaseAddress",

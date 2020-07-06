@@ -65,6 +65,9 @@
         "ApimCompositeKey": {
             "value": "__ApimCompositeKey__"
         },
+        "ApimContentKey": {
+            "value": "__ApimContentKey__"
+        },
         "ApimFutureAccessModelKey": {
             "value": "__ApimFutureAccessModelKey__"
         },
