@@ -98,7 +98,7 @@
             "type": "string"
         },
         "SubscriptionApiEndpointUrl": {
-            "type": "string",
+            "type": "string"
         },
         "ApplicationWebhookReceiverEndpointUrl": {
             "type": "string"
