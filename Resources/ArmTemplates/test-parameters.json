@@ -53,6 +53,12 @@
         "ApimFutureAccessModelKey": {
             "value": "123456789"
         },
+        "ApimCompositeKey": {
+            "value": "123456789"
+        },
+        "ApimContentKey": {
+            "value": "123456789"
+        },
         "SendGridKey": {
             "value": "987456"
         },
