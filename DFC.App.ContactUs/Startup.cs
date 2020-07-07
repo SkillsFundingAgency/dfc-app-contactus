@@ -14,6 +14,8 @@ using DFC.App.ContactUs.Services.EmailService;
 using DFC.App.ContactUs.Services.EmailTemplateService;
 using DFC.App.ContactUs.Services.EventProcessorService;
 using DFC.App.ContactUs.Services.Services.EmailService;
+using DFC.App.Subscription;
+using DFC.App.Subscription.Data.Models;
 using DFC.Compui.Cosmos;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
@@ -29,6 +31,7 @@ using SendGrid;
 using SendGrid.Helpers.Reliability;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using DFC.App.Subscription.Extensions;
 
 namespace DFC.App.ContactUs
 {
@@ -101,10 +104,12 @@ namespace DFC.App.ContactUs
             services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
             services.AddSingleton(configuration.GetSection(nameof(FamApiRoutingOptions)).Get<FamApiRoutingOptions>() ?? new FamApiRoutingOptions());
-            services.AddSingleton(configuration.GetSection(nameof(WebhookSettings)).Get<WebhookSettings>() ?? new WebhookSettings());
+
             services.AddHostedServiceTelemetryWrapper();
+
+            services.Configure<SubscriptionSettings>(configuration.GetSection(nameof(SubscriptionSettings)));
+            services.AddEventGridSubscription(configuration);
             services.AddHostedService<CacheReloadBackgroundService>();
-            services.AddHostedService<SubscriptionRegistrationBackgroundService>();
 
             const string AppSettingsPolicies = "Policies";
             var policyOptions = configuration.GetSection(AppSettingsPolicies).Get<PolicyOptions>() ?? new PolicyOptions();

@@ -32,7 +32,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
 
             if (url.Segments.Length < 3)
             {
-                throw new InvalidDataException($"URI: {url} doesn't contian enough segments for a Content Type and Id");
+                throw new InvalidDataException($"URI: {url} doesn't contain enough segments for a Content Type and Id");
             }
 
             var contentType = url.Segments[url.Segments.Length - 2].Trim('/').ToUpperInvariant();
