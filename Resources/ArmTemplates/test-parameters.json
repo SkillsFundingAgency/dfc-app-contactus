@@ -54,7 +54,10 @@
             "value": "123456789"
         },
         "ApimCompositeKey": {
-            "value": "https://url"
+            "value": "123456789"
+        },
+        "ApimContentKey": {
+            "value": "123456789"
         },
         "SendGridKey": {
             "value": "987456"
