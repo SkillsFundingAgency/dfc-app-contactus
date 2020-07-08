@@ -24,7 +24,9 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="DFC.Compui.Sessionstate" Version="327027.0.0" />
+    <PackageReference Include="DFC.Compui.Subscriptions.Pkg.Data" Version="1.5.0" />
     <PackageReference Include="DFC.Compui.Subscriptions.Pkg.Netstandard" Version="1.0.0" />
+    <PackageReference Include="DFC.Compui.Subscriptions.Pkg.Webhook" Version="1.4.0" />
     <PackageReference Include="DFC.Compui.Telemetry" Version="1.0.11" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.14.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.5" />
@@ -46,7 +48,6 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\..\dfc-compui-subscriptions-pkg-netstandard\DFC.Compui.Subscriptions.Pkg.Webhook\DFC.Compui.Subscriptions.Pkg.Webhook.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Data\DFC.App.ContactUs.Data.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.ApiProcessorService\DFC.App.ContactUs.Services.ApiProcessorService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.AreaRoutingService\DFC.App.ContactUs.Services.AreaRoutingService.csproj" />

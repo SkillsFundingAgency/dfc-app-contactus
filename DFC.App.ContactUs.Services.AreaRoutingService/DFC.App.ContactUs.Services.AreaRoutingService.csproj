@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DFC.Compui.Subscriptions.Pkg.Data" Version="1.5.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\dfc-compui-subscriptions-pkg-netstandard\DFC.Compui.Subscriptions.Pkg.Data\DFC.Compui.Subscriptions.Pkg.Data.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Data\DFC.App.ContactUs.Data.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.ApiProcessorService\DFC.App.ContactUs.Services.ApiProcessorService.csproj" />
   </ItemGroup>
