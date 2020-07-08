@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\dfc-compui-subscriptions-pkg-netstandard\DFC.Compui.Subscriptions.Pkg.Data\DFC.Compui.Subscriptions.Pkg.Data.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Data\DFC.App.ContactUs.Data.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.ApiProcessorService\DFC.App.ContactUs.Services.ApiProcessorService.csproj" />
   </ItemGroup>

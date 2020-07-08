@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.Data.Contracts;
+﻿using AutoMapper;
+using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Helpers;
 using DFC.App.ContactUs.Data.Models;
 using DFC.Compui.Cosmos.Contracts;
@@ -15,14 +16,14 @@ namespace DFC.App.ContactUs.Services.CacheContentService
         private readonly IDocumentService<EmailModel> emailDocumentService;
         private readonly IContentApiService<EmailApiDataModel> contentApiService;
         private readonly ILogger<EmailCacheReloadService> logger;
-        private readonly AutoMapper.IMapper mapper;
+        //private readonly IMapper mapper;
 
         public EmailCacheReloadService(IContentApiService<EmailApiDataModel> contentApiService, ILogger<EmailCacheReloadService> logger, IDocumentService<EmailModel> emailEventService, AutoMapper.IMapper mapper)
         {
             this.emailDocumentService = emailEventService;
             this.contentApiService = contentApiService;
             this.logger = logger;
-            this.mapper = mapper;
+            //this.mapper = mapper;
         }
 
         public async Task ReloadCacheItem(Uri uri)
@@ -85,7 +86,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
                 }
 
                 //Add the e-mail to cache
-                var mappedEmail = mapper.Map<EmailModel>(apiEmail);
+                var mappedEmail = new EmailModel { Body = apiEmail.Body, Id = Guid.Parse(apiEmail.Url!.Segments.Last()) };
 
                 await emailDocumentService.UpsertAsync(mappedEmail).ConfigureAwait(false);
             }
@@ -96,7 +97,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             var email = await contentApiService.GetById(uri).ConfigureAwait(false);
 
             //Add the e-mail to cache
-            var mappedEmail = mapper.Map<EmailModel>(email);
+            var mappedEmail = new EmailModel { Body = email.Body, Id = Guid.Parse(email.Url!.Segments.Last()) };
 
             await emailDocumentService.UpsertAsync(mappedEmail).ConfigureAwait(false);
         }

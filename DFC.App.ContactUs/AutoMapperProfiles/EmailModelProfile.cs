@@ -16,6 +16,9 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
                .ForMember(d => d.Etag, s => s.Ignore())
                .ForMember(d => d.ParentId, s => s.Ignore())
                .ForMember(d => d.TraceId, s => s.Ignore())
+               .ForMember(d => d.ContentItems, s => s.Ignore())
+               .ForMember(d => d.ContentLinks, s => s.Ignore())
+               .ForMember(d => d.ItemId, s => s.Ignore())
                .ForMember(d => d.PartitionKey, s => s.Ignore());
         }
     }

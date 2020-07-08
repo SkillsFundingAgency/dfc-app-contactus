@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DFC.Compui.Cosmos" Version="1.0.22" />
+    <PackageReference Include="DFC.Compui.Cosmos" Version="1.0.34" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -26,6 +26,10 @@
 
   <ItemGroup>
     <Folder Include="Models\Subscription\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\dfc-compui-subscriptions-pkg-netstandard\DFC.Compui.Subscriptions.Pkg.Data\DFC.Compui.Subscriptions.Pkg.Data.csproj" />
   </ItemGroup>
 
 </Project>

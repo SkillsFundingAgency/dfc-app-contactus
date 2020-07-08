@@ -1,4 +1,6 @@
-﻿namespace DFC.App.ContactUs.Data.Models
+﻿using DFC.Compui.Subscriptions.Pkg.Data.Models;
+
+namespace DFC.App.ContactUs.Data.Models
 {
     public class FamApiRoutingOptions : ClientOptionsModel
     {

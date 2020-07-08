@@ -1,5 +1,6 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
+using DFC.Compui.Subscriptions.Pkg.Data.Models;
 using DFC.Compui.Telemetry.HostedService;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -37,15 +38,15 @@ namespace DFC.App.ContactUs.HostedServices
             return base.StopAsync(cancellationToken);
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             if (cmsApiClientOptions.BaseAddress == null)
             {
                 logger.LogInformation($"CMS Api Client Base Address is null, skipping Cache Reload");
-                return Task.CompletedTask;
             }
 
-            var emailCacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(() => emailCacheReloadService.Reload(stoppingToken), nameof(CacheReloadBackgroundService));
+            var emailCacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(async () => await emailCacheReloadService.Reload(stoppingToken).ConfigureAwait(false), nameof(CacheReloadBackgroundService));
+            await emailCacheReloadServiceTask.ConfigureAwait(false);
 
             if (!emailCacheReloadServiceTask.IsCompletedSuccessfully)
             {
@@ -57,8 +58,6 @@ namespace DFC.App.ContactUs.HostedServices
                     throw emailCacheReloadServiceTask.Exception;
                 }
             }
-
-            return Task.CompletedTask;
         }
     }
 }
