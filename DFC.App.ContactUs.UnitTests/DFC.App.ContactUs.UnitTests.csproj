@@ -39,4 +39,8 @@
     <ProjectReference Include="..\DFC.App.ContactUs\DFC.App.ContactUs.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="HostedServiceTests\" />
+  </ItemGroup>
+
 </Project>

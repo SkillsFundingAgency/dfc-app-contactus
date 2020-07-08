@@ -14,11 +14,12 @@ using DFC.App.ContactUs.Services.EmailService;
 using DFC.App.ContactUs.Services.EmailTemplateService;
 using DFC.App.ContactUs.Services.EventProcessorService;
 using DFC.App.ContactUs.Services.Services.EmailService;
-using DFC.App.Subscription;
-using DFC.App.Subscription.Data.Models;
 using DFC.Compui.Cosmos;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
+using DFC.Compui.Subscriptions.Pkg.Data;
+using DFC.Compui.Subscriptions.Pkg.Netstandard.Extensions;
+using DFC.Compui.Subscriptions.Pkg.Webhook.Extensions;
 using DFC.Compui.Telemetry;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,7 +32,7 @@ using SendGrid;
 using SendGrid.Helpers.Reliability;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using DFC.App.Subscription.Extensions;
+using System.Reflection;
 
 namespace DFC.App.ContactUs
 {
@@ -128,6 +129,7 @@ namespace DFC.App.ContactUs
                     config.RespectBrowserAcceptHeader = true;
                     config.ReturnHttpNotAcceptable = true;
                 })
+                .AddWebhookReceiver()
                 .AddNewtonsoftJson()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
