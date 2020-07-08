@@ -9,6 +9,11 @@ namespace DFC.App.ContactUs.Data.Models
     [ExcludeFromCodeCoverage]
     public class EmailModel : RequestTrace, IDocumentModel
     {
+        public EmailModel()
+        {
+            PartitionKey = "Email";
+        }
+
         [JsonProperty("id")]
         public Guid Id { get; set; }
 
@@ -17,6 +22,6 @@ namespace DFC.App.ContactUs.Data.Models
         [JsonProperty("_etag")]
         public string? Etag { get; set; }
 
-        public string? PartitionKey { get => "email"; set => throw new NotImplementedException(); }
+        public string? PartitionKey { get; set; }
     }
 }

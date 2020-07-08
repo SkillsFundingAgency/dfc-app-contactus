@@ -88,6 +88,12 @@
         "ApimFutureAccessModelKey": {
             "type": "string"
         },
+        "ApimCompositeKey": {
+            "type": "string"
+        },
+        "ApimContentKey": {
+            "type": "string"
+        },
         "SendGridKey": {
             "type": "string"
         },
@@ -259,11 +265,11 @@
                             },
                             {
                                 "name": "CmsApiClientOptions__ApiKey",
-                                "value": ""
+                                "value": "[parameters('ApimContentKey')]"
                             },
                             {
                                 "name": "CmsApiClientOptions__BaseAddress",
-                                "value": ""
+                                "value": "[concat(parameters('ApimProxyAddress'),'/content/getcontent/api/execute')]"
                             },
                             {
                                 "name": "CmsApiClientOptions__SummaryEndpoint",
@@ -308,6 +314,18 @@
                             {
                                 "name": "WebhookSettings__ApplicationWebhookReceiverEndpointUrl",
                                 "value": "[parameters('ApplicationWebhookReceiverEndpointUrl')]"
+                            },
+                            {
+                                "name": "WebhookSettings__IncludeEventTypes__0",
+                                "value": "published"
+                            },
+                            {
+                                "name": "WebhookSettings__IncludeEventTypes__1",
+                                "value": "unpublished"
+                            },
+                            {
+                                "name": "WebhookSettings__IncludeEventTypes__2",
+                                "value": "deleted"
                             }
                         ]
                     }
