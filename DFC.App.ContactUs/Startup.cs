@@ -6,17 +6,16 @@ using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.HttpClientPolicies;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services.ApiProcessorService;
 using DFC.App.ContactUs.Services.AreaRoutingService;
 using DFC.App.ContactUs.Services.CacheContentService;
 using DFC.App.ContactUs.Services.CmsApiProcessorService;
 using DFC.App.ContactUs.Services.EmailService;
 using DFC.App.ContactUs.Services.EmailTemplateService;
-using DFC.App.ContactUs.Services.EventProcessorService;
 using DFC.App.ContactUs.Services.Services.EmailService;
 using DFC.Compui.Cosmos;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
+using DFC.Compui.Subscriptions.Pkg.Data.Contracts;
 using DFC.Compui.Telemetry;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,7 +27,9 @@ using Microsoft.Extensions.Hosting;
 using SendGrid;
 using SendGrid.Helpers.Reliability;
 using System;
+using DFC.Compui.Subscriptions.Pkg.Webhook.Services;
 using System.Diagnostics.CodeAnalysis;
+using DFC.Compui.Subscriptions.Pkg.Data.Models;
 
 namespace DFC.App.ContactUs
 {
@@ -94,7 +95,7 @@ namespace DFC.App.ContactUs
             services.AddTransient<IEventMessageService<EmailModel>, EventMessageService<EmailModel>>();
             services.AddTransient<IApiService, ApiService>();
             services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
-            services.AddTransient<IWebhooksService, WebhooksService>();
+            services.AddTransient<IWebhooksService, WebhooksService<EmailModel>>();
             services.AddTransient<IEmailCacheReloadService, EmailCacheReloadService>();
 
             services.AddAutoMapper(typeof(Startup).Assembly);

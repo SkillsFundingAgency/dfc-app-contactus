@@ -13,5 +13,7 @@ namespace DFC.App.ContactUs.Data.Models
         public new string? Content { get; set; }
 
         public IList<ContentItemModel>? ContentItems { get; set; }
+
+        public override string? PageLocation { get; set; }
     }
 }

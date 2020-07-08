@@ -1,8 +1,10 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
+using DFC.Compui.Subscriptions.Pkg.Data.Models;
 using DFC.Compui.Telemetry.HostedService;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -39,13 +41,23 @@ namespace DFC.App.ContactUs.HostedServices
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if (cmsApiClientOptions.BaseAddress == null)
+            if (cmsApiClientOptions.BaseAddress != null)
             {
-                logger.LogInformation($"CMS Api Client Base Address is null, skipping Cache Reload");
-                return Task.CompletedTask;
-            }
+                logger.LogInformation("Cache reload executing");
+                emailCacheReloadService.Reload(stoppingToken).ConfigureAwait(false).GetAwaiter().GetResult();
 
-            var emailCacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(() => emailCacheReloadService.Reload(stoppingToken), nameof(CacheReloadBackgroundService));
+                //if (!task.IsCompletedSuccessfully)
+                //{
+                //    logger.LogInformation("Cache reload didn't complete successfully");
+                //    if (task.Exception != null)
+                //    {
+                //        logger.LogError(task.Exception.ToString());
+                //        throw task.Exception;
+                //    }
+                //}
+
+                //return task;
+            }
 
             return Task.CompletedTask;
         }

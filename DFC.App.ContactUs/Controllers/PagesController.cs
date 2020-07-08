@@ -204,14 +204,14 @@ namespace DFC.App.ContactUs.Controllers
             const string defaultArticleName = HomeController.ThisViewCanonicalName;
             var articleName = string.IsNullOrWhiteSpace(article) ? defaultArticleName : article;
 
-            var contentPageModel = await contentPageService.GetByNameAsync(articleName).ConfigureAwait(false);
+            var contentPageModel = await contentPageService.GetByNameAsync(string.Empty, articleName).ConfigureAwait(false);
 
             return contentPageModel;
         }
 
         private async Task<ContentPageModel?> GetAlternativeContentPageAsync(string article)
         {
-            var contentPageModel = await contentPageService.GetByAlternativeNameAsync(article).ConfigureAwait(false);
+            var contentPageModel = await contentPageService.GetByNameAsync(string.Empty, article).ConfigureAwait(false);
 
             return contentPageModel;
         }
