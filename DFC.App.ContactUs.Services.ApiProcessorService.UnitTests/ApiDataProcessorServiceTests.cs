@@ -81,6 +81,30 @@ namespace DFC.App.ContactUs.Services.ApiProcessorService.UnitTests
         }
 
         [Fact]
+        public async Task ApiDataProcessorServiceGetByContentTypeAndIdReturnsSuccess()
+        {
+            // arrange
+            var expectedResult = new ContactUsSummaryItemModel
+            {
+                Url = new Uri("https://somewhere.com"),
+                CanonicalName = "a-name",
+                Published = DateTime.Now,
+            };
+            var jsonResponse = JsonConvert.SerializeObject(expectedResult);
+
+            A.CallTo(() => fakeApiService.GetAsync(A<HttpClient>.Ignored, A<string>.Ignored, A<string>.Ignored, A<string>.Ignored)).Returns(jsonResponse);
+
+            var apiDataProcessorService = new ApiDataProcessorService(fakeApiService);
+
+            // act
+            var result = await apiDataProcessorService.GetAsync<ContactUsSummaryItemModel>(A.Fake<HttpClient>(), "somecontenttype", "someid").ConfigureAwait(false);
+
+            // assert
+            A.CallTo(() => fakeApiService.GetAsync(A<HttpClient>.Ignored, A<string>.Ignored, A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.Equals(result, expectedResult);
+        }
+
+        [Fact]
         public async Task ApiDataProcessorServiceGetByContentTypeReturnsNullForNoData()
         {
             // arrange
