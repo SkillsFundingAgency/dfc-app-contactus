@@ -46,7 +46,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
 
             // Act
             // Assert
-            await Assert.ThrowsAsync<Exception>(async () => await serviceToTest.StartAsync(default).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<AggregateException>(async () => await serviceToTest.StartAsync(default).ConfigureAwait(false)).ConfigureAwait(false);
             serviceToTest.Dispose();
         }
     }
