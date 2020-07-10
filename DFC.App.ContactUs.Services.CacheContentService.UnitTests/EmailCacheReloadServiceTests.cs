@@ -53,7 +53,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
             await emailReloadService.Reload(CancellationToken.None).ConfigureAwait(false);
 
             //Assert
-            A.CallTo(() => fakeContentApiService.GetAll(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeContentApiService.GetById(A<string>.Ignored, A<string>.Ignored)).MustHaveHappenedTwiceExactly();
             A.CallTo(() => fakeEmailDocumentService.UpsertAsync(A<EmailModel>.Ignored)).MustHaveHappened(EmailKeyHelper.GetEmailKeys().Count(), Times.Exactly);
         }
 

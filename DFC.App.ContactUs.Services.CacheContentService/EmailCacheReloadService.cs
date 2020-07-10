@@ -66,8 +66,6 @@ namespace DFC.App.ContactUs.Services.CacheContentService
 
         public async Task ReloadEmailTemplates(CancellationToken stoppingToken)
         {
-            var emails = await contentApiService.GetAll("email").ConfigureAwait(false);
-
             var emailKeys = EmailKeyHelper.GetEmailKeys();
 
             foreach (var key in emailKeys)
@@ -79,7 +77,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
                     return;
                 }
 
-                var apiEmail = emails.FirstOrDefault(x => x.Url!.ToString().Contains(key.ToString(), StringComparison.OrdinalIgnoreCase));
+                var apiEmail = await contentApiService.GetById("email", key.ToString()).ConfigureAwait(false);
 
                 if (apiEmail == null)
                 {
