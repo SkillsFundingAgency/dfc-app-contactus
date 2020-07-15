@@ -65,6 +65,7 @@ namespace DFC.App.ContactUs
                 app.UseHsts();
             }
 
+            app.AddOperationIdToRequests();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
