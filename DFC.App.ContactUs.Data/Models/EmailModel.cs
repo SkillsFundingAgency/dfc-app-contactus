@@ -11,7 +11,7 @@ namespace DFC.App.ContactUs.Data.Models
     {
         public EmailModel()
         {
-            PartitionKey = "Email";
+            PartitionKey = "email";
         }
 
         [JsonProperty("id")]
