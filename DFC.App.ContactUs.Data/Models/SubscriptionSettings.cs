@@ -10,5 +10,7 @@ namespace DFC.App.ContactUs.Data.Models
         public Uri? ApplicationWebhookReceiverEndpointUrl { get; set; }
 
         public List<string>? IncludeEventTypes { get; set; }
+
+        public string? ApiKey { get; set; }
     }
 }

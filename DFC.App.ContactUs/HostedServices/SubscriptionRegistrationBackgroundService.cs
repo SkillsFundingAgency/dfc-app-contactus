@@ -1,6 +1,7 @@
 ﻿using DFC.App.ContactUs.Data.Helpers;
 using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Data.Models.Subscription;
+using DFC.Compui.Telemetry.HostedService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -21,18 +22,33 @@ namespace DFC.App.ContactUs.HostedServices
         private readonly WebhookSettings webhookSettings;
         private readonly HttpClient httpClient;
         private readonly ILogger<SubscriptionRegistrationBackgroundService> logger;
+        private readonly IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper;
 
-        public SubscriptionRegistrationBackgroundService(IConfiguration configuration, WebhookSettings webhookSettings, IHttpClientFactory httpClientFactory, ILogger<SubscriptionRegistrationBackgroundService> logger)
+        public SubscriptionRegistrationBackgroundService(IConfiguration configuration, WebhookSettings webhookSettings, IHttpClientFactory httpClientFactory, ILogger<SubscriptionRegistrationBackgroundService> logger, IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper)
         {
             this.configuration = configuration;
             this.webhookSettings = webhookSettings;
             this.httpClient = httpClientFactory.CreateClient();
             this.logger = logger;
+            this.hostedServiceTelemetryWrapper = hostedServiceTelemetryWrapper;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await this.RegisterSubscription().ConfigureAwait(false);
+            this.httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", webhookSettings.ApiKey);
+
+            var subscriptionRegistrationTask = hostedServiceTelemetryWrapper.Execute(async () => await this.RegisterSubscription().ConfigureAwait(false), nameof(SubscriptionRegistrationBackgroundService));
+
+            if (!subscriptionRegistrationTask.IsCompletedSuccessfully)
+            {
+                logger.LogInformation("Subscription Registration didn't complete successfully");
+
+                if (subscriptionRegistrationTask.Exception != null)
+                {
+                    logger.LogError(subscriptionRegistrationTask.Exception.ToString());
+                    throw subscriptionRegistrationTask.Exception;
+                }
+            }
         }
 
         private async Task RegisterSubscription()
