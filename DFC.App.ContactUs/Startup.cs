@@ -28,6 +28,7 @@ using Microsoft.Extensions.Hosting;
 using SendGrid;
 using SendGrid.Helpers.Reliability;
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.ContactUs

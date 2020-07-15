@@ -2,13 +2,10 @@
 using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.Services.ApiProcessorService.UnitTests.FakeHttpHandlers;
 using FakeItEasy;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
