@@ -39,6 +39,8 @@ namespace DFC.App.ContactUs.HostedServices
 
             var subscriptionRegistrationTask = hostedServiceTelemetryWrapper.Execute(async () => await this.RegisterSubscription().ConfigureAwait(false), nameof(SubscriptionRegistrationBackgroundService));
 
+            await subscriptionRegistrationTask.ConfigureAwait(false);
+
             if (!subscriptionRegistrationTask.IsCompletedSuccessfully)
             {
                 logger.LogInformation("Subscription Registration didn't complete successfully");

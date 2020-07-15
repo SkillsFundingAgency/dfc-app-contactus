@@ -46,6 +46,8 @@ namespace DFC.App.ContactUs.HostedServices
 
             var emailCacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(async () => await emailCacheReloadService.Reload(stoppingToken).ConfigureAwait(false), nameof(CacheReloadBackgroundService));
 
+            await emailCacheReloadServiceTask.ConfigureAwait(false);
+
             if (!emailCacheReloadServiceTask.IsCompletedSuccessfully)
             {
                 logger.LogInformation("Email Cache Reload Service didn't complete successfully");
