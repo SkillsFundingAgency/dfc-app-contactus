@@ -2,7 +2,7 @@
   {
     "Path": "contact-us",
     "TopNavigationText": "Contact us",
-    "TopNavigationOrder": 703,
+    "TopNavigationOrder": 700,
     "Layout": 1,
     "IsOnline": true,
     "OfflineHtml": "<div class=\"govuk-width-container\"><H2>Contact Us Service Unavailable</H2></div>",
@@ -47,7 +47,7 @@
   {
     "Path": "webchat",
     "TopNavigationText": null,
-    "TopNavigationOrder": 703,
+    "TopNavigationOrder": 710,
     "Layout": 1,
     "IsOnline": true,
     "OfflineHtml": "<div class=\"govuk-width-container\"><H2>Webchat Service Unavailable</H2></div>",
