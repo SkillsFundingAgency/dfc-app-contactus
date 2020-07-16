@@ -3,6 +3,7 @@ using DFC.App.ContactUs.Data.Models;
 using DFC.Compui.Telemetry.HostedService;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -39,22 +40,34 @@ namespace DFC.App.ContactUs.HostedServices
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if (cmsApiClientOptions.BaseAddress == null)
+            try
             {
-                logger.LogInformation($"CMS Api Client Base Address is null, skipping Cache Reload");
-            }
-
-            var emailCacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(async () => await emailCacheReloadService.Reload(stoppingToken).ConfigureAwait(false), nameof(CacheReloadBackgroundService));
-
-            if (!emailCacheReloadServiceTask.IsCompletedSuccessfully)
-            {
-                logger.LogInformation("Email Cache Reload Service didn't complete successfully");
-
-                if (emailCacheReloadServiceTask.Exception != null)
+                if (cmsApiClientOptions.BaseAddress == null)
                 {
-                    logger.LogError(emailCacheReloadServiceTask.Exception.ToString());
-                    throw emailCacheReloadServiceTask.Exception;
+                    logger.LogInformation($"CMS Api Client Base Address is null, skipping Cache Reload");
                 }
+
+                logger.LogInformation($"Executing Telemetry wrapper with service {nameof(emailCacheReloadService)}");
+
+                var emailCacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(async () => await emailCacheReloadService.Reload(stoppingToken).ConfigureAwait(false), nameof(CacheReloadBackgroundService));
+                await emailCacheReloadServiceTask.ConfigureAwait(false);
+
+                //Caters for errors in the telemetry wrapper
+                if (!emailCacheReloadServiceTask.IsCompletedSuccessfully)
+                {
+                    logger.LogInformation($"An error occured in the {nameof(hostedServiceTelemetryWrapper)}");
+
+                    if (emailCacheReloadServiceTask.Exception != null)
+                    {
+                        logger.LogError(emailCacheReloadServiceTask.Exception.ToString());
+                        throw emailCacheReloadServiceTask.Exception;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.ToString());
+                throw;
             }
         }
     }
