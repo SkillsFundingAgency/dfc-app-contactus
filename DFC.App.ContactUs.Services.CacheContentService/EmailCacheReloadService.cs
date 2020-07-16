@@ -5,6 +5,7 @@ using DFC.Compui.Cosmos.Contracts;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -61,6 +62,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error in email cache reload");
+                throw;
             }
         }
 
