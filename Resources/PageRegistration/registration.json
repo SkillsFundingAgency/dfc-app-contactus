@@ -47,7 +47,7 @@
   {
     "Path": "webchat",
     "TopNavigationText": null,
-    "TopNavigationOrder": 703,
+    "TopNavigationOrder": 710,
     "Layout": 1,
     "IsOnline": true,
     "OfflineHtml": "<div class=\"govuk-width-container\"><H2>Webchat Service Unavailable</H2></div>",
