@@ -170,7 +170,6 @@ namespace DFC.App.ContactUs.Controllers
         {
             Logger.LogInformation($"{nameof(SendEmailAsync)} preparing email");
 
-            //Todo - guid work here
             var templateKey = EmailKeyHelper.GetEmailKey(model.IsCallback);
             var template = await templateService.GetTemplateByKeyAsync(templateKey).ConfigureAwait(false);
 
