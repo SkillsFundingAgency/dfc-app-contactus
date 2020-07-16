@@ -1,8 +1,8 @@
 [
   {
     "Path": "contact-us",
-    "TopNavigationText": "Contact us (new)",
-    "TopNavigationOrder": 701,
+    "TopNavigationText": "Contact us",
+    "TopNavigationOrder": 700,
     "Layout": 1,
     "IsOnline": true,
     "OfflineHtml": "<div class=\"govuk-width-container\"><H2>Contact Us Service Unavailable</H2></div>",
