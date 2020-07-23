@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -14,27 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Temp\EmailTemplates\CallbackTemplate.html" />
-    <None Remove="Temp\EmailTemplates\OnlineMessageTemplate.html" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Temp\EmailTemplates\CallbackTemplate.html" />
-    <EmbeddedResource Include="Temp\EmailTemplates\OnlineMessageTemplate.html" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Temp\EmailTemplates\CallbackTemplate.html" />
-    <Resource Include="Temp\EmailTemplates\OnlineMessageTemplate.html" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="DFC.Compui.Cosmos" Version="1.0.41" />
-    <PackageReference Include="DFC.Compui.Subscriptions" Version="1.0.67" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -34,6 +34,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.ContactUs.Data\DFC.App.ContactUs.Data.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.CacheContentService\DFC.App.ContactUs.Services.CacheContentService.csproj" />
+    <ProjectReference Include="..\DFC.App.ContactUs\DFC.App.ContactUs.csproj" />
   </ItemGroup>
 
 </Project>
