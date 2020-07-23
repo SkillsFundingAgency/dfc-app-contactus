@@ -22,6 +22,7 @@ using DFC.Compui.Subscriptions.Pkg.Netstandard.Extensions;
 using DFC.Compui.Subscriptions.Pkg.Webhook.Extensions;
 using DFC.Compui.Subscriptions.Pkg.Webhook.Services;
 using DFC.Compui.Telemetry;
+using DFC.Compui.Telemetry.ApplicationBuilderExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,6 @@ using SendGrid;
 using SendGrid.Helpers.Reliability;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace DFC.App.ContactUs
 {
@@ -101,7 +101,7 @@ namespace DFC.App.ContactUs
             services.AddTransient<IApiService, ApiService>();
             services.AddTransient<ICmsApiService, CmsApiService>();
             services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
-            services.AddTransient<IWebhooksService, WebhooksService<EmailModel>>();
+            services.AddTransient<IWebhooksService, WebhooksService<EmailModel, NoChildren>>();
             services.AddTransient<IEmailCacheReloadService, EmailCacheReloadService>();
 
             services.AddAutoMapper(typeof(Startup).Assembly);

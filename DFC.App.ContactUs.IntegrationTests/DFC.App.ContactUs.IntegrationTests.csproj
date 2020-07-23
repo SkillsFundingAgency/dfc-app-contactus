@@ -37,7 +37,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.ContactUs\DFC.App.ContactUs.csproj" />
-    <ProjectReference Include="..\DFC.App.ContactUs.Data\DFC.App.ContactUs.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

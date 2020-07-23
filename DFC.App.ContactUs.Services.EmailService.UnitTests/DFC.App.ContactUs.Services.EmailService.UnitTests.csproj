@@ -33,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DFC.App.ContactUs.Services.EmailService\DFC.App.ContactUs.Services.EmailService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs\DFC.App.ContactUs.csproj" />
   </ItemGroup>
 

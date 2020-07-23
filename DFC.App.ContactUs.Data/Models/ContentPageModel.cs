@@ -15,5 +15,6 @@ namespace DFC.App.ContactUs.Data.Models
         public IList<ContentItemModel>? ContentItems { get; set; }
 
         public override string? PageLocation { get; set; } = "/missing-location";
+        public object AlternativeNames { get; set; }
     }
 }
