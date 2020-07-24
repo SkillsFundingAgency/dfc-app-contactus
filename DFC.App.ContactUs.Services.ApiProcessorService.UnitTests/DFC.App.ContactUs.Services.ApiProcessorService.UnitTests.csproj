@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.ContactUs.Services.ApiProcessorService\DFC.App.ContactUs.Services.ApiProcessorService.csproj" />
-    <ProjectReference Include="..\DFC.App.ContactUs.Services.CmsApiProcessorService\DFC.App.ContactUs.Services.CmsApiProcessorService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.EventProcessorService\DFC.App.ContactUs.Services.EventProcessorService.csproj" />
   </ItemGroup>
 

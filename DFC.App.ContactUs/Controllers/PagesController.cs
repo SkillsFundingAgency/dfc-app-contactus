@@ -211,7 +211,7 @@ namespace DFC.App.ContactUs.Controllers
 
         private async Task<ContentPageModel?> GetAlternativeContentPageAsync(string article)
         {
-            var contentPageModel = await contentPageService.GetByAlternativeNameAsync(article).ConfigureAwait(false);
+            var contentPageModel = await contentPageService.GetByRedirectLocationAsync(article).ConfigureAwait(false);
 
             return contentPageModel;
         }
