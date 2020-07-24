@@ -113,6 +113,7 @@ namespace DFC.App.ContactUs.Data.UnitTests.ValidationTests
                 Content = content,
                 RedirectLocations = redirectLocations.ToArray(),
                 LastReviewed = DateTime.UtcNow,
+                PageLocation = "a-page-location",
             };
 
             return model;

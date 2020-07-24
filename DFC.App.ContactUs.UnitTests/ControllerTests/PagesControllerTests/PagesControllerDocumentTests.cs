@@ -90,14 +90,14 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             expectedAlternativeResult.CanonicalName = article;
 
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => FakeContentPageService.GetByAlternativeNameAsync(A<string>.Ignored)).Returns(expectedAlternativeResult);
+            A.CallTo(() => FakeContentPageService.GetByRedirectLocationAsync(A<string>.Ignored)).Returns(expectedAlternativeResult);
 
             // Act
             var result = await controller.Document(article).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeContentPageService.GetByAlternativeNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeContentPageService.GetByRedirectLocationAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<RedirectResult>(result);
 
@@ -118,14 +118,14 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var controller = BuildPagesController(mediaTypeName);
 
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => FakeContentPageService.GetByAlternativeNameAsync(A<string>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeContentPageService.GetByRedirectLocationAsync(A<string>.Ignored)).Returns(expectedResult);
 
             // Act
             var result = await controller.Document(article).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeContentPageService.GetByAlternativeNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeContentPageService.GetByRedirectLocationAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<NoContentResult>(result);
 
