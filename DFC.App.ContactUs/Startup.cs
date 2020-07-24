@@ -6,7 +6,6 @@ using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.HttpClientPolicies;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services;
 using DFC.App.ContactUs.Services.AreaRoutingService;
 using DFC.App.ContactUs.Services.CacheContentService;
 using DFC.App.ContactUs.Services.EmailService;
