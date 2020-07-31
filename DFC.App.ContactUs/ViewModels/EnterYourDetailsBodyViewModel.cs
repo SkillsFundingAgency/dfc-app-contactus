@@ -88,12 +88,18 @@ namespace DFC.App.ContactUs.ViewModels
                         dateValue = dateValue.AddDays(1);
                     }
 
-                    string daySuffix = (dateValue.Day % 10) switch
+                    string daySuffix = (dateValue.Day % 100) switch
                     {
-                        1 => "st",
-                        2 => "nd",
-                        3 => "rd",
-                        _ => "th",
+                            11 => "th",
+                            12 => "th",
+                            13 => "th",
+                            _=> (dateValue.Day % 10) switch
+                            {
+                                1 => "st",
+                                2 => "nd",
+                                3 => "rd",
+                                _ => "th",
+                            }
                     };
 
                     var labelString = dateValue.ToString("dddd d?? MMMM", CultureInfo.InvariantCulture).Replace("??", daySuffix, StringComparison.OrdinalIgnoreCase);
