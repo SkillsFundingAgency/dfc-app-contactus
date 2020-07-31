@@ -69,7 +69,7 @@ namespace DFC.App.ContactUs.ViewModels
             get
             {
                 var dateLabels = new Dictionary<CallbackDateOption, string>();
-                var dateValue = DateTime.Today.AddDays(-20);
+                var dateValue = DateTime.Today;
 
                 if (!FirstDateIsForToday)
                 {
