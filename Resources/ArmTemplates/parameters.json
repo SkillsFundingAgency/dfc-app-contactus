@@ -65,6 +65,9 @@
         "ApimCompositeKey": {
             "value": "__ApimCompositeKey__"
         },
+        "ApplicationName": {
+            "value": "__ApplicationName__"
+        },
         "ApimContentKey": {
             "value": "__ApimContentKey__"
         },
