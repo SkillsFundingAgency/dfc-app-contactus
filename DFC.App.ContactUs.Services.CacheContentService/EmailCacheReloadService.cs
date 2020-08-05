@@ -2,8 +2,10 @@
 using DFC.App.ContactUs.Data.Helpers;
 using DFC.App.ContactUs.Data.Models;
 using DFC.Compui.Cosmos.Contracts;
+using DFC.Compui.Subscriptions.Pkg.Data.Contracts;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,16 +14,18 @@ namespace DFC.App.ContactUs.Services.CacheContentService
     public class EmailCacheReloadService : IEmailCacheReloadService
     {
         private readonly IDocumentService<EmailModel> emailDocumentService;
-        private readonly IContentApiService<EmailApiDataModel> contentApiService;
+        private readonly IApiDataProcessorService apiDataProcessorService;
         private readonly ILogger<EmailCacheReloadService> logger;
         private readonly AutoMapper.IMapper mapper;
+        private readonly HttpClient httpClient;
 
-        public EmailCacheReloadService(IContentApiService<EmailApiDataModel> contentApiService, ILogger<EmailCacheReloadService> logger, IDocumentService<EmailModel> emailDocumentService, AutoMapper.IMapper mapper)
+        public EmailCacheReloadService(IApiDataProcessorService apiDataProcessorService, ILogger<EmailCacheReloadService> logger, IDocumentService<EmailModel> emailDocumentService, AutoMapper.IMapper mapper, HttpClient httpClient)
         {
             this.emailDocumentService = emailDocumentService;
-            this.contentApiService = contentApiService;
+            this.apiDataProcessorService = apiDataProcessorService;
             this.logger = logger;
             this.mapper = mapper;
+            this.httpClient = httpClient;
         }
 
         public async Task ReloadCacheItem(Uri uri)
@@ -77,7 +81,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
                     return;
                 }
 
-                var apiEmail = await contentApiService.GetById("email", key.ToString()).ConfigureAwait(false);
+                var apiEmail = await apiDataProcessorService.GetAsync<EmailApiDataModel>(httpClient, "email", key.ToString()).ConfigureAwait(false);
 
                 if (apiEmail == null)
                 {
@@ -93,12 +97,14 @@ namespace DFC.App.ContactUs.Services.CacheContentService
 
         private async Task ReloadSingleTemplate(Uri uri)
         {
-            var email = await contentApiService.GetById(uri).ConfigureAwait(false);
+            var email = await apiDataProcessorService.GetAsync<EmailApiDataModel>(httpClient, uri).ConfigureAwait(false);
 
             //Add the e-mail to cache
             var mappedEmail = mapper.Map<EmailModel>(email);
 
             await emailDocumentService.UpsertAsync(mappedEmail).ConfigureAwait(false);
+
+            httpClient.Dispose();
         }
     }
 }

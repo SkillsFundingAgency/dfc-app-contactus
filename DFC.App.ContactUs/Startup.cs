@@ -6,17 +6,19 @@ using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.HttpClientPolicies;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services.ApiProcessorService;
 using DFC.App.ContactUs.Services.AreaRoutingService;
 using DFC.App.ContactUs.Services.CacheContentService;
-using DFC.App.ContactUs.Services.CmsApiProcessorService;
 using DFC.App.ContactUs.Services.EmailService;
 using DFC.App.ContactUs.Services.EmailTemplateService;
-using DFC.App.ContactUs.Services.EventProcessorService;
 using DFC.App.ContactUs.Services.Services.EmailService;
 using DFC.Compui.Cosmos;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
+using DFC.Compui.Subscriptions.Pkg.Data.Contracts;
+using DFC.Compui.Subscriptions.Pkg.Data.Models;
+using DFC.Compui.Subscriptions.Pkg.Netstandard.Extensions;
+using DFC.Compui.Subscriptions.Pkg.Webhook.Extensions;
+using DFC.Compui.Subscriptions.Pkg.Webhook.Services;
 using DFC.Compui.Telemetry;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -91,10 +93,8 @@ namespace DFC.App.ContactUs
             services.AddTransient<IMergeEmailContentService, MergeEmailContentService>();
             services.AddTransient<ISendGridEmailService<ContactUsEmailRequestModel>, SendGridEmailService<ContactUsEmailRequestModel>>();
             services.AddTransient<ITemplateService, TemplateService>();
-            services.AddTransient<IEventMessageService<EmailModel>, EventMessageService<EmailModel>>();
-            services.AddTransient<IApiService, ApiService>();
-            services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
-            services.AddTransient<IWebhooksService, WebhooksService>();
+
+            services.AddWebhookSupportNoChildren<EmailModel>();
             services.AddTransient<IEmailCacheReloadService, EmailCacheReloadService>();
 
             services.AddAutoMapper(typeof(Startup).Assembly);
@@ -104,15 +104,16 @@ namespace DFC.App.ContactUs
             services.AddSingleton(configuration.GetSection(nameof(WebhookSettings)).Get<WebhookSettings>() ?? new WebhookSettings());
             services.AddHostedServiceTelemetryWrapper();
             services.AddHostedService<CacheReloadBackgroundService>();
-            services.AddHostedService<SubscriptionRegistrationBackgroundService>();
+            services.AddSubscriptionBackgroundService(configuration);
 
             const string AppSettingsPolicies = "Policies";
             var policyOptions = configuration.GetSection(AppSettingsPolicies).Get<PolicyOptions>() ?? new PolicyOptions();
             var policyRegistry = services.AddPolicyRegistry();
 
             services
-                .AddPolicies(policyRegistry, nameof(CmsApiClientOptions), policyOptions)
-                .AddHttpClient<IContentApiService<EmailApiDataModel>, ContentApiService<EmailApiDataModel>, CmsApiClientOptions>(configuration, nameof(CmsApiClientOptions), nameof(PolicyOptions.HttpRetry), nameof(PolicyOptions.HttpCircuitBreaker));
+               .AddPolicies(policyRegistry, nameof(CmsApiClientOptions), policyOptions)
+               .AddHttpClient<IEmailCacheReloadService, EmailCacheReloadService, CmsApiClientOptions>(configuration, nameof(CmsApiClientOptions), nameof(PolicyOptions.HttpRetry), nameof(PolicyOptions.HttpCircuitBreaker))
+               .AddHttpClient<ICmsApiService, CmsApiService, CmsApiClientOptions>(configuration, nameof(CmsApiClientOptions), nameof(PolicyOptions.HttpRetry), nameof(PolicyOptions.HttpCircuitBreaker));
 
             services
                 .AddPolicies(policyRegistry, nameof(FamApiRoutingOptions), policyOptions)

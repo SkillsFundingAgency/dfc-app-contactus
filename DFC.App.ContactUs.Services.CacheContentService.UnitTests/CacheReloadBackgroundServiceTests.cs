@@ -1,16 +1,10 @@
-﻿using AutoMapper;
-using Castle.Core.Logging;
-using DFC.App.ContactUs.Data.Contracts;
-using DFC.App.ContactUs.Data.Models;
+﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.HostedServices;
-using DFC.Compui.Cosmos.Contracts;
+using DFC.Compui.Subscriptions.Pkg.Data.Models;
 using DFC.Compui.Telemetry.HostedService;
 using FakeItEasy;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 

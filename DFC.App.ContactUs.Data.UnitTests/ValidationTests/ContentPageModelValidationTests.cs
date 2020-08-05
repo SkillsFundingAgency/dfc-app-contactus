@@ -97,11 +97,11 @@ namespace DFC.App.ContactUs.Data.UnitTests.ValidationTests
 
             // Assert
             Assert.True(vr.Count > 0);
-            Assert.NotNull(vr.First(f => f.MemberNames.Any(a => a == nameof(model.AlternativeNames))));
-            Assert.Equal(string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldNotLowercase, nameof(model.AlternativeNames)), vr.First(f => f.MemberNames.Any(a => a == nameof(model.AlternativeNames))).ErrorMessage);
+            Assert.NotNull(vr.First(f => f.MemberNames.Any(a => a == nameof(model.RedirectLocations))));
+            Assert.Equal(string.Format(CultureInfo.InvariantCulture, ValidationMessage.FieldNotLowercase, nameof(model.RedirectLocations)), vr.First(f => f.MemberNames.Any(a => a == nameof(model.RedirectLocations))).ErrorMessage);
         }
 
-        private ContentPageModel CreateModel(Guid documentId, string canonicalName, string content, List<string> alternativeNames)
+        private ContentPageModel CreateModel(Guid documentId, string canonicalName, string content, List<string> redirectLocations)
         {
             var model = new ContentPageModel
             {
@@ -111,8 +111,9 @@ namespace DFC.App.ContactUs.Data.UnitTests.ValidationTests
                 Version = Guid.NewGuid(),
                 Url = new Uri("aaa-bbb", UriKind.Relative),
                 Content = content,
-                AlternativeNames = alternativeNames.ToArray(),
+                RedirectLocations = redirectLocations.ToArray(),
                 LastReviewed = DateTime.UtcNow,
+                PageLocation = "a-page-location",
             };
 
             return model;

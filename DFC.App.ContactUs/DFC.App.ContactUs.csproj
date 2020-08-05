@@ -20,6 +20,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="DFC.Compui.Sessionstate" Version="327027.0.0" />
+    <PackageReference Include="DFC.Compui.Subscriptions" Version="1.0.77" />
     <PackageReference Include="DFC.Compui.Telemetry" Version="1.0.11" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.14.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.5" />
@@ -45,7 +46,6 @@
     <ProjectReference Include="..\DFC.App.ContactUs.Services.ApiProcessorService\DFC.App.ContactUs.Services.ApiProcessorService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.AreaRoutingService\DFC.App.ContactUs.Services.AreaRoutingService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.CacheContentService\DFC.App.ContactUs.Services.CacheContentService.csproj" />
-    <ProjectReference Include="..\DFC.App.ContactUs.Services.CmsApiProcessorService\DFC.App.ContactUs.Services.CmsApiProcessorService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.EmailService\DFC.App.ContactUs.Services.EmailService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.EmailTemplateService\DFC.App.ContactUs.Services.EmailTemplateService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.EventProcessorService\DFC.App.ContactUs.Services.EventProcessorService.csproj" />

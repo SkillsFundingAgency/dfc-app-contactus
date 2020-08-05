@@ -1,5 +1,5 @@
-using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
+using DFC.Compui.Subscriptions.Pkg.Data.Contracts;
 using FakeItEasy;
 using System;
 using System.Net.Http;

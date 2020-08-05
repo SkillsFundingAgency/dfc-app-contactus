@@ -1,5 +1,5 @@
-﻿using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.HttpClientPolicies;
+﻿using DFC.App.ContactUs.HttpClientPolicies;
+using DFC.Compui.Subscriptions.Pkg.Data.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;

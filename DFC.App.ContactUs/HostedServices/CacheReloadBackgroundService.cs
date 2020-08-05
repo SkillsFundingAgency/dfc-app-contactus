@@ -1,5 +1,5 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
-using DFC.App.ContactUs.Data.Models;
+using DFC.Compui.Subscriptions.Pkg.Data.Models;
 using DFC.Compui.Telemetry.HostedService;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
