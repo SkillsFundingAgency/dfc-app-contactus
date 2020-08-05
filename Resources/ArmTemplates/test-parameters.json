@@ -59,6 +59,9 @@
         "ApimContentKey": {
             "value": "123456789"
         },
+        "ApplicationName": {
+            "value": "anothervalue"
+        },
         "SendGridKey": {
             "value": "987456"
         },

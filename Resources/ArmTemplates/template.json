@@ -49,6 +49,9 @@
                 "description": "The name of the collection to create"
             }
         },
+        "ApplicationName": {
+            "type": "string"
+        },
         "environment": {
             "type": "string"
         },
@@ -305,7 +308,7 @@
                             },
                             {
                                 "name": "Configuration__ApplicationName",
-                                "value": "DFC-App-ContactUs"
+                                "value": "[parameters('ApplicationName')]"
                             },
                             {
                                 "name": "SubscriptionSettings__SubscriptionServiceEndpoint",
