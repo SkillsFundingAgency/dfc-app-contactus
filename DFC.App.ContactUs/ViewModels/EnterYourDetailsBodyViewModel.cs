@@ -40,11 +40,24 @@ namespace DFC.App.ContactUs.ViewModels
             }
         }
 
+        public static DateTime LocalDateTime
+        {
+            get
+            {
+                var offset = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time").IsDaylightSavingTime(DateTime.UtcNow) ? 1 : 0;
+                var localDateTime = DateTime.UtcNow.AddHours(offset);
+
+                return localDateTime;
+            }
+        }
+
         public static bool FirstDateIsForToday
         {
             get
             {
-                return DateTime.Now.Date == DateTime.Today && DateTime.Now.Hour < TimeBandStarts[TimeBandStarts.Keys.Last()];
+                var localDateTime = LocalDateTime;
+
+                return localDateTime.Date == DateTime.Today && localDateTime.Hour < TimeBandStarts[TimeBandStarts.Keys.Last()];
             }
         }
 
@@ -54,10 +67,11 @@ namespace DFC.App.ContactUs.ViewModels
             {
                 var disabledTimeBands = new Dictionary<CallbackTimeOption, bool>();
                 bool isToday = FirstDateIsForToday;
+                var localDateTime = LocalDateTime;
 
                 for (var i = CallbackTimeOption.Band1; i <= CallbackTimeOption.Band5; i++)
                 {
-                    disabledTimeBands.Add(i, isToday && DateTime.Now.Hour >= TimeBandStarts[i]);
+                    disabledTimeBands.Add(i, isToday && localDateTime.Hour >= TimeBandStarts[i]);
                 }
 
                 return disabledTimeBands;
