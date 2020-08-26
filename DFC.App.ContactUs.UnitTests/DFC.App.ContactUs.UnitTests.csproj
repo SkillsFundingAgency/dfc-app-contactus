@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DFC.App.ContactUs.Services.ApiProcessorService.UnitTests\DFC.App.ContactUs.Services.ApiProcessorService.UnitTests.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs\DFC.App.ContactUs.csproj" />
   </ItemGroup>
 
