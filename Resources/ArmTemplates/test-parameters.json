@@ -76,15 +76,6 @@
         },
         "ApplicationWebhookReceiverEndpointUrl": {
             "value": "https://url"
-        },
-        "aspSize": {
-            "value": "2"
-        },
-        "aspTier": {
-            "value": "Standard"
-        },
-        "aspInstances": {
-            "value": 2
         }
     }
 }
