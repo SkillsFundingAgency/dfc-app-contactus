@@ -71,14 +71,8 @@
         "ApimProxyAddress": {
             "value": "__ApimProxyAddress__"
         },
-        "ApimCompositeKey": {
-            "value": "__ApimCompositeKey__"
-        },
         "ApplicationName": {
             "value": "__ApplicationName__"
-        },
-        "ApimContentKey": {
-            "value": "__ApimContentKey__"
         },
         "ApimFutureAccessModelKey": {
             "value": "__ApimFutureAccessModelKey__"
@@ -97,6 +91,9 @@
         },
         "ApplicationWebhookReceiverEndpointUrl": {
             "value": "__ApplicationWebhookReceiverEndpointUrl__"
+        },
+        "contentUrl": {
+            "value": "__contentUrl__"
         }
     }
 }
