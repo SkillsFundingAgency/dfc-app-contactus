@@ -53,12 +53,6 @@
         "ApimFutureAccessModelKey": {
             "value": "123456789"
         },
-        "ApimCompositeKey": {
-            "value": "123456789"
-        },
-        "ApimContentKey": {
-            "value": "123456789"
-        },
         "ApplicationName": {
             "value": "anothervalue"
         },
@@ -85,6 +79,9 @@
         },
         "aspInstances": {
             "value": 2
+        },
+        "contentUrl": {
+            "value": "https://url"
         }
     }
 }
