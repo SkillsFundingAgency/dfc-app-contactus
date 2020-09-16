@@ -22,7 +22,7 @@ namespace DFC.App.ContactUs.Services.EmailTemplateService
         {
             logger.LogInformation($"{nameof(GetTemplateByKeyAsync)} loading email template: {templateKey}");
 
-            var template = await emailDocumentService.GetByIdAsync(templateKey).ConfigureAwait(false);
+            var template = await emailDocumentService.GetByIdAsync(templateKey, EmailModel.DefaultPartitionKey).ConfigureAwait(false);
 
             if (template == null)
             {

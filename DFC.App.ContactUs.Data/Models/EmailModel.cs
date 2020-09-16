@@ -11,9 +11,11 @@ namespace DFC.App.ContactUs.Data.Models
     [ExcludeFromCodeCoverage]
     public class EmailModel : RequestTrace, IContentItemModel, IDocumentModel
     {
+        public const string DefaultPartitionKey = "email";
+
         public EmailModel()
         {
-            PartitionKey = "email";
+            PartitionKey = DefaultPartitionKey;
         }
 
         [JsonProperty("id")]
