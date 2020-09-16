@@ -10,6 +10,8 @@ namespace DFC.App.ContactUs.Data.Models
         [JsonProperty(Order = -10)]
         public override string PartitionKey => "static-page";
 
+        public string? BreadcrumbTitle { get; set; }
+
         public new string? Content { get; set; }
 
         public IList<ContentItemModel>? ContentItems { get; set; }

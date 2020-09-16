@@ -17,7 +17,7 @@ namespace DFC.App.ContactUs.Services.EmailTemplateService.UnitTests
         public async Task TemplateServiceGetReturnsSuccess()
         {
             // arrange
-            A.CallTo(() => fakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored)).Returns(new EmailModel() { Body = "<h1>A test bodt</h1>" });
+            A.CallTo(() => fakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(new EmailModel() { Body = "<h1>A test bodt</h1>" });
             Guid templateGuid = Guid.Parse("9d50786e-95f2-4b7e-a604-ceaa7a5bc230");
 
             var templateService = new TemplateService(logger, fakeEmailDocumentService);
