@@ -43,12 +43,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.ContactUs.Data\DFC.App.ContactUs.Data.csproj" />
-    <ProjectReference Include="..\DFC.App.ContactUs.Services.ApiProcessorService\DFC.App.ContactUs.Services.ApiProcessorService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.AreaRoutingService\DFC.App.ContactUs.Services.AreaRoutingService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.CacheContentService\DFC.App.ContactUs.Services.CacheContentService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.EmailService\DFC.App.ContactUs.Services.EmailService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.EmailTemplateService\DFC.App.ContactUs.Services.EmailTemplateService.csproj" />
-    <ProjectReference Include="..\DFC.App.ContactUs.Services.EventProcessorService\DFC.App.ContactUs.Services.EventProcessorService.csproj" />
   </ItemGroup>
 
 
