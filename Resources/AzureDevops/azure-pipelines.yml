@@ -44,7 +44,7 @@ stages:
         displayName: Publish Apim Policy
         inputs:
           targetPath: "$(System.DefaultWorkingDirectory)/Resources/ApimPolicy"
-          artifactName: DFC.App.ContactUs.Resources.ApimPolicies
+          artifactName: ${{ variables.SolutionBaseName }}.ApimPolicies
     
     #Build and test application
     - job: BuildDotNetCore
