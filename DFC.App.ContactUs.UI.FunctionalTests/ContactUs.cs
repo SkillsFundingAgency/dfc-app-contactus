@@ -1,4 +1,8 @@
-﻿namespace SFA.DFC.ContactUs.UITests.Project
+﻿// <copyright file="ContactUs.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace SFA.DFC.ContactUs.UITests.Project
 {
     public class ContactUs
     {
