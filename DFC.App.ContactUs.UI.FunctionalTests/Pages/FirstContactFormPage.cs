@@ -1,95 +1,117 @@
-﻿using DFC.TestAutomation.UI.Helpers;
+﻿// <copyright file="FirstContactFormPage.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using DFC.TestAutomation.UI.Helpers;
 using DFC.TestAutomation.UI.TestSupport;
 using FluentAssertions;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Globalization;
 using TechTalk.SpecFlow;
+
 namespace SFA.DFC.ContactUs.UITests.Project.Tests.Pages
 {
-    public class FirstContactFormPage : BasePage 
+    public class FirstContactFormPage : BasePage
     {
-        #region Helpers
-        private readonly PageInteractionHelper _pageHelper;
-        private readonly FormCompletionHelper _formHelper;
-        private readonly ScenarioContext _context;
-        private readonly ObjectContext _objectContext;
-        #endregion
-        #region Page Elements
-        protected override string PageTitle => "";
-        private By QueryPageTitle = By.ClassName("govuk-fieldset__heading");
-        private By Message = By.Id("Message");
-        private By Feedback = By.Id("Feedback");
-        private By ContinueButton = By.Id("send-feedback-details");
-        private By CategoryErrorMessage = By.LinkText("Choose a category");
-        private By IssueErrorMessage = By.Id("Message-error");
-        private List<IWebElement> OptionsList => _pageHelper.FindElements(By.ClassName("govuk-radios__input"));
-        #endregion
-        public FirstContactFormPage(ScenarioContext context): base(context)
+        private readonly PageInteractionHelper pageHelper;
+        private readonly FormCompletionHelper formHelper;
+        private readonly ScenarioContext context;
+        private readonly ObjectContext objectContext;
+
+        private readonly By queryPageTitle = By.ClassName("govuk-fieldset__heading");
+        private readonly By message = By.Id("Message");
+        private readonly By feedback = By.Id("Feedback");
+        private readonly By continueButton = By.Id("send-feedback-details");
+        private readonly By categoryErrorMessage = By.LinkText("Choose a category");
+        private readonly By issueErrorMessage = By.Id("Message-error");
+
+        public FirstContactFormPage(ScenarioContext context)
+            : base(context)
         {
-            _context = context;
-            _pageHelper = context.Get<PageInteractionHelper>();
-            _formHelper = context.Get<FormCompletionHelper>();
-            _objectContext = context.Get<ObjectContext>();
+            this.context = context;
+
+            if (context != null)
+            {
+                this.formHelper = this.context.Get<FormCompletionHelper>();
+            }
+            else
+            {
+                throw new NullReferenceException("The scenario context is null. The contact us first contact form page cannot be initialised.");
+            }
+
+            this.pageHelper = context.Get<PageInteractionHelper>();
+            this.formHelper = context.Get<FormCompletionHelper>();
+            this.objectContext = context.Get<ObjectContext>();
         }
+
+        protected override string PageTitle => string.Empty;
+
+        private List<IWebElement> OptionsList => this.pageHelper.FindElements(By.ClassName("govuk-radios__input"));
+
         public void VerifyQueryPage()
         {
-            if (_objectContext.Get("SelectOption") == "Contact an adviser")
+            if (this.objectContext.Get("SelectOption") == "Contact an adviser")
             {
-                _pageHelper.VerifyText(QueryPageTitle, "What is your query about?").Should().BeTrue();
+                this.pageHelper.VerifyText(this.queryPageTitle, "What is your query about?").Should().BeTrue();
             }
-            else if (_objectContext.Get("SelectOption") == "Give feedback")
+            else if (this.objectContext.Get("SelectOption") == "Give feedback")
             {
-                _pageHelper.VerifyText(QueryPageTitle, "What is your feedback about?").Should().BeTrue();
+                this.pageHelper.VerifyText(this.queryPageTitle, "What is your feedback about?").Should().BeTrue();
             }
-            
         }
-      public FirstContactFormPage SelectQueryOption(string strOption)
+
+        public FirstContactFormPage SelectQueryOption(string strOption)
         {
             {
                 if (!string.IsNullOrWhiteSpace(strOption))
                 {
-                    var OptionText = strOption.Replace(" ", string.Empty).ToUpper();
-                    foreach (var button in OptionsList)
+                    string optionText = strOption.Replace(" ", string.Empty, StringComparison.CurrentCulture).ToUpper(CultureInfo.CurrentCulture);
+                    foreach (var button in this.OptionsList)
                     {
-                        var buttonText = button.GetAttribute("value").Replace(" ", string.Empty).ToUpper();
-                        if (buttonText.Contains(OptionText))
+                        var buttonText = button.GetAttribute("value").Replace(" ", string.Empty, StringComparison.CurrentCulture).ToUpper(CultureInfo.CurrentCulture);
+                        if (buttonText.Contains(optionText, StringComparison.CurrentCulture))
                         {
                             button.Click();
                         }
                     }
                 }
+
                 return this;
             }
         }
+
         public FirstContactFormPage EnterQuery(string strQuery)
         {
-            string option = _objectContext.Get("SelectOption");
-            if(option.Equals("Contact an adviser",StringComparison.OrdinalIgnoreCase))
+            string option = this.objectContext.Get("SelectOption");
+            if (option.Equals("Contact an adviser", StringComparison.OrdinalIgnoreCase))
             {
-                _formHelper.EnterText(Message, strQuery);
+                this.formHelper.EnterText(this.message, strQuery);
             }
             else if (option.Equals("Give feedback", StringComparison.OrdinalIgnoreCase))
             {
-                _formHelper.EnterText(Feedback, strQuery);
+                this.formHelper.EnterText(this.feedback, strQuery);
             }
+
             return this;
         }
+
         public EnterDetailsPage ClickContinueFirstForm()
         {
-            _formHelper.ClickElement(ContinueButton);
-            return new EnterDetailsPage(_context);
+            this.formHelper.ClickElement(this.continueButton);
+            return new EnterDetailsPage(this.context);
         }
+
         public void VerifyErrorMessages()
         {
-            _pageHelper.VerifyText(CategoryErrorMessage, "Choose a category").Should().BeTrue();
-            _pageHelper.VerifyText(IssueErrorMessage, "Enter a message describing the issue").Should().BeTrue();
+            this.pageHelper.VerifyText(this.categoryErrorMessage, "Choose a category").Should().BeTrue();
+            this.pageHelper.VerifyText(this.issueErrorMessage, "Enter a message describing the issue").Should().BeTrue();
         }
 
         public FirstContactFormPage ClickContinueonError()
         {
-            _formHelper.ClickElement(ContinueButton);
+            this.formHelper.ClickElement(this.continueButton);
             return this;
         }
     }
