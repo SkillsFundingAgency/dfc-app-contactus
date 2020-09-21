@@ -13,20 +13,21 @@ namespace SFA.DFC.ContactUs.UITests.Project.Tests.Pages
 {
     public class ConfirmationPage : BasePage
     {
+        private readonly ScenarioContext context;
         private readonly PageInteractionHelper pageHelper;
         private readonly By confirmPageTitle = By.ClassName("govuk-heading-xl");
 
         public ConfirmationPage(ScenarioContext context)
             : base(context)
         {
-            if (context != null)
-            {
-                this.pageHelper = context.Get<PageInteractionHelper>();
-            }
-            else
+            this.context = context;
+
+            if (this.context == null)
             {
                 throw new NullReferenceException("The scenario context is null. The contact us confirmation page cannot be initialised.");
             }
+
+            this.pageHelper = this.context.Get<PageInteractionHelper>();
         }
 
         protected override string PageTitle => string.Empty;

@@ -26,17 +26,13 @@ namespace SFA.DFC.ContactUs.UITests.Project.Tests.Pages
         {
             this.context = context;
 
-            if (context != null)
-            {
-                this.formHelper = this.context.Get<FormCompletionHelper>();
-            }
-            else
+            if (this.context == null)
             {
                 throw new NullReferenceException("The scenario context is null. The contact us report a technical issue page cannot be initialised.");
             }
 
             this.pageHelper = this.context.Get<PageInteractionHelper>();
-            this.formHelper = context.Get<FormCompletionHelper>();
+            this.formHelper = this.context.Get<FormCompletionHelper>();
         }
 
         protected override string PageTitle => string.Empty;

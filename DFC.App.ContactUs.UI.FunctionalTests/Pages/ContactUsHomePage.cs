@@ -23,15 +23,12 @@ namespace SFA.DFC.ContactUs.UITests.Project.Tests.Pages
         {
             this.context = context;
 
-            if (context != null)
-            {
-                this.formHelper = this.context.Get<FormCompletionHelper>();
-            }
-            else
+            if (this.context == null)
             {
                 throw new NullReferenceException("The scenario context is null. The contact us home page cannot be initialised.");
             }
 
+            this.formHelper = this.context.Get<FormCompletionHelper>();
             this.webDriver = context.GetWebDriver();
             this.config = context.GetContactUsConfig<ContactUs>();
         }

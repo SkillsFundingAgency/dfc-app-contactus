@@ -44,19 +44,15 @@ namespace SFA.DFC.ContactUs.UITests.Project.Tests.Pages
         {
             this.context = context;
 
-            if (context != null)
-            {
-                this.formHelper = this.context.Get<FormCompletionHelper>();
-            }
-            else
+            if (this.context == null)
             {
                 throw new NullReferenceException("The scenario context is null. The contact us enter details page cannot be initialised.");
             }
 
-            this.pageHelper = context.Get<PageInteractionHelper>();
-            this.webDriver = context.GetWebDriver();
-            this.formHelper = context.Get<FormCompletionHelper>();
-            this.objectContext = context.Get<ObjectContext>();
+            this.pageHelper = this.context.Get<PageInteractionHelper>();
+            this.webDriver = this.context.GetWebDriver();
+            this.formHelper = this.context.Get<FormCompletionHelper>();
+            this.objectContext = this.context.Get<ObjectContext>();
         }
 
         protected override string PageTitle => string.Empty;
