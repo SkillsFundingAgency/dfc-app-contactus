@@ -54,10 +54,10 @@ namespace SFA.DFC.ContactUs.UITests.Project.Tests.Pages
              return new FirstContactFormPage(_context);           
            
         }
-        public ReportaTechnicalIssuePage ClickContinueTechnical()
+        public ReportATechnicalIssuePage ClickContinueTechnical()
         {
             _formHelper.ClickElement(ContinueButton);
-            return new ReportaTechnicalIssuePage(_context);
+            return new ReportATechnicalIssuePage(_context);
         }
         
     }

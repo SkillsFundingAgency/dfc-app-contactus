@@ -53,6 +53,7 @@ namespace SFA.DFC.ContactUs.UITests.Project.Tests.Pages
                 throw new NullReferenceException("The scenario context is null. The contact us enter details page cannot be initialised.");
             }
 
+            this.pageHelper = context.Get<PageInteractionHelper>();
             this.webDriver = context.GetWebDriver();
             this.formHelper = context.Get<FormCompletionHelper>();
             this.objectContext = context.Get<ObjectContext>();
