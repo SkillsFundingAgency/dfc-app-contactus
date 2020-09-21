@@ -1,6 +1,6 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
-using DFC.Compui.Subscriptions.Pkg.Data.Models;
 using DFC.Compui.Telemetry.HostedService;
+using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,7 +16,7 @@ namespace DFC.App.ContactUs.HostedServices
         private readonly IEmailCacheReloadService emailCacheReloadService;
         private readonly IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper;
 
-        public CacheReloadBackgroundService(ILogger<CacheReloadBackgroundService> logger, CmsApiClientOptions cmsApiClientOptions, /*ISharedContentCacheReloadService sharedContentCacheReloadService,*/ IEmailCacheReloadService emailCacheReloadService, IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper)
+        public CacheReloadBackgroundService(ILogger<CacheReloadBackgroundService> logger, CmsApiClientOptions cmsApiClientOptions, IEmailCacheReloadService emailCacheReloadService, IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper)
         {
             this.logger = logger;
             this.cmsApiClientOptions = cmsApiClientOptions;
@@ -55,7 +55,7 @@ namespace DFC.App.ContactUs.HostedServices
                 //Caters for errors in the telemetry wrapper
                 if (!emailCacheReloadServiceTask.IsCompletedSuccessfully)
                 {
-                    logger.LogInformation($"An error occured in the {nameof(hostedServiceTelemetryWrapper)}");
+                    logger.LogInformation($"An error occurred in the {nameof(hostedServiceTelemetryWrapper)}");
 
                     if (emailCacheReloadServiceTask.Exception != null)
                     {

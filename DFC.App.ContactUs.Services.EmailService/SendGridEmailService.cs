@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace DFC.App.ContactUs.Services.Services.EmailService
+namespace DFC.App.ContactUs.Services.EmailService
 {
     public class SendGridEmailService<TEmailRequestModel> : ISendGridEmailService<TEmailRequestModel>
         where TEmailRequestModel : class, IEmailRequestModel

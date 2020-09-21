@@ -2,10 +2,9 @@
 using DFC.App.ContactUs.Data.Helpers;
 using DFC.App.ContactUs.Data.Models;
 using DFC.Compui.Cosmos.Contracts;
-using DFC.Compui.Subscriptions.Pkg.Data.Contracts;
+using DFC.Content.Pkg.Netcore.Data.Contracts;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,35 +12,17 @@ namespace DFC.App.ContactUs.Services.CacheContentService
 {
     public class EmailCacheReloadService : IEmailCacheReloadService
     {
-        private readonly IDocumentService<EmailModel> emailDocumentService;
-        private readonly IApiDataProcessorService apiDataProcessorService;
         private readonly ILogger<EmailCacheReloadService> logger;
         private readonly AutoMapper.IMapper mapper;
-        private readonly HttpClient httpClient;
+        private readonly IDocumentService<EmailModel> emailDocumentService;
+        private readonly ICmsApiService cmsApiService;
 
-        public EmailCacheReloadService(IApiDataProcessorService apiDataProcessorService, ILogger<EmailCacheReloadService> logger, IDocumentService<EmailModel> emailDocumentService, AutoMapper.IMapper mapper, HttpClient httpClient)
+        public EmailCacheReloadService(ILogger<EmailCacheReloadService> logger, AutoMapper.IMapper mapper, IDocumentService<EmailModel> emailDocumentService, ICmsApiService cmsApiService)
         {
-            this.emailDocumentService = emailDocumentService;
-            this.apiDataProcessorService = apiDataProcessorService;
             this.logger = logger;
             this.mapper = mapper;
-            this.httpClient = httpClient;
-        }
-
-        public async Task ReloadCacheItem(Uri uri)
-        {
-            try
-            {
-                logger.LogInformation($"Reload email cache started - URI {uri}");
-
-                await ReloadSingleTemplate(uri).ConfigureAwait(false);
-
-                logger.LogInformation($"Reload email cache completed - URI {uri}");
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, $"Error in email cache reload - URI {uri}");
-            }
+            this.emailDocumentService = emailDocumentService;
+            this.cmsApiService = cmsApiService;
         }
 
         public async Task Reload(CancellationToken stoppingToken)
@@ -81,30 +62,18 @@ namespace DFC.App.ContactUs.Services.CacheContentService
                     return;
                 }
 
-                var apiEmail = await apiDataProcessorService.GetAsync<EmailApiDataModel>(httpClient, "email", key.ToString()).ConfigureAwait(false);
+                var apiDataModel = await cmsApiService.GetItemAsync<EmailApiDataModel>("email", key).ConfigureAwait(false);
 
-                if (apiEmail == null)
+                if (apiDataModel == null)
                 {
                     logger.LogError($"Email Template: {key} not found in API response");
                 }
 
                 //Add the e-mail to cache
-                var mappedEmail = mapper.Map<EmailModel>(apiEmail);
+                var mappedEmail = mapper.Map<EmailModel>(apiDataModel);
 
                 await emailDocumentService.UpsertAsync(mappedEmail).ConfigureAwait(false);
             }
-        }
-
-        private async Task ReloadSingleTemplate(Uri uri)
-        {
-            var email = await apiDataProcessorService.GetAsync<EmailApiDataModel>(httpClient, uri).ConfigureAwait(false);
-
-            //Add the e-mail to cache
-            var mappedEmail = mapper.Map<EmailModel>(email);
-
-            await emailDocumentService.UpsertAsync(mappedEmail).ConfigureAwait(false);
-
-            httpClient.Dispose();
         }
     }
 }
