@@ -9,7 +9,7 @@ using OpenQA.Selenium;
 using System;
 using TechTalk.SpecFlow;
 
-namespace SFA.DFC.ContactUs.UITests.Project.Tests.Pages
+namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
 {
     public class ConfirmationPage : BasePage
     {

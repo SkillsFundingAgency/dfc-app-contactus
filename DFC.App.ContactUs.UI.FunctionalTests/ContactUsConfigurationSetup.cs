@@ -7,7 +7,7 @@ using DFC.TestAutomation.UI.TestSupport;
 using System;
 using TechTalk.SpecFlow;
 
-namespace SFA.DFC.ContactUs.UITests.Project
+namespace DFC.App.ContactUs
 {
     [Binding]
     public class ContactUsConfigurationSetup
@@ -32,7 +32,7 @@ namespace SFA.DFC.ContactUs.UITests.Project
         [BeforeScenario(Order = 2)]
         public void SetUpProjectSpecificConfiguration()
         {
-            var config = this.configSection.GetConfigSection<ContactUs>();
+            var config = this.configSection.GetConfigSection<ContactUsConfiguration>();
             this.context.SetContactUsConfig(config);
             var mongoDbconfig = this.configSection.GetConfigSection<MongoDbConfig>();
             this.context.SetMongoDbConfig(mongoDbconfig);

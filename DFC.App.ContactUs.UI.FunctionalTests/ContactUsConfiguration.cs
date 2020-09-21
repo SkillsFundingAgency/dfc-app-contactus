@@ -1,10 +1,10 @@
-﻿// <copyright file="ContactUs.cs" company="PlaceholderCompany">
+﻿// <copyright file="ContactUsConfiguration.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace SFA.DFC.ContactUs.UITests.Project
+namespace DFC.App.ContactUs
 {
-    public class ContactUs
+    public class ContactUsConfiguration
     {
         public string Browser { get; set; }
 

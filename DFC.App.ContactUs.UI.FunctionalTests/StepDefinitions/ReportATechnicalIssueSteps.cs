@@ -2,10 +2,10 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using SFA.DFC.ContactUs.UITests.Project.Tests.Pages;
+using DFC.App.ContactUs.UI.FunctionalTests.Pages;
 using TechTalk.SpecFlow;
 
-namespace SFA.DFC.ContactUs.UITests.Project.Tests.StepDefinitions
+namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
 {
     [Binding]
     public class ReportATechnicalIssueSteps

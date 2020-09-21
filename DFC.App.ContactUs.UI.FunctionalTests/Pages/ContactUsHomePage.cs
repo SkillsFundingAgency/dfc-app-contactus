@@ -8,13 +8,13 @@ using OpenQA.Selenium;
 using System;
 using TechTalk.SpecFlow;
 
-namespace SFA.DFC.ContactUs.UITests.Project.Tests.Pages
+namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
 {
     public class ContactUsHomePage : BasePage
     {
         private readonly FormCompletionHelper formHelper;
         private readonly ScenarioContext context;
-        private readonly ContactUs config;
+        private readonly ContactUsConfiguration config;
         private readonly IWebDriver webDriver;
         private readonly By onlineMessageLink = By.LinkText("Send us an online message");
 
@@ -30,7 +30,7 @@ namespace SFA.DFC.ContactUs.UITests.Project.Tests.Pages
 
             this.formHelper = this.context.Get<FormCompletionHelper>();
             this.webDriver = context.GetWebDriver();
-            this.config = context.GetContactUsConfig<ContactUs>();
+            this.config = context.GetContactUsConfig<ContactUsConfiguration>();
         }
 
         protected override string PageTitle => string.Empty;

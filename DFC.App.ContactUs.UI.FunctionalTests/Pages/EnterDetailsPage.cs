@@ -10,7 +10,7 @@ using System;
 using System.Globalization;
 using TechTalk.SpecFlow;
 
-namespace SFA.DFC.ContactUs.UITests.Project.Tests.Pages
+namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
 {
     public class EnterDetailsPage : BasePage
     {

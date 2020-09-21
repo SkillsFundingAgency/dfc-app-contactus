@@ -2,12 +2,12 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using DFC.App.ContactUs.UI.FunctionalTests.Pages;
 using DFC.TestAutomation.UI.TestSupport;
-using SFA.DFC.ContactUs.UITests.Project.Tests.Pages;
 using System;
 using TechTalk.SpecFlow;
 
-namespace SFA.DFC.ContactUs.UITests.Project.Tests.StepDefinitions
+namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
 {
     [Binding]
     public class SelectAnOptionSteps
