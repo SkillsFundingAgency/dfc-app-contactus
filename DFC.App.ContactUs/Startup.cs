@@ -95,6 +95,7 @@ namespace DFC.App.ContactUs
             services.AddTransient<ITemplateService, TemplateService>();
             services.AddTransient<IEmailCacheReloadService, EmailCacheReloadService>();
             services.AddTransient<IEmailCacheReloadService, EmailCacheReloadService>();
+            services.AddTransient<IWebhooksService, WebhooksService>();
 
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());
