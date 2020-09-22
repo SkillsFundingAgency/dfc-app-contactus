@@ -1,5 +1,5 @@
-﻿using DFC.App.ContactUs.HttpClientPolicies;
-using DFC.Compui.Subscriptions.Pkg.Data.Models;
+﻿using DFC.App.ContactUs.Data.Models.ClientOptions;
+using DFC.App.ContactUs.HttpClientPolicies;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -50,29 +50,31 @@ namespace DFC.App.ContactUs.Extensions
                     string circuitBreakerPolicyName)
                     where TClient : class
                     where TImplementation : class, TClient
-                    where TClientOptions : ClientOptionsModel, new() =>
-                    services
-                        .Configure<TClientOptions>(configuration?.GetSection(configurationSectionName))
-                        .AddHttpClient<TClient, TImplementation>()
-                        .ConfigureHttpClient((sp, options) =>
-                        {
-                            var httpClientOptions = sp
-                                .GetRequiredService<IOptions<TClientOptions>>()
-                                .Value;
-                            options.BaseAddress = httpClientOptions.BaseAddress;
-                            options.Timeout = httpClientOptions.Timeout;
+                    where TClientOptions : ClientOptionsModel, new()
+        {
+            return services
+.Configure<TClientOptions>(configuration?.GetSection(configurationSectionName))
+.AddHttpClient<TClient, TImplementation>()
+.ConfigureHttpClient((sp, options) =>
+{
+    var httpClientOptions = sp
+    .GetRequiredService<IOptions<TClientOptions>>()
+    .Value;
+    options.BaseAddress = httpClientOptions.BaseAddress;
+    options.Timeout = httpClientOptions.Timeout;
 
-                            if (!string.IsNullOrWhiteSpace(httpClientOptions.ApiKey))
-                            {
-                                options.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", httpClientOptions.ApiKey);
-                            }
-                        })
-                        .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler()
-                        {
-                            AllowAutoRedirect = false,
-                        })
-                        .AddPolicyHandlerFromRegistry($"{configurationSectionName}_{retryPolicyName}")
-                        .AddPolicyHandlerFromRegistry($"{configurationSectionName}_{circuitBreakerPolicyName}")
-                        .Services;
+    if (!string.IsNullOrWhiteSpace(httpClientOptions.ApiKey))
+    {
+        options.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", httpClientOptions.ApiKey);
+    }
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler()
+{
+    AllowAutoRedirect = false,
+})
+.AddPolicyHandlerFromRegistry($"{configurationSectionName}_{retryPolicyName}")
+.AddPolicyHandlerFromRegistry($"{configurationSectionName}_{circuitBreakerPolicyName}")
+.Services;
+        }
     }
 }

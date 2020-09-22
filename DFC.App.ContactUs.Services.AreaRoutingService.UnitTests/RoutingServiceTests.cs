@@ -1,5 +1,5 @@
 using DFC.App.ContactUs.Data.Models;
-using DFC.Compui.Subscriptions.Pkg.Data.Contracts;
+using DFC.Content.Pkg.Netcore.Data.Contracts;
 using FakeItEasy;
 using System;
 using System.Net.Http;
@@ -15,17 +15,11 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
         private readonly IApiDataProcessorService fakeApiDataProcessorService = A.Fake<IApiDataProcessorService>();
         private readonly HttpClient fakeHttpClient = A.Fake<HttpClient>();
 
-        private FamApiRoutingOptions FamApiRoutingOptions
+        private FamApiRoutingOptions FamApiRoutingOptions => new FamApiRoutingOptions
         {
-            get
-            {
-                return new FamApiRoutingOptions
-                {
-                    BaseAddress = new Uri("https://localhost/", UriKind.Absolute),
-                    AreaRoutingEndpoint = "api/something",
-                };
-            }
-        }
+            BaseAddress = new Uri("https://localhost/", UriKind.Absolute),
+            AreaRoutingEndpoint = "api/something",
+        };
 
         [Fact]
         public async Task RoutingServiceGetRouteForPostcodeReturnsSuccess()

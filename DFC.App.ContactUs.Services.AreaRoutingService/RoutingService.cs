@@ -1,6 +1,6 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
-using DFC.Compui.Subscriptions.Pkg.Data.Contracts;
+using DFC.Content.Pkg.Netcore.Data.Contracts;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;

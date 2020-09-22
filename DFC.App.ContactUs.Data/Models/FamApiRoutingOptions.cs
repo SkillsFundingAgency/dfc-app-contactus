@@ -1,4 +1,4 @@
-﻿using DFC.Compui.Subscriptions.Pkg.Data.Models;
+﻿using DFC.App.ContactUs.Data.Models.ClientOptions;
 
 namespace DFC.App.ContactUs.Data.Models
 {

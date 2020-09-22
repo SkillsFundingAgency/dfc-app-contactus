@@ -1,7 +1,7 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.HostedServices;
-using DFC.Compui.Subscriptions.Pkg.Data.Models;
 using DFC.Compui.Telemetry.HostedService;
+using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
 using FakeItEasy;
 using Microsoft.Extensions.Logging;
 using System;
