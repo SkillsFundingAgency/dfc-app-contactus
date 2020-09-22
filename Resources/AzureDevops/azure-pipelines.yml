@@ -37,6 +37,12 @@ stages:
             targetPath: '$(Build.SourcesDirectory)/Resources/PageRegistration'
             artifactName: ${{ variables.SolutionBaseName }}.PageRegistrations
 
+        - task: PublishPipelineArtifact@1
+          displayName: Publish API import script to Pipeline Artifact
+          inputs:
+            targetPath: "$(Build.SourcesDirectory)/Resources/Scripts"
+            artifactName: ${{ variables.SolutionBaseName }}.Scripts
+
     - job: PublishApimPolicy
       displayName: Publish Apim Policy
       steps:
