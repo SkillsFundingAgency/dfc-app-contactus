@@ -1,5 +1,4 @@
-﻿
-using DFC.App.ContactUs.Data.Models.ClientOptions;
+﻿using DFC.App.ContactUs.Data.Models.ClientOptions;
 
 namespace DFC.App.ContactUs.Data.Models
 {
