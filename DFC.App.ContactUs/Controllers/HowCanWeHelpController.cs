@@ -41,6 +41,7 @@ namespace DFC.App.ContactUs.Controllers
                 HowCanWeHelpBodyViewModel = new HowCanWeHelpBodyViewModel
                 {
                     SelectedCategory = sessionStateModel?.State?.Category ?? Category.None,
+                    MoreDetail = sessionStateModel?.State?.MoreDetail,
                     IsCallback = sessionStateModel?.State?.IsCallback ?? false,
                 },
             };
@@ -131,6 +132,7 @@ namespace DFC.App.ContactUs.Controllers
             var viewModel = new HowCanWeHelpBodyViewModel
             {
                 SelectedCategory = sessionStateModel?.State?.Category ?? Category.None,
+                MoreDetail = sessionStateModel?.State?.MoreDetail,
                 IsCallback = sessionStateModel?.State?.IsCallback ?? false,
             };
 
