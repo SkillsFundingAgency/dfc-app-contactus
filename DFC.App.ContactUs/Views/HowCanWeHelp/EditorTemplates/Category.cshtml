@@ -1,0 +1,36 @@
+﻿@using Category = DFC.App.ContactUs.Data.Enums.Category
+@model DFC.App.ContactUs.Data.Enums.Category
+
+@{
+    var showErrorClass = string.Empty;
+    var errorKey = nameof(HowCanWeHelpBodyViewModel.SelectedCategory);
+
+    if (ViewData.ModelState.Keys.Contains(errorKey))
+    {
+        if (ViewData.ModelState[errorKey] != null && ViewData.ModelState[errorKey].Errors.Any())
+        {
+            showErrorClass = "govuk-form-group--error";
+        }
+    }
+}
+
+<div class="govuk-form-group @showErrorClass">
+    @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = nameof(HowCanWeHelpBodyViewModel.SelectedCategory) + "-error" })
+
+    <div class="govuk-radios">
+        @foreach (var category in (Category[])Enum.GetValues(typeof(Category)))
+        {
+            if (category != Category.None)
+            {
+                var radioId = category == Category.AdviceGuidance ? nameof(HowCanWeHelpBodyViewModel.SelectedCategory) : $"{category}-option";
+                var showChecked = Model == category ? "checked=checked" : string.Empty;
+
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" name="@nameof(HowCanWeHelpBodyViewModel.SelectedCategory)" id="@radioId" type="radio" @showChecked value="@category" data-val="true" data-val-required="@HowCanWeHelpBodyViewModel.SelectedCategoryValidationError">
+                    <label class="govuk-label govuk-radios__label" for="@radioId">@category.GetDescription()</label>
+                </div>
+            }
+        }
+    </div>
+</div>
+

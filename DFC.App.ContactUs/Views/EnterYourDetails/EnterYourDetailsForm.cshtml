@@ -1,0 +1,73 @@
+﻿@model EnterYourDetailsBodyViewModel
+
+<div class="govuk-form-group">
+    <partial name="_AppErrorSummary" />
+
+    <fieldset class="govuk-fieldset" aria-describedby="form-hint">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading">Enter your details</h1>
+        </legend>
+
+        @if (Model.IsCallback)
+        {
+            <p class="govuk-body">
+                Complete this form to book a phone call with one of our advisers.
+            </p>
+            <p class="govuk-body">
+                Our advisers will use your details to call you with relevant information, like using your postcode to find courses available near you.
+            </p>
+            <p class="govuk-body">
+                To book a phone call you must:
+            </p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>
+                    be at least 13 years old
+                </li>
+            </ul>
+        }
+        else
+        {
+            <p class="govuk-body">
+                Our advisers will use your details to email you with relevant information, like using your postcode to find courses available near you.
+            </p>
+        }
+
+        @Html.EditorFor(model => model.FirstName)
+        @Html.EditorFor(model => model.LastName)
+        @Html.EditorFor(model => model.EmailAddress)
+        @Html.EditorFor(model => model.TelephoneNumber)
+        @Html.EditorFor(model => model.DateOfBirth, new
+        {
+            ErrorMessageFieldName = "Your date of birth",
+            minDate = "1900-01-01",
+            maxDate = DateTime.Today.AddYears(-13).ToString("yyyy-MM-dd"),
+            minDateError = "Enter a valid date of birth. Year must be a 4 digit number after 1900",
+            maxDateError = "You must be over 13 to use this service"
+        })
+        @Html.EditorFor(model => model.Postcode)
+
+        @if (Model.IsCallback)
+        {
+            @Html.EditorFor(model => model.CallbackDateOptionSelected)
+            @Html.EditorFor(model => model.CallbackTimeOptionSelected)
+        }
+
+        @Html.EditorFor(model => model.TermsAndConditionsAccepted, new
+        {
+            Label = EnterYourDetailsBodyViewModel.TermsAndConditionsLabel,
+            ErrorMessage = EnterYourDetailsBodyViewModel.TermsAndConditionsValidationError,
+            CompareTo = $"*.{nameof(EnterYourDetailsBodyViewModel.IsTrue)}"
+        })
+
+        @Html.HiddenFor(model => model.SelectedCategory)
+        @Html.HiddenFor(model => model.MoreDetail)
+        @Html.HiddenFor(model => model.IsCallback)
+        @Html.Hidden(nameof(Model.IsTrue), "true")
+    </fieldset>
+
+    <br />
+
+    <button id="EnterYourDetailsSendButton" class="govuk-button" data-module="govuk-button">
+        Send
+    </button>
+</div>

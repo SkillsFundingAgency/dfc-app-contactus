@@ -1,0 +1,26 @@
+﻿@model ChatViewBodyModel
+
+@{
+    var sercoTestUrl = "https://smokefree.serco.com/visitor/EntryPage.htm";
+    
+    if (!Model.HideProductionWarning && string.Compare(Model.ChatUrl!.ToString(), sercoTestUrl, true, System.Globalization.CultureInfo.InvariantCulture) != 0)
+    {
+        <div>
+            <div class="sfContentBlock sf-Long-text">
+                <h1 class="govuk-heading-l"><span class="dfc-app-contact-us-IsProdWarning">PLEASE NOTE:</span></h1>
+                <p class="govuk-body">
+                    This is connected to the
+                    <strong><span class="dfc-app-contact-us-IsProdHightlight">PROD</span></strong>
+                    version of SERCO's webchat - as their test environment (<a id="SercoTestUrlLink" href="@sercoTestUrl">@sercoTestUrl</a>) is only spun up when needed.
+                </p>
+            </div>
+        </div>
+    }
+}
+
+<div id="chatcontainer">
+    @Html.HiddenFor(model => model.ChatUrl)
+    <noscript>
+        <iframe id="webchatframenoscript" src="@Model.ChatUrl" title="webchat" scrolling="no" class="dfc-app-contact-us-Webchat"></iframe>
+    </noscript>
+</div>

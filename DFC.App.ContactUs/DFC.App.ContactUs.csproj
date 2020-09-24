@@ -1,14 +1,63 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <CodeAnalysisRuleSet>../DFC.Digital.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <ProjectGuid>{56C3A071-4699-47F5-9D92-FA36AE4D9784}</ProjectGuid>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+    <NoWarn>1701;1702;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="DFC.Compui.Sessionstate" Version="1.0.11" />
+    <PackageReference Include="DFC.Compui.Subscriptions" Version="1.0.96" />
+    <PackageReference Include="DFC.Compui.Telemetry" Version="1.0.31" />
+    <PackageReference Include="DFC.Content.Pkg.Netcore" Version="1.0.38" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="3.1.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.76" />
+    <PackageReference Include="Microsoft.Azure.EventGrid" Version="3.2.0" />
+    <PackageReference Include="SendGrid" Version="9.21.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\DFC.App.ContactUs.Data\DFC.App.ContactUs.Data.csproj" />
+    <ProjectReference Include="..\DFC.App.ContactUs.Services.AreaRoutingService\DFC.App.ContactUs.Services.AreaRoutingService.csproj" />
+    <ProjectReference Include="..\DFC.App.ContactUs.Services.CacheContentService\DFC.App.ContactUs.Services.CacheContentService.csproj" />
+    <ProjectReference Include="..\DFC.App.ContactUs.Services.EmailService\DFC.App.ContactUs.Services.EmailService.csproj" />
+    <ProjectReference Include="..\DFC.App.ContactUs.Services.EmailTemplateService\DFC.App.ContactUs.Services.EmailTemplateService.csproj" />
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+
 
 </Project>

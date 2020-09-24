@@ -1,0 +1,22 @@
+﻿@model HowCanWeHelpBodyViewModel
+
+<div class="govuk-form-group">
+    <partial name="_AppErrorSummary" />
+
+    <fieldset class="govuk-fieldset" aria-describedby="form-hint">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-fieldset__heading">How can we help?</h1>
+        </legend>
+        <p class="govuk-body">
+            Please select an option to help us send your email to the right person.
+        </p>
+
+        @Html.EditorFor(model => model.SelectedCategory)
+        @Html.EditorFor(model => model.MoreDetail)
+
+        @Html.HiddenFor(model => model.IsCallback)
+    </fieldset>
+    <button id="HowCanWeHelpNextButton" class="govuk-button" data-module="govuk-button">
+        Next
+    </button>
+</div>

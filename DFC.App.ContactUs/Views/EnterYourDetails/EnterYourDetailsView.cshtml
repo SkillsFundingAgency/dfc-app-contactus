@@ -1,0 +1,21 @@
+﻿@model EnterYourDetailsViewModel
+@{
+    Layout = "_LocalLayout";
+
+    if (!string.IsNullOrWhiteSpace(Model.HtmlHead?.Title))
+    {
+        ViewData["Title"] = Model.HtmlHead.Title;
+    }
+}
+
+<partial name="Breadcrumb" model=@Model.Breadcrumb />
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <form asp-route="/pages/enter-your-details" method="post" class="compui-validation">
+
+            <partial name="EnterYourDetailsForm" model="@Model.EnterYourDetailsBodyViewModel" />
+
+        </form>
+    </div>
+</div>

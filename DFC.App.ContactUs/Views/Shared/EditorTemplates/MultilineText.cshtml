@@ -1,0 +1,39 @@
+﻿@model string
+
+@{
+    const string govukFormGroupErrorClass = "govuk-form-group--error";
+    const string govukInputErrorClass = "govuk-textarea--error";
+    var showErrorClassForInput = string.Empty;
+    var member = ViewData.ModelMetadata.ContainerType.GetMember(ViewData.ModelMetadata.PropertyName);
+    var strLenAttr = member[0].GetCustomAttributes(typeof(StringLengthAttribute), false).Cast<StringLengthAttribute>().FirstOrDefault();
+    var showErrorClass = string.Empty;
+    var errorKey = ViewData.ModelMetadata.PropertyName;
+
+    if (ViewData.ModelState.Keys.Contains(errorKey))
+    {
+        if (ViewData.ModelState[errorKey] != null && ViewData.ModelState[errorKey].Errors.Any())
+        {
+            showErrorClassForInput = govukInputErrorClass;
+            showErrorClass = govukFormGroupErrorClass;
+        }
+    }
+}
+
+<div class="govuk-character-count" data-module="govuk-character-count" data-maxlength="@strLenAttr.MaximumLength">
+    <div class="govuk-form-group @showErrorClass">
+        @Html.LabelFor(model => model, new { @class = "govuk-label dfc-composite-shell-multiline-label" })
+
+        @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = ViewData.ModelMetadata.Name + "-error" })
+
+        @Html.TextAreaFor(model => model, new
+        {
+            @class = "govuk-textarea govuk-js-character-count " + showErrorClassForInput,
+            autocomplete = "off",
+            aria_describedby = @ViewData.ModelMetadata.Name + "-info",
+            rows = 5,
+            cols = 20
+        })
+
+        <span id="@ViewData.ModelMetadata.Name-info" class="govuk-hint govuk-character-count__message" aria-live="polite">You have @strLenAttr.MaximumLength characters remaining</span>
+    </div>
+</div>

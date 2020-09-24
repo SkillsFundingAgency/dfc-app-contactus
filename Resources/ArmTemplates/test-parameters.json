@@ -1,0 +1,96 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appSharedResourceGroup": {
+            "value": "dfc-dev-app-sharedresources-rg"
+        },
+        "appSharedStorageAccountName": {
+            "value": "dfcdevappsharedstr"
+        },
+        "cosmosDBName": {
+            "value": "dfc-dev-app-sharedresources-cdb"
+        },
+        "cosmosDbKey": {
+            "value": "not-a-real-key"
+        },
+        "Environment": {
+            "value": "FOO"
+        },
+        "cosmosDbCollectionName": {
+            "value": "a-test-collection"
+        },
+        "cosmosSessionDbCollectionName": {
+            "value": "another-test-collection"
+        },
+        "CosmosDbResourceGroup": {
+            "value": "dfc-dev-app-sharedresources-rg"
+        },
+        "contactusAppDatabaseNeedsCreation": {
+            "value": true
+        },
+        "contactusAppDatabaseThroughput": {
+            "value": 2
+        },
+        "chatOptionsChatUrl": {
+            "value": "https://url"
+        },
+        "enableAlerts": {
+            "value": false
+        },
+        "chatOptionsHideProductionWarning": {
+            "value": false
+        },
+        "ApimProxyAddress": {
+            "value": "https://url"
+        },
+        "ApimFutureAccessModelKey": {
+            "value": "123456789"
+        },
+        "ApplicationName": {
+            "value": "anothervalue"
+        },
+        "SendGridKey": {
+            "value": "987456"
+        },
+        "FallbackEmailToAddresses": {
+            "value": "foo@contso.com"
+        },
+        "NoReplyEmailAddress": {
+            "value": "no-replyfoo@contso.com"
+        },
+        "SubscriptionApiEndpointUrl": {
+            "value": "https://url"
+        },
+        "ApplicationWebhookReceiverEndpointUrl": {
+            "value": "https://url"
+        },
+        "aspSize": {
+            "value": "2"
+        },
+        "aspTier": {
+            "value": "Standard"
+        },
+        "aspInstances": {
+            "value": 2
+        },
+        "contentUrl": {
+            "value": "https://url"
+        },
+        "ApimResourceGroup": {
+            "value": "dfc-dev-shared-rg"
+        },
+        "ApimLoggerName": {
+            "value": "composite-ui-logger"
+        },
+        "ApimProductInstanceName": {
+            "value": "composite-ui"
+        },
+        "ApimServiceName": {
+            "value": "dfc-dev-shared-apim"
+        },
+        "ApiName": {
+            "value": "pages"
+        }
+    }
+}

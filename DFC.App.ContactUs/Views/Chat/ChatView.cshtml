@@ -1,0 +1,18 @@
+﻿@model ChatViewModel
+
+@{
+    Layout = "_LocalLayout";
+
+    if (!string.IsNullOrWhiteSpace(Model.HtmlHead?.Title))
+    {
+        ViewData["Title"] = Model.HtmlHead.Title;
+    }
+}
+
+<partial name="Breadcrumb" model=@Model.Breadcrumb />
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <partial name="ChatBody" model="@Model.ChatViewBodyModel" />
+    </div>
+</div>

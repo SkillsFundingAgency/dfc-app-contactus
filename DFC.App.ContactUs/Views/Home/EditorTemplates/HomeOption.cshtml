@@ -1,0 +1,34 @@
+﻿@model HomeOption
+
+@{
+    var showErrorClass = string.Empty;
+    var errorKey = nameof(HomeBodyViewModel.SelectedOption);
+
+    if (ViewData.ModelState.Keys.Contains(errorKey))
+    {
+        if (ViewData.ModelState[errorKey] != null && ViewData.ModelState[errorKey].Errors.Any())
+        {
+            showErrorClass = "govuk-form-group--error";
+        }
+    }
+}
+
+<div class="govuk-form-group @showErrorClass">
+    @Html.ValidationMessageFor(model => model, string.Empty, new { @class = "govuk-error-message", @id = nameof(HomeBodyViewModel.SelectedOption) + "-error" })
+
+    <div class="govuk-radios">
+        @foreach (var option in (HomeOption[])Enum.GetValues(typeof(HomeOption)))
+        {
+            if (option != HomeOption.None)
+            {
+                var radioId = option == HomeOption.Webchat ? nameof(HomeBodyViewModel.SelectedOption) : $"{option}-option";
+                var showChecked = Model == option ? "checked=checked" : string.Empty;
+
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" name="@nameof(HomeBodyViewModel.SelectedOption)" id="@radioId" type="radio" @showChecked value="@option" data-val="true" data-val-required="@HomeBodyViewModel.SelectedOptionValidationError">
+                    <label class="govuk-label govuk-radios__label" for="@radioId">@option.GetDescription()</label>
+                </div>
+            }
+        }
+    </div>
+</div>

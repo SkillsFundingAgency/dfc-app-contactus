@@ -1,0 +1,108 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appSharedResourceGroup": {
+            "value": "__appSharedResourceGroup__"
+        },
+        "appSharedStorageAccountName": {
+            "value": "__appSharedStorageAccountName__"
+        },
+        "aseHostingEnvironmentName": {
+            "value": "__AseServiceName__"
+        },
+        "aseResourceGroup": {
+            "value": "__aseResourceGroup__"
+        },
+        "aspInstances": {
+            "value": __aspInstances__
+        },
+        "aspTier": {
+            "value": "__aspTier__"
+        },
+        "aspSize": {
+            "value": "__aspSize__"
+        },
+        "CosmosDbResourceGroup": {
+            "value": "__appSharedResourceGroup__"
+        },
+        "cosmosDBName": {
+            "value": "__appSharedCosmosDBName__"
+        },
+        "cosmosDbKey": {
+            "value": "__appSharedCosmosPrimaryKey__"
+        },
+        "environment": {
+            "value": "__ReleaseEnvironmentName__",
+            "metadata": {
+                "comment": "Bug in tokenisation task prevents referencing Release.EnvironmentName directly.  https://github.com/TotalALM/VSTS-Tasks/issues/29"
+            }
+        },
+        "cosmosDbCollectionName": {
+            "value": "__cosmosDbCollectionName__"
+        },
+        "cosmosSessionDbCollectionName": {
+            "value": "__cosmosSessionDbCollectionName__"
+        },
+        "contactusAppDatabaseNeedsCreation": {
+            "value": __CosmosDbDatabaseDoesntExist__
+        },
+        "contactusAppDatabaseThroughput": {
+            "value": __contactusAppDatabaseThroughput__
+        },
+        "chatOptionsChatUrl": {
+            "value": "__chatOptionsChatUrl__"
+        },
+        "enableAlerts": {
+            "value": __EnableAzureMonitorAlerting__
+        },
+        "chatOptionsHideProductionWarning": {
+            "value": __chatOptionsHideProductionWarning__,
+            "metadata": {
+                "comment": "False for all environment except prodcution"
+            }
+        },
+        "ApimProxyAddress": {
+            "value": "__ApimProxyAddress__"
+        },
+        "ApplicationName": {
+            "value": "__ApplicationName__"
+        },
+        "ApimFutureAccessModelKey": {
+            "value": "__ApimFutureAccessModelKey__"
+        },
+        "SendGridKey": {
+            "value": "__SendGridKey__"
+        },
+        "FallbackEmailToAddresses": {
+            "value": "__FallbackEmailToAddresses__"
+        },
+        "NoReplyEmailAddress": {
+            "value": "__NoReplyEmailAddress__"
+        },
+        "SubscriptionApiEndpointUrl": {
+            "value": "__SubscriptionApiEndpointUrl__"
+        },
+        "ApplicationWebhookReceiverEndpointUrl": {
+            "value": "__ApplicationWebhookReceiverEndpointUrl__"
+        },
+        "contentUrl": {
+            "value": "__contentUrl__"
+        },
+        "ApimResourceGroup": {
+            "value": "__SharedResourceGroupName__"
+        },
+        "ApimLoggerName": {
+            "value": "__ApimLoggerName__"
+        },
+        "ApimProductInstanceName": {
+            "value": "__ApimProductInstanceName__"
+        },
+        "ApimServiceName": {
+            "value": "__ApimServiceName__"
+        },
+        "ApiName": {
+            "value": "__ApiName__"
+        }
+    }
+}
