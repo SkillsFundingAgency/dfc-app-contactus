@@ -12,7 +12,6 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Remote;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;

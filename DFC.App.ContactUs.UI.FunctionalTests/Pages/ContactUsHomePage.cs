@@ -33,7 +33,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
             this.config = context.GetContactUsConfig<ContactUsConfiguration>();
         }
 
-        protected override string PageTitle => string.Empty;
+        protected override string PageTitle => "Contact us";
 
         public ContactUsHomePage NavigateToContactUsPage()
         {

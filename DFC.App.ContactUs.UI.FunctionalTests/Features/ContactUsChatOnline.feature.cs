@@ -20,22 +20,22 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("ErrorMessagesOnContactFormsFeature")]
-    public partial class ErrorMessagesOnContactFormsFeatureFeature
+    [NUnit.Framework.DescriptionAttribute("Contact us by email")]
+    public partial class ContactUsByEmailFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = ((string[])(null));
         
-#line 1 "ErrorMessagesOnContactFormsFeature.feature"
+#line 1 "ContactUsChatOnline.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-GB"), "Features", "ErrorMessagesOnContactFormsFeature", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-GB"), "Features", "Contact us by email", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -74,17 +74,17 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Error Messages on Contact Forms")]
-        [NUnit.Framework.CategoryAttribute("Contactus")]
+        [NUnit.Framework.DescriptionAttribute("Submit a careers advice and guidance email")]
+        [NUnit.Framework.CategoryAttribute("ContactUs")]
         [NUnit.Framework.CategoryAttribute("Smoke")]
-        public virtual void ErrorMessagesOnContactForms()
+        public virtual void SubmitACareersAdviceAndGuidanceEmail()
         {
             string[] tagsOfScenario = new string[] {
-                    "Contactus",
+                    "ContactUs",
                     "Smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Error Messages on Contact Forms", null, tagsOfScenario, argumentsOfScenario);
-#line 5
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Submit a careers advice and guidance email", null, tagsOfScenario, argumentsOfScenario);
+#line 4
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -104,45 +104,27 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
+#line 5
+ testRunner.Given("I am on the contact us landing page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
 #line 6
- testRunner.Given("I have selected \'Contact an adviser\' option to continue onto the first contact fo" +
-                        "rm", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.When("I select the radio button option By email", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 7
- testRunner.Then("I am directed to the first contact form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("I click the continue button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 8
- testRunner.When("I press continue with nothing selected", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("I am on the How can we help? page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 9
- testRunner.Then("an error message is displayed on the first form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I select the radio button option <Careers advice and guidance>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 10
- testRunner.When("I complete the first form with \'Funding\' option and \'Contact an Adviser Form\' que" +
-                        "ry", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I enter <random text> in the <Tell us why you want to contact us in as much detai" +
+                        "l as you can. Don\'t include any personal or account information.> field", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
-  testRunner.And("I click send with nothing selected on the second form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 12
- testRunner.Then("an error message is displayed on the second form", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 13
- testRunner.When("I complete the form with details \'Automated Test\',\'automatedtestesfa@mailinator.c" +
-                        "om\',\'automatedtestesfa@mailinator.com\',\'20/11/2018\',\'CV3 5FE\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 14
- testRunner.Then("a date of birth error is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 15
- testRunner.When("I complete the form with details \'Automated Test\',\'automatedtestesfa@mailinator.c" +
-                        "om\',\'automatedtestesfa@mailinator.com\',\'20/11/2000\',\'CV3 5FE\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 16
-  testRunner.And("I click send", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 17
- testRunner.Then("I am directed to the confirmation page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("I click the <continue> button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
