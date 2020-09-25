@@ -38,8 +38,8 @@ namespace DFC.App.ContactUs
                 throw new NullReferenceException("The scenario context is null. The configuration set up cannot be initialised.");
             }
 
-            Configurator.InitializeConfig(new string[] { "appsettings.json", "appsettings.Project.json" });
-            Configurator.InitializeHostingConfig("appsettings.Environment.json");
+            Configurator.InitializeConfig(new string[] { "appsettings.json", "appsettings.project.json" });
+            Configurator.InitializeHostingConfig("appsettings.environment.json");
             this.configurationRoot = Configurator.GetConfig();
             this.configSection = new ConfigSection(this.configurationRoot);
         }
