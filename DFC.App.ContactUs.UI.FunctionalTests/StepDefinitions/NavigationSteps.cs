@@ -1,4 +1,8 @@
-﻿using DFC.App.ContactUs.UI.FunctionalTests.Pages;
+﻿// <copyright file="NavigationSteps.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using DFC.App.ContactUs.UI.FunctionalTests.Pages;
 using DFC.App.ContactUs.UI.FunctionalTests.Utilities;
 using DFC.TestAutomation.UI.Config;
 using DFC.TestAutomation.UI.Helpers;
@@ -32,7 +36,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
             switch (pageName)
             {
                 case ConstantString.PageName.LandingPage:
-                    var contactUsHomePage = new ContactUsHomePage(this.context);
+                    var contactUsHomePage = new ContactUsLandingPage(this.context);
                     contactUsHomePage.NavigateToContactUsPage();
                     this.pageInteraction.VerifyText(By.CssSelector("h1.govuk-fieldset__heading"), "Contact us");
                     break;
@@ -41,6 +45,5 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                     throw new OperationCanceledException($"Unable to perform the step: {this.context.StepContext.StepInfo.Text}. The page name provided was not recognised.");
             }
         }
-
     }
 }

@@ -1,15 +1,16 @@
-﻿using DFC.TestAutomation.UI.TestSupport;
+﻿// <copyright file="BasicSteps.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TechTalk.SpecFlow;
 
 namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
 {
     [Binding]
-    public class BasicSteps
+    internal class BasicSteps
     {
         private ScenarioContext context;
 
@@ -37,6 +38,5 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
 
             throw new NotFoundException($"Unable to perform the step: {this.context.StepContext.StepInfo.Text}. The button could not be found.");
         }
-
     }
 }
