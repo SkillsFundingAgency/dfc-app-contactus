@@ -40,7 +40,7 @@ namespace DFC.App.ContactUs
 
         private IWebDriver WebDriver { get; set; }
 
-        [AfterScenario(Order = 1)]
+        [AfterScenario(Order = 0)]
         public void CollectTestData()
         {
             try
@@ -74,7 +74,7 @@ namespace DFC.App.ContactUs
             }
         }
 
-        [AfterScenario(Order = 2)]
+        [AfterScenario(Order = 1)]
         public void TakeScreenshotOnFailure()
         {
             if (this.context.TestError != null)
@@ -96,7 +96,7 @@ namespace DFC.App.ContactUs
             }
         }
 
-        [AfterScenario(Order = 3)]
+        [AfterScenario(Order = 2)]
         public void InformBrowserStackOnFailure()
         {
             if (this.context.TestError != null)
@@ -125,7 +125,7 @@ namespace DFC.App.ContactUs
             }
         }
 
-        [AfterScenario(Order = 4)]
+        [AfterScenario(Order = 3)]
         public void DisposeWebDriver()
         {
             try
@@ -144,7 +144,7 @@ namespace DFC.App.ContactUs
             }
         }
 
-        [AfterScenario(Order = 5)]
+        [AfterScenario(Order = 4)]
         public void ReportErrorMessages()
         {
             var exception = this.context.TestError;

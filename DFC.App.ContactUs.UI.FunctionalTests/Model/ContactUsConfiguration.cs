@@ -2,13 +2,15 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace DFC.App.ContactUs
+using System;
+
+namespace DFC.App.ContactUs.Model
 {
-    public class ContactUsConfiguration
+    internal class ContactUsConfiguration
     {
         public string Browser { get; set; }
 
-        public string BaseUrl { get; set; }
+        public Uri BaseUrl { get; set; }
 
         public string BuildNumber { get; set; }
 

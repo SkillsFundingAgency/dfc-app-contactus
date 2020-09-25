@@ -3,12 +3,12 @@
 // </copyright>
 
 using DFC.App.ContactUs.UI.FunctionalTests.Pages;
-using DFC.App.ContactUs.UI.FunctionalTests.Utilities;
 using DFC.TestAutomation.UI.Config;
 using DFC.TestAutomation.UI.Helpers;
 using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium;
 using System;
+using System.Globalization;
 using TechTalk.SpecFlow;
 
 namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
@@ -33,9 +33,9 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
         [Given(@"I am on the (.*) page")]
         public void GivenIAmOnThePage(string pageName)
         {
-            switch (pageName)
+            switch (pageName.ToLower(CultureInfo.CurrentCulture))
             {
-                case ConstantString.PageName.LandingPage:
+                case "contact us landing":
                     var contactUsHomePage = new ContactUsLandingPage(this.context);
                     contactUsHomePage.NavigateToContactUsPage();
                     this.pageInteraction.VerifyText(By.CssSelector("h1.govuk-fieldset__heading"), "Contact us");

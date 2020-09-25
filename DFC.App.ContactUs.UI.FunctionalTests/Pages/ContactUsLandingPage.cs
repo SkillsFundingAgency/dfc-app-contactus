@@ -2,6 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium;
 using System;
@@ -9,7 +10,7 @@ using TechTalk.SpecFlow;
 
 namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
 {
-    public class ContactUsLandingPage : BasePage
+    internal class ContactUsLandingPage : BasePage
     {
         private readonly ScenarioContext context;
         private readonly ContactUsConfiguration config;
