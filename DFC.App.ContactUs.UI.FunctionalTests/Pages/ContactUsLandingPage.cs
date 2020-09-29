@@ -13,7 +13,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
     internal class ContactUsLandingPage : BasePage
     {
         private readonly ScenarioContext context;
-        private readonly ContactUsConfiguration config;
+        private readonly AppSettings config;
         private readonly IWebDriver webDriver;
 
         public ContactUsLandingPage(ScenarioContext context)
@@ -27,7 +27,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
             }
 
             this.webDriver = context.GetWebDriver();
-            this.config = context.GetContactUsConfig<ContactUsConfiguration>();
+            this.config = context.GetContactUsConfig<AppSettings>();
         }
 
         protected override string PageTitle => "Contact us";

@@ -120,8 +120,9 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("I select the radio button option Careers advice and guidance", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 10
- testRunner.And("I enter random text in the Tell us why you want to contact us in as much detail a" +
-                        "s you can. Don’t include any personal or account information. field", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I enter Hello. Please provide me with advice. in the Tell us why you want to cont" +
+                        "act us in as much detail as you can. Don’t include any personal or account infor" +
+                        "mation. field", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
  testRunner.And("I click the next button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

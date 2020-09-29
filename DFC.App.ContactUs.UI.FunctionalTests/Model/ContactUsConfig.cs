@@ -1,4 +1,4 @@
-﻿// <copyright file="ContactUsConfiguration.cs" company="PlaceholderCompany">
+﻿// <copyright file="ContactUsConfig.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -6,7 +6,7 @@ using System;
 
 namespace DFC.App.ContactUs.Model
 {
-    internal class ContactUsConfiguration
+    internal class ContactUsConfig
     {
         public string Browser { get; set; }
 

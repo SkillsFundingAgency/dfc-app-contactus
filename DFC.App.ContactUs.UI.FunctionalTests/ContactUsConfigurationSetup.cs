@@ -24,10 +24,6 @@ namespace DFC.App.ContactUs
     public class ContactUsConfigurationSetup
     {
         private readonly ScenarioContext context;
-        private readonly IConfigurationRoot configurationRoot;
-        private readonly IConfigSection configSection;
-
-        private ObjectContext objectContext;
 
         public ContactUsConfigurationSetup(ScenarioContext context)
         {
@@ -38,11 +34,10 @@ namespace DFC.App.ContactUs
                 throw new NullReferenceException("The scenario context is null. The configuration set up cannot be initialised.");
             }
 
-            Configurator.InitializeConfig(new string[] { "appsettings.json", "appsettings.project.json" });
-            Configurator.InitializeHostingConfig("appsettings.environment.json");
-            this.configurationRoot = Configurator.GetConfig();
-            this.configSection = new ConfigSection(this.configurationRoot);
+            this.Configuration = new Configurator<AppSettings>();
         }
+
+        private Configurator<AppSettings> Configuration { get; set; }
 
         private IWebDriver WebDriver { get; set; }
 
@@ -63,45 +58,26 @@ namespace DFC.App.ContactUs
         [BeforeScenario(Order = 0)]
         public void SetObjectContext(ObjectContext objectContext)
         {
-            this.objectContext = objectContext;
-            this.context.Set(this.objectContext);
+            this.context.SetObjectContext(objectContext);
         }
 
         [BeforeScenario(Order = 1)]
         public void SetUpConfiguration()
         {
-            this.context.Set(this.configSection);
-
-            var configuration = new FrameworkConfig
-            {
-                TimeOutConfig = this.configSection.GetConfigSection<TimeOutConfig>(),
-                BrowserStackSetting = this.configSection.GetConfigSection<BrowserStackSetting>(),
-                TakeEveryPageScreenShot = Configurator.IsVstsExecution,
-            };
-
-            this.context.Set(configuration);
-            var executionConfig = new EnvironmentConfig { EnvironmentName = Configurator.EnvironmentName, ProjectName = Configurator.ProjectName };
-            this.context.Set(executionConfig);
-            var testExecutionConfig = this.configSection.GetConfigSection<TestExecutionConfig>();
-            this.objectContext.SetBrowser(testExecutionConfig.Browser);
+            this.context.SetConfiguration(this.Configuration);
         }
 
         [BeforeScenario(Order = 2)]
         public void SetUpProjectSpecificConfiguration()
         {
-            var config = this.configSection.GetConfigSection<ContactUsConfiguration>();
-            this.context.SetContactUsConfig(config);
-            var mongoDbconfig = this.configSection.GetConfigSection<MongoDbConfig>();
-            this.context.SetMongoDbConfig(mongoDbconfig);
-            this.objectContext.Replace("browser", config.Browser);
-            this.objectContext.Replace("build", config.BuildNumber);
-            this.objectContext.Replace("EnvironmentName", config.EnvironmentName);
+            //Can remove
         }
 
         [BeforeScenario(Order = 3)]
         public void SetupWebDriver()
         {
-            var browser = this.objectContext.GetBrowser();
+            var browser = this.context.GetConfiguration<AppSettings>().Data.ContactUsConfig.Browser;
+            var webDriver = new WebDriverConfigurator(browser).Create();
 
             if (browser.IsFirefox())
             {
