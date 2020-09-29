@@ -2,7 +2,6 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using DFC.TestAutomation.UI.Config;
 using DFC.TestAutomation.UI.Helpers;
 using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium;
@@ -10,7 +9,6 @@ using OpenQA.Selenium.Remote;
 using System;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
 using TechTalk.SpecFlow;
 
 namespace DFC.App.ContactUs
@@ -19,6 +17,8 @@ namespace DFC.App.ContactUs
     public class ContactUsConfigurationSetup
     {
         private readonly ScenarioContext context;
+        private readonly BrowserHelper browserHelper;
+
 
         public ContactUsConfigurationSetup(ScenarioContext context)
         {
@@ -30,25 +30,12 @@ namespace DFC.App.ContactUs
             }
 
             this.Configuration = new Configurator<TestAutomation.UI.Config.IConfiguration>();
+            this.browserHelper = new BrowserHelper(this.Configuration.Data.BrowserConfiguration.BrowserName);
         }
 
         private Configurator<TestAutomation.UI.Config.IConfiguration> Configuration { get; set; }
 
         private IWebDriver WebDriver { get; set; }
-
-        public static string WebDriverPathForExecutable(string executableName)
-        {
-            if (executableName == null)
-            {
-                throw new NullReferenceException("The executable name parameter must be set.");
-            }
-
-            executableName = executableName.Replace(".exe", string.Empty, StringComparison.CurrentCulture);
-            string driverPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            FileInfo[] file = Directory.GetParent(driverPath).GetFiles($"{executableName}.exe", SearchOption.AllDirectories);
-            var info = file.Length != 0 ? file[0].DirectoryName : driverPath;
-            return info;
-        }
 
         [BeforeScenario(Order = 0)]
         public void SetObjectContext(ObjectContext objectContext)
@@ -63,39 +50,32 @@ namespace DFC.App.ContactUs
         }
 
         [BeforeScenario(Order = 2)]
-        public void SetUpProjectSpecificConfiguration()
-        {
-            //Can remove
-        }
-
-        [BeforeScenario(Order = 3)]
         public void SetupWebDriver()
         {
-            var browser = this.context.GetConfiguration().Data.ProjectConfig.Browser;
-            this.WebDriver = new WebDriverConfigurator(this.context.GetConfiguration()).Create();
-
+            var browser = this.context.GetConfiguration().Data.BrowserConfiguration.BrowserName;
+            this.WebDriver = new WebDriverConfigurator(this.context).Create();
             this.WebDriver.Manage().Window.Maximize();
-            this.WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.context.Get<FrameworkConfig>().TimeOutConfig.PageNavigation);
+            this.WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.context.GetConfiguration().Data.TimeoutConfiguration.PageNavigation);
             var currentWindow = this.WebDriver.CurrentWindowHandle;
             this.WebDriver.SwitchTo().Window(currentWindow);
             this.WebDriver.Manage().Cookies.DeleteAllCookies();
 
-            if (!browser.IsCloudExecution())
+            if (!this.browserHelper.IsExecutingInTheCloud())
             {
                 var remoteWebDriver = this.WebDriver as RemoteWebDriver;
                 var capabilities = remoteWebDriver.Capabilities;
-                this.objectContext.SetBrowserName(capabilities["browserName"]);
-                this.objectContext.SetBrowserVersion(capabilities["browserVersion"]);
+                this.context.GetObjectContext().SetBrowserName(capabilities["browserName"]);
+                this.context.GetObjectContext().SetBrowserVersion(capabilities["browserVersion"]);
             }
 
             this.context.SetWebDriver(this.WebDriver);
         }
 
-        [BeforeScenario(Order = 4)]
+        [BeforeScenario(Order = 3)]
         public void SetUpHelpers()
         {
             var webDriver = this.context.GetWebDriver();
-            var webDriverwaitHelper = new WebDriverWaitHelper(webDriver, this.context.Get<FrameworkConfig>().TimeOutConfig);
+            var webDriverwaitHelper = new WebDriverWaitHelper(webDriver, this.context.GetConfiguration().Data.TimeoutConfiguration);
             var retryHelper = new RetryHelper(webDriver);
             this.context.Set(new SqlDatabaseConnectionHelper());
             this.context.Set(new PageInteractionHelper(webDriver, webDriverwaitHelper, retryHelper));
@@ -110,7 +90,7 @@ namespace DFC.App.ContactUs
             this.context.Set(new ScreenShotTitleGenerator(0));
         }
 
-        [BeforeScenario(Order = 5)]
+        [BeforeScenario(Order = 4)]
         public void SetUpScreenshotDirectory()
         {
             string directory = AppDomain.CurrentDomain.BaseDirectory
@@ -124,7 +104,7 @@ namespace DFC.App.ContactUs
                 Directory.CreateDirectory(directory);
             }
 
-            this.objectContext.SetDirectory(directory);
+            this.context.GetObjectContext().SetDirectory(directory);
         }
     }
 }

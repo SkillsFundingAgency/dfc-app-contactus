@@ -3,6 +3,7 @@
 // </copyright>
 
 using DFC.App.ContactUs.Model;
+using DFC.TestAutomation.UI.Config;
 using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium;
 using System;
@@ -13,7 +14,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
     internal class ContactUsLandingPage : BasePage
     {
         private readonly ScenarioContext context;
-        private readonly AppSettings config;
+        private readonly IConfigurator<IConfiguration> config;
         private readonly IWebDriver webDriver;
 
         public ContactUsLandingPage(ScenarioContext context)
@@ -27,14 +28,14 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
             }
 
             this.webDriver = context.GetWebDriver();
-            this.config = context.GetContactUsConfig<AppSettings>();
+            this.config = context.GetConfiguration();
         }
 
         protected override string PageTitle => "Contact us";
 
         public ContactUsLandingPage NavigateToContactUsPage()
         {
-            this.webDriver.Url = this.config.ContactUsConfig.BaseUrl + "/contact-us";
+            this.webDriver.Url = this.config.Data.ProjectConfiguration.BaseUrl + "/contact-us";
             return this;
         }
     }

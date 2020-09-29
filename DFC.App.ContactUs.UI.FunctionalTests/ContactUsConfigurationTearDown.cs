@@ -5,6 +5,7 @@
 using CsvHelper;
 using CsvHelper.Configuration;
 using DFC.TestAutomation.UI.Config;
+using DFC.TestAutomation.UI.Helpers;
 using DFC.TestAutomation.UI.TestSupport;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -22,6 +23,7 @@ namespace DFC.App.ContactUs
     public class ContactUsConfigurationTearDown
     {
         private readonly ScenarioContext context;
+        private readonly BrowserHelper browserHelper;
 
         private ObjectContext objectContext;
 
@@ -36,6 +38,7 @@ namespace DFC.App.ContactUs
 
             this.objectContext = this.context.Get<ObjectContext>();
             this.WebDriver = this.context.GetWebDriver();
+            this.browserHelper = new BrowserHelper(this.context.GetConfiguration().Data.BrowserConfiguration.BrowserName);
         }
 
         private IWebDriver WebDriver { get; set; }
@@ -107,12 +110,12 @@ namespace DFC.App.ContactUs
 
                 switch (true)
                 {
-                    case bool _ when browser.IsCloudExecution():
+                    case bool _ when this.browserHelper.IsExecutingInTheCloud():
                         try
                         {
                             RemoteWebDriver remoteWebDriver = (RemoteWebDriver)webDriver;
                             var sessionId = remoteWebDriver.SessionId.ToString();
-                            BrowserStackReport.MarkTestAsFailed(this.context.Get<FrameworkConfig>().BrowserStackSetting, sessionId, errorMessage);
+                            BrowserStackReport.MarkTestAsFailed(this.context.GetConfiguration().Data.BrowserStackConfiguration, sessionId, errorMessage);
                         }
                         catch (Exception ex)
                         {
@@ -130,7 +133,7 @@ namespace DFC.App.ContactUs
         {
             try
             {
-                var disposeWebDriver = this.context.TestError == null && !this.objectContext.GetBrowser().IsCloudExecution() && !this.objectContext.FailedtoUpdateTestResultInBrowserStack();
+                var disposeWebDriver = this.context.TestError == null && !this.browserHelper.IsExecutingInTheCloud() && !this.objectContext.FailedtoUpdateTestResultInBrowserStack();
 
                 if (disposeWebDriver)
                 {

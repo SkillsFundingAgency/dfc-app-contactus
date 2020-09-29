@@ -3,22 +3,23 @@
 // </copyright>
 
 using DFC.TestAutomation.UI.Config;
-using DFC.TestAutomation.UI.Helpers;
 
 namespace DFC.App.ContactUs.Model
 {
     internal class AppSettings : IConfiguration
     {
-        public ProjectConfig ProjectConfig { get; set; }
+        public ProjectConfiguration ProjectConfiguration { get; set; }
 
-        public TimeOutConfig TimeOutConfig { get; set; }
+        public TimeoutConfiguration TimeoutConfiguration { get; set; }
 
-        public BrowserStackSetting BrowserStackConfig { get; set; }
+        public BrowserStackConfiguration BrowserStackConfiguration { get; set; }
 
-        public EnvironmentConfig EnvironmentConfig { get; set; }
+        public EnvironmentConfiguration EnvironmentConfiguration { get; set; }
 
-        public TestExecutionConfig TestExecutionConfig { get; set; }
+        public MongoDatabaseConfiguration MongoDatabaseConfiguration { get; set; }
 
-        public MongoDbConfig MongoDbConfig { get; set; }
+        public BuildConfiguration BuildConfiguration { get; set; }
+
+        public BrowserConfiguration BrowserConfiguration { get; set; }
     }
 }
