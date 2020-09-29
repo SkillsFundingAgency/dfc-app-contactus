@@ -34,7 +34,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
 
         public ContactUsLandingPage NavigateToContactUsPage()
         {
-            this.webDriver.Url = this.config.BaseUrl + "/contact-us";
+            this.webDriver.Url = this.config.ContactUsConfig.BaseUrl + "/contact-us";
             return this;
         }
     }

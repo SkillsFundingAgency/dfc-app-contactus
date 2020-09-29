@@ -2,15 +2,10 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.Config;
 using DFC.TestAutomation.UI.Helpers;
 using DFC.TestAutomation.UI.TestSupport;
-using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Remote;
 using System;
 using System.Globalization;
@@ -34,10 +29,10 @@ namespace DFC.App.ContactUs
                 throw new NullReferenceException("The scenario context is null. The configuration set up cannot be initialised.");
             }
 
-            this.Configuration = new Configurator<AppSettings>();
+            this.Configuration = new Configurator<TestAutomation.UI.Config.IConfiguration>();
         }
 
-        private Configurator<AppSettings> Configuration { get; set; }
+        private Configurator<TestAutomation.UI.Config.IConfiguration> Configuration { get; set; }
 
         private IWebDriver WebDriver { get; set; }
 
@@ -76,55 +71,8 @@ namespace DFC.App.ContactUs
         [BeforeScenario(Order = 3)]
         public void SetupWebDriver()
         {
-            var browser = this.context.GetConfiguration<AppSettings>().Data.ContactUsConfig.Browser;
-            var webDriver = new WebDriverConfigurator(browser).Create();
-
-            if (browser.IsFirefox())
-            {
-                this.WebDriver = new FirefoxDriver(WebDriverPathForExecutable("geckodriver"));
-            }
-            else if (browser.IsChrome() || browser.IsZap() || browser.IsChromeHeadless())
-            {
-                var chromeDriverpath = WebDriverPathForExecutable("chromedriver");
-                var chromeOptions = new ChromeOptions();
-
-                if (browser.IsChrome())
-                {
-                    chromeOptions.AddArgument("no-sandbox");
-                }
-                else if (browser.IsChromeHeadless())
-                {
-                    chromeOptions.AddArgument("--headless");
-                }
-                else if (browser.IsZap())
-                {
-                    const string proxyUri = "localhost:8080";
-                    var proxy = new Proxy
-                    {
-                        HttpProxy = proxyUri,
-                        SslProxy = proxyUri,
-                        FtpProxy = proxyUri,
-                    };
-                    chromeOptions.Proxy = proxy;
-                }
-
-                var commandTimeoutInMinutes = TimeSpan.FromMinutes(this.context.Get<FrameworkConfig>().TimeOutConfig.CommandTimeout);
-                this.WebDriver = new ChromeDriver(chromeDriverpath, chromeOptions, commandTimeoutInMinutes);
-            }
-            else if (browser.IsIe())
-            {
-                this.WebDriver = new InternetExplorerDriver(WebDriverPathForExecutable("IEDriverServer"));
-            }
-            else if (browser.IsCloudExecution())
-            {
-                var browserStackSetting = this.objectContext.Get<FrameworkConfig>().BrowserStackSetting;
-                this.objectContext.Get<FrameworkConfig>().BrowserStackSetting.Name = this.context.ScenarioInfo.Title;
-                this.WebDriver = BrowserStackSetup.Init(browserStackSetting, this.objectContext.Get<EnvironmentConfig>());
-            }
-            else
-            {
-                throw new Exception($"The browser configuration ({browser}) is unrecognised. Please review your app settings.");
-            }
+            var browser = this.context.GetConfiguration().Data.ProjectConfig.Browser;
+            this.WebDriver = new WebDriverConfigurator(this.context.GetConfiguration()).Create();
 
             this.WebDriver.Manage().Window.Maximize();
             this.WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.context.Get<FrameworkConfig>().TimeOutConfig.PageNavigation);
