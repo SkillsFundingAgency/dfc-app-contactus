@@ -2,9 +2,9 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.Helpers;
 using DFC.TestAutomation.UI.TestSupport;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using System;
 using System.Globalization;
@@ -28,11 +28,11 @@ namespace DFC.App.ContactUs
                 throw new NullReferenceException("The scenario context is null. The configuration set up cannot be initialised.");
             }
 
-            this.Configuration = new Configurator<TestAutomation.UI.Config.IConfiguration>();
+            this.Configuration = new Configurator<AppSettings>();
             this.browserHelper = new BrowserHelper(this.Configuration.Data.BrowserConfiguration.BrowserName);
         }
 
-        private Configurator<TestAutomation.UI.Config.IConfiguration> Configuration { get; set; }
+        private Configurator<AppSettings> Configuration { get; set; }
 
         [BeforeScenario(Order = 0)]
         public void SetObjectContext(ObjectContext objectContext)
@@ -49,9 +49,9 @@ namespace DFC.App.ContactUs
         [BeforeScenario(Order = 2)]
         public void SetupWebDriver()
         {
-            var webDriver = new WebDriverConfigurator(this.context).Create();
+            var webDriver = new WebDriverConfigurator<AppSettings>(this.context).Create();
             webDriver.Manage().Window.Maximize();
-            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.context.GetConfiguration().Data.TimeoutConfiguration.PageNavigation);
+            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.Configuration.Data.TimeoutConfiguration.PageNavigation);
             var currentWindow = webDriver.CurrentWindowHandle;
             webDriver.SwitchTo().Window(currentWindow);
             webDriver.Manage().Cookies.DeleteAllCookies();
@@ -73,7 +73,7 @@ namespace DFC.App.ContactUs
         public void SetUpHelpers()
         {
             var webDriver = this.context.GetWebDriver();
-            var webDriverwaitHelper = new WebDriverWaitHelper(webDriver, this.context.GetConfiguration().Data.TimeoutConfiguration);
+            var webDriverwaitHelper = new WebDriverWaitHelper(webDriver, this.Configuration.Data.TimeoutConfiguration);
             var retryHelper = new RetryHelper(webDriver);
             this.context.Set(new SqlDatabaseConnectionHelper());
             this.context.Set(new PageInteractionHelper(webDriver, webDriverwaitHelper, retryHelper));

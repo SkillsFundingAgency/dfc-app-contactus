@@ -2,6 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.Helpers;
 using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium;
@@ -20,7 +21,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
         {
             this.context = context;
             this.WebDriver = this.context.GetWebDriver();
-            var webDriverWaitHelper = new WebDriverWaitHelper(this.WebDriver, this.context.GetConfiguration().Data.TimeoutConfiguration);
+            var webDriverWaitHelper = new WebDriverWaitHelper(this.WebDriver, this.context.GetConfiguration<AppSettings>().Data.TimeoutConfiguration);
             var retryHelper = new RetryHelper(this.WebDriver);
             this.pageInteraction = new PageInteractionHelper(this.WebDriver, webDriverWaitHelper, retryHelper);
         }

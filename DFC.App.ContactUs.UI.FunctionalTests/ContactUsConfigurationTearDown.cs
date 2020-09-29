@@ -4,6 +4,7 @@
 
 using CsvHelper;
 using CsvHelper.Configuration;
+using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.Config;
 using DFC.TestAutomation.UI.Helpers;
 using DFC.TestAutomation.UI.TestSupport;
@@ -38,7 +39,7 @@ namespace DFC.App.ContactUs
 
             this.objectContext = this.context.Get<ObjectContext>();
             this.WebDriver = this.context.GetWebDriver();
-            this.browserHelper = new BrowserHelper(this.context.GetConfiguration().Data.BrowserConfiguration.BrowserName);
+            this.browserHelper = new BrowserHelper(this.context.GetConfiguration<AppSettings>().Data.BrowserConfiguration.BrowserName);
         }
 
         private IWebDriver WebDriver { get; set; }
@@ -115,7 +116,7 @@ namespace DFC.App.ContactUs
                         {
                             RemoteWebDriver remoteWebDriver = (RemoteWebDriver)webDriver;
                             var sessionId = remoteWebDriver.SessionId.ToString();
-                            BrowserStackReport.MarkTestAsFailed(this.context.GetConfiguration().Data.BrowserStackConfiguration, sessionId, errorMessage);
+                            BrowserStackReport.MarkTestAsFailed(this.context.GetConfiguration<AppSettings>().Data.BrowserStackConfiguration, sessionId, errorMessage);
                         }
                         catch (Exception ex)
                         {

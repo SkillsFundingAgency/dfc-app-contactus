@@ -11,10 +11,10 @@ using TechTalk.SpecFlow;
 
 namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
 {
-    internal class ContactUsLandingPage : BasePage
+    internal class ContactUsLandingPage : BasePage<AppSettings>
     {
         private readonly ScenarioContext context;
-        private readonly IConfigurator<IConfiguration> config;
+        private readonly IConfigurator<AppSettings> config;
         private readonly IWebDriver webDriver;
 
         public ContactUsLandingPage(ScenarioContext context)
@@ -28,7 +28,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
             }
 
             this.webDriver = context.GetWebDriver();
-            this.config = context.GetConfiguration();
+            this.config = context.GetConfiguration<AppSettings>();
         }
 
         protected override string PageTitle => "Contact us";
