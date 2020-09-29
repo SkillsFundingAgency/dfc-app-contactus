@@ -19,7 +19,6 @@ namespace DFC.App.ContactUs
         private readonly ScenarioContext context;
         private readonly BrowserHelper browserHelper;
 
-
         public ContactUsConfigurationSetup(ScenarioContext context)
         {
             this.context = context;
@@ -34,8 +33,6 @@ namespace DFC.App.ContactUs
         }
 
         private Configurator<TestAutomation.UI.Config.IConfiguration> Configuration { get; set; }
-
-        private IWebDriver WebDriver { get; set; }
 
         [BeforeScenario(Order = 0)]
         public void SetObjectContext(ObjectContext objectContext)
@@ -52,23 +49,24 @@ namespace DFC.App.ContactUs
         [BeforeScenario(Order = 2)]
         public void SetupWebDriver()
         {
-            var browser = this.context.GetConfiguration().Data.BrowserConfiguration.BrowserName;
-            this.WebDriver = new WebDriverConfigurator(this.context).Create();
-            this.WebDriver.Manage().Window.Maximize();
-            this.WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.context.GetConfiguration().Data.TimeoutConfiguration.PageNavigation);
-            var currentWindow = this.WebDriver.CurrentWindowHandle;
-            this.WebDriver.SwitchTo().Window(currentWindow);
-            this.WebDriver.Manage().Cookies.DeleteAllCookies();
+            var webDriver = new WebDriverConfigurator(this.context).Create();
+            webDriver.Manage().Window.Maximize();
+            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.context.GetConfiguration().Data.TimeoutConfiguration.PageNavigation);
+            var currentWindow = webDriver.CurrentWindowHandle;
+            webDriver.SwitchTo().Window(currentWindow);
+            webDriver.Manage().Cookies.DeleteAllCookies();
 
             if (!this.browserHelper.IsExecutingInTheCloud())
             {
-                var remoteWebDriver = this.WebDriver as RemoteWebDriver;
+                var remoteWebDriver = webDriver as RemoteWebDriver;
                 var capabilities = remoteWebDriver.Capabilities;
-                this.context.GetObjectContext().SetBrowserName(capabilities["browserName"]);
-                this.context.GetObjectContext().SetBrowserVersion(capabilities["browserVersion"]);
+                var overriddenBrowserName = capabilities["browserName"] as string;
+                var overriddenBrowserVersion = capabilities["browserVersion"] as string;
+                this.Configuration.Data.BrowserConfiguration.BrowserName = overriddenBrowserName;
+                this.Configuration.Data.BrowserConfiguration.BrowserVersion = overriddenBrowserVersion;
             }
 
-            this.context.SetWebDriver(this.WebDriver);
+            this.context.SetWebDriver(webDriver);
         }
 
         [BeforeScenario(Order = 3)]
