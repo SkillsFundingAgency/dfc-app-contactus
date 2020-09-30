@@ -14,16 +14,11 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
     internal class FormSteps
     {
         private ScenarioContext context;
-        private JavaScriptHelper javaScriptHelper;
 
         public FormSteps(ScenarioContext context)
         {
             this.context = context;
-            this.WebDriver = this.context.GetWebDriver();
-            this.javaScriptHelper = new JavaScriptHelper(this.WebDriver);
         }
-
-        private IWebDriver WebDriver { get; set; }
 
         [When(@"I select the radio button option (.*)")]
         public void WhenISelectTheRadioButtonOption(string radioButtonLabel)
@@ -46,7 +41,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
         [When(@"I enter (.*) in the (.*) field")]
         public void WhenIEnterInTheField(string text, string fieldLabel)
         {
-            var allLabels = this.WebDriver.FindElements(By.TagName("label"));
+            var allLabels = this.context.GetWebDriver().FindElements(By.TagName("label"));
             foreach (var label in allLabels)
             {
                 var labelText = label.Text;
@@ -54,12 +49,12 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                 labelText = labelText.Replace("\r\n", " ", System.StringComparison.CurrentCultureIgnoreCase);
                 if (labelText.Trim().Equals(fieldLabel, System.StringComparison.CurrentCultureIgnoreCase))
                 {
-                    var originalTimeout = this.WebDriver.Manage().Timeouts().ImplicitWait;
+                    var originalTimeout = this.context.GetWebDriver().Manage().Timeouts().ImplicitWait;
 
-                    var parentNode = this.javaScriptHelper.ExecuteScript("return arguments[0].parentNode;", label) as IWebElement;
-                    this.WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+                    var parentNode = this.context.GetHelperLibrary().JavaScriptHelper.ExecuteScript("return arguments[0].parentNode;", label) as IWebElement;
+                    this.context.GetWebDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
                     var fields = parentNode.FindElements(By.TagName("input"));
-                    this.WebDriver.Manage().Timeouts().ImplicitWait = originalTimeout;
+                    this.context.GetWebDriver().Manage().Timeouts().ImplicitWait = originalTimeout;
 
                     if (fields.Count > 0)
                     {
@@ -94,12 +89,12 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
         /// <returns>Success boolean.</returns>
         private bool InteractWithRadioButtonOrCheckbox(string inputLabelText)
         {
-            var allLabels = this.WebDriver.FindElements(By.TagName("label"));
+            var allLabels = this.context.GetWebDriver().FindElements(By.TagName("label"));
             foreach (var label in allLabels)
             {
                 if (label.Text.Trim().Equals(inputLabelText, System.StringComparison.CurrentCultureIgnoreCase))
                 {
-                    var parentNode = this.javaScriptHelper.ExecuteScript("return arguments[0].parentNode;", label) as IWebElement;
+                    var parentNode = this.context.GetHelperLibrary().JavaScriptHelper.ExecuteScript("return arguments[0].parentNode;", label) as IWebElement;
                     var input = parentNode.FindElement(By.TagName("input"));
                     input.Click();
                     return true;

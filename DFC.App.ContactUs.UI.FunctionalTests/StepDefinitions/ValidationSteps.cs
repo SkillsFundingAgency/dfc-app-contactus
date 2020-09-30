@@ -2,10 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.Extension;
-using DFC.TestAutomation.UI.Helper;
-using DFC.TestAutomation.UI.TestSupport;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using System.Globalization;
@@ -17,16 +14,11 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
     internal class ValidationSteps
     {
         private ScenarioContext context;
-        private IPageInteractionHelper pageInteraction;
 
         public ValidationSteps(ScenarioContext context)
         {
             this.context = context;
-            this.WebDriver = this.context.GetWebDriver();
-            this.pageInteraction = this.context.GetHelperLibrary().PageInteractionHelper;
         }
-
-        private IWebDriver WebDriver { get; set; }
 
         [Then(@"I am on the (.*) page")]
         public void ThenIAmOnThePage(string pageName)
@@ -44,7 +36,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                     break;
             }
 
-            var actualText = this.pageInteraction.GetText(locator);
+            var actualText = this.context.GetHelperLibrary().PageInteractionHelper.GetText(locator);
             Assert.AreEqual(pageName, actualText);
         }
     }

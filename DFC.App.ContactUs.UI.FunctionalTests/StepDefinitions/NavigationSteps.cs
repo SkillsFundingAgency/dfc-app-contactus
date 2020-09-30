@@ -17,16 +17,11 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
     internal class NavigationSteps
     {
         private ScenarioContext context;
-        private IPageInteractionHelper pageInteraction;
 
         public NavigationSteps(ScenarioContext context)
         {
             this.context = context;
-            this.WebDriver = this.context.GetWebDriver();
-            this.pageInteraction = this.context.GetHelperLibrary().PageInteractionHelper;
         }
-
-        private IWebDriver WebDriver { get; set; }
 
         [Given(@"I am on the (.*) page")]
         public void GivenIAmOnThePage(string pageName)
@@ -36,7 +31,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                 case "contact us landing":
                     var contactUsHomePage = new ContactUsLandingPage(this.context);
                     contactUsHomePage.NavigateToContactUsPage();
-                    var pageHeading = this.pageInteraction.GetText(By.CssSelector("h1.govuk-fieldset__heading"));
+                    var pageHeading = this.context.GetHelperLibrary().PageInteractionHelper.GetText(By.CssSelector("h1.govuk-fieldset__heading"));
                     Assert.AreEqual("Contact us", pageHeading);
                     break;
 
