@@ -4,7 +4,6 @@
 
 using DFC.App.ContactUs.UI.FunctionalTests.Pages;
 using DFC.TestAutomation.UI.Extension;
-using DFC.TestAutomation.UI.Helper;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using System;
