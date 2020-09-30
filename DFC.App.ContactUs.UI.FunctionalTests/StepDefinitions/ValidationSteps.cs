@@ -3,8 +3,10 @@
 // </copyright>
 
 using DFC.App.ContactUs.Model;
-using DFC.TestAutomation.UI.Helpers;
+using DFC.TestAutomation.UI.Extension;
+using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.TestSupport;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using System.Globalization;
 using TechTalk.SpecFlow;
@@ -15,15 +17,13 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
     internal class ValidationSteps
     {
         private ScenarioContext context;
-        private PageInteractionHelper pageInteraction;
+        private IPageInteractionHelper pageInteraction;
 
         public ValidationSteps(ScenarioContext context)
         {
             this.context = context;
             this.WebDriver = this.context.GetWebDriver();
-            var webDriverWaitHelper = new WebDriverWaitHelper(this.WebDriver, this.context.GetConfiguration<AppSettings>().Data.TimeoutConfiguration);
-            var retryHelper = new RetryHelper(this.WebDriver);
-            this.pageInteraction = new PageInteractionHelper(this.WebDriver, webDriverWaitHelper, retryHelper);
+            this.pageInteraction = this.context.GetHelperLibrary().PageInteractionHelper;
         }
 
         private IWebDriver WebDriver { get; set; }
@@ -44,7 +44,8 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                     break;
             }
 
-            this.pageInteraction.VerifyText(locator, pageName);
+            var actualText = this.pageInteraction.GetText(locator);
+            Assert.AreEqual(pageName, actualText);
         }
     }
 }

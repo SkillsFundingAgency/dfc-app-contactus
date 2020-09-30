@@ -2,6 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using DFC.TestAutomation.UI.Extension;
 using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium;
 using System.Linq;

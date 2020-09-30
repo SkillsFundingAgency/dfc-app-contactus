@@ -4,6 +4,7 @@
 
 using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.Config;
+using DFC.TestAutomation.UI.Extension;
 using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium;
 using System;
@@ -11,7 +12,7 @@ using TechTalk.SpecFlow;
 
 namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
 {
-    internal class ContactUsLandingPage : BasePage<AppSettings>
+    internal class ContactUsLandingPage : BasePage
     {
         private readonly ScenarioContext context;
         private readonly IConfigurator<AppSettings> config;

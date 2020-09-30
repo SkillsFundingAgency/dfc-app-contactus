@@ -1,31 +1,30 @@
-﻿// <copyright file="ContactUsConfigurationSetup.cs" company="PlaceholderCompany">
+﻿// <copyright file="SetUp.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
 using DFC.App.ContactUs.Model;
-using DFC.TestAutomation.UI.Helpers;
+using DFC.TestAutomation.UI.Extension;
+using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium.Remote;
 using System;
-using System.Globalization;
-using System.IO;
 using TechTalk.SpecFlow;
 
 namespace DFC.App.ContactUs
 {
     [Binding]
-    public class ContactUsConfigurationSetup
+    public class SetUp
     {
         private readonly ScenarioContext context;
         private readonly BrowserHelper browserHelper;
 
-        public ContactUsConfigurationSetup(ScenarioContext context)
+        public SetUp(ScenarioContext context)
         {
             this.context = context;
 
             if (this.context == null)
             {
-                throw new NullReferenceException("The scenario context is null. The configuration set up cannot be initialised.");
+                throw new NullReferenceException("The scenario context is null. The SetUp class cannot be initialised.");
             }
 
             this.Configuration = new Configurator<AppSettings>();
@@ -72,37 +71,30 @@ namespace DFC.App.ContactUs
         [BeforeScenario(Order = 3)]
         public void SetUpHelpers()
         {
-            var webDriver = this.context.GetWebDriver();
-            var webDriverwaitHelper = new WebDriverWaitHelper(webDriver, this.Configuration.Data.TimeoutConfiguration);
-            var retryHelper = new RetryHelper(webDriver);
-            this.context.Set(new SqlDatabaseConnectionHelper());
-            this.context.Set(new PageInteractionHelper(webDriver, webDriverwaitHelper, retryHelper));
-            this.context.Set(new AxeHelper(webDriver));
-            var formCompletionHelper = new FormCompletionHelper(webDriver, webDriverwaitHelper, retryHelper);
-            this.context.Set(formCompletionHelper);
-            this.context.Set(new TableRowHelper(webDriver, formCompletionHelper));
-            this.context.Set(new JavaScriptHelper(webDriver));
-            this.context.Set(new RandomDataGenerator());
-            this.context.Set(new RegexHelper());
-            this.context.Set(new AssertHelper());
-            this.context.Set(new ScreenShotTitleGenerator(0));
-        }
+            var javaScriptHelper = new JavaScriptHelper(this.context.GetWebDriver());
+            var webDriverWaitHelper = new WebDriverWaitHelper(this.context.GetWebDriver(), this.context.GetConfiguration<AppSettings>().Data.TimeoutConfiguration, javaScriptHelper);
+            var retryHelper = new RetryHelper();
+            var axeHelper = new AxeHelper(this.context.GetWebDriver());
+            var browserHelper = new BrowserHelper(this.context.GetConfiguration<AppSettings>().Data.BrowserConfiguration.BrowserName);
+            var formCompletionHelper = new FormCompletionHelper(this.context.GetWebDriver(), webDriverWaitHelper, retryHelper, javaScriptHelper);
+            var httpClientRequestHelper = new HttpClientRequestHelper("NEED AN ACCESS TOKEN");
+            var pageInteractionHelper = new PageInteractionHelper(this.context.GetWebDriver(), webDriverWaitHelper, retryHelper);
+            var mongoDbConnectionHelper = new MongoDbConnectionHelper(this.context.GetConfiguration<AppSettings>().Data.MongoDatabaseConfiguration);
+            var sqlDatabaseConnectionHelper = new SqlDatabaseConnectionHelper("NEED A CONN STRING");
+            var screenshotHelper = new ScreenshotHelper(this.context);
 
-        [BeforeScenario(Order = 4)]
-        public void SetUpScreenshotDirectory()
-        {
-            string directory = AppDomain.CurrentDomain.BaseDirectory
-             + "../../"
-             + "Project\\Screenshots\\"
-             + DateTime.Now.ToString("dd-MM-yyyy", CultureInfo.CurrentCulture)
-             + "\\";
-
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
-
-            this.context.GetObjectContext().SetDirectory(directory);
+            this.context.SetHelperLibrary(new HelperLibrary(
+                javaScriptHelper,
+                webDriverWaitHelper,
+                retryHelper,
+                axeHelper,
+                browserHelper,
+                formCompletionHelper,
+                httpClientRequestHelper,
+                pageInteractionHelper,
+                mongoDbConnectionHelper,
+                screenshotHelper,
+                sqlDatabaseConnectionHelper));
         }
     }
 }

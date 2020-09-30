@@ -2,11 +2,10 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-using DFC.App.ContactUs.Model;
 using DFC.App.ContactUs.UI.FunctionalTests.Pages;
-using DFC.TestAutomation.UI.Config;
-using DFC.TestAutomation.UI.Helpers;
-using DFC.TestAutomation.UI.TestSupport;
+using DFC.TestAutomation.UI.Extension;
+using DFC.TestAutomation.UI.Helper;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using System;
 using System.Globalization;
@@ -18,15 +17,13 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
     internal class NavigationSteps
     {
         private ScenarioContext context;
-        private PageInteractionHelper pageInteraction;
+        private IPageInteractionHelper pageInteraction;
 
         public NavigationSteps(ScenarioContext context)
         {
             this.context = context;
             this.WebDriver = this.context.GetWebDriver();
-            var webDriverWaitHelper = new WebDriverWaitHelper(this.WebDriver, this.context.GetConfiguration<AppSettings>().Data.TimeoutConfiguration);
-            var retryHelper = new RetryHelper(this.WebDriver);
-            this.pageInteraction = new PageInteractionHelper(this.WebDriver, webDriverWaitHelper, retryHelper);
+            this.pageInteraction = this.context.GetHelperLibrary().PageInteractionHelper;
         }
 
         private IWebDriver WebDriver { get; set; }
@@ -39,7 +36,8 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                 case "contact us landing":
                     var contactUsHomePage = new ContactUsLandingPage(this.context);
                     contactUsHomePage.NavigateToContactUsPage();
-                    this.pageInteraction.VerifyText(By.CssSelector("h1.govuk-fieldset__heading"), "Contact us");
+                    var pageHeading = this.pageInteraction.GetText(By.CssSelector("h1.govuk-fieldset__heading"));
+                    Assert.AreEqual("Contact us", pageHeading);
                     break;
 
                 default:
