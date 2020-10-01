@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
 
         public ContactUsLandingPage NavigateToContactUsPage()
         {
-            this.context.GetWebDriver().Url = this.context.GetConfiguration<AppSettings>().Data.ProjectConfiguration.BaseUrl + "/contact-us";
+            this.context.GetWebDriver().Url = this.context.GetConfiguration<AppSettings>().Data.ProjectConfiguration.AppUrl + "/contact-us";
             return this;
         }
     }
