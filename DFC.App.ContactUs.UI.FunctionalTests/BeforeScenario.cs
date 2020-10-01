@@ -13,9 +13,9 @@ using TechTalk.SpecFlow;
 namespace DFC.App.ContactUs
 {
     [Binding]
-    public class SetUp
+    public class BeforeScenario
     {
-        public SetUp(ScenarioContext context)
+        public BeforeScenario(ScenarioContext context)
         {
             this.Context = context;
 
@@ -49,12 +49,10 @@ namespace DFC.App.ContactUs
             var webDriver = new WebDriverConfigurator<AppSettings>(this.Context).Create();
             webDriver.Manage().Window.Maximize();
             webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.Configuration.Data.TimeoutConfiguration.PageNavigation);
-            var currentWindow = webDriver.CurrentWindowHandle;
-            webDriver.SwitchTo().Window(currentWindow);
             webDriver.Manage().Cookies.DeleteAllCookies();
+            webDriver.SwitchTo().Window(webDriver.CurrentWindowHandle);
 
-            var browserHelper = new BrowserHelper(this.Configuration.Data.BrowserConfiguration.BrowserName);
-            if (browserHelper.IsExecutingInTheCloud())
+            if (new BrowserHelper(this.Configuration.Data.BrowserConfiguration.BrowserName).IsExecutingInTheCloud())
             {
                 var remoteWebDriver = webDriver as RemoteWebDriver;
                 var capabilities = remoteWebDriver.Capabilities;
@@ -70,30 +68,7 @@ namespace DFC.App.ContactUs
         [BeforeScenario(Order = 3)]
         public void SetUpHelpers()
         {
-            var javaScriptHelper = new JavaScriptHelper(this.Context.GetWebDriver());
-            var webDriverWaitHelper = new WebDriverWaitHelper(this.Context.GetWebDriver(), this.Context.GetConfiguration<AppSettings>().Data.TimeoutConfiguration, javaScriptHelper);
-            var retryHelper = new RetryHelper();
-            var axeHelper = new AxeHelper(this.Context.GetWebDriver());
-            var browserHelper = new BrowserHelper(this.Context.GetConfiguration<AppSettings>().Data.BrowserConfiguration.BrowserName);
-            var formCompletionHelper = new FormCompletionHelper(this.Context.GetWebDriver(), webDriverWaitHelper, retryHelper, javaScriptHelper);
-            var httpClientRequestHelper = new HttpClientRequestHelper("NEED AN ACCESS TOKEN");
-            var pageInteractionHelper = new PageInteractionHelper(this.Context.GetWebDriver(), webDriverWaitHelper, retryHelper);
-            var mongoDbConnectionHelper = new MongoDbConnectionHelper(this.Context.GetConfiguration<AppSettings>().Data.MongoDatabaseConfiguration);
-            var sqlDatabaseConnectionHelper = new SqlDatabaseConnectionHelper("NEED A CONN STRING");
-            var screenshotHelper = new ScreenshotHelper(this.Context);
-
-            this.Context.SetHelperLibrary(new HelperLibrary(
-                javaScriptHelper,
-                webDriverWaitHelper,
-                retryHelper,
-                axeHelper,
-                browserHelper,
-                formCompletionHelper,
-                httpClientRequestHelper,
-                pageInteractionHelper,
-                mongoDbConnectionHelper,
-                screenshotHelper,
-                sqlDatabaseConnectionHelper));
+            this.Context.SetHelperLibrary(new HelperLibraryConfigurator<AppSettings>(this.Context).CreateHelperLibrary());
         }
     }
 }

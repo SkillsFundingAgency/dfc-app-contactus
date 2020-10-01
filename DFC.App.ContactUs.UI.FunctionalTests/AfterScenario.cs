@@ -13,9 +13,9 @@ using TechTalk.SpecFlow;
 namespace DFC.App.ContactUs
 {
     [Binding]
-    public class TearDown
+    public class AfterScenario
     {
-        public TearDown(ScenarioContext context)
+        public AfterScenario(ScenarioContext context)
         {
             this.Context = context;
 
@@ -36,7 +36,7 @@ namespace DFC.App.ContactUs
         {
             if (this.Context.TestError != null)
             {
-                this.Context.GetHelperLibrary().ScreenshotHelper.TakeScreenShot();
+                this.Context.GetHelperLibrary().ScreenshotHelper.TakeScreenshot();
             }
         }
 
@@ -45,8 +45,8 @@ namespace DFC.App.ContactUs
         {
             if (this.Context.TestError != null && this.Context.GetHelperLibrary().BrowserHelper.IsExecutingInTheCloud())
             {
-                var browserStackReport = new BrowserStackReport(this.Context.GetConfiguration<AppSettings>().Data.BrowserStackConfiguration, ((RemoteWebDriver)this.Context.GetWebDriver()).SessionId.ToString());
-                browserStackReport.MarkTestAsFailed(this.Context.TestError.Message);
+                var browserStackReport = new BrowserStackReporter(this.Context.GetConfiguration<AppSettings>().Data.BrowserStackConfiguration, ((RemoteWebDriver)this.Context.GetWebDriver()).SessionId.ToString());
+                browserStackReport.SendMessage("failed", this.Context.TestError.Message);
             }
         }
 
