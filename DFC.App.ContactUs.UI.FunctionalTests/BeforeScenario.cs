@@ -1,4 +1,4 @@
-﻿// <copyright file="SetUp.cs" company="PlaceholderCompany">
+﻿// <copyright file="BeforeScenario.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -24,10 +24,10 @@ namespace DFC.App.ContactUs
                 throw new NullReferenceException("The scenario context is null. The SetUp class cannot be initialised.");
             }
 
-            this.Configuration = new Configurator<AppSettings>();
+            this.Configuration = new Configuration<ContactUsSettings>();
         }
 
-        private Configurator<AppSettings> Configuration { get; set; }
+        private Configuration<ContactUsSettings> Configuration { get; set; }
 
         private ScenarioContext Context { get; set; }
 
@@ -46,20 +46,20 @@ namespace DFC.App.ContactUs
         [BeforeScenario(Order = 2)]
         public void SetupWebDriver()
         {
-            var webDriver = new WebDriverConfigurator<AppSettings>(this.Context).Create();
+            var webDriver = new WebDriverConfigurator<ContactUsSettings>(this.Context).Create();
             webDriver.Manage().Window.Maximize();
-            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.Configuration.Data.TimeoutConfiguration.PageNavigation);
+            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.Configuration.TimeoutSettings.PageNavigation);
             webDriver.Manage().Cookies.DeleteAllCookies();
             webDriver.SwitchTo().Window(webDriver.CurrentWindowHandle);
 
-            if (new BrowserHelper(this.Configuration.Data.BrowserConfiguration.BrowserName).IsExecutingInTheCloud())
+            if (new BrowserHelper(this.Configuration.BrowserSettings.BrowserName).IsExecutingInTheCloud())
             {
                 var remoteWebDriver = webDriver as RemoteWebDriver;
                 var capabilities = remoteWebDriver.Capabilities;
                 var overriddenBrowserName = capabilities["browserName"] as string;
                 var overriddenBrowserVersion = capabilities["browserVersion"] as string;
-                this.Configuration.Data.BrowserConfiguration.BrowserName = overriddenBrowserName;
-                this.Configuration.Data.BrowserConfiguration.BrowserVersion = overriddenBrowserVersion;
+                this.Configuration.BrowserSettings.BrowserName = overriddenBrowserName;
+                this.Configuration.BrowserSettings.BrowserVersion = overriddenBrowserVersion;
             }
 
             this.Context.SetWebDriver(webDriver);
@@ -68,7 +68,7 @@ namespace DFC.App.ContactUs
         [BeforeScenario(Order = 3)]
         public void SetUpHelpers()
         {
-            this.Context.SetHelperLibrary(new HelperLibraryConfigurator<AppSettings>(this.Context).CreateHelperLibrary());
+            this.Context.SetHelperLibrary(new HelperLibraryConfigurator<ContactUsSettings>(this.Context).CreateHelperLibrary());
         }
     }
 }
