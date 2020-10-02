@@ -36,7 +36,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                     break;
             }
 
-            var actualText = this.context.GetHelperLibrary().PageInteractionHelper.GetText(locator);
+            var actualText = this.context.GetHelperLibrary().CommonActionHelper.GetText(locator);
             Assert.AreEqual(pageName, actualText);
         }
     }
