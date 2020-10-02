@@ -34,7 +34,7 @@ namespace DFC.App.ContactUs
         [AfterScenario(Order = 0)]
         public void TakeScreenshotOnFailure()
         {
-            if (this.Context.TestError != null && this.Context.GetConfiguration<ContactUsSettings>().AppSettings.TakeScreenshots)
+            if (this.Context.TestError != null && this.Context.GetSettingsLibrary<AppSettings>().AppSettings.TakeScreenshots)
             {
                 this.Context.GetHelperLibrary().ScreenshotHelper.TakeScreenshot();
             }
@@ -45,7 +45,7 @@ namespace DFC.App.ContactUs
         {
             if (this.Context.TestError != null && this.Context.GetHelperLibrary().BrowserHelper.IsExecutingInTheCloud())
             {
-                var browserStackReport = new BrowserStackReporter(this.Context.GetConfiguration<ContactUsSettings>().BrowserStackSettings, ((RemoteWebDriver)this.Context.GetWebDriver()).SessionId.ToString());
+                var browserStackReport = new BrowserStackReporter(this.Context.GetSettingsLibrary<AppSettings>().BrowserStackSettings, ((RemoteWebDriver)this.Context.GetWebDriver()).SessionId.ToString());
                 browserStackReport.SendMessage("failed", this.Context.TestError.Message);
             }
         }

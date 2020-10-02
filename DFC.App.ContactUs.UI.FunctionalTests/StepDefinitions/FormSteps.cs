@@ -13,19 +13,19 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
     [Binding]
     internal class FormSteps
     {
-        private ScenarioContext context;
-
         public FormSteps(ScenarioContext context)
         {
-            this.context = context;
+            this.Context = context;
         }
+
+        private ScenarioContext Context { get; set; }
 
         [When(@"I select the radio button option (.*)")]
         public void WhenISelectTheRadioButtonOption(string radioButtonLabel)
         {
             if (!this.InteractWithRadioButtonOrCheckbox(radioButtonLabel))
             {
-                throw new NotFoundException($"Unable to perform the step: {this.context.StepContext.StepInfo.Text}. The label could not be found.");
+                throw new NotFoundException($"Unable to perform the step: {this.Context.StepContext.StepInfo.Text}. The label could not be found.");
             }
         }
 
@@ -34,14 +34,14 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
         {
             if (!this.InteractWithRadioButtonOrCheckbox(checkboxLabel))
             {
-                throw new NotFoundException($"Unable to perform the step: {this.context.StepContext.StepInfo.Text}. The label could not be found.");
+                throw new NotFoundException($"Unable to perform the step: {this.Context.StepContext.StepInfo.Text}. The label could not be found.");
             }
         }
 
         [When(@"I enter (.*) in the (.*) field")]
         public void WhenIEnterInTheField(string text, string fieldLabel)
         {
-            var allLabels = this.context.GetWebDriver().FindElements(By.TagName("label"));
+            var allLabels = this.Context.GetWebDriver().FindElements(By.TagName("label"));
             foreach (var label in allLabels)
             {
                 var labelText = label.Text;
@@ -49,12 +49,12 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                 labelText = labelText.Replace("\r\n", " ", System.StringComparison.CurrentCultureIgnoreCase);
                 if (labelText.Trim().Equals(fieldLabel, System.StringComparison.CurrentCultureIgnoreCase))
                 {
-                    var originalTimeout = this.context.GetWebDriver().Manage().Timeouts().ImplicitWait;
+                    var originalTimeout = this.Context.GetWebDriver().Manage().Timeouts().ImplicitWait;
 
-                    var parentNode = this.context.GetHelperLibrary().JavaScriptHelper.ExecuteScript("return arguments[0].parentNode;", label) as IWebElement;
-                    this.context.GetWebDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+                    var parentNode = this.Context.GetHelperLibrary().JavaScriptHelper.ExecuteScript("return arguments[0].parentNode;", label) as IWebElement;
+                    this.Context.GetWebDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
                     var fields = parentNode.FindElements(By.TagName("input"));
-                    this.context.GetWebDriver().Manage().Timeouts().ImplicitWait = originalTimeout;
+                    this.Context.GetWebDriver().Manage().Timeouts().ImplicitWait = originalTimeout;
 
                     if (fields.Count > 0)
                     {
@@ -71,7 +71,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                         }
                         else
                         {
-                            throw new NotFoundException($"Unable to perform the step: {this.context.StepContext.StepInfo.Text}. The label was found but an editable text field could not be found.");
+                            throw new NotFoundException($"Unable to perform the step: {this.Context.StepContext.StepInfo.Text}. The label was found but an editable text field could not be found.");
                         }
                     }
 
@@ -79,7 +79,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                 }
             }
 
-            throw new NotFoundException($"Unable to perform the step: {this.context.StepContext.StepInfo.Text}. The label could not be found.");
+            throw new NotFoundException($"Unable to perform the step: {this.Context.StepContext.StepInfo.Text}. The label could not be found.");
         }
 
         /// <summary>
@@ -89,12 +89,12 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
         /// <returns>Success boolean.</returns>
         private bool InteractWithRadioButtonOrCheckbox(string inputLabelText)
         {
-            var allLabels = this.context.GetWebDriver().FindElements(By.TagName("label"));
+            var allLabels = this.Context.GetWebDriver().FindElements(By.TagName("label"));
             foreach (var label in allLabels)
             {
                 if (label.Text.Trim().Equals(inputLabelText, System.StringComparison.CurrentCultureIgnoreCase))
                 {
-                    var parentNode = this.context.GetHelperLibrary().JavaScriptHelper.ExecuteScript("return arguments[0].parentNode;", label) as IWebElement;
+                    var parentNode = this.Context.GetHelperLibrary().JavaScriptHelper.ExecuteScript("return arguments[0].parentNode;", label) as IWebElement;
                     var input = parentNode.FindElement(By.TagName("input"));
                     input.Click();
                     return true;
