@@ -4,18 +4,16 @@
 
 using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.Extension;
-using DFC.TestAutomation.UI.TestSupport;
 using System;
 using TechTalk.SpecFlow;
 
 namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
 {
-    internal class ContactUsLandingPage : BasePage
+    internal class ContactUsLandingPage
     {
         private readonly ScenarioContext context;
 
         public ContactUsLandingPage(ScenarioContext context)
-            : base(context)
         {
             this.context = context;
 
@@ -24,8 +22,6 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
                 throw new NullReferenceException("The scenario context is null. The contact us home page cannot be initialised.");
             }
         }
-
-        protected override string PageTitle => "Contact us";
 
         public ContactUsLandingPage NavigateToContactUsPage()
         {

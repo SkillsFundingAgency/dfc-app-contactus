@@ -3,8 +3,10 @@
 // </copyright>
 
 using DFC.App.ContactUs.Model;
+using DFC.TestAutomation.UI;
 using DFC.TestAutomation.UI.Extension;
 using DFC.TestAutomation.UI.Helper;
+using DFC.TestAutomation.UI.Settings;
 using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium.Remote;
 using System;
