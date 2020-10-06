@@ -1,4 +1,4 @@
-﻿using DFC.App.ContactUs.Data.Contracts;
+﻿using DFC.Content.Pkg.Netcore.Data.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
