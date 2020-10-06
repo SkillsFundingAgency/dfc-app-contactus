@@ -51,7 +51,6 @@ namespace DFC.App.ContactUs
             var webDriver = new WebDriverConfigurator<AppSettings>(this.Context).Create();
             webDriver.Manage().Window.Maximize();
             webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.SettingsLibrary.TimeoutSettings.PageNavigation);
-            webDriver.Manage().Cookies.DeleteAllCookies();
             webDriver.SwitchTo().Window(webDriver.CurrentWindowHandle);
 
             if (new BrowserHelper(this.SettingsLibrary.BrowserSettings.BrowserName).IsExecutingInTheCloud())
