@@ -34,9 +34,12 @@ namespace DFC.App.ContactUs
         [AfterScenario(Order = 0)]
         public void TakeScreenshotOnFailure()
         {
-            if (this.Context.TestError != null && this.Context.GetSettingsLibrary<AppSettings>().AppSettings.TakeScreenshots)
+            if (this.Context.TestError != null)
             {
-                this.Context.GetHelperLibrary().ScreenshotHelper.TakeScreenshot();
+                if(this.Context.GetSettingsLibrary<AppSettings>().AppSettings.TakeScreenshots)
+                {
+                    this.Context.GetHelperLibrary().ScreenshotHelper.TakeScreenshot();
+                }
             }
         }
 
