@@ -40,7 +40,7 @@ namespace DFC.App.ContactUs
         }
 
         [BeforeScenario(Order = 1)]
-        public void SetUpConfiguration()
+        public void SetSettingsLibrary()
         {
             this.Context.SetSettingsLibrary(this.SettingsLibrary);
         }
@@ -50,7 +50,7 @@ namespace DFC.App.ContactUs
         {
             var webDriver = new WebDriverConfigurator<AppSettings>(this.Context).Create();
             webDriver.Manage().Window.Maximize();
-            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.SettingsLibrary.TimeoutSettings.PageNavigation);
+            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.SettingsLibrary.TestExecutionSettings.TimeoutSettings.PageNavigation);
             webDriver.SwitchTo().Window(webDriver.CurrentWindowHandle);
 
             if (new BrowserHelper(this.SettingsLibrary.BrowserSettings.BrowserName).IsExecutingInTheCloud())

@@ -3,6 +3,7 @@
 // </copyright>
 
 using DFC.TestAutomation.UI.Settings;
+using System;
 
 namespace DFC.App.ContactUs.Model
 {
@@ -10,7 +11,7 @@ namespace DFC.App.ContactUs.Model
     {
         public string AppName { get; set; }
 
-        public string AppUrl { get; set; }
+        public Uri AppUrl { get; set; }
 
         public bool TakeScreenshots { get; set; }
     }

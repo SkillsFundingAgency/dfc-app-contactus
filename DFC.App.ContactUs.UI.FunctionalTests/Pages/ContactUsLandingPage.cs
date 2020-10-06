@@ -26,9 +26,6 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Pages
         public ContactUsLandingPage NavigateToContactUsPage()
         {
             this.context.GetWebDriver().Url = this.context.GetSettingsLibrary<AppSettings>().AppSettings.AppUrl.ToString();
-
-            this.context.GetHelperLibrary().AxeHelper.Analyse();
-
             return this;
         }
     }
