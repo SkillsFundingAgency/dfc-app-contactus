@@ -43,10 +43,13 @@ namespace DFC.App.ContactUs
         [AfterScenario(Order = 1)]
         public void InformBrowserStackOnFailure()
         {
-            if (this.Context.TestError != null && this.Context.GetHelperLibrary().BrowserHelper.IsExecutingInTheCloud())
+            if (this.Context.TestError != null)
             {
-                var browserStackReport = new BrowserStackReporter(this.Context.GetSettingsLibrary<AppSettings>().BrowserStackSettings, ((RemoteWebDriver)this.Context.GetWebDriver()).SessionId.ToString());
-                browserStackReport.SendMessage("failed", this.Context.TestError.Message);
+                if (this.Context.GetHelperLibrary().BrowserHelper.IsExecutingInTheCloud() && this.Context.GetRemoteWebDriver() != null)
+                {
+                    var browserStackSupport = new BrowserStackSupport<AppSettings>(this.Context.GetSettingsLibrary<AppSettings>());
+                    browserStackSupport.SendMessage(this.Context.GetRemoteWebDriver(), "failed", this.Context.TestError.Message);
+                }
             }
         }
 

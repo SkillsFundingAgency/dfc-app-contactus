@@ -48,15 +48,15 @@ namespace DFC.App.ContactUs
         [BeforeScenario(Order = 2)]
         public void SetupWebDriver()
         {
-            var webDriver = new WebDriverConfigurator<AppSettings>(this.Context).Create();
+            var webDriver = new WebDriverSupport<AppSettings>(this.Context).Create();
             webDriver.Manage().Window.Maximize();
             webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.SettingsLibrary.TestExecutionSettings.TimeoutSettings.PageNavigation);
             webDriver.SwitchTo().Window(webDriver.CurrentWindowHandle);
 
             if (new BrowserHelper(this.SettingsLibrary.BrowserSettings.BrowserName).IsExecutingInTheCloud())
             {
-                var remoteWebDriver = webDriver as RemoteWebDriver;
-                var capabilities = remoteWebDriver.Capabilities;
+                this.Context.SetRemoteWebDriver(webDriver as RemoteWebDriver);
+                var capabilities = this.Context.GetRemoteWebDriver().Capabilities;
                 var overriddenBrowserName = capabilities["browserName"] as string;
                 var overriddenBrowserVersion = capabilities["browserVersion"] as string;
                 this.SettingsLibrary.BrowserSettings.BrowserName = overriddenBrowserName;
@@ -69,7 +69,7 @@ namespace DFC.App.ContactUs
         [BeforeScenario(Order = 3)]
         public void SetUpHelpers()
         {
-            this.Context.SetHelperLibrary(new HelperLibraryConfigurator<AppSettings>(this.Context).CreateHelperLibrary());
+            this.Context.SetHelperLibrary(new HelperLibrary<AppSettings>(this.Context));
         }
     }
 }
