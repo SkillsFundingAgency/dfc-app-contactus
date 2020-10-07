@@ -5,7 +5,6 @@
 using DFC.App.ContactUs.Model;
 using DFC.App.ContactUs.UI.FunctionalTests.Pages;
 using DFC.TestAutomation.UI.Extension;
-using NUnit.Framework;
 using OpenQA.Selenium;
 using System;
 using System.Globalization;

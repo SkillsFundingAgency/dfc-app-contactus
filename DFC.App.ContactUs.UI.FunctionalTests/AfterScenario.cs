@@ -4,9 +4,7 @@
 
 using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.Extension;
-using DFC.TestAutomation.UI.TestSupport;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
 using System;
 using TechTalk.SpecFlow;
 
@@ -48,7 +46,7 @@ namespace DFC.App.ContactUs
         {
             if (this.Context.TestError != null)
             {
-                if (this.Context.GetHelperLibrary<AppSettings>().BrowserHelper.IsExecutingInTheCloud())
+                if (this.Context.GetHelperLibrary<AppSettings>().BrowserHelper.IsExecutingInBrowserStack())
                 {
                     this.Context.GetHelperLibrary<AppSettings>().BrowserStackHelper.SendMessage("failed", this.Context.TestError.Message);
                 }
@@ -58,7 +56,7 @@ namespace DFC.App.ContactUs
         [AfterScenario(Order = 2)]
         public void DisposeWebDriver()
         {
-            if (!this.Context.GetHelperLibrary<AppSettings>().BrowserHelper.IsExecutingInTheCloud())
+            if (!this.Context.GetHelperLibrary<AppSettings>().BrowserHelper.IsExecutingInBrowserStack())
             {
                 this.WebDriver?.Quit();
                 this.WebDriver?.Dispose();

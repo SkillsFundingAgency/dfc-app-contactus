@@ -7,7 +7,7 @@ using DFC.TestAutomation.UI;
 using DFC.TestAutomation.UI.Extension;
 using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.Settings;
-using DFC.TestAutomation.UI.TestSupport;
+using DFC.TestAutomation.UI.Support;
 using OpenQA.Selenium.Remote;
 using System;
 using TechTalk.SpecFlow;
@@ -53,7 +53,7 @@ namespace DFC.App.ContactUs
             webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.SettingsLibrary.TestExecutionSettings.TimeoutSettings.PageNavigation);
             webDriver.SwitchTo().Window(webDriver.CurrentWindowHandle);
 
-            if (new BrowserHelper(this.SettingsLibrary.BrowserSettings.BrowserName).IsExecutingInTheCloud())
+            if (new BrowserHelper(this.SettingsLibrary.BrowserSettings.BrowserName).IsExecutingInBrowserStack())
             {
                 this.Context.SetWebDriver(webDriver as RemoteWebDriver);
                 var capabilities = (this.Context.GetWebDriver() as RemoteWebDriver).Capabilities;
