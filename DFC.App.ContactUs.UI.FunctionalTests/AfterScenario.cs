@@ -34,7 +34,7 @@ namespace DFC.App.ContactUs
         {
             if (this.Context.TestError != null)
             {
-                if(this.Context.GetSettingsLibrary<AppSettings>().AppSettings.TakeScreenshots)
+                if (this.Context.GetSettingsLibrary<AppSettings>().AppSettings.TakeScreenshots)
                 {
                     this.Context.GetHelperLibrary<AppSettings>().ScreenshotHelper.TakeScreenshot(this.Context);
                 }
