@@ -38,7 +38,7 @@ namespace DFC.App.ContactUs
             {
                 if(this.Context.GetSettingsLibrary<AppSettings>().AppSettings.TakeScreenshots)
                 {
-                    this.Context.GetHelperLibrary().ScreenshotHelper.TakeScreenshot();
+                    this.Context.GetHelperLibrary<AppSettings>().ScreenshotHelper.TakeScreenshot(this.Context);
                 }
             }
         }
@@ -48,10 +48,9 @@ namespace DFC.App.ContactUs
         {
             if (this.Context.TestError != null)
             {
-                if (this.Context.GetHelperLibrary().BrowserHelper.IsExecutingInTheCloud() && this.Context.GetRemoteWebDriver() != null)
+                if (this.Context.GetHelperLibrary<AppSettings>().BrowserHelper.IsExecutingInTheCloud())
                 {
-                    var browserStackSupport = new BrowserStackSupport<AppSettings>(this.Context.GetSettingsLibrary<AppSettings>());
-                    browserStackSupport.SendMessage(this.Context.GetRemoteWebDriver(), "failed", this.Context.TestError.Message);
+                    this.Context.GetHelperLibrary<AppSettings>().BrowserStackHelper.SendMessage("failed", this.Context.TestError.Message);
                 }
             }
         }
@@ -59,7 +58,7 @@ namespace DFC.App.ContactUs
         [AfterScenario(Order = 2)]
         public void DisposeWebDriver()
         {
-            if (!this.Context.GetHelperLibrary().BrowserHelper.IsExecutingInTheCloud())
+            if (!this.Context.GetHelperLibrary<AppSettings>().BrowserHelper.IsExecutingInTheCloud())
             {
                 this.WebDriver?.Quit();
                 this.WebDriver?.Dispose();

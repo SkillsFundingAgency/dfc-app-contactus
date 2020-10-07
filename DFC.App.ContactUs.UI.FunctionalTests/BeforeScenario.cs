@@ -55,8 +55,8 @@ namespace DFC.App.ContactUs
 
             if (new BrowserHelper(this.SettingsLibrary.BrowserSettings.BrowserName).IsExecutingInTheCloud())
             {
-                this.Context.SetRemoteWebDriver(webDriver as RemoteWebDriver);
-                var capabilities = this.Context.GetRemoteWebDriver().Capabilities;
+                this.Context.SetWebDriver(webDriver as RemoteWebDriver);
+                var capabilities = (this.Context.GetWebDriver() as RemoteWebDriver).Capabilities;
                 var overriddenBrowserName = capabilities["browserName"] as string;
                 var overriddenBrowserVersion = capabilities["browserVersion"] as string;
                 this.SettingsLibrary.BrowserSettings.BrowserName = overriddenBrowserName;
@@ -69,7 +69,7 @@ namespace DFC.App.ContactUs
         [BeforeScenario(Order = 3)]
         public void SetUpHelpers()
         {
-            this.Context.SetHelperLibrary(new HelperLibrary<AppSettings>(this.Context));
+            this.Context.SetHelperLibrary(new HelperLibrary<AppSettings>(this.Context.GetWebDriver(), this.Context.GetSettingsLibrary<AppSettings>()));
         }
     }
 }

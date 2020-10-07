@@ -2,6 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using DFC.App.ContactUs.Model;
 using DFC.App.ContactUs.UI.FunctionalTests.Pages;
 using DFC.TestAutomation.UI.Extension;
 using NUnit.Framework;
@@ -30,8 +31,8 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                 case "contact us landing":
                     var contactUsHomePage = new ContactUsLandingPage(this.context);
                     contactUsHomePage.NavigateToContactUsPage();
-                    var pageHeading = this.context.GetHelperLibrary().CommonActionHelper.GetText(By.CssSelector("h1.govuk-fieldset__heading"));
-                    Assert.AreEqual("Contact us", pageHeading);
+                    var pageHeadingLocator = By.CssSelector("h1.govuk-fieldset__heading");
+                    this.context.GetHelperLibrary<AppSettings>().WebDriverWaitHelper.WaitForElementToContainText(pageHeadingLocator, "Contact us");
                     break;
 
                 default:

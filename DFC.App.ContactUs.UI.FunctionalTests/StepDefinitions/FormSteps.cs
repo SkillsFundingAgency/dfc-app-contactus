@@ -2,6 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.Extension;
 using DFC.TestAutomation.UI.Helper;
 using OpenQA.Selenium;
@@ -51,7 +52,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                 {
                     var originalTimeout = this.Context.GetWebDriver().Manage().Timeouts().ImplicitWait;
 
-                    var parentNode = this.Context.GetHelperLibrary().JavaScriptHelper.GetParentElement(label);
+                    var parentNode = this.Context.GetHelperLibrary<AppSettings>().JavaScriptHelper.GetParentElement(label);
                     this.Context.GetWebDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
                     var fields = parentNode.FindElements(By.TagName("input"));
                     this.Context.GetWebDriver().Manage().Timeouts().ImplicitWait = originalTimeout;
@@ -94,7 +95,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
             {
                 if (label.Text.Trim().Equals(inputLabelText, System.StringComparison.CurrentCultureIgnoreCase))
                 {
-                    var parentNode = this.Context.GetHelperLibrary().JavaScriptHelper.GetParentElement(label);
+                    var parentNode = this.Context.GetHelperLibrary<AppSettings>().JavaScriptHelper.GetParentElement(label);
                     var input = parentNode.FindElement(By.TagName("input"));
                     input.Click();
                     return true;

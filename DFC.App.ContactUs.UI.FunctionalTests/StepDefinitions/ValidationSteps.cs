@@ -2,6 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.Extension;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -36,7 +37,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                     break;
             }
 
-            var actualText = this.context.GetHelperLibrary().CommonActionHelper.GetText(locator);
+            var actualText = this.context.GetHelperLibrary<AppSettings>().CommonActionHelper.GetText(locator);
             Assert.AreEqual(pageName, actualText);
         }
     }
