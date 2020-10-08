@@ -38,8 +38,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                     break;
             }
 
-            var actualText = this.Context.GetHelperLibrary<AppSettings>().CommonActionHelper.GetText(locator);
-            Assert.AreEqual(pageName, actualText);
+            this.Context.GetHelperLibrary<AppSettings>().WebDriverWaitHelper.WaitForElementToContainText(locator, pageName);
         }
     }
 }
