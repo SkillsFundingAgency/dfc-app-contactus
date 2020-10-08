@@ -1,5 +1,6 @@
-﻿// <copyright file="AfterScenario.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="AfterScenario.cs" company="National Careers Service">
+// Copyright (c) National Careers Service. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 using DFC.App.ContactUs.Model;
@@ -19,15 +20,11 @@ namespace DFC.App.ContactUs
 
             if (this.Context == null)
             {
-                throw new NullReferenceException("The scenario context is null. The configuration TearDown class cannot be initialised.");
+                throw new NullReferenceException($"The scenario context is null. The {this.GetType().Name} class cannot be initialised.");
             }
-
-            this.WebDriver = this.Context.GetWebDriver();
         }
 
         private ScenarioContext Context { get; set; }
-
-        private IWebDriver WebDriver { get; set; }
 
         [AfterScenario(Order = 0)]
         public void TakeScreenshotOnFailure()
@@ -58,8 +55,9 @@ namespace DFC.App.ContactUs
         {
             if (!this.Context.GetHelperLibrary<AppSettings>().BrowserHelper.IsExecutingInBrowserStack())
             {
-                this.WebDriver?.Quit();
-                this.WebDriver?.Dispose();
+                var webDriver = this.Context.GetWebDriver();
+                webDriver?.Quit();
+                webDriver?.Dispose();
             }
         }
     }

@@ -1,10 +1,10 @@
-﻿// <copyright file="FormSteps.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="FormSteps.cs" company="National Careers Service">
+// Copyright (c) National Careers Service. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.Extension;
-using DFC.TestAutomation.UI.Helper;
 using OpenQA.Selenium;
 using System;
 using TechTalk.SpecFlow;
@@ -83,11 +83,6 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
             throw new NotFoundException($"Unable to perform the step: {this.Context.StepContext.StepInfo.Text}. The label could not be found.");
         }
 
-        /// <summary>
-        /// Click the checkbox or the radio button based on the inputs label.
-        /// </summary>
-        /// <param name="inputLabelText">Label text for the radio button or the checkbox (whichever applies).</param>
-        /// <returns>Success boolean.</returns>
         private bool InteractWithRadioButtonOrCheckbox(string inputLabelText)
         {
             var allLabels = this.Context.GetWebDriver().FindElements(By.TagName("label"));

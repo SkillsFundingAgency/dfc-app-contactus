@@ -1,5 +1,6 @@
-﻿// <copyright file="ValidationSteps.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="ValidationSteps.cs" company="National Careers Service">
+// Copyright (c) National Careers Service. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 using DFC.App.ContactUs.Model;
@@ -14,12 +15,12 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
     [Binding]
     internal class ValidationSteps
     {
-        private ScenarioContext context;
-
         public ValidationSteps(ScenarioContext context)
         {
-            this.context = context;
+            this.Context = context;
         }
+
+        private ScenarioContext Context { get; set; }
 
         [Then(@"I am on the (.*) page")]
         public void ThenIAmOnThePage(string pageName)
@@ -37,7 +38,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                     break;
             }
 
-            var actualText = this.context.GetHelperLibrary<AppSettings>().CommonActionHelper.GetText(locator);
+            var actualText = this.Context.GetHelperLibrary<AppSettings>().CommonActionHelper.GetText(locator);
             Assert.AreEqual(pageName, actualText);
         }
     }

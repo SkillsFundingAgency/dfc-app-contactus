@@ -1,5 +1,6 @@
-﻿// <copyright file="NavigationSteps.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="NavigationSteps.cs" company="National Careers Service">
+// Copyright (c) National Careers Service. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
 using DFC.App.ContactUs.Model;
@@ -15,12 +16,12 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
     [Binding]
     internal class NavigationSteps
     {
-        private ScenarioContext context;
-
         public NavigationSteps(ScenarioContext context)
         {
-            this.context = context;
+            this.Context = context;
         }
+
+        private ScenarioContext Context { get; set; }
 
         [Given(@"I am on the (.*) page")]
         public void GivenIAmOnThePage(string pageName)
@@ -28,14 +29,14 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
             switch (pageName.ToLower(CultureInfo.CurrentCulture))
             {
                 case "contact us landing":
-                    var contactUsHomePage = new ContactUsLandingPage(this.context);
+                    var contactUsHomePage = new ContactUsLandingPage(this.Context);
                     contactUsHomePage.NavigateToContactUsPage();
                     var pageHeadingLocator = By.CssSelector("h1.govuk-fieldset__heading");
-                    this.context.GetHelperLibrary<AppSettings>().WebDriverWaitHelper.WaitForElementToContainText(pageHeadingLocator, "Contact us");
+                    this.Context.GetHelperLibrary<AppSettings>().WebDriverWaitHelper.WaitForElementToContainText(pageHeadingLocator, "Contact us");
                     break;
 
                 default:
-                    throw new OperationCanceledException($"Unable to perform the step: {this.context.StepContext.StepInfo.Text}. The page name provided was not recognised.");
+                    throw new OperationCanceledException($"Unable to perform the step: {this.Context.StepContext.StepInfo.Text}. The page name provided was not recognised.");
             }
         }
     }
