@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace DFC.App.ContactUs.Attributes
 {
+    [ExcludeFromCodeCoverage]
     public class DateOfBirthValidationAttribute : ValidationAttribute, IClientModelValidator
     {
         private readonly int yearsAgo;
@@ -14,7 +16,7 @@ namespace DFC.App.ContactUs.Attributes
         public DateOfBirthValidationAttribute(int yearsAgo, string minimumDateString)
         {
             this.yearsAgo = yearsAgo;
-            this.minimumDate = DateTime.ParseExact(minimumDateString, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            minimumDate = DateTime.ParseExact(minimumDateString, "yyyy-MM-dd", CultureInfo.InvariantCulture);
         }
 
         private enum ErrorType

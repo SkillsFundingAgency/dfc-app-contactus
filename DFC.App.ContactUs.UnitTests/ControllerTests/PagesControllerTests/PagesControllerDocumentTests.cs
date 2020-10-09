@@ -1,7 +1,6 @@
 using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
-using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
@@ -18,30 +17,26 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public async Task PagesControllerDocumentHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            const string article = "an-article-name";
-            var expectedResult = A.Fake<ContentPageModel>();
+            var expectedResult = A.Fake<EmailModel>();
             var controller = BuildPagesController(mediaTypeName);
             var expectedModel = new DocumentViewModel
             {
-                DocumentId = Guid.NewGuid(),
-                CanonicalName = "a-canonical-name",
+                Id = Guid.NewGuid(),
+                Title = "A title",
                 PartitionKey = "partition-key",
-                Version = Guid.NewGuid(),
-                BreadcrumbTitle = "Title",
-                IncludeInSitemap = true,
                 Url = new Uri("https://somewhere.com", UriKind.Absolute),
-                Content = new Microsoft.AspNetCore.Html.HtmlString("some content"),
+                BodyViewModel = new BodyViewModel { Body = new Microsoft.AspNetCore.Html.HtmlString("some content") },
                 LastReviewed = DateTime.Now,
             };
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).Returns(expectedModel);
+            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<EmailModel>.Ignored)).Returns(expectedModel);
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Document(expectedModel.Id).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<EmailModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var viewResult = Assert.IsType<ViewResult>(result);
             _ = Assert.IsAssignableFrom<DocumentViewModel>(viewResult.ViewData.Model);
@@ -56,53 +51,21 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public async Task PagesControllerDocumentJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            const string article = "an-article-name";
-            var expectedResult = A.Fake<ContentPageModel>();
+            var expectedResult = A.Fake<EmailModel>();
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
+            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<EmailModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Document(Guid.NewGuid()).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<EmailModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             _ = Assert.IsAssignableFrom<DocumentViewModel>(jsonResult.Value);
-
-            controller.Dispose();
-        }
-
-        [Theory]
-        [MemberData(nameof(HtmlMediaTypes))]
-        [MemberData(nameof(JsonMediaTypes))]
-        public async Task PagesControllerDocumentReturnsRedirectWhenAlternateArticleExists(string mediaTypeName)
-        {
-            // Arrange
-            const string article = "an-article-name";
-            ContentPageModel? expectedResult = null;
-            var expectedAlternativeResult = A.Fake<ContentPageModel>();
-            var controller = BuildPagesController(mediaTypeName);
-
-            expectedAlternativeResult.CanonicalName = article;
-
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => FakeContentPageService.GetByRedirectLocationAsync(A<string>.Ignored)).Returns(expectedAlternativeResult);
-
-            // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
-
-            // Assert
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeContentPageService.GetByRedirectLocationAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
-
-            var statusResult = Assert.IsType<RedirectResult>(result);
-
-            statusResult.Url.Should().NotBeNullOrWhiteSpace();
-            A.Equals(true, statusResult.Permanent);
 
             controller.Dispose();
         }
@@ -113,19 +76,16 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public async Task PagesControllerDocumentReturnsNoContentWhenNoData(string mediaTypeName)
         {
             // Arrange
-            const string article = "an-article-name";
-            ContentPageModel? expectedResult = null;
+            EmailModel? expectedResult = null;
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => FakeContentPageService.GetByRedirectLocationAsync(A<string>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedResult);
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Document(Guid.NewGuid()).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeContentPageService.GetByRedirectLocationAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<NoContentResult>(result);
 
@@ -139,19 +99,18 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public async Task PagesControllerDocumentReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            const string article = "an-article-name";
-            var expectedResult = A.Fake<ContentPageModel>();
+            var expectedResult = A.Fake<EmailModel>();
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
-            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
+            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<EmailModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
 
             // Act
-            var result = await controller.Document(article).ConfigureAwait(false);
+            var result = await controller.Document(Guid.NewGuid()).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeContentPageService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ContentPageModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<EmailModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<StatusCodeResult>(result);
 
