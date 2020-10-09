@@ -33,8 +33,8 @@ namespace DFC.App.ContactUs.Controllers
 
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = ThisViewCanonicalName,
-                BreadcrumbTitle = "Contact us",
+                Route = ThisViewCanonicalName,
+                Title = "Contact us",
             };
             var viewModel = new HomeViewModel()
             {
@@ -86,8 +86,8 @@ namespace DFC.App.ContactUs.Controllers
 
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = ThisViewCanonicalName,
-                BreadcrumbTitle = "Contact us",
+                Route = ThisViewCanonicalName,
+                Title = "Contact us",
             };
             var viewModel = new HomeViewModel()
             {
@@ -127,8 +127,8 @@ namespace DFC.App.ContactUs.Controllers
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = ThisViewCanonicalName,
-                BreadcrumbTitle = "Contact us",
+                Route = ThisViewCanonicalName,
+                Title = "Contact us",
             };
             var viewModel = BuildBreadcrumb(RegistrationPath, breadcrumbItemModel);
 

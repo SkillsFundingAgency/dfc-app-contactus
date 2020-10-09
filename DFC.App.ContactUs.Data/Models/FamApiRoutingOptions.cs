@@ -1,7 +1,9 @@
 ﻿using DFC.App.ContactUs.Data.Models.ClientOptions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.ContactUs.Data.Models
 {
+    [ExcludeFromCodeCoverage]
     public class FamApiRoutingOptions : ClientOptionsModel
     {
         public string AreaRoutingEndpoint { get; set; } = "futureaccessmodel/arearouting/api/areas?location=";

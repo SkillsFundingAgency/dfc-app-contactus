@@ -2,7 +2,7 @@
 
 namespace DFC.App.ContactUs.ViewModels
 {
-    public class BreadcrumbPathViewModel
+    public class BreadcrumbItemViewModel
     {
         public string? Route { get; set; }
 

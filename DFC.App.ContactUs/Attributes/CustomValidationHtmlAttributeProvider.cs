@@ -10,10 +10,12 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace DFC.App.ContactUs.Attributes
 {
+    [ExcludeFromCodeCoverage]
     public class CustomValidationHtmlAttributeProvider : DefaultValidationHtmlAttributeProvider
     {
         private readonly IModelMetadataProvider metadataProvider;

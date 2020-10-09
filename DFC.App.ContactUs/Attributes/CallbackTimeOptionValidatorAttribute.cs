@@ -3,10 +3,12 @@ using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace DFC.App.ContactUs.Attributes
 {
+    [ExcludeFromCodeCoverage]
     public class CallbackTimeOptionValidatorAttribute : ValidationAttribute, IClientModelValidator
     {
         private readonly string callbackDateOptionProperty;
