@@ -50,17 +50,6 @@ namespace DFC.App.ContactUs
             webDriver.Manage().Window.Maximize();
             webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(settingsLibrary.TestExecutionSettings.TimeoutSettings.PageNavigation);
             webDriver.SwitchTo().Window(webDriver.CurrentWindowHandle);
-
-            if (new BrowserHelper(settingsLibrary.BrowserSettings.BrowserName).IsExecutingInBrowserStack())
-            {
-                this.Context.SetWebDriver(webDriver as RemoteWebDriver);
-                var capabilities = (this.Context.GetWebDriver() as RemoteWebDriver).Capabilities;
-                var overriddenBrowserName = capabilities["browserName"] as string;
-                var overriddenBrowserVersion = capabilities["browserVersion"] as string;
-                settingsLibrary.BrowserSettings.BrowserName = overriddenBrowserName;
-                settingsLibrary.BrowserSettings.BrowserVersion = overriddenBrowserVersion;
-            }
-
             this.Context.SetWebDriver(webDriver);
         }
 
