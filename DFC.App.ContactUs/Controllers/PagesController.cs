@@ -62,7 +62,7 @@ namespace DFC.App.ContactUs.Controllers
         }
 
         [HttpGet]
-        [Route("pages/{documentId}")]
+        [Route("pages/{documentId}/document")]
         public async Task<IActionResult> Document(Guid documentId)
         {
             var emailModel = await emailDocumentService.GetByIdAsync(documentId).ConfigureAwait(false);
