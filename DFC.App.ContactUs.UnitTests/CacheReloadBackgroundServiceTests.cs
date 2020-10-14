@@ -8,7 +8,7 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
+namespace DFC.App.ContactUs.UnitTests
 {
     public class CacheReloadBackgroundServiceTests
     {
