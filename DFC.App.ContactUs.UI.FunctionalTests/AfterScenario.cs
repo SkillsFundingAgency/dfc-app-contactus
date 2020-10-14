@@ -31,26 +31,11 @@ namespace DFC.App.ContactUs
         {
             if (this.Context.TestError != null)
             {
-                if (this.Context.GetSettingsLibrary<AppSettings>().AppSettings.TakeScreenshots)
-                {
-                    this.Context.GetHelperLibrary<AppSettings>().ScreenshotHelper.TakeScreenshot(this.Context);
-                }
+                this.Context.GetHelperLibrary<AppSettings>().ScreenshotHelper.TakeScreenshot(this.Context);
             }
         }
 
         [AfterScenario(Order = 1)]
-        public void InformBrowserStackOnFailure()
-        {
-            if (this.Context.TestError != null)
-            {
-                if (this.Context.GetHelperLibrary<AppSettings>().BrowserHelper.IsExecutingInBrowserStack())
-                {
-                    this.Context.GetHelperLibrary<AppSettings>().BrowserStackHelper.SendMessage("failed", this.Context.TestError.Message);
-                }
-            }
-        }
-
-        [AfterScenario(Order = 2)]
         public void DisposeWebDriver()
         {
             if (!this.Context.GetHelperLibrary<AppSettings>().BrowserHelper.IsExecutingInBrowserStack())
