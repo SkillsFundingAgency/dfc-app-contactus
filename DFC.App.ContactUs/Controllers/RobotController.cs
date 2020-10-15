@@ -8,6 +8,8 @@ namespace DFC.App.ContactUs.Controllers
 {
     public class RobotController : Controller
     {
+        public const string RobotsViewCanonicalName = "robots";
+
         private readonly ILogger<RobotController> logger;
         private readonly IWebHostEnvironment hostingEnvironment;
 
@@ -15,6 +17,15 @@ namespace DFC.App.ContactUs.Controllers
         {
             this.logger = logger;
             this.hostingEnvironment = hostingEnvironment;
+        }
+
+        [HttpGet]
+        [Route("pages/robots")]
+        public IActionResult RobotView()
+        {
+            var result = Robot();
+
+            return result;
         }
 
         [HttpGet]
