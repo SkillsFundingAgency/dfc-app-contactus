@@ -4,11 +4,13 @@ using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.HostedServices
 {
+    [ExcludeFromCodeCoverage]
     public class CacheReloadBackgroundService : BackgroundService
     {
         private readonly ILogger<CacheReloadBackgroundService> logger;

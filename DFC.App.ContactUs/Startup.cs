@@ -95,7 +95,6 @@ namespace DFC.App.ContactUs
             services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
             services.AddSingleton(configuration.GetSection(nameof(FamApiRoutingOptions)).Get<FamApiRoutingOptions>() ?? new FamApiRoutingOptions());
-            services.AddSingleton(configuration.GetSection(nameof(WebhookSettings)).Get<WebhookSettings>() ?? new WebhookSettings());
             services.AddHostedServiceTelemetryWrapper();
             services.AddHostedService<CacheReloadBackgroundService>();
             services.AddSubscriptionBackgroundService(configuration);
