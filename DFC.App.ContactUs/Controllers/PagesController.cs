@@ -36,6 +36,7 @@ namespace DFC.App.ContactUs.Controllers
                 {
                     new IndexDocumentViewModel { Title = HealthController.HealthViewCanonicalName },
                     new IndexDocumentViewModel { Title = SitemapController.SitemapViewCanonicalName },
+                    new IndexDocumentViewModel { Title = RobotController.RobotsViewCanonicalName },
                     new IndexDocumentViewModel { Title = HomeController.ThisViewCanonicalName },
                     new IndexDocumentViewModel { Title = ChatController.ThisViewCanonicalName },
                     new IndexDocumentViewModel { Title = HowCanWeHelpController.ThisViewCanonicalName },
