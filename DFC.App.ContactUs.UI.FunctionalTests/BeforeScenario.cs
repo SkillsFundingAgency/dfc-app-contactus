@@ -9,7 +9,6 @@ using DFC.TestAutomation.UI.Extension;
 using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.Settings;
 using DFC.TestAutomation.UI.Support;
-using OpenQA.Selenium.Remote;
 using System;
 using TechTalk.SpecFlow;
 
