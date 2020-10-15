@@ -46,7 +46,7 @@ namespace DFC.App.ContactUs
         public void SetupWebDriver()
         {
             var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
-            var webDriver = new WebDriverSupport<AppSettings>(this.Context).Create();
+            var webDriver = new WebDriverSupport<AppSettings>(settingsLibrary).Create();
             webDriver.Manage().Window.Maximize();
             webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(settingsLibrary.TestExecutionSettings.TimeoutSettings.PageNavigation);
             webDriver.SwitchTo().Window(webDriver.CurrentWindowHandle);
