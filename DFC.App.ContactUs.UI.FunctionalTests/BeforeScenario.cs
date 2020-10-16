@@ -42,6 +42,12 @@ namespace DFC.App.ContactUs
         }
 
         [BeforeScenario(Order = 2)]
+        public void SetScenarioNameForBrowserStack()
+        {
+            this.Context.GetSettingsLibrary<AppSettings>().BrowserStackSettings.Name = this.Context.ScenarioInfo.Title;
+        }
+
+        [BeforeScenario(Order = 3)]
         public void SetupWebDriver()
         {
             var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
@@ -52,17 +58,11 @@ namespace DFC.App.ContactUs
             this.Context.SetWebDriver(webDriver);
         }
 
-        [BeforeScenario(Order = 3)]
+        [BeforeScenario(Order = 4)]
         public void SetUpHelpers()
         {
             var helperLibrary = new HelperLibrary<AppSettings>(this.Context.GetWebDriver(), this.Context.GetSettingsLibrary<AppSettings>());
             this.Context.SetHelperLibrary(helperLibrary);
-        }
-
-        [BeforeScenario(Order = 4)]
-        public void SetScenarioNameForBrowserStack()
-        {
-            this.Context.GetSettingsLibrary<AppSettings>().BrowserStackSettings.Name = this.Context.ScenarioInfo.Title;
         }
     }
 }
