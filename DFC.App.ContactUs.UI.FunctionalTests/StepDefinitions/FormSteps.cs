@@ -50,12 +50,10 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                 labelText = labelText.Replace("\r\n", " ", System.StringComparison.CurrentCultureIgnoreCase);
                 if (labelText.Trim().Equals(fieldLabel, System.StringComparison.CurrentCultureIgnoreCase))
                 {
-                    var originalTimeout = this.Context.GetWebDriver().Manage().Timeouts().ImplicitWait;
-
                     var parentNode = this.Context.GetHelperLibrary<AppSettings>().JavaScriptHelper.GetParentElement(label);
                     this.Context.GetWebDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
                     var fields = parentNode.FindElements(By.TagName("input"));
-                    this.Context.GetWebDriver().Manage().Timeouts().ImplicitWait = originalTimeout;
+                    this.Context.GetWebDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(this.Context.GetSettingsLibrary<AppSettings>().TestExecutionSettings.TimeoutSettings.ImplicitWait);
 
                     if (fields.Count > 0)
                     {

@@ -27,23 +27,11 @@ namespace DFC.App.ContactUs
         private ScenarioContext Context { get; set; }
 
         [AfterScenario(Order = 0)]
-        public void TakeScreenshotOnFailure()
-        {
-            if (this.Context.TestError != null)
-            {
-                this.Context.GetHelperLibrary<AppSettings>().ScreenshotHelper.TakeScreenshot(this.Context);
-            }
-        }
-
-        [AfterScenario(Order = 1)]
         public void DisposeWebDriver()
         {
-            if (!this.Context.GetHelperLibrary<AppSettings>().BrowserHelper.IsExecutingInBrowserStack())
-            {
-                var webDriver = this.Context.GetWebDriver();
-                webDriver?.Quit();
-                webDriver?.Dispose();
-            }
+            var webDriver = this.Context.GetWebDriver();
+            webDriver?.Quit();
+            webDriver?.Dispose();
         }
     }
 }

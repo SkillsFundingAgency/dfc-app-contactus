@@ -9,7 +9,6 @@ using DFC.TestAutomation.UI.Extension;
 using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.Settings;
 using DFC.TestAutomation.UI.Support;
-using OpenQA.Selenium.Remote;
 using System;
 using TechTalk.SpecFlow;
 
@@ -46,7 +45,7 @@ namespace DFC.App.ContactUs
         public void SetupWebDriver()
         {
             var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
-            var webDriver = new WebDriverSupport<AppSettings>(this.Context).Create();
+            var webDriver = new WebDriverSupport<AppSettings>(settingsLibrary).Create();
             webDriver.Manage().Window.Maximize();
             webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(settingsLibrary.TestExecutionSettings.TimeoutSettings.PageNavigation);
             webDriver.SwitchTo().Window(webDriver.CurrentWindowHandle);
@@ -58,6 +57,12 @@ namespace DFC.App.ContactUs
         {
             var helperLibrary = new HelperLibrary<AppSettings>(this.Context.GetWebDriver(), this.Context.GetSettingsLibrary<AppSettings>());
             this.Context.SetHelperLibrary(helperLibrary);
+        }
+
+        [BeforeScenario(Order = 4)]
+        public void SetScenarioNameForBrowserStack()
+        {
+            this.Context.GetSettingsLibrary<AppSettings>().BrowserStackSettings.Name = this.Context.ScenarioInfo.Title;
         }
     }
 }
