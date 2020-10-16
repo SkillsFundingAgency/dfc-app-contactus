@@ -58,5 +58,11 @@ namespace DFC.App.ContactUs
             var helperLibrary = new HelperLibrary<AppSettings>(this.Context.GetWebDriver(), this.Context.GetSettingsLibrary<AppSettings>());
             this.Context.SetHelperLibrary(helperLibrary);
         }
+
+        [BeforeScenario(Order = 4)]
+        public void SetScenarioNameForBrowserStack()
+        {
+            this.Context.GetSettingsLibrary<AppSettings>().BrowserStackSettings.Name = this.Context.ScenarioInfo.Title;
+        }
     }
 }
