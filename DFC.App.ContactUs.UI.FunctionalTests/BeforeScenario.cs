@@ -49,9 +49,10 @@ namespace DFC.App.ContactUs
         }
 
         [BeforeScenario(Order = 3)]
-        public void SetScenarioNameForBrowserStack()
+        public void ConfigureBrowserStack()
         {
             this.Context.GetSettingsLibrary<AppSettings>().BrowserStackSettings.Name = this.Context.ScenarioInfo.Title;
+            this.Context.GetSettingsLibrary<AppSettings>().BrowserStackSettings.Build = "Contact us";
         }
 
         [BeforeScenario(Order = 4)]
