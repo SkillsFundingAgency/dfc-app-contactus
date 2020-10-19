@@ -10,6 +10,6 @@ namespace DFC.App.ContactUs.Model
 {
     internal class AppSettings : IAppSettings
     {
-        public Uri AppUrl { get; set; }
+        public Uri AppBaseUrl { get; set; }
     }
 }

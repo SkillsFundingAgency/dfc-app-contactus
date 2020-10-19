@@ -42,12 +42,20 @@ namespace DFC.App.ContactUs
         }
 
         [BeforeScenario(Order = 2)]
-        public void SetScenarioNameForBrowserStack()
+        public void SetApplicationUrl()
         {
-            this.Context.GetSettingsLibrary<AppSettings>().BrowserStackSettings.Name = this.Context.ScenarioInfo.Title;
+            string appBaseUrl = this.Context.GetSettingsLibrary<AppSettings>().AppSettings.AppBaseUrl.ToString();
+            this.Context.GetSettingsLibrary<AppSettings>().AppSettings.AppBaseUrl = new Uri($"{appBaseUrl}contact-us");
         }
 
         [BeforeScenario(Order = 3)]
+        public void ConfigureBrowserStack()
+        {
+            this.Context.GetSettingsLibrary<AppSettings>().BrowserStackSettings.Name = this.Context.ScenarioInfo.Title;
+            this.Context.GetSettingsLibrary<AppSettings>().BrowserStackSettings.Build = "Contact us";
+        }
+
+        [BeforeScenario(Order = 4)]
         public void SetupWebDriver()
         {
             var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
@@ -58,7 +66,7 @@ namespace DFC.App.ContactUs
             this.Context.SetWebDriver(webDriver);
         }
 
-        [BeforeScenario(Order = 4)]
+        [BeforeScenario(Order = 5)]
         public void SetUpHelpers()
         {
             var helperLibrary = new HelperLibrary<AppSettings>(this.Context.GetWebDriver(), this.Context.GetSettingsLibrary<AppSettings>());
