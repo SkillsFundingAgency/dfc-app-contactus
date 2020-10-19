@@ -77,20 +77,14 @@
     "Regions": [
       {
         "PageRegion": 1,
-        "HealthCheckRequired": true,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/{0}/htmlhead",
-        "IsHealthy": true
-      },
-      {
-        "PageRegion": 2,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/{0}/breadcrumb",
-        "HealthCheckRequired": true,
+        "HealthCheckRequired": false,
+        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/{0}/htmlhead/not-chat",
         "IsHealthy": true
       },
       {
         "PageRegion": 4,
-        "HealthCheckRequired": true,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/{0}/body",
+        "HealthCheckRequired": false,
+        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/{0}/body/not-chat",
         "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Webchat Service Unavailable</H3></div>",
         "IsHealthy": true
       }
