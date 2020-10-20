@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DFC.TestAutomation.UI" Version="1.0.104" />
+    <PackageReference Include="DFC.TestAutomation.UI" Version="1.0.115" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="nunit" Version="3.12.0" />
