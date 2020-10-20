@@ -31,13 +31,20 @@ namespace DFC.App.ContactUs
         public async Task UpdateBrowserStack()
         {
             var browserHelper = this.Context.GetHelperLibrary<AppSettings>().BrowserHelper;
-
-            if (browserHelper.IsExecutingInBrowserStack() && this.Context.TestError != null)
+            if (browserHelper.IsExecutingInBrowserStack())
             {
                 var sessionId = (this.Context.GetWebDriver() as RemoteWebDriver).SessionId.ToString();
-                var errorMessage = this.Context.TestError.Message;
                 var browserStackHelper = this.Context.GetHelperLibrary<AppSettings>().BrowserStackHelper;
-                await browserStackHelper.SetTestToFailedWithReason(sessionId, errorMessage).ConfigureAwait(false);
+
+                if (this.Context.TestError != null)
+                {
+                    var errorMessage = this.Context.TestError.InnerException.Message;
+                    await browserStackHelper.SetTestToFailedWithReason(sessionId, errorMessage).ConfigureAwait(false);
+                }
+                else
+                {
+                    await browserStackHelper.SetTestToPassed(sessionId).ConfigureAwait(false);
+                }
             }
         }
 
