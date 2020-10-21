@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Data.Enums;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;

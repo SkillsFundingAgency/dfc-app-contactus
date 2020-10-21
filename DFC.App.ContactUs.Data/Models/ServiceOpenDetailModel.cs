@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Globalization;
 
-namespace DFC.App.ContactUs.Models
+namespace DFC.App.ContactUs.Data.Models
 {
     public class ServiceOpenDetailModel
     {
+        private string? linesOpenText;
+
         public TimeSpan OpenTimeFrom { get; set; } = new TimeSpan(8, 0, 0);
 
         public TimeSpan OpenTimeTo { get; set; } = new TimeSpan(22, 0, 0);
@@ -14,6 +16,20 @@ namespace DFC.App.ContactUs.Models
         public DayOfWeek WeekdayFrom { get; set; } = DayOfWeek.Monday;
 
         public DayOfWeek WeekdayTo { get; set; } = DayOfWeek.Sunday;
+
+        public string LinesOpenText
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(linesOpenText))
+                {
+                    return $"Lines are open from {OpenTimesString}, {OpenDays}.";
+                }
+
+                return linesOpenText!;
+            }
+            set => linesOpenText = value;
+        }
 
         public string OpenDays
         {
@@ -31,29 +47,11 @@ namespace DFC.App.ContactUs.Models
             }
         }
 
-        public string OpenTimesString
-        {
-            get
-            {
-                return $"{OpenTimeFromString} to {OpenTimeToString}";
-            }
-        }
+        public string OpenTimesString => $"{OpenTimeFromString} to {OpenTimeToString}";
 
-        public string OpenTimeFromString
-        {
-            get
-            {
-                return FormatTimeToString(OpenTimeFrom);
-            }
-        }
+        public string OpenTimeFromString => FormatTimeToString(OpenTimeFrom);
 
-        public string OpenTimeToString
-        {
-            get
-            {
-                return FormatTimeToString(OpenTimeTo);
-            }
-        }
+        public string OpenTimeToString => FormatTimeToString(OpenTimeTo);
 
         public static string FormatTimeToString(TimeSpan timeSpan)
         {
