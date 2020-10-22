@@ -5,7 +5,6 @@
 
 using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.Extension;
-using NUnit.Framework;
 using OpenQA.Selenium;
 using System.Globalization;
 using TechTalk.SpecFlow;
