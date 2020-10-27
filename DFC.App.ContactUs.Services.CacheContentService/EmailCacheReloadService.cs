@@ -49,7 +49,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             }
         }
 
-        public async Task ReloadEmailTemplates(CancellationToken stoppingToken)
+        private async Task ReloadEmailTemplates(CancellationToken stoppingToken)
         {
             var emailKeys = EmailKeyHelper.GetEmailKeys();
 

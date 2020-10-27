@@ -64,7 +64,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             }
         }
 
-        public async Task ReloadConfigurationSetTemplate(CancellationToken stoppingToken)
+        private async Task ReloadConfigurationSetTemplate(CancellationToken stoppingToken)
         {
             if (stoppingToken.IsCancellationRequested)
             {
