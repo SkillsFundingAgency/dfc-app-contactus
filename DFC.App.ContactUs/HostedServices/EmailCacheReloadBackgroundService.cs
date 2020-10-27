@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 namespace DFC.App.ContactUs.HostedServices
 {
     [ExcludeFromCodeCoverage]
-    public class CacheReloadBackgroundService : BackgroundService
+    public class EmailCacheReloadBackgroundService : BackgroundService
     {
-        private readonly ILogger<CacheReloadBackgroundService> logger;
+        private readonly ILogger<EmailCacheReloadBackgroundService> logger;
         private readonly CmsApiClientOptions cmsApiClientOptions;
         private readonly IEmailCacheReloadService emailCacheReloadService;
         private readonly IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper;
 
-        public CacheReloadBackgroundService(ILogger<CacheReloadBackgroundService> logger, CmsApiClientOptions cmsApiClientOptions, IEmailCacheReloadService emailCacheReloadService, IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper)
+        public EmailCacheReloadBackgroundService(ILogger<EmailCacheReloadBackgroundService> logger, CmsApiClientOptions cmsApiClientOptions, IEmailCacheReloadService emailCacheReloadService, IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper)
         {
             this.logger = logger;
             this.cmsApiClientOptions = cmsApiClientOptions;
@@ -51,7 +51,7 @@ namespace DFC.App.ContactUs.HostedServices
 
                 logger.LogInformation($"Executing Telemetry wrapper with service {nameof(emailCacheReloadService)}");
 
-                var emailCacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(async () => await emailCacheReloadService.Reload(stoppingToken).ConfigureAwait(false), nameof(CacheReloadBackgroundService));
+                var emailCacheReloadServiceTask = hostedServiceTelemetryWrapper.Execute(async () => await emailCacheReloadService.Reload(stoppingToken).ConfigureAwait(false), nameof(EmailCacheReloadBackgroundService));
                 await emailCacheReloadServiceTask.ConfigureAwait(false);
 
                 //Caters for errors in the telemetry wrapper
