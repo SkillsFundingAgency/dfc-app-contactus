@@ -5,6 +5,7 @@ using DFC.Content.Pkg.Netcore.Data.Contracts;
 using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -90,7 +91,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             }
 
             var configurationSetModel = new ConfigurationSetModel();
-            var dict = apiDataModel.ContentItems.Select(s => s as ConfigurationItemApiDataModel).ToDictionary(k => k.Title, v => v.Value);
+            var dict = apiDataModel.ContentItems.Select(s => s as ConfigurationItemApiDataModel).ToDictionary(k => k!.Title, v => v!.Value);
             if (dict.ContainsKey("Telephone number"))
             {
                 configurationSetModel.PhoneNumber = dict["Telephone number"] ?? string.Empty;

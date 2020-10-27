@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using DFC.Content.Pkg.Netcore.Data.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.ContactUs.Data.Models
 {
-    class ConfigurationSetApiDataModel
+    [ExcludeFromCodeCoverage]
+    public class ConfigurationSetApiDataModel : BaseContentItemModel
     {
     }
 }
