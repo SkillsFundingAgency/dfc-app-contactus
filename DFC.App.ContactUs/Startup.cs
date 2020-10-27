@@ -76,8 +76,8 @@ namespace DFC.App.ContactUs
         {
             var cosmosDbConnectionContentPages = configuration.GetSection(CosmosDbContentPagesConfigAppSettings).Get<CosmosDbConnection>();
             var cosmosDbConnectionSessionState = configuration.GetSection(CosmosDbSessionStateConfigAppSettings).Get<CosmosDbConnection>();
-            services.AddDocumentServices<EmailModel>(cosmosDbConnectionContentPages, env.IsDevelopment());
             services.AddDocumentServices<ConfigurationSetModel>(cosmosDbConnectionContentPages, env.IsDevelopment());
+            services.AddDocumentServices<EmailModel>(cosmosDbConnectionContentPages, env.IsDevelopment());
             services.AddSessionStateServices<SessionDataModel>(cosmosDbConnectionSessionState, env.IsDevelopment());
 
             services.AddApplicationInsightsTelemetry();
