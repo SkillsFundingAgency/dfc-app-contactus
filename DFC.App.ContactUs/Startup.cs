@@ -82,7 +82,6 @@ namespace DFC.App.ContactUs
 
             services.AddApplicationInsightsTelemetry();
             services.AddHttpContextAccessor();
-            services.AddSingleton(new ServiceOpenDetailModel());
             services.AddSingleton<ValidationHtmlAttributeProvider, CustomValidationHtmlAttributeProvider>();
             services.AddSingleton(ConfigureSendGridClient());
             services.AddTransient<IMergeEmailContentService, MergeEmailContentService>();

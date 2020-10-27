@@ -1,4 +1,6 @@
-﻿using DFC.App.ContactUs.Data.Contracts;
+﻿using DFC.App.ContactUs.Data.Common;
+using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Helpers;
 using DFC.App.ContactUs.Data.Models;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Content.Pkg.Netcore.Data.Contracts;
@@ -42,6 +44,8 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             {
                 logger.LogInformation("Reload configuration set started");
 
+                contentTypeMappingService.AddMapping(Constants.ContentTypeForConfigurationItem, typeof(ConfigurationItemApiDataModel));
+
                 if (stoppingToken.IsCancellationRequested)
                 {
                     logger.LogWarning("Reload configuration set cancelled");
@@ -69,13 +73,9 @@ namespace DFC.App.ContactUs.Services.CacheContentService
                 return;
             }
 
-            var key = Guid.Parse("87a3aa46-472c-47a1-96c1-1a009b5953eb");
-            const string contentTypeForSet = "IanTestListContentType";
-            const string contentTypeForItem = "IanTestContentType";
+            var key = ConfigurationSetKeyHelper.ConfigurationSetKey;
 
-            contentTypeMappingService.AddMapping(contentTypeForItem, typeof(ConfigurationItemApiDataModel));
-
-            var url = new Uri($"{cmsApiClientOptions.BaseAddress}/{contentTypeForSet}/{key}", UriKind.Absolute);
+            var url = new Uri($"{cmsApiClientOptions.BaseAddress}/{Constants.ContentTypeForConfigurationSet}/{key}", UriKind.Absolute);
             var apiDataModel = await cmsApiService.GetItemAsync<ConfigurationSetApiDataModel>(url).ConfigureAwait(false);
 
             if (apiDataModel == null)
@@ -90,49 +90,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
                 return;
             }
 
-            var configurationSetModel = new ConfigurationSetModel();
-            var dict = apiDataModel.ContentItems.Select(s => s as ConfigurationItemApiDataModel).ToDictionary(k => k!.Title, v => v!.Value);
-            if (dict.ContainsKey("Telephone number"))
-            {
-                configurationSetModel.PhoneNumber = dict["Telephone number"] ?? string.Empty;
-            }
-
-            if (dict.ContainsKey("Lines open text"))
-            {
-                configurationSetModel.LinesOpenText = dict["Lines open text"] ?? string.Empty;
-            }
-
-            if (dict.ContainsKey("Open time from"))
-            {
-                if (Enum.TryParse(dict["Open time from"], out TimeSpan openTimeFrom))
-                {
-                    configurationSetModel.OpenTimeFrom = openTimeFrom;
-                }
-            }
-
-            if (dict.ContainsKey("Open time to"))
-            {
-                if (Enum.TryParse(dict["Open time to"], out TimeSpan openTimeTo))
-                {
-                    configurationSetModel.OpenTimeTo = openTimeTo;
-                }
-            }
-
-            if (dict.ContainsKey("Week day from"))
-            {
-                if (Enum.TryParse(dict["Week day from"], out DayOfWeek weekDayFrom))
-                {
-                    configurationSetModel.WeekdayFrom = weekDayFrom;
-                }
-            }
-
-            if (dict.ContainsKey("Week day to"))
-            {
-                if (Enum.TryParse(dict["Week day to"], out DayOfWeek weekDayTo))
-                {
-                    configurationSetModel.WeekdayTo = weekDayTo;
-                }
-            }
+            var configurationSetModel = mapper.Map<ConfigurationSetModel>(apiDataModel);
 
             await configurationSetDocumentService.UpsertAsync(configurationSetModel).ConfigureAwait(false);
         }

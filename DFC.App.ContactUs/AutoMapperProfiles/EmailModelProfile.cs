@@ -3,9 +3,7 @@ using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Html;
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 namespace DFC.App.ContactUs.AutoMapperProfiles
 {
@@ -15,7 +13,7 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
         public EmailModelProfile()
         {
             CreateMap<EmailApiDataModel, EmailModel>()
-                .ForMember(d => d.Id, s => s.MapFrom(a => Guid.Parse(a.Url!.Segments.Last())))
+                .ForMember(d => d.Id, s => s.MapFrom(a => a.ItemId))
                 .ForMember(d => d.Etag, s => s.Ignore())
                 .ForMember(d => d.ParentId, s => s.Ignore())
                 .ForMember(d => d.TraceId, s => s.Ignore())
