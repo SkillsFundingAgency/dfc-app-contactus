@@ -76,18 +76,18 @@ namespace DFC.App.ContactUs
         {
             var cosmosDbConnectionContentPages = configuration.GetSection(CosmosDbContentPagesConfigAppSettings).Get<CosmosDbConnection>();
             var cosmosDbConnectionSessionState = configuration.GetSection(CosmosDbSessionStateConfigAppSettings).Get<CosmosDbConnection>();
+            services.AddDocumentServices<ConfigurationSetModel>(cosmosDbConnectionContentPages, env.IsDevelopment());
             services.AddDocumentServices<EmailModel>(cosmosDbConnectionContentPages, env.IsDevelopment());
             services.AddSessionStateServices<SessionDataModel>(cosmosDbConnectionSessionState, env.IsDevelopment());
 
             services.AddApplicationInsightsTelemetry();
             services.AddHttpContextAccessor();
-            services.AddSingleton(new ServiceOpenDetailModel());
             services.AddSingleton<ValidationHtmlAttributeProvider, CustomValidationHtmlAttributeProvider>();
             services.AddSingleton(ConfigureSendGridClient());
             services.AddTransient<IMergeEmailContentService, MergeEmailContentService>();
             services.AddTransient<ISendGridEmailService<ContactUsEmailRequestModel>, SendGridEmailService<ContactUsEmailRequestModel>>();
             services.AddTransient<ITemplateService, TemplateService>();
-            services.AddTransient<IEmailCacheReloadService, EmailCacheReloadService>();
+            services.AddTransient<IConfigurationSetReloadService, ConfigurationSetReloadService>();
             services.AddTransient<IEmailCacheReloadService, EmailCacheReloadService>();
             services.AddTransient<IWebhooksService, WebhooksService>();
 
@@ -96,7 +96,8 @@ namespace DFC.App.ContactUs
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
             services.AddSingleton(configuration.GetSection(nameof(FamApiRoutingOptions)).Get<FamApiRoutingOptions>() ?? new FamApiRoutingOptions());
             services.AddHostedServiceTelemetryWrapper();
-            services.AddHostedService<CacheReloadBackgroundService>();
+            services.AddHostedService<ConfigurationSetBackgroundService>();
+            services.AddHostedService<EmailCacheReloadBackgroundService>();
             services.AddSubscriptionBackgroundService(configuration);
 
             const string AppSettingsPolicies = "Policies";

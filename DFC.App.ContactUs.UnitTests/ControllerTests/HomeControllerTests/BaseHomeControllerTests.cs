@@ -1,5 +1,7 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Models;
+using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +22,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         {
             Logger = A.Fake<ILogger<HomeController>>();
             FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
-            FakeServiceOpenDetailModel = A.Fake<ServiceOpenDetailModel>();
+            FakeConfigurationSetDocumentService = A.Fake<IDocumentService<ConfigurationSetModel>>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -43,7 +45,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
         protected ISessionStateService<SessionDataModel> FakeSessionStateService { get; }
 
-        protected ServiceOpenDetailModel FakeServiceOpenDetailModel { get; }
+        protected IDocumentService<ConfigurationSetModel> FakeConfigurationSetDocumentService { get; }
 
         protected HomeController BuildHomeController(string mediaTypeName)
         {
@@ -51,7 +53,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(Logger, FakeSessionStateService, FakeServiceOpenDetailModel)
+            var controller = new HomeController(Logger, FakeSessionStateService, FakeConfigurationSetDocumentService)
             {
                 ControllerContext = new ControllerContext()
                 {
