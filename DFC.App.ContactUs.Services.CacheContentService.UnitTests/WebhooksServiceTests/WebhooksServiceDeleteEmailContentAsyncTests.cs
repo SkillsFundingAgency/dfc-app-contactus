@@ -6,11 +6,11 @@ using Xunit;
 
 namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServiceTests
 {
-    [Trait("Category", "Webhooks Service DeleteContentAsync Unit Tests")]
-    public class WebhooksServiceDeleteContentAsyncTests : BaseWebhooksServiceTests
+    [Trait("Category", "Webhooks Service DeleteEmailContentAsync Unit Tests")]
+    public class WebhooksServiceDeleteEmailContentAsyncTests : BaseWebhooksServiceTests
     {
         [Fact]
-        public async Task WebhooksServiceDeleteContentAsyncForCreateReturnsSuccess()
+        public async Task WebhooksServiceDeleteEmailContentAsyncForCreateReturnsSuccess()
         {
             // Arrange
             const bool expectedResponse = true;
@@ -20,7 +20,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
             A.CallTo(() => FakeEmailDocumentService.DeleteAsync(A<Guid>.Ignored)).Returns(expectedResponse);
 
             // Act
-            var result = await service.DeleteContentAsync(ContentIdForDelete).ConfigureAwait(false);
+            var result = await service.DeleteEmailContentAsync(ContentIdForEmailDelete).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeEmailDocumentService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
         }
 
         [Fact]
-        public async Task WebhooksServiceDeleteContentAsyncForCreateReturnsNoContent()
+        public async Task WebhooksServiceDeleteEmailContentAsyncForCreateReturnsNoContent()
         {
             // Arrange
             const bool expectedResponse = false;
@@ -39,7 +39,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
             A.CallTo(() => FakeEmailDocumentService.DeleteAsync(A<Guid>.Ignored)).Returns(expectedResponse);
 
             // Act
-            var result = await service.DeleteContentAsync(ContentIdForDelete).ConfigureAwait(false);
+            var result = await service.DeleteEmailContentAsync(ContentIdForEmailDelete).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeEmailDocumentService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();

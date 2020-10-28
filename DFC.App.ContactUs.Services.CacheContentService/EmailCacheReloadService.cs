@@ -17,7 +17,11 @@ namespace DFC.App.ContactUs.Services.CacheContentService
         private readonly IDocumentService<EmailModel> emailDocumentService;
         private readonly ICmsApiService cmsApiService;
 
-        public EmailCacheReloadService(ILogger<EmailCacheReloadService> logger, AutoMapper.IMapper mapper, IDocumentService<EmailModel> emailDocumentService, ICmsApiService cmsApiService)
+        public EmailCacheReloadService(
+            ILogger<EmailCacheReloadService> logger,
+            AutoMapper.IMapper mapper,
+            IDocumentService<EmailModel> emailDocumentService,
+            ICmsApiService cmsApiService)
         {
             this.logger = logger;
             this.mapper = mapper;

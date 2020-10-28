@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.UnitTests.AutoMapperTests
         public void ConfigurationItemDayOfWeekConverterReturnsNullForNullSourceMember()
         {
             // Arrange
-            const DayOfWeek expectedResult = DayOfWeek.Sunday;
+            const DayOfWeek expectedResult = default;
             var converter = new ConfigurationItemDayOfWeekConverter();
             ConfigurationItemApiDataModel? sourceMember = null;
             var context = new ResolutionContext(null, null);
@@ -45,7 +45,7 @@ namespace DFC.App.ContactUs.UnitTests.AutoMapperTests
         public void ConfigurationItemDayOfWeekConverterReturnsNullForNullSourceMemberValue()
         {
             // Arrange
-            const DayOfWeek expectedResult = DayOfWeek.Sunday;
+            const DayOfWeek expectedResult = default;
             var converter = new ConfigurationItemDayOfWeekConverter();
             var sourceMember = new ConfigurationItemApiDataModel { Value = null };
             var context = new ResolutionContext(null, null);
@@ -61,7 +61,7 @@ namespace DFC.App.ContactUs.UnitTests.AutoMapperTests
         public void ConfigurationItemDayOfWeekConverterReturnsNullForInvalidSourceMemberValue()
         {
             // Arrange
-            const DayOfWeek expectedResult = DayOfWeek.Sunday;
+            const DayOfWeek expectedResult = default;
             var converter = new ConfigurationItemDayOfWeekConverter();
             var sourceMember = new ConfigurationItemApiDataModel { Value = "not a week day" };
             var context = new ResolutionContext(null, null);

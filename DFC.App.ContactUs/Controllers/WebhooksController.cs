@@ -1,6 +1,7 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Enums;
 using DFC.App.ContactUs.Models;
+using DFC.Content.Pkg.Netcore.Data.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.EventGrid;
 using Microsoft.Azure.EventGrid.Models;
@@ -28,13 +29,16 @@ namespace DFC.App.ContactUs.Controllers
 
         private readonly ILogger<WebhooksController> logger;
         private readonly IWebhooksService webhookService;
+        private readonly IApiCacheService apiCacheService;
 
         public WebhooksController(
             ILogger<WebhooksController> logger,
-            IWebhooksService webhookService)
+            IWebhooksService webhookService,
+            IApiCacheService apiCacheService)
         {
             this.logger = logger;
             this.webhookService = webhookService;
+            this.apiCacheService = apiCacheService;
         }
 
         [HttpPost]
@@ -83,6 +87,8 @@ namespace DFC.App.ContactUs.Controllers
                     var cacheOperation = acceptedEventTypes[eventGridEvent.EventType];
 
                     logger.LogInformation($"Got Event Id: {eventId}: {eventGridEvent.EventType}: Cache operation: {cacheOperation} {eventGridEventData.Api}");
+
+                    apiCacheService.Clear();
 
                     var result = await webhookService.ProcessMessageAsync(cacheOperation, eventId, contentId, eventGridEventData.Api!).ConfigureAwait(false);
 

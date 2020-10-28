@@ -1,5 +1,6 @@
 ﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Data.Contracts;
+using DFC.Content.Pkg.Netcore.Data.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhookControllerTests
         {
             Logger = A.Fake<ILogger<WebhooksController>>();
             FakeWebhooksService = A.Fake<IWebhooksService>();
+            FakeApiCacheService = A.Fake<IApiCacheService>();
         }
 
         protected Guid ItemIdForCreate { get; } = Guid.NewGuid();
@@ -39,6 +41,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhookControllerTests
         protected ILogger<WebhooksController> Logger { get; }
 
         protected IWebhooksService FakeWebhooksService { get; }
+
+        protected IApiCacheService FakeApiCacheService { get; }
 
         protected static EventGridEvent[] BuildValidEventGridEvent<TModel>(string eventType, TModel data)
         {
@@ -74,7 +78,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhookControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new WebhooksController(Logger, FakeWebhooksService)
+            var controller = new WebhooksController(Logger, FakeWebhooksService, FakeApiCacheService)
             {
                 ControllerContext = new ControllerContext()
                 {

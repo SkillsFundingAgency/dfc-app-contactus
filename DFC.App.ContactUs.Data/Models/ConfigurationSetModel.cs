@@ -1,4 +1,5 @@
-﻿using DFC.Compui.Cosmos.Contracts;
+﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.Compui.Cosmos.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -8,28 +9,29 @@ using System.Globalization;
 namespace DFC.App.ContactUs.Data.Models
 {
     [ExcludeFromCodeCoverage]
-    public class ConfigurationSetModel : DocumentModel
+    public class ConfigurationSetModel : DocumentModel, ICachedModel
     {
         public const string DefaultPartitionKey = "configurationSet";
 
         public override string? PartitionKey { get; set; } = DefaultPartitionKey;
 
+        [Required]
         public string? Title { get; set; }
 
         [Required]
         public Uri? Url { get; set; }
 
-        public string? PhoneNumber { get; set; } = "0800 100 900";
+        public string? PhoneNumber { get; set; }
 
         public string? LinesOpenText { get; set; }
 
-        public TimeSpan OpenTimeFrom { get; set; } = new TimeSpan(8, 0, 0);
+        public TimeSpan OpenTimeFrom { get; set; }
 
-        public TimeSpan OpenTimeTo { get; set; } = new TimeSpan(22, 0, 0);
+        public TimeSpan OpenTimeTo { get; set; }
 
-        public DayOfWeek WeekdayFrom { get; set; } = DayOfWeek.Monday;
+        public DayOfWeek WeekdayFrom { get; set; }
 
-        public DayOfWeek WeekdayTo { get; set; } = DayOfWeek.Sunday;
+        public DayOfWeek WeekdayTo { get; set; }
 
         public DateTime LastReviewed { get; set; }
 

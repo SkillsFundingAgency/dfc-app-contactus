@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.UnitTests.AutoMapperTests
         public void ConfigurationItemTimeSpanConverterReturnsNullForNullSourceMember()
         {
             // Arrange
-            var expectedResult = new TimeSpan(0);
+            TimeSpan expectedResult = default;
             var converter = new ConfigurationItemTimeSpanConverter();
             ConfigurationItemApiDataModel? sourceMember = null;
             var context = new ResolutionContext(null, null);
@@ -45,7 +45,7 @@ namespace DFC.App.ContactUs.UnitTests.AutoMapperTests
         public void ConfigurationItemTimeSpanConverterReturnsNullForNullSourceMemberValue()
         {
             // Arrange
-            var expectedResult = new TimeSpan(0);
+            TimeSpan expectedResult = default;
             var converter = new ConfigurationItemTimeSpanConverter();
             var sourceMember = new ConfigurationItemApiDataModel { Value = null };
             var context = new ResolutionContext(null, null);
@@ -61,7 +61,7 @@ namespace DFC.App.ContactUs.UnitTests.AutoMapperTests
         public void ConfigurationItemTimeSpanConverterReturnsNullForInvalidSourceMemberValue()
         {
             // Arrange
-            var expectedResult = new TimeSpan(0);
+            TimeSpan expectedResult = default;
             var converter = new ConfigurationItemTimeSpanConverter();
             var sourceMember = new ConfigurationItemApiDataModel { Value = "not a week day" };
             var context = new ResolutionContext(null, null);
