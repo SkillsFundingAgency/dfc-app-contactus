@@ -1,7 +1,6 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Enums;
 using DFC.App.ContactUs.Models;
-using DFC.Content.Pkg.Netcore.Data.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.EventGrid;
 using Microsoft.Azure.EventGrid.Models;

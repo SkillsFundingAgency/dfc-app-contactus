@@ -58,7 +58,6 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
 
             CreateMap<ConfigurationSetModel, BreadcrumbItemModel>()
                 .ForMember(d => d.Route, s => s.Ignore());
-
         }
     }
 }
