@@ -40,7 +40,10 @@ namespace DFC.App.ContactUs.Data.Models
         public DateTime LastCached { get; set; } = DateTime.UtcNow;
 
         [JsonIgnore]
-        public string LinesOpenString => string.IsNullOrWhiteSpace(LinesOpenText) ? $"Lines are open from {OpenTimesString}, {OpenDays}." : LinesOpenText;
+        public string LinesOpenString => string.IsNullOrWhiteSpace(LinesOpenText) ? LinesOpenBuiltString : LinesOpenText;
+
+        [JsonIgnore]
+        public string LinesOpenBuiltString => $"Lines are open from {OpenTimesString}, {OpenDays}.";
 
         [JsonIgnore]
         public string OpenDays

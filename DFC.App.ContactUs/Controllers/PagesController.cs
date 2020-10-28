@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.Data.Models;
+﻿using DFC.App.ContactUs.Data.Helpers;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
@@ -8,18 +9,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Controllers
 {
     public class PagesController : BasePagesController<PagesController>
     {
+        private readonly IDocumentService<ConfigurationSetModel> configurationSetDocumentService;
         private readonly IDocumentService<EmailModel> emailDocumentService;
         private readonly AutoMapper.IMapper mapper;
 
-        public PagesController(ILogger<PagesController> logger, ISessionStateService<SessionDataModel> sessionStateService, IDocumentService<EmailModel> emailDocumentService, AutoMapper.IMapper mapper) : base(logger, sessionStateService)
+        public PagesController(
+            ILogger<PagesController> logger,
+            ISessionStateService<SessionDataModel> sessionStateService,
+            IDocumentService<ConfigurationSetModel> configurationSetDocumentService,
+            IDocumentService<EmailModel> emailDocumentService,
+            AutoMapper.IMapper mapper) : base(logger, sessionStateService)
         {
+            this.configurationSetDocumentService = configurationSetDocumentService;
             this.emailDocumentService = emailDocumentService;
             this.mapper = mapper;
         }
@@ -43,21 +50,25 @@ namespace DFC.App.ContactUs.Controllers
                     new IndexDocumentViewModel { Title = EnterYourDetailsController.ThisViewCanonicalName },
                 },
             };
-            var emailModels = await emailDocumentService.GetAllAsync().ConfigureAwait(false);
 
-            if (emailModels != null)
+            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false);
+
+            if (configurationSetModel != null)
             {
-                var documents = from a in emailModels.OrderBy(o => o.Title)
-                                select mapper.Map<IndexDocumentViewModel>(a);
-
-                viewModel.Documents.AddRange(documents);
-
-                Logger.LogInformation($"{nameof(Index)} has succeeded");
+                viewModel.Documents.Add(mapper.Map<IndexDocumentViewModel>(configurationSetModel));
             }
-            else
+
+            foreach (var key in EmailKeyHelper.GetEmailKeys())
             {
-                Logger.LogWarning($"{nameof(Index)} has returned with no results");
+                var emailModel = await emailDocumentService.GetByIdAsync(key).ConfigureAwait(false);
+
+                if (emailModel != null)
+                {
+                    viewModel.Documents.Add(mapper.Map<IndexDocumentViewModel>(emailModel));
+                }
             }
+
+            Logger.LogInformation($"{nameof(Index)} has succeeded");
 
             return this.NegotiateContentResult(viewModel);
         }
@@ -66,18 +77,37 @@ namespace DFC.App.ContactUs.Controllers
         [Route("pages/{documentId}/document")]
         public async Task<IActionResult> Document(Guid documentId)
         {
-            var emailModel = await emailDocumentService.GetByIdAsync(documentId).ConfigureAwait(false);
-
-            if (emailModel != null)
+            if (documentId.Equals(ConfigurationSetKeyHelper.ConfigurationSetKey))
             {
-                var viewModel = mapper.Map<DocumentViewModel>(emailModel);
-                var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(emailModel);
+                var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(documentId).ConfigureAwait(false);
 
-                viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
+                if (configurationSetModel != null)
+                {
+                    var viewModel = mapper.Map<DocumentViewModel>(configurationSetModel);
+                    var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(configurationSetModel);
 
-                Logger.LogInformation($"{nameof(Document)} has succeeded for: {documentId}");
+                    viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
 
-                return this.NegotiateContentResult(viewModel);
+                    Logger.LogInformation($"{nameof(Document)} has succeeded for: {documentId}");
+
+                    return this.NegotiateContentResult(viewModel);
+                }
+            }
+            else
+            {
+                var emailModel = await emailDocumentService.GetByIdAsync(documentId).ConfigureAwait(false);
+
+                if (emailModel != null)
+                {
+                    var viewModel = mapper.Map<DocumentViewModel>(emailModel);
+                    var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(emailModel);
+
+                    viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
+
+                    Logger.LogInformation($"{nameof(Document)} has succeeded for: {documentId}");
+
+                    return this.NegotiateContentResult(viewModel);
+                }
             }
 
             Logger.LogWarning($"{nameof(Document)} has returned no content for: {documentId}");

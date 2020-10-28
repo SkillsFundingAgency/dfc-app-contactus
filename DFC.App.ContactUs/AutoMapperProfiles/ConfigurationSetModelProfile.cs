@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using DFC.App.ContactUs.AutoMapperProfiles.ValuerConverters;
 using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Models;
+using DFC.App.ContactUs.ViewModels;
 using DFC.Content.Pkg.Netcore.Data.Models;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -38,6 +40,25 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
                 .ForMember(d => d.Links, s => s.Ignore())
                 .ForMember(d => d.ContentLinks, s => s.Ignore())
                 .ForMember(d => d.ContentItems, s => s.Ignore());
+
+            CreateMap<ConfigurationSetModel, IndexDocumentViewModel>();
+
+            CreateMap<ConfigurationSetModel, DocumentViewModel>()
+                .ForMember(d => d.HtmlHead, s => s.MapFrom(a => a))
+                .ForMember(d => d.Breadcrumb, s => s.Ignore())
+                .ForMember(d => d.ConfigurationSetBodyViewModel, s => s.MapFrom(a => a))
+                .ForMember(d => d.EmailBodyViewModel, s => s.Ignore());
+
+            CreateMap<ConfigurationSetModel, HtmlHeadViewModel>()
+                .ForMember(d => d.CanonicalUrl, s => s.Ignore())
+                .ForMember(d => d.Description, s => s.Ignore())
+                .ForMember(d => d.Keywords, s => s.Ignore());
+
+            CreateMap<ConfigurationSetModel, ConfigurationSetBodyViewModel>();
+
+            CreateMap<ConfigurationSetModel, BreadcrumbItemModel>()
+                .ForMember(d => d.Route, s => s.Ignore());
+
         }
     }
 }

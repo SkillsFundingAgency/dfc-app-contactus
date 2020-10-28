@@ -14,7 +14,7 @@ namespace DFC.App.ContactUs.ViewModels
 
         public string? Title { get; set; }
 
-        [Display(Name = "PartitionKey")]
+        [Display(Name = "Partition Key")]
         public string? PartitionKey { get; set; }
 
         public Uri? Url { get; set; }
@@ -28,6 +28,8 @@ namespace DFC.App.ContactUs.ViewModels
         [Display(Name = "Last Cached")]
         public DateTime LastCached { get; set; }
 
-        public BodyViewModel? BodyViewModel { get; set; }
+        public ConfigurationSetBodyViewModel? ConfigurationSetBodyViewModel { get; set; }
+
+        public EmailBodyViewModel? EmailBodyViewModel { get; set; }
     }
 }

@@ -26,14 +26,15 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
             CreateMap<EmailModel, DocumentViewModel>()
                 .ForMember(d => d.HtmlHead, s => s.MapFrom(a => a))
                 .ForMember(d => d.Breadcrumb, s => s.Ignore())
-                .ForMember(d => d.BodyViewModel, s => s.MapFrom(a => a));
+                .ForMember(d => d.ConfigurationSetBodyViewModel, s => s.Ignore())
+               .ForMember(d => d.EmailBodyViewModel, s => s.MapFrom(a => a));
 
             CreateMap<EmailModel, HtmlHeadViewModel>()
                 .ForMember(d => d.CanonicalUrl, s => s.Ignore())
                 .ForMember(d => d.Description, s => s.Ignore())
                 .ForMember(d => d.Keywords, s => s.Ignore());
 
-            CreateMap<EmailModel, BodyViewModel>()
+            CreateMap<EmailModel, EmailBodyViewModel>()
                 .ForMember(d => d.Body, s => s.MapFrom(a => new HtmlString(a.Body)));
 
             CreateMap<EmailModel, BreadcrumbItemModel>()
