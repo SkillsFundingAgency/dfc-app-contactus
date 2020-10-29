@@ -1,9 +1,9 @@
 ﻿@model ChatViewBodyModel
 
 @{
-    var sercoTestUrl = "https://smokefree.serco.com/visitor/EntryPage.htm";
+    var testUrl = "https://webchat.nationalcareersservice.org.uk:8082/non-js-webchat/index.php";
     
-    if (!Model.HideProductionWarning && string.Compare(Model.ChatUrl!.ToString(), sercoTestUrl, true, System.Globalization.CultureInfo.InvariantCulture) != 0)
+    if (!Model.HideProductionWarning && string.Compare(Model.ChatUrl!.ToString(), testUrl, true, System.Globalization.CultureInfo.InvariantCulture) != 0)
     {
         <div>
             <div class="sfContentBlock sf-Long-text">
@@ -11,7 +11,7 @@
                 <p class="govuk-body">
                     This is connected to the
                     <strong><span class="dfc-app-contact-us-IsProdHightlight">PROD</span></strong>
-                    version of SERCO's webchat - as their test environment (<a id="SercoTestUrlLink" href="@sercoTestUrl">@sercoTestUrl</a>) is only spun up when needed.
+                    version of webchat - as their test environment (<a id="testUrlLink" href="@testUrl">@testUrl</a>) is only spun up when needed.
                 </p>
             </div>
         </div>
@@ -19,8 +19,5 @@
 }
 
 <div id="chatcontainer">
-    @Html.HiddenFor(model => model.ChatUrl)
-    <noscript>
-        <iframe id="webchatframenoscript" src="@Model.ChatUrl" title="webchat" scrolling="no" class="dfc-app-contact-us-Webchat"></iframe>
-    </noscript>
+    <iframe id="webchatframe" src="@Model.ChatUrl" title="webchat" scrolling="no" class="dfc-app-contact-us-Webchat"></iframe>
 </div>
