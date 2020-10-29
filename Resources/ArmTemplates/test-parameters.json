@@ -38,9 +38,6 @@
         "enableAlerts": {
             "value": false
         },
-        "chatOptionsHideProductionWarning": {
-            "value": false
-        },
         "ApimProxyAddress": {
             "value": "https://url"
         },
