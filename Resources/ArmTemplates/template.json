@@ -68,12 +68,6 @@
         "description": "Enable or disable alerting"
       }
     },
-    "chatOptionsHideProductionWarning": {
-      "type": "bool",
-      "metadata": {
-        "description": "False for all environment except prodcution"
-      }
-    },
     "ApimProxyAddress": {
       "type": "string"
     },
@@ -304,10 +298,6 @@
               {
                 "name": "ChatOptions__ChatUrl",
                 "value": "[parameters('chatOptionsChatUrl')]"
-              },
-              {
-                "name": "ChatOptions__HideProductionWarning",
-                "value": "[parameters('chatOptionsHideProductionWarning')]"
               },
               {
                 "name": "Configuration__SendGrid__ApiKey",
