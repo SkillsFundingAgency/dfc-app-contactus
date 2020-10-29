@@ -1,23 +1,5 @@
 ﻿@model ChatViewBodyModel
 
-@{
-    var testUrl = "https://webchat.nationalcareersservice.org.uk:8082/non-js-webchat/index.php";
-    
-    if (!Model.HideProductionWarning && string.Compare(Model.ChatUrl!.ToString(), testUrl, true, System.Globalization.CultureInfo.InvariantCulture) != 0)
-    {
-        <div>
-            <div class="sfContentBlock sf-Long-text">
-                <h1 class="govuk-heading-l"><span class="dfc-app-contact-us-IsProdWarning">PLEASE NOTE:</span></h1>
-                <p class="govuk-body">
-                    This is connected to the
-                    <strong><span class="dfc-app-contact-us-IsProdHightlight">PROD</span></strong>
-                    version of webchat - as their test environment (<a id="testUrlLink" href="@testUrl">@testUrl</a>) is only spun up when needed.
-                </p>
-            </div>
-        </div>
-    }
-}
-
-<div id="chatcontainer">
+<div class="dfc-app-contact-us-IframeContainer">
     <iframe id="webchatframe" src="@Model.ChatUrl" title="webchat" scrolling="no" class="dfc-app-contact-us-Webchat"></iframe>
 </div>
