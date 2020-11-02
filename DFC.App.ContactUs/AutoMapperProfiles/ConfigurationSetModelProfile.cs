@@ -23,10 +23,6 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
                 .ForMember(d => d.PartitionKey, s => s.Ignore())
                 .ForMember(d => d.PhoneNumber, opt => opt.ConvertUsing(new ConfigurationItemStringConverter(), a => a.ContentItems.OfType<ConfigurationItemApiDataModel>().FirstOrDefault(f => string.Compare(f.Title, "Telephone number", true, CultureInfo.InvariantCulture) == 0)))
                 .ForMember(d => d.LinesOpenText, opt => opt.ConvertUsing(new ConfigurationItemStringConverter(), a => a.ContentItems.OfType<ConfigurationItemApiDataModel>().FirstOrDefault(f => string.Compare(f.Title, "Lines open text", true, CultureInfo.InvariantCulture) == 0)))
-                .ForMember(d => d.OpenTimeFrom, opt => opt.ConvertUsing(new ConfigurationItemTimeSpanConverter(), a => a.ContentItems.OfType<ConfigurationItemApiDataModel>().FirstOrDefault(f => string.Compare(f.Title, "Open time from", true, CultureInfo.InvariantCulture) == 0)))
-                .ForMember(d => d.OpenTimeTo, opt => opt.ConvertUsing(new ConfigurationItemTimeSpanConverter(), a => a.ContentItems.OfType<ConfigurationItemApiDataModel>().FirstOrDefault(f => string.Compare(f.Title, "Open time to", true, CultureInfo.InvariantCulture) == 0)))
-                .ForMember(d => d.WeekdayFrom, opt => opt.ConvertUsing(new ConfigurationItemDayOfWeekConverter(), a => a.ContentItems.OfType<ConfigurationItemApiDataModel>().FirstOrDefault(f => string.Compare(f.Title, "Week day from", true, CultureInfo.InvariantCulture) == 0)))
-                .ForMember(d => d.WeekdayTo, opt => opt.ConvertUsing(new ConfigurationItemDayOfWeekConverter(), a => a.ContentItems.OfType<ConfigurationItemApiDataModel>().FirstOrDefault(f => string.Compare(f.Title, "Week day to", true, CultureInfo.InvariantCulture) == 0)))
                 .ForMember(d => d.LastReviewed, s => s.MapFrom(a => a.Published))
                 .ForMember(d => d.LastCached, s => s.Ignore());
 

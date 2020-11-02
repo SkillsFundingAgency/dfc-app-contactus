@@ -51,7 +51,7 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = new HomeBodyViewModel
                 {
                     PhoneNumber = configurationSetModel?.PhoneNumber,
-                    LinesOpenString = configurationSetModel?.LinesOpenString,
+                    LinesOpenText = configurationSetModel?.LinesOpenText,
                 },
             };
 
@@ -153,7 +153,7 @@ namespace DFC.App.ContactUs.Controllers
             var viewModel = new HomeBodyViewModel()
             {
                 PhoneNumber = configurationSetModel?.PhoneNumber,
-                LinesOpenString = configurationSetModel?.LinesOpenString,
+                LinesOpenText = configurationSetModel?.LinesOpenText,
             };
 
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");
@@ -195,7 +195,7 @@ namespace DFC.App.ContactUs.Controllers
             viewModel = new HomeBodyViewModel()
             {
                 PhoneNumber = configurationSetModel?.PhoneNumber,
-                LinesOpenString = configurationSetModel?.LinesOpenString,
+                LinesOpenText = configurationSetModel?.LinesOpenText,
             };
 
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");
