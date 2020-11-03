@@ -1,8 +1,11 @@
 ﻿using DFC.App.ContactUs.Data.Enums;
+using DFC.App.ContactUs.Data.Helpers;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,11 +21,11 @@ namespace DFC.App.ContactUs.Controllers
         public const string SendUsLetterCanonicalName = "send-us-a-letter";
         public const string ThankyouForContactingUsCanonicalName = "thank-you-for-contacting-us";
 
-        private readonly ServiceOpenDetailModel serviceOpenDetailModel;
+        private readonly IDocumentService<ConfigurationSetModel> configurationSetDocumentService;
 
-        public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService, ServiceOpenDetailModel serviceOpenDetailModel) : base(logger, sessionStateService)
+        public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService, IDocumentService<ConfigurationSetModel> configurationSetDocumentService) : base(logger, sessionStateService)
         {
-            this.serviceOpenDetailModel = serviceOpenDetailModel;
+            this.configurationSetDocumentService = configurationSetDocumentService;
         }
 
         [HttpGet]
@@ -31,10 +34,11 @@ namespace DFC.App.ContactUs.Controllers
         {
             await DeleteSessionStateAsync().ConfigureAwait(false);
 
+            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false) ?? new ConfigurationSetModel();
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = ThisViewCanonicalName,
-                BreadcrumbTitle = "Contact us",
+                Route = ThisViewCanonicalName,
+                Title = "Contact us",
             };
             var viewModel = new HomeViewModel()
             {
@@ -46,7 +50,8 @@ namespace DFC.App.ContactUs.Controllers
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
                 HomeBodyViewModel = new HomeBodyViewModel
                 {
-                    ServiceOpenDetailModel = serviceOpenDetailModel,
+                    PhoneNumber = configurationSetModel?.PhoneNumber,
+                    LinesOpenText = configurationSetModel?.LinesOpenText,
                 },
             };
 
@@ -86,8 +91,8 @@ namespace DFC.App.ContactUs.Controllers
 
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = ThisViewCanonicalName,
-                BreadcrumbTitle = "Contact us",
+                Route = ThisViewCanonicalName,
+                Title = "Contact us",
             };
             var viewModel = new HomeViewModel()
             {
@@ -127,8 +132,8 @@ namespace DFC.App.ContactUs.Controllers
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = ThisViewCanonicalName,
-                BreadcrumbTitle = "Contact us",
+                Route = ThisViewCanonicalName,
+                Title = "Contact us",
             };
             var viewModel = BuildBreadcrumb(RegistrationPath, breadcrumbItemModel);
 
@@ -144,9 +149,11 @@ namespace DFC.App.ContactUs.Controllers
         {
             await DeleteSessionStateAsync().ConfigureAwait(false);
 
+            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false) ?? new ConfigurationSetModel();
             var viewModel = new HomeBodyViewModel()
             {
-                ServiceOpenDetailModel = serviceOpenDetailModel,
+                PhoneNumber = configurationSetModel?.PhoneNumber,
+                LinesOpenText = configurationSetModel?.LinesOpenText,
             };
 
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");
@@ -184,9 +191,11 @@ namespace DFC.App.ContactUs.Controllers
                 }
             }
 
+            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false) ?? new ConfigurationSetModel();
             viewModel = new HomeBodyViewModel()
             {
-                ServiceOpenDetailModel = serviceOpenDetailModel,
+                PhoneNumber = configurationSetModel?.PhoneNumber,
+                LinesOpenText = configurationSetModel?.LinesOpenText,
             };
 
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");

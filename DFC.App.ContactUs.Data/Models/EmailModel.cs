@@ -1,6 +1,5 @@
-﻿using DFC.Compui.Cosmos.Contracts;
-using DFC.Compui.Telemetry.Models;
-using Newtonsoft.Json;
+﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.Compui.Cosmos.Contracts;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
@@ -8,14 +7,13 @@ using System.Diagnostics.CodeAnalysis;
 namespace DFC.App.ContactUs.Data.Models
 {
     [ExcludeFromCodeCoverage]
-    public class EmailModel : RequestTrace, IDocumentModel
+    public class EmailModel : DocumentModel, ICachedModel
     {
         public const string DefaultPartitionKey = "email";
 
-        [JsonProperty("id")]
-        [Required]
-        public Guid Id { get; set; }
+        public override string? PartitionKey { get; set; } = DefaultPartitionKey;
 
+        [Required]
         public string? Title { get; set; }
 
         [Required]
@@ -24,10 +22,9 @@ namespace DFC.App.ContactUs.Data.Models
         [Required]
         public string? Body { get; set; }
 
-        [JsonProperty("_etag")]
-        public string? Etag { get; set; }
+        public DateTime LastReviewed { get; set; }
 
-        public string? PartitionKey { get; set; } = DefaultPartitionKey;
+        public DateTime CreatedDate { get; set; }
 
         public DateTime LastCached { get; set; } = DateTime.UtcNow;
     }

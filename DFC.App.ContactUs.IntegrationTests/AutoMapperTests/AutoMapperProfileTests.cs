@@ -16,14 +16,42 @@ namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
         }
 
         [Fact]
-        public void AutoMapperProfileConfigurationForContentPageModelProfileReturnSuccess()
+        public void AutoMapperProfileConfigurationForChatOptionsProfileReturnSuccess()
         {
             // Arrange
             factory.CreateClient();
             var mapper = factory.Server.Host.Services.GetRequiredService<IMapper>();
 
             // Act
-            mapper.ConfigurationProvider.AssertConfigurationIsValid<ContentPageModelProfile>();
+            mapper.ConfigurationProvider.AssertConfigurationIsValid<ChatOptionsProfile>();
+
+            // Assert
+            Assert.True(true);
+        }
+
+        [Fact]
+        public void AutoMapperProfileConfigurationForEmailModelProfileReturnSuccess()
+        {
+            // Arrange
+            factory.CreateClient();
+            var mapper = factory.Server.Host.Services.GetRequiredService<IMapper>();
+
+            // Act
+            mapper.ConfigurationProvider.AssertConfigurationIsValid<EmailModelProfile>();
+
+            // Assert
+            Assert.True(true);
+        }
+
+        [Fact]
+        public void AutoMapperProfileConfigurationForEConfigurationSetModelProfileReturnSuccess()
+        {
+            // Arrange
+            factory.CreateClient();
+            var mapper = factory.Server.Host.Services.GetRequiredService<IMapper>();
+
+            // Act
+            mapper.ConfigurationProvider.AssertConfigurationIsValid<ConfigurationSetModelProfile>();
 
             // Assert
             Assert.True(true);

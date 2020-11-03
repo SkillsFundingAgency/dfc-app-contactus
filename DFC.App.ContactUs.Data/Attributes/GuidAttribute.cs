@@ -1,10 +1,12 @@
 ﻿using DFC.App.ContactUs.Data.Common;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace DFC.App.ContactUs.Data.Attributes
 {
+    [ExcludeFromCodeCoverage]
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class GuidAttribute : ValidationAttribute
     {
