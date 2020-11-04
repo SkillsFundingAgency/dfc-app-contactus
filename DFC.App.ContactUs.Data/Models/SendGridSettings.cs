@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 ﻿namespace DFC.App.ContactUs.Data.Models
 {
+=======
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace DFC.App.ContactUs.Data.Models
+{
+    [ExcludeFromCodeCoverage]
+>>>>>>> story/DFCC-1169-refresh-nugets
     public class SendGridSettings
     {
         public string? ApiKey { get; set; } = "unknown";

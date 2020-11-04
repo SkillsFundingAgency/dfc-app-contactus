@@ -33,8 +33,13 @@ namespace DFC.App.ContactUs.Controllers
 
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
+<<<<<<< HEAD
                 CanonicalName = ThisViewCanonicalName,
                 BreadcrumbTitle = "Contact us",
+=======
+                Route = ThisViewCanonicalName,
+                Title = "Contact us",
+>>>>>>> story/DFCC-1169-refresh-nugets
             };
             var viewModel = new HomeViewModel()
             {
@@ -86,8 +91,13 @@ namespace DFC.App.ContactUs.Controllers
 
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
+<<<<<<< HEAD
                 CanonicalName = ThisViewCanonicalName,
                 BreadcrumbTitle = "Contact us",
+=======
+                Route = ThisViewCanonicalName,
+                Title = "Contact us",
+>>>>>>> story/DFCC-1169-refresh-nugets
             };
             var viewModel = new HomeViewModel()
             {
@@ -127,8 +137,13 @@ namespace DFC.App.ContactUs.Controllers
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
+<<<<<<< HEAD
                 CanonicalName = ThisViewCanonicalName,
                 BreadcrumbTitle = "Contact us",
+=======
+                Route = ThisViewCanonicalName,
+                Title = "Contact us",
+>>>>>>> story/DFCC-1169-refresh-nugets
             };
             var viewModel = BuildBreadcrumb(RegistrationPath, breadcrumbItemModel);
 

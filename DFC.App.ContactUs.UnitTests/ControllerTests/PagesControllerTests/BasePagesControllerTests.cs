@@ -19,7 +19,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             Logger = A.Fake<ILogger<PagesController>>();
             FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
+<<<<<<< HEAD
             FakeContentPageService = A.Fake<IContentPageService<ContentPageModel>>();
+=======
+            FakeEmailDocumentService = A.Fake<IDocumentService<EmailModel>>();
+>>>>>>> story/DFCC-1169-refresh-nugets
             FakeMapper = A.Fake<AutoMapper.IMapper>();
         }
 
@@ -43,7 +47,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         protected ISessionStateService<SessionDataModel> FakeSessionStateService { get; }
 
+<<<<<<< HEAD
         protected IContentPageService<ContentPageModel> FakeContentPageService { get; }
+=======
+        protected IDocumentService<EmailModel> FakeEmailDocumentService { get; }
+>>>>>>> story/DFCC-1169-refresh-nugets
 
         protected AutoMapper.IMapper FakeMapper { get; }
 
@@ -53,7 +61,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
+<<<<<<< HEAD
             var controller = new PagesController(Logger, FakeSessionStateService, FakeContentPageService, FakeMapper)
+=======
+            var controller = new PagesController(Logger, FakeSessionStateService, FakeEmailDocumentService, FakeMapper)
+>>>>>>> story/DFCC-1169-refresh-nugets
             {
                 ControllerContext = new ControllerContext()
                 {

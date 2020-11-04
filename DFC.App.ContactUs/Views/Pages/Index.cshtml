@@ -13,9 +13,24 @@
             <ul>
                 @foreach (var document in Model.Documents)
                 {
+<<<<<<< HEAD
                     <li>
                         <a href="/@Model.LocalPath/@document.CanonicalName">@document.CanonicalName</a>
                     </li>
+=======
+                    if (document.Id == null)
+                    {
+                        <li>
+                            <a href="/@Model.LocalPath/@document.Title">@document.Title</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="/@Model.LocalPath/@document.Id/document">@document.Title</a>
+                        </li>
+                    }
+>>>>>>> story/DFCC-1169-refresh-nugets
                 }
             </ul>
         }

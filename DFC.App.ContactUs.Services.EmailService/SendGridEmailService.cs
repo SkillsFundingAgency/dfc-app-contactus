@@ -3,12 +3,20 @@ using Microsoft.Extensions.Logging;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
+<<<<<<< HEAD
+=======
+using System.Diagnostics.CodeAnalysis;
+>>>>>>> story/DFCC-1169-refresh-nugets
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Services.EmailService
 {
+<<<<<<< HEAD
+=======
+    [ExcludeFromCodeCoverage]
+>>>>>>> story/DFCC-1169-refresh-nugets
     public class SendGridEmailService<TEmailRequestModel> : ISendGridEmailService<TEmailRequestModel>
         where TEmailRequestModel : class, IEmailRequestModel
     {

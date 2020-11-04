@@ -39,8 +39,13 @@ namespace DFC.App.ContactUs.Controllers
             var sessionStateModel = await GetSessionStateAsync().ConfigureAwait(false);
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
+<<<<<<< HEAD
                 CanonicalName = ThisViewCanonicalName,
                 BreadcrumbTitle = "Enter your details",
+=======
+                Route = ThisViewCanonicalName,
+                Title = "Enter your details",
+>>>>>>> story/DFCC-1169-refresh-nugets
             };
             var viewModel = new EnterYourDetailsViewModel()
             {
@@ -80,8 +85,13 @@ namespace DFC.App.ContactUs.Controllers
 
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
+<<<<<<< HEAD
                 CanonicalName = ThisViewCanonicalName,
                 BreadcrumbTitle = "Enter your details",
+=======
+                Route = ThisViewCanonicalName,
+                Title = "Enter your details",
+>>>>>>> story/DFCC-1169-refresh-nugets
             };
             var viewModel = new EnterYourDetailsViewModel()
             {
@@ -119,8 +129,13 @@ namespace DFC.App.ContactUs.Controllers
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
+<<<<<<< HEAD
                 CanonicalName = ThisViewCanonicalName,
                 BreadcrumbTitle = "Enter your details",
+=======
+                Route = ThisViewCanonicalName,
+                Title = "Enter your details",
+>>>>>>> story/DFCC-1169-refresh-nugets
             };
             var viewModel = BuildBreadcrumb(RegistrationPath, breadcrumbItemModel);
 

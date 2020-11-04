@@ -6,6 +6,10 @@ namespace DFC.App.ContactUs.ViewModels
     {
         public string? LocalPath { get; set; }
 
+<<<<<<< HEAD
         public IList<IndexDocumentViewModel>? Documents { get; set; }
+=======
+        public List<IndexDocumentViewModel>? Documents { get; set; }
+>>>>>>> story/DFCC-1169-refresh-nugets
     }
 }

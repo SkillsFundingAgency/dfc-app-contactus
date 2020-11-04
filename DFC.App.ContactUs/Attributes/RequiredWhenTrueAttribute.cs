@@ -1,10 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.ComponentModel.DataAnnotations;
+<<<<<<< HEAD
+=======
+using System.Diagnostics.CodeAnalysis;
+>>>>>>> story/DFCC-1169-refresh-nugets
 using System.Globalization;
 
 namespace DFC.App.ContactUs.Attributes
 {
+<<<<<<< HEAD
+=======
+    [ExcludeFromCodeCoverage]
+>>>>>>> story/DFCC-1169-refresh-nugets
     public class RequiredWhenTrueAttribute : ValidationAttribute, IClientModelValidator
     {
         private readonly string comparisonProperty;

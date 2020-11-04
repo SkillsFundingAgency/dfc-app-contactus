@@ -1,6 +1,10 @@
 ﻿openapi: 3.0.1
 info:
+<<<<<<< HEAD
   title: DFC Contact Us
+=======
+  title: __apiName__
+>>>>>>> story/DFCC-1169-refresh-nugets
   description: 'Webhook receiver for Event Grid Events' 
   version: 1.0.0
 servers:

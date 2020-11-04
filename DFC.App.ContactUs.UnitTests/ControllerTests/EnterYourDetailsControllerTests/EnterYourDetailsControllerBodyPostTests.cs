@@ -1,6 +1,11 @@
 ﻿using DFC.App.ContactUs.Controllers;
+<<<<<<< HEAD
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.Data.Models;
+=======
+using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Models;
+>>>>>>> story/DFCC-1169-refresh-nugets
 using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +14,10 @@ using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Xunit;
+<<<<<<< HEAD
 using DFC.App.ContactUs.Data.Enums;
+=======
+>>>>>>> story/DFCC-1169-refresh-nugets
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsControllerTests
 {

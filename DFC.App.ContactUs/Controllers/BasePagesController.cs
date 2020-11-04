@@ -36,14 +36,24 @@ namespace DFC.App.ContactUs.Controllers
             const string BradcrumbTitle = "Contact us";
             var viewModel = new BreadcrumbViewModel
             {
+<<<<<<< HEAD
                 Paths = new List<BreadcrumbPathViewModel>()
                 {
                     new BreadcrumbPathViewModel()
+=======
+                Breadcrumbs = new List<BreadcrumbItemViewModel>()
+                {
+                    new BreadcrumbItemViewModel()
+>>>>>>> story/DFCC-1169-refresh-nugets
                     {
                         Route = "/",
                         Title = "Home",
                     },
+<<<<<<< HEAD
                     new BreadcrumbPathViewModel()
+=======
+                    new BreadcrumbItemViewModel()
+>>>>>>> story/DFCC-1169-refresh-nugets
                     {
                         Route = $"/{segmentPath}",
                         Title = BradcrumbTitle,
@@ -51,6 +61,7 @@ namespace DFC.App.ContactUs.Controllers
                 },
             };
 
+<<<<<<< HEAD
             if (breadcrumbItemModel?.BreadcrumbTitle != null &&
                 !breadcrumbItemModel.BreadcrumbTitle.Equals(BradcrumbTitle, StringComparison.OrdinalIgnoreCase) &&
                 !string.IsNullOrWhiteSpace(breadcrumbItemModel.CanonicalName))
@@ -65,6 +76,22 @@ namespace DFC.App.ContactUs.Controllers
             }
 
             viewModel.Paths.Last().AddHyperlink = false;
+=======
+            if (breadcrumbItemModel?.Title != null &&
+                !breadcrumbItemModel.Title.Equals(BradcrumbTitle, StringComparison.OrdinalIgnoreCase) &&
+                !string.IsNullOrWhiteSpace(breadcrumbItemModel.Route))
+            {
+                var articlePathViewModel = new BreadcrumbItemViewModel
+                {
+                    Route = $"/{segmentPath}/{breadcrumbItemModel.Route}",
+                    Title = breadcrumbItemModel.Title,
+                };
+
+                viewModel.Breadcrumbs.Add(articlePathViewModel);
+            }
+
+            viewModel.Breadcrumbs.Last().AddHyperlink = false;
+>>>>>>> story/DFCC-1169-refresh-nugets
 
             return viewModel;
         }

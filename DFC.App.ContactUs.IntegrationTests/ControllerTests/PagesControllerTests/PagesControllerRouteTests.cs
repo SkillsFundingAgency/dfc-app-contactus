@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 ﻿using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Net;
+=======
+﻿using System;
+using System.Collections.Generic;
+>>>>>>> story/DFCC-1169-refresh-nugets
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,12 +31,15 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             new object[] { "/" },
             new object[] { "/pages" },
             new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}" },
+<<<<<<< HEAD
             new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}/htmlhead" },
             new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}/breadcrumb" },
             new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}/body" },
             new object[] { "/pages/htmlhead" },
             new object[] { "/pages/breadcrumb" },
             new object[] { "/pages/body" },
+=======
+>>>>>>> story/DFCC-1169-refresh-nugets
             new object[] { "/pages/health" },
             new object[] { "/pages/home" },
             new object[] { "/pages/home/htmlhead" },
@@ -51,6 +59,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             new object[] { "/pages/how-can-we-help/body" },
         };
 
+<<<<<<< HEAD
         public static IEnumerable<object[]> PagesNoContentRouteData => new List<object[]>
         {
             new object[] { $"/pages/bodytop" },
@@ -75,6 +84,8 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             new object[] { $"/pages/{DataSeeding.AlternativeArticleName}/bodyfooter" },
         };
 
+=======
+>>>>>>> story/DFCC-1169-refresh-nugets
         [Theory]
         [MemberData(nameof(PagesContentRouteData))]
         public async Task GetPagesHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
@@ -110,6 +121,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             response.EnsureSuccessStatusCode();
             Assert.Equal($"{MediaTypeNames.Application.Json}; charset={Encoding.UTF8.WebName}", response.Content.Headers.ContentType.ToString());
         }
+<<<<<<< HEAD
 
         [Theory]
         [MemberData(nameof(PagesNoContentRouteData))]
@@ -127,5 +139,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             response.EnsureSuccessStatusCode();
             response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
+=======
+>>>>>>> story/DFCC-1169-refresh-nugets
     }
 }

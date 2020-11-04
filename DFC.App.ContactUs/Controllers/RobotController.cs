@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+<<<<<<< HEAD
 using System;
+=======
+>>>>>>> story/DFCC-1169-refresh-nugets
 using System.Net.Mime;
 
 namespace DFC.App.ContactUs.Controllers
@@ -22,6 +25,7 @@ namespace DFC.App.ContactUs.Controllers
         [Route("robots.txt")]
         public ContentResult Robot()
         {
+<<<<<<< HEAD
             try
             {
                 logger.LogInformation("Generating Robots.txt");
@@ -40,6 +44,16 @@ namespace DFC.App.ContactUs.Controllers
 
             // fall through from errors
             return Content(null, MediaTypeNames.Text.Plain);
+=======
+            logger.LogInformation("Generating Robots.txt");
+
+            var robot = GenerateThisSiteRobot();
+
+            // add any dynamic robots data from the Shell app
+            logger.LogInformation("Generated Robots.txt");
+
+            return Content(robot.Data, MediaTypeNames.Text.Plain);
+>>>>>>> story/DFCC-1169-refresh-nugets
         }
 
         private Robot GenerateThisSiteRobot()

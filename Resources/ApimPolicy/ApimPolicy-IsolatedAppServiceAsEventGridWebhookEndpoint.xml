@@ -3,13 +3,21 @@
         <base />
         <set-variable name="Request" value="@(context.Request.Body.As<JArray>())" />
         <choose>
+<<<<<<< HEAD
             <when condition="@(context.Variables.GetValueOrDefault<JArray>("Request").Count != 1)">
+=======
+            <when condition="@(context.Variables.GetValueOrDefault<JArray>("Request").Count == 0)">
+>>>>>>> story/DFCC-1169-refresh-nugets
                 <return-response>
                     <set-status code="400" />
                     <set-header name="Content-Type" exists-action="override">
                         <value>application/json</value>
                     </set-header>
+<<<<<<< HEAD
                     <set-body>{"error":"We only support one event"}</set-body>
+=======
+                    <set-body>{"error":"No events passed"}</set-body>
+>>>>>>> story/DFCC-1169-refresh-nugets
                 </return-response>
             </when>
             <otherwise>
@@ -52,8 +60,12 @@
                         <set-header name="X-Event-Topic" exists-action="override">
                             <value>@(context.Variables.GetValueOrDefault<JObject>("Event")["topic"].ToString())</value>
                         </set-header>
+<<<<<<< HEAD
                         <set-body>@(context.Variables.GetValueOrDefault<JObject>("Event")["data"].ToString())</set-body>
 
+=======
+                        <set-body>@(context.Variables.GetValueOrDefault<JArray>("Request").ToString())</set-body>
+>>>>>>> story/DFCC-1169-refresh-nugets
                         <set-backend-service base-url="__AppServiceUrl__" />
                     </otherwise>
                 </choose>
@@ -69,4 +81,8 @@
     <on-error>
         <base />
     </on-error>
+<<<<<<< HEAD
 </policies>
+=======
+</policies>
+>>>>>>> story/DFCC-1169-refresh-nugets

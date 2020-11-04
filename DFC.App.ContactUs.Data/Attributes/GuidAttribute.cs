@@ -1,10 +1,18 @@
 ﻿using DFC.App.ContactUs.Data.Common;
 using System;
 using System.ComponentModel.DataAnnotations;
+<<<<<<< HEAD
+=======
+using System.Diagnostics.CodeAnalysis;
+>>>>>>> story/DFCC-1169-refresh-nugets
 using System.Globalization;
 
 namespace DFC.App.ContactUs.Data.Attributes
 {
+<<<<<<< HEAD
+=======
+    [ExcludeFromCodeCoverage]
+>>>>>>> story/DFCC-1169-refresh-nugets
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class GuidAttribute : ValidationAttribute
     {

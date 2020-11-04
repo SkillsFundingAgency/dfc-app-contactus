@@ -10,10 +10,18 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+<<<<<<< HEAD
+=======
+using System.Diagnostics.CodeAnalysis;
+>>>>>>> story/DFCC-1169-refresh-nugets
 using System.Linq;
 
 namespace DFC.App.ContactUs.Attributes
 {
+<<<<<<< HEAD
+=======
+    [ExcludeFromCodeCoverage]
+>>>>>>> story/DFCC-1169-refresh-nugets
     public class CustomValidationHtmlAttributeProvider : DefaultValidationHtmlAttributeProvider
     {
         private readonly IModelMetadataProvider metadataProvider;

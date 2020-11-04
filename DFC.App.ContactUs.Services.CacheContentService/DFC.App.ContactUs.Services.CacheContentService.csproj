@@ -13,7 +13,10 @@
 
   <ItemGroup>
     <PackageReference Include="DFC.Compui.Subscriptions" Version="1.0.96" />
+<<<<<<< HEAD
     <PackageReference Include="DFC.Content.Pkg.Netcore" Version="1.0.38" />
+=======
+>>>>>>> story/DFCC-1169-refresh-nugets
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

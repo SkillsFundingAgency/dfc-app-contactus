@@ -16,6 +16,7 @@ namespace DFC.App.ContactUs.Controllers
         public const string HealthViewCanonicalName = "health";
 
         private readonly ILogger<HealthController> logger;
+<<<<<<< HEAD
         private readonly IContentPageService<ContentPageModel> contentPageService;
         private readonly string resourceName = typeof(Program).Namespace!;
 
@@ -23,6 +24,15 @@ namespace DFC.App.ContactUs.Controllers
         {
             this.logger = logger;
             this.contentPageService = contentPageService;
+=======
+        private readonly IDocumentService<EmailModel> emailDocumentService;
+        private readonly string resourceName = typeof(Program).Namespace!;
+
+        public HealthController(ILogger<HealthController> logger, IDocumentService<EmailModel> emailDocumentService)
+        {
+            this.logger = logger;
+            this.emailDocumentService = emailDocumentService;
+>>>>>>> story/DFCC-1169-refresh-nugets
         }
 
         [HttpGet]
@@ -42,7 +52,11 @@ namespace DFC.App.ContactUs.Controllers
 
             try
             {
+<<<<<<< HEAD
                 var isHealthy = await contentPageService.PingAsync().ConfigureAwait(false);
+=======
+                var isHealthy = await emailDocumentService.PingAsync().ConfigureAwait(false);
+>>>>>>> story/DFCC-1169-refresh-nugets
 
                 if (isHealthy)
                 {

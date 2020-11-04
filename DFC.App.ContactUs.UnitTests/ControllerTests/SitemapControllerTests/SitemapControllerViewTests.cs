@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 ﻿using DFC.App.ContactUs.Data.Models;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 using System.Threading.Tasks;
+=======
+﻿using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
+>>>>>>> story/DFCC-1169-refresh-nugets
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.SitemapControllerTests
@@ -12,6 +18,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.SitemapControllerTests
     public class SitemapControllerViewTests : BaseSitemapControllerTests
     {
         [Fact]
+<<<<<<< HEAD
         public async Task SitemapControllerViewReturnsSuccess()
         {
             // Arrange
@@ -57,6 +64,17 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.SitemapControllerTests
             // Assert
             A.CallTo(() => FakeContentPageService.GetAllAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
+=======
+        public void SitemapControllerViewReturnsSuccess()
+        {
+            // Arrange
+            var controller = BuildSitemapController();
+
+            // Act
+            var result = controller.SitemapView();
+
+            // Assert
+>>>>>>> story/DFCC-1169-refresh-nugets
             var contentResult = Assert.IsType<ContentResult>(result);
 
             contentResult.ContentType.Should().Be(MediaTypeNames.Application.Xml);

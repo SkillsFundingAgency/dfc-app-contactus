@@ -3,6 +3,7 @@
 <div class="govuk-width-container">
     <div class="govuk-breadcrumbs">
         <ol class="govuk-breadcrumbs__list">
+<<<<<<< HEAD
             @if (Model?.Paths?.Count() > 0)
             {
                 @foreach (var path in Model.Paths)
@@ -11,11 +12,25 @@
                     {
                         <li class="govuk-breadcrumbs__list-item">
                             <a name="BreadbrumbLink" class="govuk-breadcrumbs__link" href="@path.Route">@path.Title</a>
+=======
+            @if (Model.Breadcrumbs != null && Model.Breadcrumbs.Any())
+            {
+                @foreach (var breadcrumb in Model.Breadcrumbs)
+                {
+                    if (breadcrumb.AddHyperlink)
+                    {
+                        <li class="govuk-breadcrumbs__list-item">
+                            <a name="BreadbrumbLink" class="govuk-breadcrumbs__link" href="@breadcrumb.Route">@breadcrumb.Title</a>
+>>>>>>> story/DFCC-1169-refresh-nugets
                         </li>
                     }
                     else
                     {
+<<<<<<< HEAD
                         <li class="govuk-breadcrumbs__list-item" aria-current="page">@path.Title</li>
+=======
+                        <li class="govuk-breadcrumbs__list-item" aria-current="page">@breadcrumb.Title</li>
+>>>>>>> story/DFCC-1169-refresh-nugets
                     }
                 }
             }

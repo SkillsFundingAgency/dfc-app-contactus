@@ -7,20 +7,34 @@ using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+<<<<<<< HEAD
 using System.Linq;
 using System.Net;
+=======
+using System.Collections.Generic;
+using System.Linq;
+>>>>>>> story/DFCC-1169-refresh-nugets
 using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Controllers
 {
     public class PagesController : BasePagesController<PagesController>
     {
+<<<<<<< HEAD
         private readonly IContentPageService<ContentPageModel> contentPageService;
         private readonly AutoMapper.IMapper mapper;
 
         public PagesController(ILogger<PagesController> logger, ISessionStateService<SessionDataModel> sessionStateService, IContentPageService<ContentPageModel> contentPageService, AutoMapper.IMapper mapper) : base(logger, sessionStateService)
         {
             this.contentPageService = contentPageService;
+=======
+        private readonly IDocumentService<EmailModel> emailDocumentService;
+        private readonly AutoMapper.IMapper mapper;
+
+        public PagesController(ILogger<PagesController> logger, ISessionStateService<SessionDataModel> sessionStateService, IDocumentService<EmailModel> emailDocumentService, AutoMapper.IMapper mapper) : base(logger, sessionStateService)
+        {
+            this.emailDocumentService = emailDocumentService;
+>>>>>>> story/DFCC-1169-refresh-nugets
             this.mapper = mapper;
         }
 
@@ -32,6 +46,7 @@ namespace DFC.App.ContactUs.Controllers
             var viewModel = new IndexViewModel()
             {
                 LocalPath = LocalPath,
+<<<<<<< HEAD
             };
             var contentPageModels = await contentPageService.GetAllAsync().ConfigureAwait(false);
 
@@ -46,6 +61,26 @@ namespace DFC.App.ContactUs.Controllers
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = ChatController.ThisViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = HowCanWeHelpController.ThisViewCanonicalName });
                 viewModel.Documents.Add(new IndexDocumentViewModel { CanonicalName = EnterYourDetailsController.ThisViewCanonicalName });
+=======
+                Documents = new List<IndexDocumentViewModel>()
+                {
+                    new IndexDocumentViewModel { Title = HealthController.HealthViewCanonicalName },
+                    new IndexDocumentViewModel { Title = SitemapController.SitemapViewCanonicalName },
+                    new IndexDocumentViewModel { Title = HomeController.ThisViewCanonicalName },
+                    new IndexDocumentViewModel { Title = ChatController.ThisViewCanonicalName },
+                    new IndexDocumentViewModel { Title = HowCanWeHelpController.ThisViewCanonicalName },
+                    new IndexDocumentViewModel { Title = EnterYourDetailsController.ThisViewCanonicalName },
+                },
+            };
+            var emailModels = await emailDocumentService.GetAllAsync().ConfigureAwait(false);
+
+            if (emailModels != null)
+            {
+                var documents = from a in emailModels.OrderBy(o => o.Title)
+                                select mapper.Map<IndexDocumentViewModel>(a);
+
+                viewModel.Documents.AddRange(documents);
+>>>>>>> story/DFCC-1169-refresh-nugets
 
                 Logger.LogInformation($"{nameof(Index)} has succeeded");
             }
@@ -58,6 +93,7 @@ namespace DFC.App.ContactUs.Controllers
         }
 
         [HttpGet]
+<<<<<<< HEAD
         [Route("pages/{article}")]
         public async Task<IActionResult> Document(string article)
         {
@@ -72,10 +108,26 @@ namespace DFC.App.ContactUs.Controllers
                 viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
 
                 Logger.LogInformation($"{nameof(Document)} has succeeded for: {article}");
+=======
+        [Route("pages/{documentId}/document")]
+        public async Task<IActionResult> Document(Guid documentId)
+        {
+            var emailModel = await emailDocumentService.GetByIdAsync(documentId).ConfigureAwait(false);
+
+            if (emailModel != null)
+            {
+                var viewModel = mapper.Map<DocumentViewModel>(emailModel);
+                var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(emailModel);
+
+                viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
+
+                Logger.LogInformation($"{nameof(Document)} has succeeded for: {documentId}");
+>>>>>>> story/DFCC-1169-refresh-nugets
 
                 return this.NegotiateContentResult(viewModel);
             }
 
+<<<<<<< HEAD
             if (!string.IsNullOrWhiteSpace(article))
             {
                 var alternateContentPageModel = await GetAlternativeContentPageAsync(article).ConfigureAwait(false);
@@ -217,5 +269,11 @@ namespace DFC.App.ContactUs.Controllers
         }
 
         #endregion Define helper methods
+=======
+            Logger.LogWarning($"{nameof(Document)} has returned no content for: {documentId}");
+
+            return NoContent();
+        }
+>>>>>>> story/DFCC-1169-refresh-nugets
     }
 }
