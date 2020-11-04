@@ -19,7 +19,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             Logger = A.Fake<ILogger<PagesController>>();
             FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
-            FakeContentPageService = A.Fake<IContentPageService<ContentPageModel>>();
+            FakeEmailDocumentService = A.Fake<IDocumentService<EmailModel>>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
         }
 
@@ -43,7 +43,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         protected ISessionStateService<SessionDataModel> FakeSessionStateService { get; }
 
-        protected IContentPageService<ContentPageModel> FakeContentPageService { get; }
+        protected IDocumentService<EmailModel> FakeEmailDocumentService { get; }
 
         protected AutoMapper.IMapper FakeMapper { get; }
 
@@ -53,7 +53,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new PagesController(Logger, FakeSessionStateService, FakeContentPageService, FakeMapper)
+            var controller = new PagesController(Logger, FakeSessionStateService, FakeEmailDocumentService, FakeMapper)
             {
                 ControllerContext = new ControllerContext()
                 {

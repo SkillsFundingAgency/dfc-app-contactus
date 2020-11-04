@@ -16,13 +16,13 @@ namespace DFC.App.ContactUs.Controllers
         public const string HealthViewCanonicalName = "health";
 
         private readonly ILogger<HealthController> logger;
-        private readonly IContentPageService<ContentPageModel> contentPageService;
+        private readonly IDocumentService<EmailModel> emailDocumentService;
         private readonly string resourceName = typeof(Program).Namespace!;
 
-        public HealthController(ILogger<HealthController> logger, IContentPageService<ContentPageModel> contentPageService)
+        public HealthController(ILogger<HealthController> logger, IDocumentService<EmailModel> emailDocumentService)
         {
             this.logger = logger;
-            this.contentPageService = contentPageService;
+            this.emailDocumentService = emailDocumentService;
         }
 
         [HttpGet]
@@ -42,7 +42,7 @@ namespace DFC.App.ContactUs.Controllers
 
             try
             {
-                var isHealthy = await contentPageService.PingAsync().ConfigureAwait(false);
+                var isHealthy = await emailDocumentService.PingAsync().ConfigureAwait(false);
 
                 if (isHealthy)
                 {
