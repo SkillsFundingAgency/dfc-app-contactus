@@ -27,8 +27,8 @@ namespace DFC.App.ContactUs.Controllers
             var sessionStateModel = await GetSessionStateAsync().ConfigureAwait(false);
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = ThisViewCanonicalName,
-                BreadcrumbTitle = Title,
+                Route = ThisViewCanonicalName,
+                Title = Title,
             };
             var viewModel = new HowCanWeHelpViewModel()
             {
@@ -75,8 +75,8 @@ namespace DFC.App.ContactUs.Controllers
 
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = ThisViewCanonicalName,
-                BreadcrumbTitle = Title,
+                Route = ThisViewCanonicalName,
+                Title = Title,
             };
             var viewModel = new HowCanWeHelpViewModel()
             {
@@ -114,8 +114,8 @@ namespace DFC.App.ContactUs.Controllers
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = ThisViewCanonicalName,
-                BreadcrumbTitle = Title,
+                Route = ThisViewCanonicalName,
+                Title = Title,
             };
             var viewModel = BuildBreadcrumb(RegistrationPath, breadcrumbItemModel);
 

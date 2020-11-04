@@ -24,7 +24,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(viewResult.ViewData.Model);
 
-            model.Paths?.Count.Should().BeGreaterThan(0);
+            model.Breadcrumbs?.Count.Should().BeGreaterThan(0);
 
             controller.Dispose();
         }
@@ -43,7 +43,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<BreadcrumbViewModel>(jsonResult.Value);
 
-            model.Paths?.Count.Should().BeGreaterThan(0);
+            model.Breadcrumbs?.Count.Should().BeGreaterThan(0);
 
             controller.Dispose();
         }

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Net.Mime;
 
 namespace DFC.App.ContactUs.Controllers
@@ -22,24 +21,14 @@ namespace DFC.App.ContactUs.Controllers
         [Route("robots.txt")]
         public ContentResult Robot()
         {
-            try
-            {
-                logger.LogInformation("Generating Robots.txt");
+            logger.LogInformation("Generating Robots.txt");
 
-                var robot = GenerateThisSiteRobot();
+            var robot = GenerateThisSiteRobot();
 
-                // add any dynamic robots data from the Shell app
-                logger.LogInformation("Generated Robots.txt");
+            // add any dynamic robots data from the Shell app
+            logger.LogInformation("Generated Robots.txt");
 
-                return Content(robot.Data, MediaTypeNames.Text.Plain);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, $"{nameof(Robot)}: {ex.Message}");
-            }
-
-            // fall through from errors
-            return Content(null, MediaTypeNames.Text.Plain);
+            return Content(robot.Data, MediaTypeNames.Text.Plain);
         }
 
         private Robot GenerateThisSiteRobot()

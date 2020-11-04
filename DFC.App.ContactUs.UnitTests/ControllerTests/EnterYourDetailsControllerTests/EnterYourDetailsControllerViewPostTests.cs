@@ -1,15 +1,14 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Xunit;
-using DFC.App.ContactUs.Data.Enums;
-using System;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsControllerTests
 {

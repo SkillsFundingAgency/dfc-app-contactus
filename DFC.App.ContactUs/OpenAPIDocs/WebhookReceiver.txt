@@ -1,6 +1,6 @@
 ﻿openapi: 3.0.1
 info:
-  title: DFC Contact Us
+  title: __apiName__
   description: 'Webhook receiver for Event Grid Events' 
   version: 1.0.0
 servers:
