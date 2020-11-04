@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.ContactUs.Data.Helpers
 {
+    [ExcludeFromCodeCoverage]
     public static class EmailKeyHelper
     {
         private static Guid CallbackTemplateKey => Guid.Parse("e11a1137-01ca-446a-b60f-0de5ad5321cc");

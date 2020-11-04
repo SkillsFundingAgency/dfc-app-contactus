@@ -36,14 +36,14 @@ namespace DFC.App.ContactUs.Controllers
             const string BradcrumbTitle = "Contact us";
             var viewModel = new BreadcrumbViewModel
             {
-                Paths = new List<BreadcrumbPathViewModel>()
+                Breadcrumbs = new List<BreadcrumbItemViewModel>()
                 {
-                    new BreadcrumbPathViewModel()
+                    new BreadcrumbItemViewModel()
                     {
                         Route = "/",
                         Title = "Home",
                     },
-                    new BreadcrumbPathViewModel()
+                    new BreadcrumbItemViewModel()
                     {
                         Route = $"/{segmentPath}",
                         Title = BradcrumbTitle,
@@ -51,20 +51,20 @@ namespace DFC.App.ContactUs.Controllers
                 },
             };
 
-            if (breadcrumbItemModel?.BreadcrumbTitle != null &&
-                !breadcrumbItemModel.BreadcrumbTitle.Equals(BradcrumbTitle, StringComparison.OrdinalIgnoreCase) &&
-                !string.IsNullOrWhiteSpace(breadcrumbItemModel.CanonicalName))
+            if (breadcrumbItemModel?.Title != null &&
+                !breadcrumbItemModel.Title.Equals(BradcrumbTitle, StringComparison.OrdinalIgnoreCase) &&
+                !string.IsNullOrWhiteSpace(breadcrumbItemModel.Route))
             {
-                var articlePathViewModel = new BreadcrumbPathViewModel
+                var articlePathViewModel = new BreadcrumbItemViewModel
                 {
-                    Route = $"/{segmentPath}/{breadcrumbItemModel.CanonicalName}",
-                    Title = breadcrumbItemModel.BreadcrumbTitle,
+                    Route = $"/{segmentPath}/{breadcrumbItemModel.Route}",
+                    Title = breadcrumbItemModel.Title,
                 };
 
-                viewModel.Paths.Add(articlePathViewModel);
+                viewModel.Breadcrumbs.Add(articlePathViewModel);
             }
 
-            viewModel.Paths.Last().AddHyperlink = false;
+            viewModel.Breadcrumbs.Last().AddHyperlink = false;
 
             return viewModel;
         }

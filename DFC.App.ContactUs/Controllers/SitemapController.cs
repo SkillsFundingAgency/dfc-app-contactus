@@ -1,13 +1,9 @@
-﻿using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.Extensions;
+﻿using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
-using DFC.Compui.Cosmos.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Linq;
 using System.Net.Mime;
-using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Controllers
 {
@@ -16,81 +12,47 @@ namespace DFC.App.ContactUs.Controllers
         public const string SitemapViewCanonicalName = "sitemap";
 
         private readonly ILogger<SitemapController> logger;
-        private readonly IContentPageService<ContentPageModel> contentPageService;
 
-        public SitemapController(ILogger<SitemapController> logger, IContentPageService<ContentPageModel> contentPageService)
+        public SitemapController(ILogger<SitemapController> logger)
         {
             this.logger = logger;
-            this.contentPageService = contentPageService;
         }
 
         [HttpGet]
         [Route("pages/sitemap")]
-        public async Task<IActionResult> SitemapView()
+        public IActionResult SitemapView()
         {
-            var result = await Sitemap().ConfigureAwait(false);
+            var result = Sitemap();
 
             return result;
         }
 
         [HttpGet]
         [Route("/sitemap.xml")]
-        public async Task<IActionResult> Sitemap()
+        public IActionResult Sitemap()
         {
-            try
+            logger.LogInformation("Generating Sitemap");
+
+            var sitemapUrlPrefix = $"{Request.GetBaseAddress()}{BasePagesController<PagesController>.RegistrationPath}";
+            var sitemap = new Sitemap();
+
+            // add the defaults
+            sitemap.Add(new SitemapLocation
             {
-                logger.LogInformation("Generating Sitemap");
+                Url = sitemapUrlPrefix,
+                Priority = 1,
+            });
 
-                var sitemapUrlPrefix = $"{Request.GetBaseAddress()}{BasePagesController<PagesController>.RegistrationPath}";
-                var sitemap = new Sitemap();
-
-                // add the defaults
-                sitemap.Add(new SitemapLocation
-                {
-                    Url = sitemapUrlPrefix,
-                    Priority = 1,
-                });
-
-                var contentPageModels = await contentPageService.GetAllAsync().ConfigureAwait(false);
-
-                if (contentPageModels != null)
-                {
-                    var contentPageModelsList = contentPageModels.ToList();
-
-                    if (contentPageModelsList.Any())
-                    {
-                        var sitemapContentPageModels = contentPageModelsList
-                             .Where(w => w.IncludeInSitemap)
-                             .OrderBy(o => o.CanonicalName);
-
-                        foreach (var contentPageModel in sitemapContentPageModels)
-                        {
-                            sitemap.Add(new SitemapLocation
-                            {
-                                Url = $"{sitemapUrlPrefix}/{contentPageModel.CanonicalName}",
-                                Priority = 1,
-                            });
-                        }
-                    }
-                }
-
-                if (!sitemap.Locations.Any())
-                {
-                    return NoContent();
-                }
-
-                var xmlString = sitemap.WriteSitemapToString();
-
-                logger.LogInformation("Generated Sitemap");
-
-                return Content(xmlString, MediaTypeNames.Application.Xml);
-            }
-            catch (Exception ex)
+            if (!sitemap.Locations.Any())
             {
-                logger.LogError(ex, $"{nameof(Sitemap)}: {ex.Message}");
+                return NoContent();
             }
 
-            return BadRequest();
+            var xmlString = sitemap.WriteSitemapToString();
+
+            logger.LogInformation("Generated Sitemap");
+
+            return Content(xmlString, MediaTypeNames.Application.Xml);
         }
     }
 }

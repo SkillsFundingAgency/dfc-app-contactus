@@ -1,9 +1,11 @@
-﻿using DFC.App.ContactUs.Data.Models;
+﻿using DFC.App.ContactUs.Data.Helpers;
+using DFC.App.ContactUs.Data.Models;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Content.Pkg.Netcore.Data.Contracts;
 using FakeItEasy;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 
 namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServiceTests
 {
@@ -21,13 +23,20 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
             FakeMapper = A.Fake<AutoMapper.IMapper>();
             FakeCmsApiService = A.Fake<ICmsApiService>();
             FakeEmailDocumentService = A.Fake<IDocumentService<EmailModel>>();
+            FakeConfigurationSetDocumentService = A.Fake<IDocumentService<ConfigurationSetModel>>();
         }
 
-        protected Guid ContentIdForCreate { get; } = Guid.NewGuid();
+        protected Guid ContentIdForEmailCreate { get; } = Guid.NewGuid();
 
-        protected Guid ContentIdForUpdate { get; } = Guid.NewGuid();
+        protected Guid ContentIdForEmailUpdate { get; } = Guid.NewGuid();
 
-        protected Guid ContentIdForDelete { get; } = Guid.NewGuid();
+        protected Guid ContentIdForEmailDelete { get; } = Guid.NewGuid();
+
+        protected Guid ContentIdForConfigurationSetCreate { get; } = ConfigurationSetKeyHelper.ConfigurationSetKey;
+
+        protected Guid ContentIdForConfigurationSetUpdate { get; } = ConfigurationSetKeyHelper.ConfigurationSetKey;
+
+        protected Guid ContentIdForConfigurationSetDelete { get; } = ConfigurationSetKeyHelper.ConfigurationSetKey;
 
         protected ILogger<WebhooksService> Logger { get; }
 
@@ -36,6 +45,8 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
         protected ICmsApiService FakeCmsApiService { get; }
 
         protected IDocumentService<EmailModel> FakeEmailDocumentService { get; }
+
+        protected IDocumentService<ConfigurationSetModel> FakeConfigurationSetDocumentService { get; }
 
         protected static EmailApiDataModel BuildValidEmailApiDataModel()
         {
@@ -52,16 +63,48 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
             return model;
         }
 
+        protected static ConfigurationSetApiDataModel BuildValidConfigurationSetApiDataModel()
+        {
+            var model = new ConfigurationSetApiDataModel
+            {
+                Title = "an-article",
+                Url = new Uri("https://localhost"),
+                ContentItems = new List<IBaseContentItemModel>
+                {
+                    new ConfigurationItemApiDataModel
+                    {
+                        Title = "an-article",
+                        Url = new Uri("https://localhost"),
+                        Value = "a-value",
+                    },
+                },
+            };
+
+            return model;
+        }
+
         protected EmailModel BuildValidEmailModel()
         {
             var model = new EmailModel()
             {
-                Id = ContentIdForUpdate,
+                Id = ContentIdForEmailUpdate,
                 Etag = Guid.NewGuid().ToString(),
                 Title = "an-article",
                 Url = new Uri("https://localhost"),
                 Body = "some body test",
-                LastCached = DateTime.UtcNow,
+            };
+
+            return model;
+        }
+
+        protected ConfigurationSetModel BuildValidConfigurationSetModel()
+        {
+            var model = new ConfigurationSetModel()
+            {
+                Id = ContentIdForConfigurationSetUpdate,
+                Etag = Guid.NewGuid().ToString(),
+                Title = "an-article",
+                Url = new Uri("https://localhost"),
             };
 
             return model;
@@ -69,7 +112,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
 
         protected WebhooksService BuildWebhooksService()
         {
-            var service = new WebhooksService(Logger, FakeMapper, FakeCmsApiService, FakeEmailDocumentService);
+            var service = new WebhooksService(Logger, FakeMapper, FakeCmsApiService, FakeEmailDocumentService, FakeConfigurationSetDocumentService);
 
             return service;
         }

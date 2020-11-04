@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Html;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.ContactUs.ViewModels
@@ -12,33 +10,26 @@ namespace DFC.App.ContactUs.ViewModels
         public BreadcrumbViewModel? Breadcrumb { get; set; }
 
         [Display(Name = "Document Id")]
-        public Guid? DocumentId { get; set; }
+        public Guid Id { get; set; }
 
-        [Display(Name = "Canonical Name")]
-        public string? CanonicalName { get; set; }
+        public string? Title { get; set; }
 
-        [Display(Name = "PartitionKey")]
+        [Display(Name = "Partition Key")]
         public string? PartitionKey { get; set; }
 
-        [Required]
-        public Guid? Version { get; set; }
-
-        [Display(Name = "Breadcrumb Title")]
-        public string? BreadcrumbTitle { get; set; }
-
-        [Display(Name = "Include In SiteMap")]
-        public bool IncludeInSitemap { get; set; }
-
         public Uri? Url { get; set; }
-
-        public HtmlString? Content { get; set; }
 
         [Display(Name = "Last Reviewed")]
         public DateTime LastReviewed { get; set; }
 
-        [Display(Name = "Alternative Names")]
-        public IList<string>? AlternativeNames { get; set; }
+        [Display(Name = "Created Date")]
+        public DateTime CreatedDate { get; set; }
 
-        public BodyViewModel? BodyViewModel { get; set; }
+        [Display(Name = "Last Cached")]
+        public DateTime LastCached { get; set; }
+
+        public ConfigurationSetBodyViewModel? ConfigurationSetBodyViewModel { get; set; }
+
+        public EmailBodyViewModel? EmailBodyViewModel { get; set; }
     }
 }

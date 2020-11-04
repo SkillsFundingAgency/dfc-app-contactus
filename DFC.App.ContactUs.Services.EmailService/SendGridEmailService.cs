@@ -3,12 +3,14 @@ using Microsoft.Extensions.Logging;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Services.EmailService
 {
+    [ExcludeFromCodeCoverage]
     public class SendGridEmailService<TEmailRequestModel> : ISendGridEmailService<TEmailRequestModel>
         where TEmailRequestModel : class, IEmailRequestModel
     {

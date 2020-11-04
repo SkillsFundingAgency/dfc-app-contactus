@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Net.Mime;
 
 namespace DFC.App.ContactUs.Controllers
 {
     public class RobotController : Controller
     {
+        public const string RobotsViewCanonicalName = "robots";
+
         private readonly ILogger<RobotController> logger;
         private readonly IWebHostEnvironment hostingEnvironment;
 
@@ -19,27 +20,26 @@ namespace DFC.App.ContactUs.Controllers
         }
 
         [HttpGet]
+        [Route("pages/robots")]
+        public IActionResult RobotView()
+        {
+            var result = Robot();
+
+            return result;
+        }
+
+        [HttpGet]
         [Route("robots.txt")]
         public ContentResult Robot()
         {
-            try
-            {
-                logger.LogInformation("Generating Robots.txt");
+            logger.LogInformation("Generating Robots.txt");
 
-                var robot = GenerateThisSiteRobot();
+            var robot = GenerateThisSiteRobot();
 
-                // add any dynamic robots data from the Shell app
-                logger.LogInformation("Generated Robots.txt");
+            // add any dynamic robots data from the Shell app
+            logger.LogInformation("Generated Robots.txt");
 
-                return Content(robot.Data, MediaTypeNames.Text.Plain);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, $"{nameof(Robot)}: {ex.Message}");
-            }
-
-            // fall through from errors
-            return Content(null, MediaTypeNames.Text.Plain);
+            return Content(robot.Data, MediaTypeNames.Text.Plain);
         }
 
         private Robot GenerateThisSiteRobot()

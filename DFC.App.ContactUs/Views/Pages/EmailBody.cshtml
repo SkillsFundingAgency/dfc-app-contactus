@@ -1,0 +1,9 @@
+﻿@model EmailBodyViewModel
+
+
+@if (Model.Body != null)
+{
+    <div class="govuk-width-container">
+        @Html.Raw(Model.Body)
+    </div>
+}
