@@ -4,6 +4,6 @@ namespace DFC.App.ContactUs.ViewModels
 {
     public class BodyViewModel
     {
-        public HtmlString? Content { get; set; } = new HtmlString("Unknown content");
+        public HtmlString? Body { get; set; } = new HtmlString("Unknown content");
     }
 }

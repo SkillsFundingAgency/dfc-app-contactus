@@ -15,7 +15,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
     {
         public BaseHealthControllerTests()
         {
-            FakeContentPageService = A.Fake<IContentPageService<ContentPageModel>>();
+            FakeContentPageService = A.Fake<IDocumentService<EmailModel>>();
             FakeLogger = A.Fake<ILogger<HealthController>>();
         }
 
@@ -35,7 +35,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
             new string[] { MediaTypeNames.Application.Json },
         };
 
-        protected IContentPageService<ContentPageModel> FakeContentPageService { get; }
+        protected IDocumentService<EmailModel> FakeContentPageService { get; }
 
         protected ILogger<HealthController> FakeLogger { get; }
 

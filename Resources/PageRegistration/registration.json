@@ -24,22 +24,10 @@
         "IsHealthy": true
       },
       {
-        "PageRegion": 3,
-        "HealthCheckRequired": true,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/{0}/bodytop",
-        "IsHealthy": true
-      },
-      {
         "PageRegion": 4,
         "HealthCheckRequired": true,
         "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/{0}/body",
         "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Contact Us Service Unavailable</H3></div>",
-        "IsHealthy": true
-      },
-      {
-        "PageRegion": 7,
-        "HealthCheckRequired": true,
-        "RegionEndpoint": "https://__AppServiceName__.__appServiceDomain__/pages/{0}/bodyfooter",
         "IsHealthy": true
       }
     ]
