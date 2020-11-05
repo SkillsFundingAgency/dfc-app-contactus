@@ -1,7 +1,5 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,12 +24,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             new object[] { "/" },
             new object[] { "/pages" },
             new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}" },
-            new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}/htmlhead" },
-            new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}/breadcrumb" },
-            new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}/body" },
-            new object[] { "/pages/htmlhead" },
-            new object[] { "/pages/breadcrumb" },
-            new object[] { "/pages/body" },
             new object[] { "/pages/health" },
             new object[] { "/pages/home" },
             new object[] { "/pages/home/htmlhead" },
@@ -49,30 +41,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             new object[] { "/pages/how-can-we-help/htmlhead" },
             new object[] { "/pages/how-can-we-help/breadcrumb" },
             new object[] { "/pages/how-can-we-help/body" },
-        };
-
-        public static IEnumerable<object[]> PagesNoContentRouteData => new List<object[]>
-        {
-            new object[] { $"/pages/bodytop" },
-            new object[] { $"/pages/herobanner" },
-            new object[] { $"/pages/sidebarright" },
-            new object[] { $"/pages/sidebarleft" },
-            new object[] { $"/pages/bodyfooter" },
-            new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}/bodytop" },
-            new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}/herobanner" },
-            new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}/sidebarright" },
-            new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}/sidebarleft" },
-            new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}/bodyfooter" },
-            new object[] { $"/pages/bodytop" },
-            new object[] { $"/pages/herobanner" },
-            new object[] { $"/pages/sidebarright" },
-            new object[] { $"/pages/sidebarleft" },
-            new object[] { $"/pages/bodyfooter" },
-            new object[] { $"/pages/{DataSeeding.AlternativeArticleName}/bodytop" },
-            new object[] { $"/pages/{DataSeeding.AlternativeArticleName}/herobanner" },
-            new object[] { $"/pages/{DataSeeding.AlternativeArticleName}/sidebarright" },
-            new object[] { $"/pages/{DataSeeding.AlternativeArticleName}/sidebarleft" },
-            new object[] { $"/pages/{DataSeeding.AlternativeArticleName}/bodyfooter" },
         };
 
         [Theory]
@@ -109,23 +77,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.Equal($"{MediaTypeNames.Application.Json}; charset={Encoding.UTF8.WebName}", response.Content.Headers.ContentType.ToString());
-        }
-
-        [Theory]
-        [MemberData(nameof(PagesNoContentRouteData))]
-        public async Task GetPagesEndpointsReturnSuccessAndNoContent(string url)
-        {
-            // Arrange
-            var uri = new Uri(url, UriKind.Relative);
-            var client = factory.CreateClient();
-            client.DefaultRequestHeaders.Accept.Clear();
-
-            // Act
-            var response = await client.GetAsync(uri).ConfigureAwait(false);
-
-            // Assert
-            response.EnsureSuccessStatusCode();
-            response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
     }
 }

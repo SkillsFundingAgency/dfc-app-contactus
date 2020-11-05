@@ -1,7 +1,11 @@
-﻿namespace DFC.App.ContactUs.ViewModels
+﻿using System;
+
+namespace DFC.App.ContactUs.ViewModels
 {
     public class IndexDocumentViewModel
     {
-        public string? CanonicalName { get; set; }
+        public Guid? Id { get; set; }
+
+        public string? Title { get; set; }
     }
 }

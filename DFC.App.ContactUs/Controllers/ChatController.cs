@@ -26,8 +26,8 @@ namespace DFC.App.ContactUs.Controllers
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = ThisViewCanonicalName,
-                BreadcrumbTitle = "Chat",
+                Route = ThisViewCanonicalName,
+                Title = "Chat",
             };
             var viewModel = new ChatViewModel()
             {
@@ -65,8 +65,8 @@ namespace DFC.App.ContactUs.Controllers
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
-                CanonicalName = ThisViewCanonicalName,
-                BreadcrumbTitle = "Chat",
+                Route = ThisViewCanonicalName,
+                Title = "Chat",
             };
             var viewModel = BuildBreadcrumb(WebchatRegistrationPath, breadcrumbItemModel);
 
