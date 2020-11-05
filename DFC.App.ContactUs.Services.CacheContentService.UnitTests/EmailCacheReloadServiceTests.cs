@@ -31,16 +31,17 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
 
             //Assert
             A.CallTo(() => fakeCmsApiService.GetItemAsync<EmailApiDataModel>(A<string>.Ignored, A<Guid>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => fakeMapper.Map<EmailModel>(A<EmailApiDataModel>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => fakeEmailDocumentService.UpsertAsync(A<EmailModel>.Ignored)).MustNotHaveHappened();
         }
 
         [Fact]
-        public async Task EmailCacheReloadServiceReloadAllReloadsItems()
+        public async Task EmailCacheReloadServiceReloadIsMissingApiResponse()
         {
             //Arrange
-            var fakeEmail = A.Dummy<EmailApiDataModel>();
+            EmailApiDataModel? nullEmailApiDataModel = null;
 
-            A.CallTo(() => fakeCmsApiService.GetItemAsync<EmailApiDataModel>(A<string>.Ignored, A<Guid>.Ignored)).Returns(fakeEmail);
+            A.CallTo(() => fakeCmsApiService.GetItemAsync<EmailApiDataModel>(A<string>.Ignored, A<Guid>.Ignored)).Returns(nullEmailApiDataModel);
             var emailReloadService = new EmailCacheReloadService(A.Fake<ILogger<EmailCacheReloadService>>(), fakeMapper, fakeEmailDocumentService, fakeCmsApiService);
 
             //Act
@@ -48,6 +49,28 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
 
             //Assert
             A.CallTo(() => fakeCmsApiService.GetItemAsync<EmailApiDataModel>(A<string>.Ignored, A<Guid>.Ignored)).MustHaveHappened(EmailKeyHelper.GetEmailKeys().Count(), Times.Exactly);
+            A.CallTo(() => fakeMapper.Map<EmailModel>(A<EmailApiDataModel>.Ignored)).MustHaveHappened(EmailKeyHelper.GetEmailKeys().Count(), Times.Exactly);
+            A.CallTo(() => fakeEmailDocumentService.UpsertAsync(A<EmailModel>.Ignored)).MustHaveHappened(EmailKeyHelper.GetEmailKeys().Count(), Times.Exactly);
+        }
+
+        [Fact]
+        public async Task EmailCacheReloadServiceReloadAllReloadsItems()
+        {
+            //Arrange
+            var fakeEmailApiDataModel = A.Dummy<EmailApiDataModel>();
+            var fakeEmailModel = A.Dummy<EmailModel>();
+
+            A.CallTo(() => fakeCmsApiService.GetItemAsync<EmailApiDataModel>(A<string>.Ignored, A<Guid>.Ignored)).Returns(fakeEmailApiDataModel);
+            A.CallTo(() => fakeMapper.Map<EmailModel>(A<EmailApiDataModel>.Ignored)).Returns(fakeEmailModel);
+
+            var emailReloadService = new EmailCacheReloadService(A.Fake<ILogger<EmailCacheReloadService>>(), fakeMapper, fakeEmailDocumentService, fakeCmsApiService);
+
+            //Act
+            await emailReloadService.Reload(CancellationToken.None).ConfigureAwait(false);
+
+            //Assert
+            A.CallTo(() => fakeCmsApiService.GetItemAsync<EmailApiDataModel>(A<string>.Ignored, A<Guid>.Ignored)).MustHaveHappened(EmailKeyHelper.GetEmailKeys().Count(), Times.Exactly);
+            A.CallTo(() => fakeMapper.Map<EmailModel>(A<EmailApiDataModel>.Ignored)).MustHaveHappened(EmailKeyHelper.GetEmailKeys().Count(), Times.Exactly);
             A.CallTo(() => fakeEmailDocumentService.UpsertAsync(A<EmailModel>.Ignored)).MustHaveHappened(EmailKeyHelper.GetEmailKeys().Count(), Times.Exactly);
         }
     }

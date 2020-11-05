@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Data.Helpers;
 using DFC.App.ContactUs.Data.Models;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
@@ -15,32 +16,60 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
     [Trait("Category", "Pages Controller Unit Tests")]
     public class PagesControllerRouteTests : BasePagesControllerTests
     {
-        public static IEnumerable<object[]> PagesRouteDataOk => new List<object[]>
+        public static IEnumerable<object[]> PagesIndexRouteDataOk => new List<object[]>
         {
             new object[] { "/", Guid.Empty, nameof(PagesController.Index) },
             new object[] { "/pages", Guid.Empty, nameof(PagesController.Index) },
-            new object[] { "/pages/{documentId}", Guid.NewGuid(), nameof(PagesController.Document) },
+        };
+
+        public static IEnumerable<object[]> PagesDocumentRouteDataOk => new List<object[]>
+        {
+            new object[] { "/pages/{documentId}", ConfigurationSetKeyHelper.ConfigurationSetKey, nameof(PagesController.Document), 1, 0 },
+            new object[] { "/pages/{documentId}", Guid.NewGuid(), nameof(PagesController.Document), 0, 1 },
         };
 
         [Theory]
-        [MemberData(nameof(PagesRouteDataOk))]
-        public async Task PagesControllerCallsContentPageServiceUsingPagesRouteForOkResult(string route, Guid documentId, string actionMethod)
+        [MemberData(nameof(PagesIndexRouteDataOk))]
+        public async Task PagesControllerCallsContentPageServiceUsingPagesIndexRouteForOkResult(string route, Guid documentId, string actionMethod)
         {
             // Arrange
             var controller = BuildController(route);
-            var expectedResult = new EmailModel() { Body = "<h1>A document</h1>" };
-            var expectedResults = new List<EmailModel> { expectedResult };
+            var expectedConfigurationSetResult = new ConfigurationSetModel() { PhoneNumber = "1234", LinesOpenText = "lines are open" };
+            var expectedEmailResult = new EmailModel() { Body = "<h1>A document</h1>" };
 
-            A.CallTo(() => FakeEmailDocumentService.GetAllAsync(A<string>.Ignored)).Returns(expectedResults);
-            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedConfigurationSetResult);
+            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedEmailResult);
 
             // Act
             var result = await RunControllerAction(controller, documentId, actionMethod).ConfigureAwait(false);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            A.CallTo(() => FakeEmailDocumentService.GetAllAsync(A<string>.Ignored)).MustHaveHappenedOnceOrLess();
-            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceOrLess();
+            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappened(2, Times.Exactly);
+
+            controller.Dispose();
+        }
+
+        [Theory]
+        [MemberData(nameof(PagesDocumentRouteDataOk))]
+        public async Task PagesControllerCallsContentPageServiceUsingPagesDocumentRouteForOkResult(string route, Guid documentId, string actionMethod, int configurationSetCount, int emailCount)
+        {
+            // Arrange
+            var controller = BuildController(route);
+            var expectedConfigurationSetResult = new ConfigurationSetModel() { PhoneNumber = "1234", LinesOpenText = "lines are open" };
+            var expectedEmailResult = new EmailModel() { Body = "<h1>A document</h1>" };
+
+            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedConfigurationSetResult);
+            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedEmailResult);
+
+            // Act
+            var result = await RunControllerAction(controller, documentId, actionMethod).ConfigureAwait(false);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappened(configurationSetCount, Times.Exactly);
+            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappened(emailCount, Times.Exactly);
 
             controller.Dispose();
         }
@@ -60,7 +89,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new PagesController(Logger, FakeSessionStateService, FakeEmailDocumentService, FakeMapper)
+            return new PagesController(Logger, FakeSessionStateService, FakeConfigurationSetDocumentService, FakeEmailDocumentService, FakeMapper)
             {
                 ControllerContext = new ControllerContext
                 {

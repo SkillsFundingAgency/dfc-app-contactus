@@ -19,39 +19,41 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Contact us by email")]
-    public partial class ContactUsByEmailFeature
+    public partial class ContactUsByEmailFeature : object, Xunit.IClassFixture<ContactUsByEmailFeature.FixtureData>, System.IDisposable
     {
         
-        private TechTalk.SpecFlow.ITestRunner testRunner;
+        private static TechTalk.SpecFlow.ITestRunner testRunner;
         
         private string[] _featureTags = ((string[])(null));
+        
+        private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
 #line 1 "ContactUsByEmail.feature"
 #line hidden
         
-        [NUnit.Framework.OneTimeSetUpAttribute()]
-        public virtual void FeatureSetup()
+        public ContactUsByEmailFeature(ContactUsByEmailFeature.FixtureData fixtureData, DFC_App_ContactUs_UI_FunctionalTests_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        {
+            this._testOutputHelper = testOutputHelper;
+            this.TestInitialize();
+        }
+        
+        public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
             TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-GB"), "Features", "Contact us by email", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
-        [NUnit.Framework.OneTimeTearDownAttribute()]
-        public virtual void FeatureTearDown()
+        public static void FeatureTearDown()
         {
             testRunner.OnFeatureEnd();
             testRunner = null;
         }
         
-        [NUnit.Framework.SetUpAttribute()]
         public virtual void TestInitialize()
         {
         }
         
-        [NUnit.Framework.TearDownAttribute()]
         public virtual void TestTearDown()
         {
             testRunner.OnScenarioEnd();
@@ -60,7 +62,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Features
         public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
-            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<NUnit.Framework.TestContext>(NUnit.Framework.TestContext.CurrentContext);
+            testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
         }
         
         public virtual void ScenarioStart()
@@ -73,10 +75,16 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Features
             testRunner.CollectScenarioErrors();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Submit a careers advice and guidance email")]
-        [NUnit.Framework.CategoryAttribute("ContactUs")]
-        [NUnit.Framework.CategoryAttribute("Smoke")]
+        void System.IDisposable.Dispose()
+        {
+            this.TestTearDown();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Submit a careers advice and guidance email")]
+        [Xunit.TraitAttribute("FeatureTitle", "Contact us by email")]
+        [Xunit.TraitAttribute("Description", "Submit a careers advice and guidance email")]
+        [Xunit.TraitAttribute("Category", "ContactUs")]
+        [Xunit.TraitAttribute("Category", "Smoke")]
         public virtual void SubmitACareersAdviceAndGuidanceEmail()
         {
             string[] tagsOfScenario = new string[] {
@@ -165,6 +173,22 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
             }
             this.ScenarioCleanup();
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.4.0.0")]
+        [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        public class FixtureData : System.IDisposable
+        {
+            
+            public FixtureData()
+            {
+                ContactUsByEmailFeature.FeatureSetup();
+            }
+            
+            void System.IDisposable.Dispose()
+            {
+                ContactUsByEmailFeature.FeatureTearDown();
+            }
         }
     }
 }

@@ -10,10 +10,6 @@ namespace DFC.App.ContactUs.Model
 {
     internal class AppSettings : IAppSettings
     {
-        public string AppName { get; set; }
-
-        public Uri AppUrl { get; set; }
-
-        public bool TakeScreenshots { get; set; }
+        public Uri AppBaseUrl { get; set; }
     }
 }

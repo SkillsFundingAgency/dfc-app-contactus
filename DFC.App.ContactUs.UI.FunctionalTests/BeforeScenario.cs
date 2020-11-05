@@ -9,7 +9,6 @@ using DFC.TestAutomation.UI.Extension;
 using DFC.TestAutomation.UI.Helper;
 using DFC.TestAutomation.UI.Settings;
 using DFC.TestAutomation.UI.Support;
-using OpenQA.Selenium.Remote;
 using System;
 using TechTalk.SpecFlow;
 
@@ -43,28 +42,31 @@ namespace DFC.App.ContactUs
         }
 
         [BeforeScenario(Order = 2)]
-        public void SetupWebDriver()
+        public void SetApplicationUrl()
         {
-            var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
-            var webDriver = new WebDriverSupport<AppSettings>(this.Context).Create();
-            webDriver.Manage().Window.Maximize();
-            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(settingsLibrary.TestExecutionSettings.TimeoutSettings.PageNavigation);
-            webDriver.SwitchTo().Window(webDriver.CurrentWindowHandle);
-
-            if (new BrowserHelper(settingsLibrary.BrowserSettings.BrowserName).IsExecutingInBrowserStack())
-            {
-                this.Context.SetWebDriver(webDriver as RemoteWebDriver);
-                var capabilities = (this.Context.GetWebDriver() as RemoteWebDriver).Capabilities;
-                var overriddenBrowserName = capabilities["browserName"] as string;
-                var overriddenBrowserVersion = capabilities["browserVersion"] as string;
-                settingsLibrary.BrowserSettings.BrowserName = overriddenBrowserName;
-                settingsLibrary.BrowserSettings.BrowserVersion = overriddenBrowserVersion;
-            }
-
-            this.Context.SetWebDriver(webDriver);
+            string appBaseUrl = this.Context.GetSettingsLibrary<AppSettings>().AppSettings.AppBaseUrl.ToString();
+            this.Context.GetSettingsLibrary<AppSettings>().AppSettings.AppBaseUrl = new Uri($"{appBaseUrl}contact-us");
         }
 
         [BeforeScenario(Order = 3)]
+        public void ConfigureBrowserStack()
+        {
+            this.Context.GetSettingsLibrary<AppSettings>().BrowserStackSettings.Name = this.Context.ScenarioInfo.Title;
+            this.Context.GetSettingsLibrary<AppSettings>().BrowserStackSettings.Build = "Contact us";
+        }
+
+        [BeforeScenario(Order = 4)]
+        public void SetupWebDriver()
+        {
+            var settingsLibrary = this.Context.GetSettingsLibrary<AppSettings>();
+            var webDriver = new WebDriverSupport<AppSettings>(settingsLibrary).Create();
+            webDriver.Manage().Window.Maximize();
+            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(settingsLibrary.TestExecutionSettings.TimeoutSettings.PageNavigation);
+            webDriver.SwitchTo().Window(webDriver.CurrentWindowHandle);
+            this.Context.SetWebDriver(webDriver);
+        }
+
+        [BeforeScenario(Order = 5)]
         public void SetUpHelpers()
         {
             var helperLibrary = new HelperLibrary<AppSettings>(this.Context.GetWebDriver(), this.Context.GetSettingsLibrary<AppSettings>());

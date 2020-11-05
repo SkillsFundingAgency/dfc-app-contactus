@@ -28,7 +28,14 @@
         </li>
     </ul>
     <div class="govuk-tabs__panel" id="tab-content">
-        <partial name="Body" model=@Model.BodyViewModel />
+        @if (Model.ConfigurationSetBodyViewModel != null)
+        {
+            <partial name="ConfigurationSetBody" model=@Model.ConfigurationSetBodyViewModel />
+        }
+        @if (Model.EmailBodyViewModel != null)
+        {
+            <partial name="EmailBody" model=@Model.EmailBodyViewModel />
+        }
     </div>
     <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="tab-metadata">
         <dl class="govuk-summary-list">

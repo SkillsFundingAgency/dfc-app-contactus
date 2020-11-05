@@ -1,7 +1,9 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
@@ -23,13 +25,13 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
         private readonly ISessionStateService<SessionDataModel> fakeSessionStateService;
 
-        private readonly ServiceOpenDetailModel fakeServiceOpenDetailModel;
+        private readonly IDocumentService<ConfigurationSetModel> fakeConfigurationSetDocumentService;
 
         public SessionStateSetTests()
         {
             logger = A.Fake<ILogger<HomeController>>();
             fakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
-            fakeServiceOpenDetailModel = A.Fake<ServiceOpenDetailModel>();
+            fakeConfigurationSetDocumentService = A.Fake<IDocumentService<ConfigurationSetModel>>();
         }
 
         [Theory]
@@ -119,7 +121,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(logger, fakeSessionStateService, fakeServiceOpenDetailModel)
+            var controller = new HomeController(logger, fakeSessionStateService, fakeConfigurationSetDocumentService)
             {
                 ControllerContext = new ControllerContext()
                 {
