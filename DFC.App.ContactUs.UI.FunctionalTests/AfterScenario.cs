@@ -5,8 +5,9 @@
 
 using DFC.App.ContactUs.Model;
 using DFC.TestAutomation.UI.Extension;
-using OpenQA.Selenium;
+using OpenQA.Selenium.Remote;
 using System;
+using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
 namespace DFC.App.ContactUs
@@ -27,38 +28,32 @@ namespace DFC.App.ContactUs
         private ScenarioContext Context { get; set; }
 
         [AfterScenario(Order = 0)]
-        public void TakeScreenshotOnFailure()
+        public async Task UpdateBrowserStack()
         {
-            if (this.Context.TestError != null)
+            var browserHelper = this.Context.GetHelperLibrary<AppSettings>().BrowserHelper;
+            if (browserHelper.IsExecutingInBrowserStack())
             {
-                if (this.Context.GetSettingsLibrary<AppSettings>().AppSettings.TakeScreenshots)
+                var sessionId = (this.Context.GetWebDriver() as RemoteWebDriver).SessionId.ToString();
+                var browserStackHelper = this.Context.GetHelperLibrary<AppSettings>().BrowserStackHelper;
+
+                if (this.Context.TestError != null)
                 {
-                    this.Context.GetHelperLibrary<AppSettings>().ScreenshotHelper.TakeScreenshot(this.Context);
+                    var errorMessage = this.Context.TestError.InnerException.Message;
+                    await browserStackHelper.SetTestToFailedWithReason(sessionId, errorMessage).ConfigureAwait(false);
+                }
+                else
+                {
+                    await browserStackHelper.SetTestToPassed(sessionId).ConfigureAwait(false);
                 }
             }
         }
 
         [AfterScenario(Order = 1)]
-        public void InformBrowserStackOnFailure()
-        {
-            if (this.Context.TestError != null)
-            {
-                if (this.Context.GetHelperLibrary<AppSettings>().BrowserHelper.IsExecutingInBrowserStack())
-                {
-                    this.Context.GetHelperLibrary<AppSettings>().BrowserStackHelper.SendMessage("failed", this.Context.TestError.Message);
-                }
-            }
-        }
-
-        [AfterScenario(Order = 2)]
         public void DisposeWebDriver()
         {
-            if (!this.Context.GetHelperLibrary<AppSettings>().BrowserHelper.IsExecutingInBrowserStack())
-            {
-                var webDriver = this.Context.GetWebDriver();
-                webDriver?.Quit();
-                webDriver?.Dispose();
-            }
+            var webDriver = this.Context.GetWebDriver();
+            webDriver?.Quit();
+            webDriver?.Dispose();
         }
     }
 }

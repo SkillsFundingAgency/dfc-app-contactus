@@ -10,12 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="HostedServiceTests\**" />
-    <EmbeddedResource Remove="HostedServiceTests\**" />
-    <None Remove="HostedServiceTests\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 

@@ -8,12 +8,12 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
+namespace DFC.App.ContactUs.UnitTests.HostedServicesTests
 {
     public class CacheReloadBackgroundServiceTests
     {
         private readonly IEmailCacheReloadService emailCacheReloadService = A.Fake<IEmailCacheReloadService>();
-        private readonly ILogger<CacheReloadBackgroundService> logger = A.Fake<ILogger<CacheReloadBackgroundService>>();
+        private readonly ILogger<EmailCacheReloadBackgroundService> logger = A.Fake<ILogger<EmailCacheReloadBackgroundService>>();
         private readonly IHostedServiceTelemetryWrapper wrapper = A.Fake<IHostedServiceTelemetryWrapper>();
 
         [Fact]
@@ -21,7 +21,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
         {
             // Arrange
             A.CallTo(() => wrapper.Execute(A<Func<Task>>.Ignored, A<string>.Ignored)).Returns(Task.CompletedTask);
-            var serviceToTest = new CacheReloadBackgroundService(logger, new CmsApiClientOptions { BaseAddress = new Uri("http://somewhere.com") }, emailCacheReloadService, wrapper);
+            var serviceToTest = new EmailCacheReloadBackgroundService(logger, new CmsApiClientOptions { BaseAddress = new Uri("http://somewhere.com") }, emailCacheReloadService, wrapper);
 
             // Act
             await serviceToTest.StartAsync(default).ConfigureAwait(false);
@@ -36,7 +36,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests
         {
             // Arrange
             A.CallTo(() => wrapper.Execute(A<Func<Task>>.Ignored, A<string>.Ignored)).Returns(Task.FromException(new Exception("An Exception")));
-            var serviceToTest = new CacheReloadBackgroundService(logger, new CmsApiClientOptions { BaseAddress = new Uri("http://somewhere.com") }, emailCacheReloadService, wrapper);
+            var serviceToTest = new EmailCacheReloadBackgroundService(logger, new CmsApiClientOptions { BaseAddress = new Uri("http://somewhere.com") }, emailCacheReloadService, wrapper);
 
             // Act
             // Assert

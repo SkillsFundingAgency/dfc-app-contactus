@@ -7,11 +7,11 @@ using Xunit;
 
 namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServiceTests
 {
-    [Trait("Category", "Webhooks Service ProcessContentAsync Unit Tests")]
-    public class WebhooksServiceProcessContentAsyncTests : BaseWebhooksServiceTests
+    [Trait("Category", "Webhooks Service ProcessEmailContentAsync Unit Tests")]
+    public class WebhooksServiceProcessEmailContentAsyncTests : BaseWebhooksServiceTests
     {
         [Fact]
-        public async Task WebhooksServiceProcessContentAsyncForCreateReturnsSuccess()
+        public async Task WebhooksServiceProcessEmailContentAsyncForCreateReturnsSuccess()
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.Created;
@@ -26,7 +26,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
             A.CallTo(() => FakeEmailDocumentService.UpsertAsync(A<EmailModel>.Ignored)).Returns(HttpStatusCode.Created);
 
             // Act
-            var result = await service.ProcessContentAsync(url).ConfigureAwait(false);
+            var result = await service.ProcessEmailContentAsync(url).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeCmsApiService.GetItemAsync<EmailApiDataModel>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
@@ -38,7 +38,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
         }
 
         [Fact]
-        public async Task WebhooksServiceProcessContentAsyncForUpdateReturnsSuccess()
+        public async Task WebhooksServiceProcessEmailContentAsyncForUpdateReturnsSuccess()
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.OK;
@@ -53,7 +53,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
             A.CallTo(() => FakeEmailDocumentService.UpsertAsync(A<EmailModel>.Ignored)).Returns(HttpStatusCode.OK);
 
             // Act
-            var result = await service.ProcessContentAsync(url).ConfigureAwait(false);
+            var result = await service.ProcessEmailContentAsync(url).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeCmsApiService.GetItemAsync<EmailApiDataModel>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
@@ -65,7 +65,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
         }
 
         [Fact]
-        public async Task WebhooksServiceProcessContentAsyncForUpdateReturnsNoContent()
+        public async Task WebhooksServiceProcessEmailContentAsyncForUpdateReturnsNoContent()
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.NoContent;
@@ -78,7 +78,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
             A.CallTo(() => FakeMapper.Map<EmailModel?>(A<EmailApiDataModel>.Ignored)).Returns(expectedValidEmailModel);
 
             // Act
-            var result = await service.ProcessContentAsync(url).ConfigureAwait(false);
+            var result = await service.ProcessEmailContentAsync(url).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeCmsApiService.GetItemAsync<EmailApiDataModel>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
@@ -91,7 +91,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
         }
 
         [Fact]
-        public async Task WebhooksServiceProcessContentAsyncForUpdateReturnsBadRequest()
+        public async Task WebhooksServiceProcessEmailContentAsyncForUpdateReturnsBadRequest()
         {
             // Arrange
             const HttpStatusCode expectedResponse = HttpStatusCode.BadRequest;
@@ -104,7 +104,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
             A.CallTo(() => FakeMapper.Map<EmailModel>(A<EmailApiDataModel>.Ignored)).Returns(expectedValidEmailModel);
 
             // Act
-            var result = await service.ProcessContentAsync(url).ConfigureAwait(false);
+            var result = await service.ProcessEmailContentAsync(url).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeCmsApiService.GetItemAsync<EmailApiDataModel>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
