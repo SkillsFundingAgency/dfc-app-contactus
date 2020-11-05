@@ -10,6 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="HostedServiceTests\**" />
+    <EmbeddedResource Remove="HostedServiceTests\**" />
+    <None Remove="HostedServiceTests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
@@ -36,10 +42,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.ContactUs\DFC.App.ContactUs.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="HostedServiceTests\" />
   </ItemGroup>
 
 </Project>
