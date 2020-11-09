@@ -1,6 +1,5 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.Compui.Cosmos.Contracts;
-using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
@@ -20,7 +19,7 @@ namespace DFC.App.ContactUs.Data.Models
         [Required]
         public Uri? Url { get; set; }
 
-        public string? PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; } = "0800 100 900";
 
         public string? LinesOpenText { get; set; }
 
