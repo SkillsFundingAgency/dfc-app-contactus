@@ -1,5 +1,7 @@
 ﻿using DFC.App.ContactUs.Controllers;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Models;
+using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
@@ -19,6 +21,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
             FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
             ChatOptions = new ChatOptions { ChatUrl = new System.Uri("https://somewhere.com/webchat") };
             FakeMapper = A.Fake<AutoMapper.IMapper>();
+            FakeConfigurationSetDocumentService = A.Fake<IDocumentService<ConfigurationSetModel>>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -45,13 +48,15 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 
         protected AutoMapper.IMapper FakeMapper { get; }
 
+        protected IDocumentService<ConfigurationSetModel> FakeConfigurationSetDocumentService { get; }
+
         protected ChatController BuildChatController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new ChatController(Logger, FakeSessionStateService, ChatOptions, FakeMapper)
+            var controller = new ChatController(Logger, FakeSessionStateService, ChatOptions, FakeMapper, FakeConfigurationSetDocumentService)
             {
                 ControllerContext = new ControllerContext()
                 {

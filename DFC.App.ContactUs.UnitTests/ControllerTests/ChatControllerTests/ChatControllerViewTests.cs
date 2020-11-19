@@ -3,6 +3,7 @@ using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
@@ -12,7 +13,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void ChatControllerViewHtmlReturnsSuccess(string mediaTypeName)
+        public async Task ChatControllerViewHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildChatController(mediaTypeName);
@@ -20,7 +21,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
             A.CallTo(() => FakeMapper.Map<ChatViewBodyModel>(A<ChatOptions>.Ignored)).Returns(A.Fake<ChatViewBodyModel>());
 
             // Act
-            var result = controller.ChatView();
+            var result = await controller.ChatView().ConfigureAwait(false);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -31,7 +32,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void ChatControllerViewJsonReturnsSuccess(string mediaTypeName)
+        public async Task ChatControllerViewJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildChatController(mediaTypeName);
@@ -39,7 +40,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
             A.CallTo(() => FakeMapper.Map<ChatViewBodyModel>(A<ChatOptions>.Ignored)).Returns(A.Fake<ChatViewBodyModel>());
 
             // Act
-            var result = controller.ChatView();
+            var result = await controller.ChatView().ConfigureAwait(false);
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
@@ -50,13 +51,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void ChatControllerChatViewReturnsNotAcceptable(string mediaTypeName)
+        public async Task ChatControllerChatViewReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             var controller = BuildChatController(mediaTypeName);
 
             // Act
-            var result = controller.ChatView();
+            var result = await controller.ChatView().ConfigureAwait(false);
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

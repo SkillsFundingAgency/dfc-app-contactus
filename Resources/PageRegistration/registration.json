@@ -62,6 +62,9 @@
         "OfflineHtml": "<div class=\"govuk-width-container\"><H3>Webchat Service Unavailable</H3></div>",
         "IsHealthy": true
       }
-    ]
+    ],
+    "JavaScriptNames": {
+      "/js/dfc-app-contactus.min.js": null
+    }
   }
 ]

@@ -10,7 +10,8 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
     {
         public ChatOptionsProfile()
         {
-            CreateMap<ChatOptions, ChatViewBodyModel>();
+            CreateMap<ChatOptions, ChatViewBodyModel>()
+                .ForMember(d => d.PhoneNumber, s => s.Ignore());
         }
     }
 }
