@@ -1,5 +1,10 @@
 ﻿@model ChatViewBodyModel
 
-<div class="dfc-app-contact-us-IframeContainer">
-    <iframe id="webchatframe" src="@Model.ChatUrl" title="webchat" scrolling="no" class="dfc-app-contact-us-Webchat"></iframe>
-</div>
+<noscript>
+    <div>
+        <p>You currently have JavaScript disabled. To use this service you are required to enable JavaScript in your browser.</p>
+        <p>Alternatively, please call @Model.PhoneNumber to speak to an adviser.</p>
+    </div>
+</noscript>
+
+<div class="dfc-app-contact-us-IframeContainer" data-chaturl="@Model.ChatUrl"></div>
