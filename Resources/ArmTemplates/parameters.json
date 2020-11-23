@@ -53,6 +53,9 @@
         "chatOptionsChatUrl": {
             "value": "__chatOptionsChatUrl__"
         },
+        "ChatOptionsShowWebchatIframe": {
+            "value": __ChatOptionsShowWebchatIframe__
+        },
         "enableAlerts": {
             "value": __EnableAzureMonitorAlerting__
         },

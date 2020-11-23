@@ -62,6 +62,9 @@
       "type": "string",
       "defaultValue": ""
     },
+    "ChatOptionsShowWebchatIframe": {
+      "type": "bool"
+    },
     "enableAlerts": {
       "type": "bool",
       "metadata": {
@@ -298,6 +301,10 @@
               {
                 "name": "ChatOptions__ChatUrl",
                 "value": "[parameters('chatOptionsChatUrl')]"
+              },
+              {
+                "name": "ChatOptions__ShowWebchatIframe",
+                "value": "[parameters('ChatOptionsShowWebchatIframe')]"
               },
               {
                 "name": "Configuration__SendGrid__ApiKey",

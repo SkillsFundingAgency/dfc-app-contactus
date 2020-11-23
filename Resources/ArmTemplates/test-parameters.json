@@ -35,6 +35,9 @@
         "chatOptionsChatUrl": {
             "value": "https://url"
         },
+        "ChatOptionsShowWebchatIframe": {
+            "value": false
+        },
         "enableAlerts": {
             "value": false
         },
