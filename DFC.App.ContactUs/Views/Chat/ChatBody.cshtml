@@ -7,4 +7,14 @@
     </div>
 </noscript>
 
-<div class="dfc-app-contact-us-IframeContainer" data-chaturl="@Model.ChatUrl"></div>
+@if (Model.ShowWebchatIframe)
+{
+    <div class="dfc-app-contact-us-IframeContainer" data-chaturl="@Model.ChatUrl"></div>
+}
+else
+{
+    <div>
+        <H3>Webchat Service Unavailable</H3>
+        <p>Please call @Model.PhoneNumber to speak to an adviser.</p>
+    </div>
+}

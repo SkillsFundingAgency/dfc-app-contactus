@@ -7,5 +7,7 @@ namespace DFC.App.ContactUs.ViewModels
         public Uri? ChatUrl { get; set; }
 
         public string? PhoneNumber { get; set; }
+
+        public bool ShowWebchatIframe { get; set; }
     }
 }
