@@ -1,14 +1,15 @@
 ﻿@model ChatViewBodyModel
 
-<noscript>
-    <div>
-        <p>You currently have JavaScript disabled. To use this service you are required to enable JavaScript in your browser.</p>
-        <p>Alternatively, please call @Model.PhoneNumber to speak to an adviser.</p>
-    </div>
-</noscript>
-
 @if (Model.ShowWebchatIframe)
 {
+    <noscript>
+        <div>
+            <h1>Sorry, Javascript is not enabled</h1>
+            <p>To access the webchat, please enable Javascript on your browser.</p>
+            <p>If you cannot enable Javascript, you can call @Model.PhoneNumber to speak to an adviser.</p>
+        </div>
+    </noscript>
+
     <div class="dfc-app-contact-us-IframeContainer" data-chaturl="@Model.ChatUrl"></div>
 }
 else
