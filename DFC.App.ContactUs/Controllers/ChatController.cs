@@ -49,6 +49,7 @@ namespace DFC.App.ContactUs.Controllers
 
             var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false) ?? new ConfigurationSetModel();
             viewModel.ChatViewBodyModel.PhoneNumber = configurationSetModel?.PhoneNumber ?? ConfigurationSetModel.DefaultPhoneNumber;
+            viewModel.ChatViewBodyModel.HowCanWeHelpLink = $"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}";
 
             Logger.LogWarning($"{nameof(ChatView)} has returned content");
 
@@ -93,6 +94,7 @@ namespace DFC.App.ContactUs.Controllers
 
             var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false) ?? new ConfigurationSetModel();
             viewModel.PhoneNumber = configurationSetModel?.PhoneNumber ?? ConfigurationSetModel.DefaultPhoneNumber;
+            viewModel.HowCanWeHelpLink = $"{RegistrationPath}/{HowCanWeHelpController.ThisViewCanonicalName}";
 
             Logger.LogInformation($"{nameof(ChatBody)} has returned content");
 
