@@ -8,6 +8,8 @@ namespace DFC.App.ContactUs.ViewModels
 
         public string? PhoneNumber { get; set; }
 
+        public string? HowCanWeHelpLink { get; set; }
+
         public bool ShowWebchatIframe { get; set; }
     }
 }

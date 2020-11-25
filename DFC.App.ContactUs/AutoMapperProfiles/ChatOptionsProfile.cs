@@ -11,7 +11,8 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
         public ChatOptionsProfile()
         {
             CreateMap<ChatOptions, ChatViewBodyModel>()
-                .ForMember(d => d.PhoneNumber, s => s.Ignore());
+                .ForMember(d => d.PhoneNumber, s => s.Ignore())
+                .ForMember(d => d.HowCanWeHelpLink, s => s.Ignore());
         }
     }
 }
