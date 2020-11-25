@@ -78,7 +78,7 @@ namespace DFC.App.ContactUs.Controllers
                 Route = ThisViewCanonicalName,
                 Title = "Chat",
             };
-            var viewModel = BuildBreadcrumb(WebchatRegistrationPath, breadcrumbItemModel);
+            var viewModel = BuildBreadcrumb(RegistrationPath, breadcrumbItemModel);
 
             Logger.LogInformation($"{nameof(ChatBreadcrumb)} has returned content");
 
