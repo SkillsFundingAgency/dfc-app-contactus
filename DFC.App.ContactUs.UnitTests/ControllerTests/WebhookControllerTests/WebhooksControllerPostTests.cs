@@ -144,7 +144,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhookControllerTests
             A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<string>.Ignored)).Returns(HttpStatusCode.Conflict);
 
             // Act
-            await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveEvents().ConfigureAwait(false)).ConfigureAwait(false);
+            var result = await controller.ReceiveEvents().ConfigureAwait(false);
+            var resultStatusCode = (StatusCodeResult)result;
+           
+            Assert.Equal((int)HttpStatusCode.InternalServerError, resultStatusCode.StatusCode);
 
             // Assert
             A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
@@ -163,9 +166,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhookControllerTests
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
             // Act
-            await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveEvents().ConfigureAwait(false)).ConfigureAwait(false);
+            var result = await controller.ReceiveEvents().ConfigureAwait(false);
+            var resultStatusCode = (StatusCodeResult)result;
 
             // Assert
+            Assert.Equal((int)HttpStatusCode.InternalServerError, resultStatusCode.StatusCode);
             A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<string>.Ignored)).MustNotHaveHappened();
 
             controller.Dispose();
@@ -181,9 +186,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhookControllerTests
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
             // Act
-            await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveEvents().ConfigureAwait(false)).ConfigureAwait(false);
+            var result = await controller.ReceiveEvents().ConfigureAwait(false);
+            var resultStatusCode = (StatusCodeResult)result;
 
             // Assert
+            Assert.Equal((int)HttpStatusCode.InternalServerError, resultStatusCode.StatusCode);
             A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<string>.Ignored)).MustNotHaveHappened();
 
             controller.Dispose();
@@ -198,10 +205,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhookControllerTests
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
             // Act
-            await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveEvents().ConfigureAwait(false)).ConfigureAwait(false);
+            var result = await controller.ReceiveEvents().ConfigureAwait(false);
+            var resultStatusCode = (StatusCodeResult)result;
 
             // Assert
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<string>.Ignored)).MustNotHaveHappened();
+            Assert.Equal((int)HttpStatusCode.InternalServerError, resultStatusCode.StatusCode);
 
             controller.Dispose();
         }
@@ -215,10 +223,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhookControllerTests
             controller.HttpContext.Request.Body = BuildStreamFromModel(eventGridEvents);
 
             // Act
-            await Assert.ThrowsAsync<InvalidDataException>(async () => await controller.ReceiveEvents().ConfigureAwait(false)).ConfigureAwait(false);
+            var result = await controller.ReceiveEvents().ConfigureAwait(false);
+            var resultStatusCode = (StatusCodeResult)result;
 
             // Assert
-            A.CallTo(() => FakeWebhooksService.ProcessMessageAsync(A<WebhookCacheOperation>.Ignored, A<Guid>.Ignored, A<Guid>.Ignored, A<string>.Ignored)).MustNotHaveHappened();
+            Assert.Equal((int)HttpStatusCode.InternalServerError, resultStatusCode.StatusCode);
 
             controller.Dispose();
         }
