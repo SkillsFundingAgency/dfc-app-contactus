@@ -1,5 +1,26 @@
 ﻿@model ChatViewBodyModel
 
-<div class="dfc-app-contact-us-IframeContainer">
-    <iframe id="webchatframe" src="@Model.ChatUrl" title="webchat" scrolling="no" class="dfc-app-contact-us-Webchat"></iframe>
-</div>
+@if (Model.ShowWebchatIframe)
+{
+    <noscript>
+        <div>
+            <h1>Sorry, Javascript is not enabled</h1>
+            <p>To access the webchat, please enable Javascript on your browser.</p>
+            <p>If you cannot enable Javascript, you can call @Model.PhoneNumber to speak to an adviser.</p>
+        </div>
+    </noscript>
+
+    <div class="dfc-app-contact-us-IframeContainer" data-chaturl="@Model.ChatUrl"></div>
+}
+else
+{
+    <div>
+        <h2>Sorry, the webchat is not available</h2>
+        <p>Sorry, our webchat is currently closed.<p>
+        <p>If you would like to speak to an adviser, you can:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>call @Model.PhoneNumber to speak to an adviser - lines are open 8am to 8pm Monday to Friday, and 10am to 5pm Saturday, calls are <a class="govuk-link" href="https://www.gov.uk/call-charges">free from landlines and most mobile numbers</a></li>
+            <li><a class="govuk-link" href="@Model.HowCanWeHelpLink">send us an online message</a> and we will respond to you as soon as possible</li>
+        </ul>
+    </div>
+}

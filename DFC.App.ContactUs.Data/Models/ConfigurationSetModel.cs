@@ -9,6 +9,8 @@ namespace DFC.App.ContactUs.Data.Models
     [ExcludeFromCodeCoverage]
     public class ConfigurationSetModel : DocumentModel, ICachedModel
     {
+        public const string DefaultPhoneNumber = "0800 100 900";
+
         public const string DefaultPartitionKey = "configurationSet";
 
         public override string? PartitionKey { get; set; } = DefaultPartitionKey;
@@ -19,7 +21,7 @@ namespace DFC.App.ContactUs.Data.Models
         [Required]
         public Uri? Url { get; set; }
 
-        public string? PhoneNumber { get; set; } = "0800 100 900";
+        public string? PhoneNumber { get; set; }
 
         public string? LinesOpenText { get; set; }
 

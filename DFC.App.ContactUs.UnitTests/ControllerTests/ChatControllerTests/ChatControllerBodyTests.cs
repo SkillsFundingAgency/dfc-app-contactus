@@ -2,6 +2,7 @@
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
@@ -11,13 +12,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void ChatControllerBodyHtmlReturnsSuccess(string mediaTypeName)
+        public async Task ChatControllerBodyHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildChatController(mediaTypeName);
 
             // Act
-            var result = controller.ChatBody();
+            var result = await controller.ChatBody().ConfigureAwait(false);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -28,13 +29,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void ChatControllerBodyJsonReturnsSuccess(string mediaTypeName)
+        public async Task ChatControllerBodyJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildChatController(mediaTypeName);
 
             // Act
-            var result = controller.ChatBody();
+            var result = await controller.ChatBody().ConfigureAwait(false);
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
@@ -45,13 +46,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void ChatControllerBodyReturnsNotAcceptable(string mediaTypeName)
+        public async Task ChatControllerBodyReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             var controller = BuildChatController(mediaTypeName);
 
             // Act
-            var result = controller.ChatBody();
+            var result = await controller.ChatBody().ConfigureAwait(false);
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

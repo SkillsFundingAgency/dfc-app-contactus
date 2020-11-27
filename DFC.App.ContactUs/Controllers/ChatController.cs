@@ -1,10 +1,14 @@
-﻿using DFC.App.ContactUs.Extensions;
+﻿using DFC.App.ContactUs.Data.Helpers;
+using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Controllers
 {
@@ -14,15 +18,18 @@ namespace DFC.App.ContactUs.Controllers
         private readonly ChatOptions chatOptions;
         private readonly AutoMapper.IMapper mapper;
 
-        public ChatController(ILogger<ChatController> logger, ISessionStateService<SessionDataModel> sessionStateService, ChatOptions chatOptions, AutoMapper.IMapper mapper) : base(logger, sessionStateService)
+        private readonly IDocumentService<ConfigurationSetModel> configurationSetDocumentService;
+
+        public ChatController(ILogger<ChatController> logger, ISessionStateService<SessionDataModel> sessionStateService, ChatOptions chatOptions, AutoMapper.IMapper mapper, IDocumentService<ConfigurationSetModel> configurationSetDocumentService) : base(logger, sessionStateService)
         {
             this.chatOptions = chatOptions;
             this.mapper = mapper;
+            this.configurationSetDocumentService = configurationSetDocumentService;
         }
 
         [HttpGet]
         [Route("pages/chat")]
-        public IActionResult ChatView()
+        public async Task<IActionResult> ChatView()
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
@@ -39,6 +46,10 @@ namespace DFC.App.ContactUs.Controllers
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
                 ChatViewBodyModel = mapper.Map<ChatViewBodyModel>(chatOptions),
             };
+
+            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false) ?? new ConfigurationSetModel();
+            viewModel.ChatViewBodyModel.PhoneNumber = configurationSetModel?.PhoneNumber ?? ConfigurationSetModel.DefaultPhoneNumber;
+            viewModel.ChatViewBodyModel.HowCanWeHelpLink = $"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}";
 
             Logger.LogWarning($"{nameof(ChatView)} has returned content");
 
@@ -68,7 +79,7 @@ namespace DFC.App.ContactUs.Controllers
                 Route = ThisViewCanonicalName,
                 Title = "Chat",
             };
-            var viewModel = BuildBreadcrumb(WebchatRegistrationPath, breadcrumbItemModel);
+            var viewModel = BuildBreadcrumb(RegistrationPath, breadcrumbItemModel);
 
             Logger.LogInformation($"{nameof(ChatBreadcrumb)} has returned content");
 
@@ -77,9 +88,13 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("pages/chat/body")]
-        public IActionResult ChatBody()
+        public async Task<IActionResult> ChatBody()
         {
             var viewModel = mapper.Map<ChatViewBodyModel>(chatOptions);
+
+            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false) ?? new ConfigurationSetModel();
+            viewModel.PhoneNumber = configurationSetModel?.PhoneNumber ?? ConfigurationSetModel.DefaultPhoneNumber;
+            viewModel.HowCanWeHelpLink = $"/{RegistrationPath}/{HowCanWeHelpController.ThisViewCanonicalName}";
 
             Logger.LogInformation($"{nameof(ChatBody)} has returned content");
 
