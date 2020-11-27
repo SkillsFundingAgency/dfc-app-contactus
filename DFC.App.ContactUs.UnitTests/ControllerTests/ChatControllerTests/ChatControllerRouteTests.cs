@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
@@ -21,13 +22,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 
         [Theory]
         [MemberData(nameof(RouteDataOk))]
-        public void ChatControllerUsingPagesViewRouteForOkResult(string route, string actionMethod)
+        public async Task ChatControllerUsingPagesViewRouteForOkResult(string route, string actionMethod)
         {
             // Arrange
             var controller = BuildController(route);
 
             // Act
-            var result = RunControllerAction(controller, actionMethod);
+            var result = await RunControllerAction(controller, actionMethod).ConfigureAwait(false);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
@@ -35,13 +36,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
             controller.Dispose();
         }
 
-        private IActionResult RunControllerAction(ChatController controller, string actionName)
+        private async Task<IActionResult> RunControllerAction(ChatController controller, string actionName)
         {
             return actionName switch
             {
                 nameof(ChatController.ChatHtmlHead) => controller.ChatHtmlHead(),
                 nameof(ChatController.ChatBreadcrumb) => controller.ChatBreadcrumb(),
-                _ => controller.ChatBody(),
+                _ => await controller.ChatBody().ConfigureAwait(false),
             };
         }
 
@@ -51,7 +52,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new ChatController(Logger, FakeSessionStateService, ChatOptions, FakeMapper)
+            return new ChatController(Logger, FakeSessionStateService, ChatOptions, FakeMapper, FakeConfigurationSetDocumentService)
             {
                 ControllerContext = new ControllerContext
                 {

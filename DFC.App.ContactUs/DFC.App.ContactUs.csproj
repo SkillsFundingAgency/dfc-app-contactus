@@ -59,4 +59,10 @@
 
 
 
+  <ItemGroup>
+    <Folder Include="wwwroot\js\" />
+  </ItemGroup>
+
+
+
 </Project>
