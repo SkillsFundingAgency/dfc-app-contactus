@@ -32,6 +32,10 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                     locator = By.CssSelector("h1.govuk-panel__title");
                     break;
 
+                case "send us a letter":
+                    locator = By.CssSelector("h1");
+                    break;
+
                 default:
                     locator = By.CssSelector("h1.govuk-fieldset__heading");
                     break;
@@ -39,5 +43,13 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
 
             this.Context.GetHelperLibrary<AppSettings>().WebDriverWaitHelper.WaitForElementToContainText(locator, pageName);
         }
+
+        [Then(@"I am taken to the webchat iFrame")]
+        public void ThenIAmTakenToTheWebchatIFrame()
+        {
+            this.Context.GetHelperLibrary<AppSettings>().WebDriverWaitHelper.WaitForElementToBeDisplayed(By.ClassName("dfc-app-contact-us-IframeContainer"));
+
+        }
+
     }
 }
