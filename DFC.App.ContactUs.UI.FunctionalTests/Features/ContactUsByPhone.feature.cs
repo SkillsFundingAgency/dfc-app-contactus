@@ -84,12 +84,10 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Features
         [Xunit.TraitAttribute("FeatureTitle", "Contact us by phone")]
         [Xunit.TraitAttribute("Description", "Submit a careers advice and guidance phone back request")]
         [Xunit.TraitAttribute("Category", "ContactUs")]
-        [Xunit.TraitAttribute("Category", "Smoke")]
         public virtual void SubmitACareersAdviceAndGuidancePhoneBackRequest()
         {
             string[] tagsOfScenario = new string[] {
-                    "ContactUs",
-                    "Smoke"};
+                    "ContactUs"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Submit a careers advice and guidance phone back request", null, tagsOfScenario, argumentsOfScenario);
 #line 4

@@ -1,6 +1,6 @@
 ﻿Feature: Contact us by phone
 
-@ContactUs @Smoke
+@ContactUs
 Scenario: Submit a careers advice and guidance phone back request
 	Given I am on the contact us landing page
 	When I select the radio button option Ask us to call you

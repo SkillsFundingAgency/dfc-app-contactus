@@ -84,12 +84,10 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.Features
         [Xunit.TraitAttribute("FeatureTitle", "Contact us by post")]
         [Xunit.TraitAttribute("Description", "Contact careers advice by post")]
         [Xunit.TraitAttribute("Category", "ContactUs")]
-        [Xunit.TraitAttribute("Category", "Smoke")]
         public virtual void ContactCareersAdviceByPost()
         {
             string[] tagsOfScenario = new string[] {
-                    "ContactUs",
-                    "Smoke"};
+                    "ContactUs"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Contact careers advice by post", null, tagsOfScenario, argumentsOfScenario);
 #line 4

@@ -1,6 +1,6 @@
 ﻿Feature: Contact us by post
 
-@ContactUs @Smoke
+@ContactUs
 Scenario: Contact careers advice by post
 	Given I am on the contact us landing page
 	When I select the radio button option By post
