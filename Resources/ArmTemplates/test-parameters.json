@@ -90,7 +90,13 @@
             "value": "dfc-dev-shared-apim"
         },
         "ApiName": {
-            "value": "pages"
+            "value": "contactus"
+        },
+        "SubscriptionSettingsFilterIncludeEventTypes3": {
+            "value": "value"
+        },
+        "SubscriptionSettingsFilterIncludeEventTypes4": {
+            "value": "anothervalue"
         }
     }
 }
