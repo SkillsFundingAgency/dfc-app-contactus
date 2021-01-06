@@ -2,8 +2,8 @@
 
 namespace DFC.App.ContactUs.Data.Contracts
 {
-    public interface ISendGridEmailService<in TEmailRequestModel>
-        where TEmailRequestModel : class, IEmailRequestModel
+    public interface INotifyEmailServices<in TEmailRequestModel>
+       where TEmailRequestModel : class, IEmailRequestModel
     {
         Task<bool> SendEmailAsync(TEmailRequestModel? emailRequestModel);
     }

@@ -18,16 +18,16 @@ namespace DFC.App.ContactUs.Controllers
         public const string ThisViewCanonicalName = "enter-your-details";
 
         private readonly AutoMapper.IMapper mapper;
-        private readonly ISendGridEmailService<ContactUsEmailRequestModel> sendGridEmailService;
+        private readonly INotifyEmailServices<ContactUsEmailRequestModel> notifyEmailService;
         private readonly IRoutingService routingService;
         private readonly FamApiRoutingOptions famApiRoutingOptions;
         private readonly ITemplateService templateService;
 
-        public EnterYourDetailsController(ILogger<EnterYourDetailsController> logger, AutoMapper.IMapper mapper, ISessionStateService<SessionDataModel> sessionStateService, IRoutingService routingService, ISendGridEmailService<ContactUsEmailRequestModel> sendGridEmailService, FamApiRoutingOptions famApiRoutingOptions, ITemplateService templateService) : base(logger, sessionStateService)
+        public EnterYourDetailsController(ILogger<EnterYourDetailsController> logger, AutoMapper.IMapper mapper, ISessionStateService<SessionDataModel> sessionStateService, IRoutingService routingService, INotifyEmailServices<ContactUsEmailRequestModel> notifyEmailService, FamApiRoutingOptions famApiRoutingOptions, ITemplateService templateService) : base(logger, sessionStateService)
         {
             this.mapper = mapper;
             this.routingService = routingService;
-            this.sendGridEmailService = sendGridEmailService;
+            this.notifyEmailService = notifyEmailService;
             this.famApiRoutingOptions = famApiRoutingOptions;
             this.templateService = templateService;
         }
@@ -170,28 +170,17 @@ namespace DFC.App.ContactUs.Controllers
         {
             Logger.LogInformation($"{nameof(SendEmailAsync)} preparing email");
 
-            var templateKey = EmailKeyHelper.GetEmailKey(model.IsCallback);
-            var template = await templateService.GetTemplateByKeyAsync(templateKey).ConfigureAwait(false);
-
-            if (string.IsNullOrWhiteSpace(template))
-            {
-                Logger.LogError($"{nameof(SendEmailAsync)} failed to load email template: {templateKey}");
-                return false;
-            }
-
             var routingDetailModel = await routingService.GetAsync(model.Postcode!).ConfigureAwait(false);
             var contactUsRequestModel = mapper.Map<ContactUsEmailRequestModel>(model);
-
+ 
             if (model.IsCallback)
             {
                 contactUsRequestModel.FromEmailAddress = famApiRoutingOptions.NoReplyEmailAddress;
             }
 
             contactUsRequestModel.ToEmailAddress = routingDetailModel?.EmailAddress ?? famApiRoutingOptions.FallbackEmailToAddresses;
-            contactUsRequestModel.Body = template;
-            contactUsRequestModel.BodyNoHtml = null;
 
-            return await sendGridEmailService.SendEmailAsync(contactUsRequestModel).ConfigureAwait(false);
+            return await notifyEmailService.SendEmailAsync(contactUsRequestModel).ConfigureAwait(false);
         }
     }
 }

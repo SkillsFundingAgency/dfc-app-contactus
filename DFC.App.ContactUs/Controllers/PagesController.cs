@@ -58,16 +58,6 @@ namespace DFC.App.ContactUs.Controllers
                 viewModel.Documents.Add(mapper.Map<IndexDocumentViewModel>(configurationSetModel));
             }
 
-            foreach (var key in EmailKeyHelper.GetEmailKeys())
-            {
-                var emailModel = await emailDocumentService.GetByIdAsync(key).ConfigureAwait(false);
-
-                if (emailModel != null)
-                {
-                    viewModel.Documents.Add(mapper.Map<IndexDocumentViewModel>(emailModel));
-                }
-            }
-
             Logger.LogInformation($"{nameof(Index)} has succeeded");
 
             return this.NegotiateContentResult(viewModel);
