@@ -25,7 +25,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
             FakeRoutingService = A.Fake<IRoutingService>();
-            FakeSendGridEmailService = A.Fake<ISendGridEmailService<ContactUsEmailRequestModel>>();
+            FakeNotifyEmailService = A.Fake<INotifyEmailServices<ContactUsEmailRequestModel>>();
             FakeFamApiRoutingOptions = A.Fake<FamApiRoutingOptions>();
             FakeTemplateService = A.Fake<ITemplateService>();
         }
@@ -52,7 +52,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
 
         protected AutoMapper.IMapper FakeMapper { get; }
 
-        protected ISendGridEmailService<ContactUsEmailRequestModel> FakeSendGridEmailService { get; }
+        protected INotifyEmailServices<ContactUsEmailRequestModel> FakeNotifyEmailService { get; }
 
         protected IRoutingService FakeRoutingService { get; }
 
@@ -66,7 +66,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new EnterYourDetailsController(Logger, FakeMapper, FakeSessionStateService, FakeRoutingService, FakeSendGridEmailService, FakeFamApiRoutingOptions, FakeTemplateService)
+            var controller = new EnterYourDetailsController(Logger, FakeMapper, FakeSessionStateService, FakeRoutingService, FakeNotifyEmailService, FakeFamApiRoutingOptions, FakeTemplateService)
             {
                 ControllerContext = new ControllerContext()
                 {

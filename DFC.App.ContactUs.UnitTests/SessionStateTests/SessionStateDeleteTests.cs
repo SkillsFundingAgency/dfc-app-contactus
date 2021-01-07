@@ -28,7 +28,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
         private readonly IMapper fakeMapper;
 
-        private readonly ISendGridEmailService<ContactUsEmailRequestModel> fakeSendGridEmailService;
+        private readonly INotifyEmailServices<ContactUsEmailRequestModel> fakeNotifyEmailService;
 
         private readonly IRoutingService fakeRoutingService;
 
@@ -42,7 +42,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             fakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
             fakeMapper = A.Fake<AutoMapper.IMapper>();
             fakeRoutingService = A.Fake<IRoutingService>();
-            fakeSendGridEmailService = A.Fake<ISendGridEmailService<ContactUsEmailRequestModel>>();
+            fakeNotifyEmailService = A.Fake<INotifyEmailServices<ContactUsEmailRequestModel>>();
             fakeFamApiRoutingOptions = A.Fake<FamApiRoutingOptions>();
             fakeTemplateService = A.Fake<ITemplateService>();
         }
@@ -62,7 +62,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             A.CallTo(() => fakeTemplateService.GetTemplateByKeyAsync(A<Guid>.Ignored)).Returns(expectedEmailTemplate);
             A.CallTo(() => fakeRoutingService.GetAsync(A<string>.Ignored)).Returns(A.Dummy<RoutingDetailModel>());
             A.CallTo(() => fakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).Returns(A.Fake<ContactUsEmailRequestModel>());
-            A.CallTo(() => fakeSendGridEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).Returns(expectedSendEmailResult);
+            A.CallTo(() => fakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).Returns(expectedSendEmailResult);
             A.CallTo(() => fakeSessionStateService.DeleteAsync(A<Guid>.Ignored)).Returns(true);
 
             // Act
@@ -72,7 +72,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             A.CallTo(() => fakeTemplateService.GetTemplateByKeyAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeRoutingService.GetAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeSendGridEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeSessionStateService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
 
             var redirectResult = Assert.IsType<RedirectResult>(result);
@@ -128,7 +128,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new EnterYourDetailsController(logger, fakeMapper, fakeSessionStateService, fakeRoutingService, fakeSendGridEmailService, fakeFamApiRoutingOptions, fakeTemplateService)
+            var controller = new EnterYourDetailsController(logger, fakeMapper, fakeSessionStateService, fakeRoutingService, fakeNotifyEmailService, fakeFamApiRoutingOptions, fakeTemplateService)
             {
                 ControllerContext = new ControllerContext()
                 {

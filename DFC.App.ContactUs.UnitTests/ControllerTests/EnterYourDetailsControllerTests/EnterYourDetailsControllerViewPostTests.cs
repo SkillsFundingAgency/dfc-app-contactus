@@ -30,7 +30,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             A.CallTo(() => FakeTemplateService.GetTemplateByKeyAsync(A<Guid>.Ignored)).Returns(expectedEmailTemplate);
             A.CallTo(() => FakeRoutingService.GetAsync(A<string>.Ignored)).Returns(A.Dummy<RoutingDetailModel>());
             A.CallTo(() => FakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).Returns(A.Fake<ContactUsEmailRequestModel>());
-            A.CallTo(() => FakeSendGridEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).Returns(expectedSendEmailResult);
+            A.CallTo(() => FakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).Returns(expectedSendEmailResult);
 
             // Act
             var result = await controller.EnterYourDetailsView(viewModel).ConfigureAwait(false);
@@ -39,7 +39,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             A.CallTo(() => FakeTemplateService.GetTemplateByKeyAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeRoutingService.GetAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeSendGridEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var redirectResult = Assert.IsType<RedirectResult>(result);
             Assert.Equal(expectedRedirectUrl, redirectResult.Url);
@@ -64,7 +64,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             A.CallTo(() => FakeTemplateService.GetTemplateByKeyAsync(A<Guid>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeRoutingService.GetAsync(A<string>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeSendGridEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustNotHaveHappened();
 
             var viewResult = Assert.IsType<ViewResult>(result);
             _ = Assert.IsAssignableFrom<EnterYourDetailsViewModel>(viewResult.ViewData.Model);
@@ -89,7 +89,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             A.CallTo(() => FakeTemplateService.GetTemplateByKeyAsync(A<Guid>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeRoutingService.GetAsync(A<string>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeSendGridEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustNotHaveHappened();
 
             var statusResult = Assert.IsType<StatusCodeResult>(result);
 
@@ -115,7 +115,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             A.CallTo(() => FakeTemplateService.GetTemplateByKeyAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeRoutingService.GetAsync(A<string>.Ignored)).MustNotHaveHappened();
             A.CallTo(() => FakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeSendGridEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => FakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustNotHaveHappened();
 
             var viewResult = Assert.IsType<ViewResult>(result);
             _ = Assert.IsAssignableFrom<EnterYourDetailsViewModel>(viewResult.ViewData.Model);
@@ -137,7 +137,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             A.CallTo(() => FakeTemplateService.GetTemplateByKeyAsync(A<Guid>.Ignored)).Returns(expectedEmailTemplate);
             A.CallTo(() => FakeRoutingService.GetAsync(A<string>.Ignored)).Returns(expectedRoutingDetailModel);
             A.CallTo(() => FakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).Returns(A.Fake<ContactUsEmailRequestModel>());
-            A.CallTo(() => FakeSendGridEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).Returns(expectedSendEmailResult);
+            A.CallTo(() => FakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).Returns(expectedSendEmailResult);
 
             // Act
             var result = await controller.EnterYourDetailsView(viewModel).ConfigureAwait(false);
@@ -146,7 +146,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             A.CallTo(() => FakeTemplateService.GetTemplateByKeyAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeRoutingService.GetAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeSendGridEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var redirectResult = Assert.IsType<RedirectResult>(result);
             Assert.Equal(expectedRedirectUrl, redirectResult.Url);

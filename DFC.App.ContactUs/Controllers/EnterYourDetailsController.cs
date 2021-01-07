@@ -172,11 +172,6 @@ namespace DFC.App.ContactUs.Controllers
 
             var routingDetailModel = await routingService.GetAsync(model.Postcode!).ConfigureAwait(false);
             var contactUsRequestModel = mapper.Map<ContactUsEmailRequestModel>(model);
- 
-            if (model.IsCallback)
-            {
-                contactUsRequestModel.FromEmailAddress = famApiRoutingOptions.NoReplyEmailAddress;
-            }
 
             contactUsRequestModel.ToEmailAddress = routingDetailModel?.EmailAddress ?? famApiRoutingOptions.FallbackEmailToAddresses;
 
