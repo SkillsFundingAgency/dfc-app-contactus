@@ -9,7 +9,6 @@ using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.Services.AreaRoutingService;
 using DFC.App.ContactUs.Services.CacheContentService;
 using DFC.App.ContactUs.Services.EmailService;
-using DFC.App.ContactUs.Services.EmailTemplateService;
 using DFC.Compui.Cosmos;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
@@ -81,9 +80,7 @@ namespace DFC.App.ContactUs
             services.AddApplicationInsightsTelemetry();
             services.AddHttpContextAccessor();
             services.AddSingleton<ValidationHtmlAttributeProvider, CustomValidationHtmlAttributeProvider>();
-            services.AddTransient<INotifyEmailServices<ContactUsEmailRequestModel>, NotifyEmailServices<ContactUsEmailRequestModel>>();
-            services.AddTransient<ITemplateService, TemplateService>();
-
+            services.AddTransient<INotifyEmailService<ContactUsEmailRequestModel>, NotifyEmailService<ContactUsEmailRequestModel>>();
             services.AddTransient<IConfigurationSetReloadService, ConfigurationSetReloadService>();
             services.AddTransient<IWebhooksService, WebhooksService>();
 

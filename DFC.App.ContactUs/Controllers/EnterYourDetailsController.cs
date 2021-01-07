@@ -18,18 +18,16 @@ namespace DFC.App.ContactUs.Controllers
         public const string ThisViewCanonicalName = "enter-your-details";
 
         private readonly AutoMapper.IMapper mapper;
-        private readonly INotifyEmailServices<ContactUsEmailRequestModel> notifyEmailService;
+        private readonly INotifyEmailService<ContactUsEmailRequestModel> notifyEmailService;
         private readonly IRoutingService routingService;
         private readonly FamApiRoutingOptions famApiRoutingOptions;
-        private readonly ITemplateService templateService;
 
-        public EnterYourDetailsController(ILogger<EnterYourDetailsController> logger, AutoMapper.IMapper mapper, ISessionStateService<SessionDataModel> sessionStateService, IRoutingService routingService, INotifyEmailServices<ContactUsEmailRequestModel> notifyEmailService, FamApiRoutingOptions famApiRoutingOptions, ITemplateService templateService) : base(logger, sessionStateService)
+        public EnterYourDetailsController(ILogger<EnterYourDetailsController> logger, AutoMapper.IMapper mapper, ISessionStateService<SessionDataModel> sessionStateService, IRoutingService routingService, INotifyEmailService<ContactUsEmailRequestModel> notifyEmailService, FamApiRoutingOptions famApiRoutingOptions) : base(logger, sessionStateService)
         {
             this.mapper = mapper;
             this.routingService = routingService;
             this.notifyEmailService = notifyEmailService;
             this.famApiRoutingOptions = famApiRoutingOptions;
-            this.templateService = templateService;
         }
 
         [HttpGet]

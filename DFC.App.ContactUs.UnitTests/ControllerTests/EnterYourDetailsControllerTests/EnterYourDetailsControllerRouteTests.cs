@@ -52,7 +52,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new EnterYourDetailsController(Logger, FakeMapper, FakeSessionStateService, FakeRoutingService, FakeNotifyEmailService, FakeFamApiRoutingOptions, FakeTemplateService)
+            return new EnterYourDetailsController(Logger, FakeMapper, FakeSessionStateService, FakeRoutingService, FakeNotifyEmailService, FakeFamApiRoutingOptions)
             {
                 ControllerContext = new ControllerContext
                 {

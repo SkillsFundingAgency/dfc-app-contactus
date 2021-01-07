@@ -14,16 +14,16 @@ using System.Threading.Tasks;
 namespace DFC.App.ContactUs.Services.EmailService
 {
     [ExcludeFromCodeCoverage]
-    public class NotifyEmailServices<TEmailRequestModel> : INotifyEmailServices<TEmailRequestModel>
+    public class NotifyEmailService<TEmailRequestModel> : INotifyEmailService<TEmailRequestModel>
       where TEmailRequestModel : class, IEmailRequestModel
     {
-        private readonly ILogger<NotifyEmailServices<TEmailRequestModel>> logger;
+        private readonly ILogger<NotifyEmailService<TEmailRequestModel>> logger;
         private readonly INotifyClientProxy notifyClientProxy;
         private readonly NotifyOptions notifyOptions;
 
-        public NotifyEmailServices(
-            ILogger<NotifyEmailServices<TEmailRequestModel>> logger,
-            INotifyClientProxy notifyClientProxy, 
+        public NotifyEmailService(
+            ILogger<NotifyEmailService<TEmailRequestModel>> logger,
+            INotifyClientProxy notifyClientProxy,
             NotifyOptions notifyOptions)
         {
             this.logger = logger;
@@ -34,14 +34,11 @@ namespace DFC.App.ContactUs.Services.EmailService
         public async Task<bool> SendEmailAsync(TEmailRequestModel? emailRequestModel)
         {
             _ = emailRequestModel ?? throw new ArgumentNullException(nameof(emailRequestModel));
-
-            emailRequestModel.ToEmailAddress = "gr2015@as-tech.co.uk";
-
             logger.LogInformation($"{nameof(SendEmailAsync)} sending email to {emailRequestModel.ToEmailAddress}");
 
             try
             {
-                var response = notifyClientProxy.GetNotificationClient().SendEmail(emailRequestModel.ToEmailAddress, emailRequestModel.IsCallBack ? notifyOptions.CallMeBackTemplateId : notifyOptions.ByEmailTemplateId, emailRequestModel.PersonalisationMappings);
+                var response = notifyClientProxy.SendEmail(emailRequestModel.ToEmailAddress!, emailRequestModel.IsCallBack! ? notifyOptions.CallMeBackTemplateId! : notifyOptions.ByEmailTemplateId!, emailRequestModel.PersonalisationMappings);
             }
             catch (NotifyClientException notifyClientException)
             {

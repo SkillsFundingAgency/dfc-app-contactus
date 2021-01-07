@@ -1,11 +1,14 @@
 ﻿using DFC.App.ContactUs.Data.Models;
 using Notify.Client;
 using Notify.Interfaces;
+using Notify.Models.Responses;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 
 namespace DFC.App.ContactUs.Services.EmailService
 {
+    [ExcludeFromCodeCoverage]
     public class NotifyClientProxy : INotifyClientProxy
     {
         private readonly INotificationClient notificationClient;
@@ -18,9 +21,9 @@ namespace DFC.App.ContactUs.Services.EmailService
             notificationClient = new NotificationClient(httpClientWrapper, notifyOptions.ApiKey);
         }
 
-        public INotificationClient GetNotificationClient()
+        public EmailNotificationResponse SendEmail(string toEmail, string templateId, System.Collections.Generic.Dictionary<string, dynamic> personalisation)
         {
-            return notificationClient;
+           return notificationClient.SendEmail(toEmail, templateId, personalisation);
         }
     }
 }
