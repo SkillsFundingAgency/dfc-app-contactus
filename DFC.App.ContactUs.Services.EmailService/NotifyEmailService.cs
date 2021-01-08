@@ -2,13 +2,8 @@
 using DFC.App.ContactUs.Data.Models;
 using Microsoft.Extensions.Logging;
 using Notify.Exceptions;
-using SendGrid;
-using SendGrid.Helpers.Mail;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Services.EmailService
@@ -26,6 +21,10 @@ namespace DFC.App.ContactUs.Services.EmailService
             INotifyClientProxy notifyClientProxy,
             NotifyOptions notifyOptions)
         {
+            _ = logger ?? throw new ArgumentNullException(nameof(logger));
+            _ = notifyClientProxy ?? throw new ArgumentNullException(nameof(notifyClientProxy));
+            _ = notifyOptions ?? throw new ArgumentNullException(nameof(notifyOptions));
+
             this.logger = logger;
             this.notifyClientProxy = notifyClientProxy;
             this.notifyOptions = notifyOptions;
