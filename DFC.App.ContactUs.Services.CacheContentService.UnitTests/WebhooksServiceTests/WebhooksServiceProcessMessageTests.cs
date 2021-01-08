@@ -46,30 +46,6 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
         }
 
         [Fact]
-        public async Task WebhooksServiceProcessMessageAsyncContentCreateEmailReturnsSuccess()
-        {
-            // Arrange
-            const HttpStatusCode expectedResponse = HttpStatusCode.Created;
-            var expectedValidEmailApiDataModel = BuildValidEmailApiDataModel();
-            var url = "https://somewhere.com";
-            var service = BuildWebhooksService();
-
-            A.CallTo(() => FakeCmsApiService.GetItemAsync<EmailApiDataModel>(A<Uri>.Ignored)).Returns(expectedValidEmailApiDataModel);
-
-            // Act
-            var result = await service.ProcessMessageAsync(WebhookCacheOperation.CreateOrUpdate, Guid.NewGuid(), ContentIdForEmailCreate, url).ConfigureAwait(false);
-
-            // Assert
-            A.CallTo(() => FakeCmsApiService.GetItemAsync<EmailApiDataModel>(A<Uri>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeCmsApiService.GetItemAsync<ConfigurationSetApiDataModel>(A<Uri>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeMapper.Map<ConfigurationSetModel>(A<ConfigurationSetApiDataModel>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeConfigurationSetDocumentService.UpsertAsync(A<ConfigurationSetModel>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeConfigurationSetDocumentService.DeleteAsync(A<Guid>.Ignored)).MustNotHaveHappened();
-
-            Assert.Equal(expectedResponse, result);
-        }
-
-        [Fact]
         public async Task WebhooksServiceProcessMessageAsyncContentCreateConfigurationSetReturnsSuccess()
         {
             // Arrange
