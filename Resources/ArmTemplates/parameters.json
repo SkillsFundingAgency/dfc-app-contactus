@@ -106,6 +106,15 @@
         },
         "SubscriptionSettingsFilterIncludeEventTypes4": {
             "value": "__SubscriptionSettingsFilterIncludeEventTypes4__"
+        },
+        "NotifyOptionsApiKey": {
+            "value": "__NotifyOptionsApiKey__"
+        },
+        "NotifyOptionsByEmailTemplateId": {
+            "value": "__NotifyOptionsByEmailTemplateId__"
+        },
+        "NotifyOptionsCallMeBackTemplateId": {
+            "value": "__NotifyOptionsCallMeBackTemplateId__"
         }
     }
 }

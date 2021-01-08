@@ -115,6 +115,15 @@
     },
     "SubscriptionSettingsFilterIncludeEventTypes4": {
         "type": "string"
+    },
+    "NotifyOptionsApiKey": {
+        "type": "securestring"
+    },
+    "NotifyOptionsByEmailTemplateId": {
+        "type": "string"
+    },
+    "NotifyOptionsCallMeBackTemplateId": {
+        "type": "string"
     }
   },
   "variables": {
@@ -335,6 +344,34 @@
               {
                 "name": "Configuration__ApplicationName",
                 "value": "[parameters('ApplicationName')]"
+              },
+              {
+                "name": "NotifyOptions__ApiKey",
+                "value": "[parameters('NotifyOptionsApiKey')]"
+              },
+              {
+                "name": "NotifyOptions__ByEmailTemplateId",
+                "value": "[parameters('NotifyOptionsByEmailTemplateId')]"
+              },
+              {
+                "name": "NotifyOptions__CallMeBackTemplateId",
+                "value": "[parameters('NotifyOptionsCallMeBackTemplateId')]"
+              },
+              {
+                "name": "NotifyOptions__Policies__HttpCircuitBreaker__DurationOfBreak",
+                "value": "00:00:30"
+              },
+              {
+                "name": "NotifyOptions__Policies__HttpCircuitBreaker__ExceptionsAllowedBeforeBreaking",
+                "value": 3
+              },
+              {
+                "name": "NotifyOptions__Policies__HttpRetry__BackoffPower",
+                "value": 2
+              },
+              {
+                "name": "NotifyOptions__Policies__HttpRetry__Count",
+                "value": 3
               },
               {
                 "name": "SubscriptionSettings__SubscriptionServiceEndpoint",
