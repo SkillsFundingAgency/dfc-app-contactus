@@ -32,7 +32,6 @@ namespace DFC.App.ContactUs
     {
         private const string CosmosDbContentPagesConfigAppSettings = "Configuration:CosmosDbConnections:ContentPages";
         private const string CosmosDbSessionStateConfigAppSettings = "Configuration:CosmosDbConnections:SessionState";
-        private const string SendGridAppSettings = "Configuration:SendGrid";
         private const string NotifyOptionsAppSettings = "Configuration:NotifyOptions";
 
         private readonly IConfiguration configuration;
@@ -103,7 +102,13 @@ namespace DFC.App.ContactUs
                 .AddHttpClient<IRoutingService, RoutingService, FamApiRoutingOptions>(configuration, nameof(FamApiRoutingOptions), nameof(PolicyOptions.HttpRetry), nameof(PolicyOptions.HttpCircuitBreaker));
 
             services.AddSingleton(configuration.GetSection(NotifyOptionsAppSettings).Get<NotifyOptions>() ?? new NotifyOptions());
-            services.AddHttpClient<INotifyClientProxy,NotifyClientProxy>();
+
+            var notifyPolicyOptions = configuration.GetSection($"{NotifyOptionsAppSettings}:Policies").Get<PolicyOptions>() ?? new PolicyOptions();
+            services.AddPolicies(policyRegistry, nameof(NotifyClientProxy), notifyPolicyOptions);
+            services.AddHttpClient<INotifyClientProxy, NotifyClientProxy>()
+            .AddPolicyHandlerFromRegistry($"{nameof(NotifyClientProxy)}_{nameof(notifyPolicyOptions.HttpRetry)}")
+            .AddPolicyHandlerFromRegistry($"{nameof(NotifyClientProxy)}_{nameof(notifyPolicyOptions.HttpCircuitBreaker)}");
+
 
             services.AddMvc(config =>
                 {
