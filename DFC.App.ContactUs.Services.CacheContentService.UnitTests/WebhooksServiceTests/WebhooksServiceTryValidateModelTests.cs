@@ -42,7 +42,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
         {
             // Arrange
             const bool expectedResponse = false;
-            var expectedValidConfigurationSetModel = BuildValidConfigurationSetModel();
+            var expectedValidConfigurationSetModel = new ConfigurationSetModel();
             var service = BuildWebhooksService();
 
             // Act
