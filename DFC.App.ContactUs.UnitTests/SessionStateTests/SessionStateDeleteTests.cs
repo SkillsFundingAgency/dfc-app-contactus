@@ -34,8 +34,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
         private readonly FamApiRoutingOptions fakeFamApiRoutingOptions;
 
-        private readonly ITemplateService fakeTemplateService;
-
+    
         public SessionStateDeleteTests()
         {
             logger = A.Fake<ILogger<EnterYourDetailsController>>();
@@ -44,14 +43,12 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             fakeRoutingService = A.Fake<IRoutingService>();
             fakeNotifyEmailService = A.Fake<INotifyEmailService<ContactUsEmailRequestModel>>();
             fakeFamApiRoutingOptions = A.Fake<FamApiRoutingOptions>();
-            fakeTemplateService = A.Fake<ITemplateService>();
         }
 
         [Fact]
         public async Task SessionStateDeleteWithValidSessionIdHeaderReturnsSuccessForCallback()
         {
             // Arrange
-            const string expectedEmailTemplate = "An email template";
             const bool expectedSendEmailResult = true;
             string expectedRedirectUrl = $"/{RegistrationPath}/{HomeController.ThankyouForContactingUsCanonicalName}";
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
@@ -59,7 +56,6 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
             controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
 
-            A.CallTo(() => fakeTemplateService.GetTemplateByKeyAsync(A<Guid>.Ignored)).Returns(expectedEmailTemplate);
             A.CallTo(() => fakeRoutingService.GetAsync(A<string>.Ignored)).Returns(A.Dummy<RoutingDetailModel>());
             A.CallTo(() => fakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).Returns(A.Fake<ContactUsEmailRequestModel>());
             A.CallTo(() => fakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).Returns(expectedSendEmailResult);
@@ -69,7 +65,6 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             var result = await controller.EnterYourDetailsBody(viewModel).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeTemplateService.GetTemplateByKeyAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeRoutingService.GetAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustHaveHappenedOnceExactly();

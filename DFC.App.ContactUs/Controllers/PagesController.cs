@@ -16,18 +16,15 @@ namespace DFC.App.ContactUs.Controllers
     public class PagesController : BasePagesController<PagesController>
     {
         private readonly IDocumentService<ConfigurationSetModel> configurationSetDocumentService;
-        private readonly IDocumentService<EmailModel> emailDocumentService;
         private readonly AutoMapper.IMapper mapper;
 
         public PagesController(
             ILogger<PagesController> logger,
             ISessionStateService<SessionDataModel> sessionStateService,
             IDocumentService<ConfigurationSetModel> configurationSetDocumentService,
-            IDocumentService<EmailModel> emailDocumentService,
             AutoMapper.IMapper mapper) : base(logger, sessionStateService)
         {
             this.configurationSetDocumentService = configurationSetDocumentService;
-            this.emailDocumentService = emailDocumentService;
             this.mapper = mapper;
         }
 
@@ -67,37 +64,17 @@ namespace DFC.App.ContactUs.Controllers
         [Route("pages/{documentId}/document")]
         public async Task<IActionResult> Document(Guid documentId)
         {
-            if (documentId.Equals(ConfigurationSetKeyHelper.ConfigurationSetKey))
+            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(documentId).ConfigureAwait(false);
+            if (configurationSetModel != null)
             {
-                var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(documentId).ConfigureAwait(false);
+                var viewModel = mapper.Map<DocumentViewModel>(configurationSetModel);
+                var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(configurationSetModel);
 
-                if (configurationSetModel != null)
-                {
-                    var viewModel = mapper.Map<DocumentViewModel>(configurationSetModel);
-                    var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(configurationSetModel);
+                viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
 
-                    viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
+                Logger.LogInformation($"{nameof(Document)} has succeeded for: {documentId}");
 
-                    Logger.LogInformation($"{nameof(Document)} has succeeded for: {documentId}");
-
-                    return this.NegotiateContentResult(viewModel);
-                }
-            }
-            else
-            {
-                var emailModel = await emailDocumentService.GetByIdAsync(documentId).ConfigureAwait(false);
-
-                if (emailModel != null)
-                {
-                    var viewModel = mapper.Map<DocumentViewModel>(emailModel);
-                    var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(emailModel);
-
-                    viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
-
-                    Logger.LogInformation($"{nameof(Document)} has succeeded for: {documentId}");
-
-                    return this.NegotiateContentResult(viewModel);
-                }
+                return this.NegotiateContentResult(viewModel);
             }
 
             Logger.LogWarning($"{nameof(Document)} has returned no content for: {documentId}");

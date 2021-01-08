@@ -94,28 +94,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
         }
 
         [Fact]
-        public async Task EnterYourDetailsControllerViewPostReturnsSameViewForMissingEmailTemplate()
-        {
-            // Arrange
-            string expectedEmailTemplate = string.Empty;
-            var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
-            var controller = BuildEnterYourDetailsController(MediaTypeNames.Text.Html);
-
-            // Act
-            var result = await controller.EnterYourDetailsView(viewModel).ConfigureAwait(false);
-
-            // Assert
-            A.CallTo(() => FakeRoutingService.GetAsync(A<string>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).MustNotHaveHappened();
-            A.CallTo(() => FakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustNotHaveHappened();
-
-            var viewResult = Assert.IsType<ViewResult>(result);
-            _ = Assert.IsAssignableFrom<EnterYourDetailsViewModel>(viewResult.ViewData.Model);
-
-            controller.Dispose();
-        }
-
-        [Fact]
         public async Task EnterYourDetailsControllerViewPostReturnsSuccessForMissingRouting()
         {
             // Arrange
