@@ -38,7 +38,7 @@ namespace DFC.App.ContactUs.Services.EmailService
 
             try
             {
-                var response = notifyClientProxy.SendEmail(emailRequestModel.ToEmailAddress!, emailRequestModel.IsCallBack! ? notifyOptions.CallMeBackTemplateId! : notifyOptions.ByEmailTemplateId!, emailRequestModel.PersonalisationMappings);
+                notifyClientProxy.SendEmail(emailRequestModel.ToEmailAddress!, emailRequestModel.IsCallBack! ? notifyOptions.CallMeBackTemplateId! : notifyOptions.ByEmailTemplateId!, emailRequestModel.PersonalisationMappings);
             }
             catch (NotifyClientException notifyClientException)
             {

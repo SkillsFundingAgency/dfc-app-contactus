@@ -108,7 +108,6 @@ namespace DFC.App.ContactUs
             .AddPolicyHandlerFromRegistry($"{nameof(NotifyClientProxy)}_{nameof(notifyPolicyOptions.HttpRetry)}")
             .AddPolicyHandlerFromRegistry($"{nameof(NotifyClientProxy)}_{nameof(notifyPolicyOptions.HttpCircuitBreaker)}");
 
-
             services.AddMvc(config =>
                 {
                     config.RespectBrowserAcceptHeader = true;

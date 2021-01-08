@@ -11,19 +11,23 @@ namespace DFC.App.ContactUs.Services.EmailService
     [ExcludeFromCodeCoverage]
     public class NotifyClientProxy : INotifyClientProxy
     {
-        private readonly INotificationClient notificationClient;
-        private readonly HttpClientWrapper httpClientWrapper;
+        private readonly HttpClient httpClient;
+        private readonly NotifyOptions notifyOptions;
 
         public NotifyClientProxy(NotifyOptions notifyOptions, HttpClient httpClient)
         {
-            httpClientWrapper = new HttpClientWrapper(httpClient);
             _ = notifyOptions ?? throw new ArgumentNullException(nameof(notifyOptions));
-            notificationClient = new NotificationClient(httpClientWrapper, notifyOptions.ApiKey);
+            this.notifyOptions = notifyOptions;
+            this.httpClient = httpClient;
         }
 
         public EmailNotificationResponse SendEmail(string toEmail, string templateId, System.Collections.Generic.Dictionary<string, dynamic> personalisation)
         {
-           return notificationClient.SendEmail(toEmail, templateId, personalisation);
+            using (var httpClientWrapper = new HttpClientWrapper(httpClient))
+            {
+                var notificationClient = new NotificationClient(httpClientWrapper, notifyOptions.ApiKey);
+                return notificationClient.SendEmail(toEmail, templateId, personalisation);
+            }
         }
     }
 }
