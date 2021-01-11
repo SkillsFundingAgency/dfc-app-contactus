@@ -146,7 +146,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.WebhookControllerTests
             // Act
             var result = await controller.ReceiveEvents().ConfigureAwait(false);
             var resultStatusCode = (StatusCodeResult)result;
-           
+
             Assert.Equal((int)HttpStatusCode.InternalServerError, resultStatusCode.StatusCode);
 
             // Assert

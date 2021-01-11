@@ -31,8 +31,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DFC.App.ContactUs.Services.EmailTemplateService\DFC.App.ContactUs.Services.EmailTemplateService.csproj" />
-  </ItemGroup>
-
 </Project>

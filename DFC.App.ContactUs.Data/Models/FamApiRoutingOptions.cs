@@ -10,6 +10,10 @@ namespace DFC.App.ContactUs.Data.Models
 
         public string FallbackEmailToAddresses { get; set; } = "digital.first.careers@gmail.com";
 
-        public string NoReplyEmailAddress { get; set; } = "no-reply@nationalcareers.service.gov.uk";
+        public string ProblemsEmailAddress { get; set; } = "no-reply@nationalcareers.service.gov.uk";
+
+        public string FeebackEmailAddress { get; set; } = "no-reply@nationalcareers.service.gov.uk";
+
+        public string OtherEmailAddress { get; set; } = "no-reply@nationalcareers.service.gov.uk";
     }
 }
