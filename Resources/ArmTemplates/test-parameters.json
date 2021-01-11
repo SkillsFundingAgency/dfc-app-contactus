@@ -97,6 +97,15 @@
         },
         "SubscriptionSettingsFilterIncludeEventTypes4": {
             "value": "anothervalue"
+        },
+        "NotifyOptionsApiKey": {
+            "value": "value"
+        },
+        "NotifyOptionsByEmailTemplateId": {
+            "value": "value"
+        },
+        "NotifyOptionsCallMeBackTemplateId": {
+            "value": "value"
         }
     }
 }
