@@ -167,12 +167,9 @@ namespace DFC.App.ContactUs.Controllers
         private async Task<bool> SendEmailAsync(EnterYourDetailsBodyViewModel model)
         {
             Logger.LogInformation($"{nameof(SendEmailAsync)} preparing email");
-
-            var routingDetailModel = await routingService.GetAsync(model.Postcode!).ConfigureAwait(false);
             var contactUsRequestModel = mapper.Map<ContactUsEmailRequestModel>(model);
 
-            contactUsRequestModel.ToEmailAddress = routingDetailModel?.EmailAddress ?? famApiRoutingOptions.FallbackEmailToAddresses;
-
+            contactUsRequestModel.ToEmailAddress = await routingService.GetEmailToSendTo(model.Postcode!, model.SelectedCategory).ConfigureAwait(false);
             return await notifyEmailService.SendEmailAsync(contactUsRequestModel).ConfigureAwait(false);
         }
     }
