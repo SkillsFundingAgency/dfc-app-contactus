@@ -59,6 +59,15 @@
         "NoReplyEmailAddress": {
             "value": "no-replyfoo@contso.com"
         },
+        "ProblemsEmailAddress": {
+            "value": "Problems@contso.com"
+        },
+        "FeebackEmailAddress": {
+            "value": "Feeback@contso.com"
+        },
+        "OtherEmailAddress": {
+            "value": "Other@contso.com"
+        },
         "SubscriptionApiEndpointUrl": {
             "value": "https://url"
         },

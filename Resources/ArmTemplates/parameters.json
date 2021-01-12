@@ -77,6 +77,15 @@
         "NoReplyEmailAddress": {
             "value": "__NoReplyEmailAddress__"
         },
+        "ProblemsEmailAddress": {
+            "value": "__ProblemsEmailAddress__"
+        },
+        "FeebackEmailAddress": {
+            "value": "__FeebackEmailAddress__"
+        },
+        "OtherEmailAddress": {
+            "value": "__OtherEmailAddress__"
+        },
         "SubscriptionApiEndpointUrl": {
             "value": "__SubscriptionApiEndpointUrl__"
         },
