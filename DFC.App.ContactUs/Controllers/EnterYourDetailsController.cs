@@ -20,14 +20,12 @@ namespace DFC.App.ContactUs.Controllers
         private readonly AutoMapper.IMapper mapper;
         private readonly INotifyEmailService<ContactUsEmailRequestModel> notifyEmailService;
         private readonly IRoutingService routingService;
-        private readonly FamApiRoutingOptions famApiRoutingOptions;
 
-        public EnterYourDetailsController(ILogger<EnterYourDetailsController> logger, AutoMapper.IMapper mapper, ISessionStateService<SessionDataModel> sessionStateService, IRoutingService routingService, INotifyEmailService<ContactUsEmailRequestModel> notifyEmailService, FamApiRoutingOptions famApiRoutingOptions) : base(logger, sessionStateService)
+        public EnterYourDetailsController(ILogger<EnterYourDetailsController> logger, AutoMapper.IMapper mapper, ISessionStateService<SessionDataModel> sessionStateService, IRoutingService routingService, INotifyEmailService<ContactUsEmailRequestModel> notifyEmailService) : base(logger, sessionStateService)
         {
             this.mapper = mapper;
             this.routingService = routingService;
             this.notifyEmailService = notifyEmailService;
-            this.famApiRoutingOptions = famApiRoutingOptions;
         }
 
         [HttpGet]
