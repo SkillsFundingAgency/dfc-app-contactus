@@ -22,13 +22,6 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService
             this.httpClient = httpClient;
         }
 
-        public async Task<RoutingDetailModel?> GetAsync(string searchClue)
-        {
-            var url = new Uri($"{famApiRoutingOptions.BaseAddress}{famApiRoutingOptions.AreaRoutingEndpoint}{searchClue}", UriKind.Absolute);
-
-            return await apiDataProcessorService.GetAsync<RoutingDetailModel>(httpClient, url).ConfigureAwait(false);
-        }
-
         public async Task<string> GetEmailToSendTo(string postCode, Category contactCategory)
         {
             switch (contactCategory)
