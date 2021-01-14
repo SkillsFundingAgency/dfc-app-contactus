@@ -39,7 +39,6 @@ namespace DFC.App.ContactUs.Services.EmailService.UnitTests
             A.CallTo(() => fakeNotifyClientProxy.SendEmail(A<string>.That.IsEqualTo(contactUsEmailRequestModel.ToEmailAddress), A<string>._, A<Dictionary<string, dynamic>>._)).MustHaveHappened();
         }
 
-
         [Theory]
         [InlineData(false, "ByEmailTemplateId")]
         [InlineData(true, "CallMeBackTemplateId")]
@@ -86,7 +85,5 @@ namespace DFC.App.ContactUs.Services.EmailService.UnitTests
             result.Should().BeFalse();
             A.CallTo(() => fakeNotifyClientProxy.SendEmail(A<string>._, A<string>._, A<Dictionary<string, dynamic>>._)).MustHaveHappened();
         }
-
-
     }
 }

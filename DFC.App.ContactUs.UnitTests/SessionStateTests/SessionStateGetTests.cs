@@ -32,8 +32,6 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
         private readonly FamApiRoutingOptions fakeFamApiRoutingOptions;
 
-        private readonly ITemplateService fakeTemplateService;
-
         public SessionStateGetTests()
         {
             logger = A.Fake<ILogger<EnterYourDetailsController>>();
@@ -42,7 +40,6 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             fakeRoutingService = A.Fake<IRoutingService>();
             fakeNotifyEmailService = A.Fake<INotifyEmailService<ContactUsEmailRequestModel>>();
             fakeFamApiRoutingOptions = A.Fake<FamApiRoutingOptions>();
-            fakeTemplateService = A.Fake<ITemplateService>();
         }
 
         [Fact]
