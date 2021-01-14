@@ -22,7 +22,6 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
             Logger = A.Fake<ILogger<WebhooksService>>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
             FakeCmsApiService = A.Fake<ICmsApiService>();
-            FakeEmailDocumentService = A.Fake<IDocumentService<EmailModel>>();
             FakeConfigurationSetDocumentService = A.Fake<IDocumentService<ConfigurationSetModel>>();
         }
 
@@ -43,8 +42,6 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
         protected AutoMapper.IMapper FakeMapper { get; }
 
         protected ICmsApiService FakeCmsApiService { get; }
-
-        protected IDocumentService<EmailModel> FakeEmailDocumentService { get; }
 
         protected IDocumentService<ConfigurationSetModel> FakeConfigurationSetDocumentService { get; }
 
@@ -83,20 +80,6 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
             return model;
         }
 
-        protected EmailModel BuildValidEmailModel()
-        {
-            var model = new EmailModel()
-            {
-                Id = ContentIdForEmailUpdate,
-                Etag = Guid.NewGuid().ToString(),
-                Title = "an-article",
-                Url = new Uri("https://localhost"),
-                Body = "some body test",
-            };
-
-            return model;
-        }
-
         protected ConfigurationSetModel BuildValidConfigurationSetModel()
         {
             var model = new ConfigurationSetModel()
@@ -112,7 +95,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
 
         protected WebhooksService BuildWebhooksService()
         {
-            var service = new WebhooksService(Logger, FakeMapper, FakeCmsApiService, FakeEmailDocumentService, FakeConfigurationSetDocumentService);
+            var service = new WebhooksService(Logger, FakeMapper, FakeCmsApiService, FakeConfigurationSetDocumentService);
 
             return service;
         }

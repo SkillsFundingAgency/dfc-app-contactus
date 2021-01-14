@@ -28,30 +28,27 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
         private readonly IMapper fakeMapper;
 
-        private readonly ISendGridEmailService<ContactUsEmailRequestModel> fakeSendGridEmailService;
+        private readonly INotifyEmailService<ContactUsEmailRequestModel> fakeNotifyEmailService;
 
         private readonly IRoutingService fakeRoutingService;
 
         private readonly FamApiRoutingOptions fakeFamApiRoutingOptions;
 
-        private readonly ITemplateService fakeTemplateService;
-
+    
         public SessionStateDeleteTests()
         {
             logger = A.Fake<ILogger<EnterYourDetailsController>>();
             fakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
             fakeMapper = A.Fake<AutoMapper.IMapper>();
             fakeRoutingService = A.Fake<IRoutingService>();
-            fakeSendGridEmailService = A.Fake<ISendGridEmailService<ContactUsEmailRequestModel>>();
+            fakeNotifyEmailService = A.Fake<INotifyEmailService<ContactUsEmailRequestModel>>();
             fakeFamApiRoutingOptions = A.Fake<FamApiRoutingOptions>();
-            fakeTemplateService = A.Fake<ITemplateService>();
         }
 
         [Fact]
         public async Task SessionStateDeleteWithValidSessionIdHeaderReturnsSuccessForCallback()
         {
             // Arrange
-            const string expectedEmailTemplate = "An email template";
             const bool expectedSendEmailResult = true;
             string expectedRedirectUrl = $"/{RegistrationPath}/{HomeController.ThankyouForContactingUsCanonicalName}";
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
@@ -59,20 +56,18 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
             controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
 
-            A.CallTo(() => fakeTemplateService.GetTemplateByKeyAsync(A<Guid>.Ignored)).Returns(expectedEmailTemplate);
             A.CallTo(() => fakeRoutingService.GetAsync(A<string>.Ignored)).Returns(A.Dummy<RoutingDetailModel>());
             A.CallTo(() => fakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).Returns(A.Fake<ContactUsEmailRequestModel>());
-            A.CallTo(() => fakeSendGridEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).Returns(expectedSendEmailResult);
+            A.CallTo(() => fakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).Returns(expectedSendEmailResult);
             A.CallTo(() => fakeSessionStateService.DeleteAsync(A<Guid>.Ignored)).Returns(true);
 
             // Act
             var result = await controller.EnterYourDetailsBody(viewModel).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => fakeTemplateService.GetTemplateByKeyAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeRoutingService.GetAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeMapper.Map<ContactUsEmailRequestModel>(A<EnterYourDetailsBodyViewModel>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => fakeSendGridEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeNotifyEmailService.SendEmailAsync(A<ContactUsEmailRequestModel>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => fakeSessionStateService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
 
             var redirectResult = Assert.IsType<RedirectResult>(result);
@@ -128,7 +123,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new EnterYourDetailsController(logger, fakeMapper, fakeSessionStateService, fakeRoutingService, fakeSendGridEmailService, fakeFamApiRoutingOptions, fakeTemplateService)
+            var controller = new EnterYourDetailsController(logger, fakeMapper, fakeSessionStateService, fakeRoutingService, fakeNotifyEmailService, fakeFamApiRoutingOptions)
             {
                 ControllerContext = new ControllerContext()
                 {

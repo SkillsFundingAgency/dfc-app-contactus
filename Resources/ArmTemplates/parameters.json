@@ -77,6 +77,15 @@
         "NoReplyEmailAddress": {
             "value": "__NoReplyEmailAddress__"
         },
+        "ProblemsEmailAddress": {
+            "value": "__ProblemsEmailAddress__"
+        },
+        "FeebackEmailAddress": {
+            "value": "__FeebackEmailAddress__"
+        },
+        "OtherEmailAddress": {
+            "value": "__OtherEmailAddress__"
+        },
         "SubscriptionApiEndpointUrl": {
             "value": "__SubscriptionApiEndpointUrl__"
         },
@@ -100,6 +109,21 @@
         },
         "ApiName": {
             "value": "__ApiName__"
+        },
+        "SubscriptionSettingsFilterIncludeEventTypes3": {
+            "value": "__SubscriptionSettingsFilterIncludeEventTypes3__"
+        },
+        "SubscriptionSettingsFilterIncludeEventTypes4": {
+            "value": "__SubscriptionSettingsFilterIncludeEventTypes4__"
+        },
+        "NotifyOptionsApiKey": {
+            "value": "__NotifyOptionsApiKey__"
+        },
+        "NotifyOptionsByEmailTemplateId": {
+            "value": "__NotifyOptionsByEmailTemplateId__"
+        },
+        "NotifyOptionsCallMeBackTemplateId": {
+            "value": "__NotifyOptionsCallMeBackTemplateId__"
         }
     }
 }
