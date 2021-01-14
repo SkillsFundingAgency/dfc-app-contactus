@@ -20,9 +20,7 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
                 .ForMember(d => d.Subject, s => s.MapFrom(a => a.SelectedCategory.GetDescription()))
                 .ForMember(d => d.FromEmailAddress, s => s.MapFrom(a => a.EmailAddress))
                 .ForMember(d => d.ToEmailAddress, s => s.Ignore())
-                .ForMember(d => d.Body, s => s.Ignore())
-                .ForMember(d => d.BodyNoHtml, s => s.Ignore())
-                .ForMember(d => d.TokenValueMappings, s => s.Ignore());
+                .ForMember(d => d.PersonalisationMappings, s => s.Ignore());
         }
     }
 }

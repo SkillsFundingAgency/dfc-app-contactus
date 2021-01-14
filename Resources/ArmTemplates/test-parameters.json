@@ -59,6 +59,15 @@
         "NoReplyEmailAddress": {
             "value": "no-replyfoo@contso.com"
         },
+        "ProblemsEmailAddress": {
+            "value": "Problems@contso.com"
+        },
+        "FeebackEmailAddress": {
+            "value": "Feeback@contso.com"
+        },
+        "OtherEmailAddress": {
+            "value": "Other@contso.com"
+        },
         "SubscriptionApiEndpointUrl": {
             "value": "https://url"
         },
@@ -90,7 +99,22 @@
             "value": "dfc-dev-shared-apim"
         },
         "ApiName": {
-            "value": "pages"
+            "value": "contactus"
+        },
+        "SubscriptionSettingsFilterIncludeEventTypes3": {
+            "value": "value"
+        },
+        "SubscriptionSettingsFilterIncludeEventTypes4": {
+            "value": "anothervalue"
+        },
+        "NotifyOptionsApiKey": {
+            "value": "value"
+        },
+        "NotifyOptionsByEmailTemplateId": {
+            "value": "value"
+        },
+        "NotifyOptionsCallMeBackTemplateId": {
+            "value": "value"
         }
     }
 }

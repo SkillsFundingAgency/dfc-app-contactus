@@ -12,11 +12,11 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
         {
             // Arrange
             const bool expectedResponse = true;
-            var expectedValidEmailModel = BuildValidEmailModel();
+            var expectedValidConfigurationSetModel = BuildValidConfigurationSetModel();
             var service = BuildWebhooksService();
 
             // Act
-            var result = service.TryValidateModel(expectedValidEmailModel);
+            var result = service.TryValidateModel(expectedValidConfigurationSetModel);
 
             // Assert
             Assert.Equal(expectedResponse, result);
@@ -42,28 +42,14 @@ namespace DFC.App.ContactUs.Services.CacheContentService.UnitTests.WebhooksServi
         {
             // Arrange
             const bool expectedResponse = false;
-            var expectedInvalidEmailModel = new EmailModel();
+            var expectedValidConfigurationSetModel = new ConfigurationSetModel();
             var service = BuildWebhooksService();
 
             // Act
-            var result = service.TryValidateModel(expectedInvalidEmailModel);
+            var result = service.TryValidateModel(expectedValidConfigurationSetModel);
 
             // Assert
             Assert.Equal(expectedResponse, result);
-        }
-
-        [Fact]
-        public void WebhooksServiceTryValidateModelRaisesExceptionForNullEmailModel()
-        {
-            // Arrange
-            EmailModel? nullEmailModel = null;
-            var service = BuildWebhooksService();
-
-            // Act
-            var exceptionResult = Assert.Throws<ArgumentNullException>(() => service.TryValidateModel(nullEmailModel));
-
-            // Assert
-            Assert.Equal("Value cannot be null. (Parameter 'model')", exceptionResult.Message);
         }
     }
 }

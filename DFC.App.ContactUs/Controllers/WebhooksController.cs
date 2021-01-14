@@ -41,60 +41,70 @@ namespace DFC.App.ContactUs.Controllers
         [Route("ReceiveEvents")]
         public async Task<IActionResult> ReceiveEvents()
         {
-            using var reader = new StreamReader(Request.Body, Encoding.UTF8);
-            string requestContent = await reader.ReadToEndAsync().ConfigureAwait(false);
-            logger.LogInformation($"Received events: {requestContent}");
-
-            var eventGridSubscriber = new EventGridSubscriber();
-            foreach (var key in acceptedEventTypes.Keys)
+            try
             {
-                eventGridSubscriber.AddOrUpdateCustomEventMapping(key, typeof(EventGridEventData));
-            }
+                using var reader = new StreamReader(Request.Body, Encoding.UTF8);
+                string requestContent = await reader.ReadToEndAsync().ConfigureAwait(false);
+                logger.LogInformation($"Received events: {requestContent}");
 
-            var eventGridEvents = eventGridSubscriber.DeserializeEventGridEvents(requestContent);
-
-            foreach (var eventGridEvent in eventGridEvents)
-            {
-                if (!Guid.TryParse(eventGridEvent.Id, out Guid eventId))
+                var eventGridSubscriber = new EventGridSubscriber();
+                foreach (var key in acceptedEventTypes.Keys)
                 {
-                    throw new InvalidDataException($"Invalid Guid for EventGridEvent.Id '{eventGridEvent.Id}'");
+                    eventGridSubscriber.AddOrUpdateCustomEventMapping(key, typeof(EventGridEventData));
                 }
 
-                if (eventGridEvent.Data is SubscriptionValidationEventData subscriptionValidationEventData)
-                {
-                    logger.LogInformation($"Got SubscriptionValidation event data, validationCode: {subscriptionValidationEventData!.ValidationCode},  validationUrl: {subscriptionValidationEventData.ValidationUrl}, topic: {eventGridEvent.Topic}");
+                var eventGridEvents = eventGridSubscriber.DeserializeEventGridEvents(requestContent);
 
-                    // Do any additional validation (as required) such as validating that the Azure resource ID of the topic matches
-                    // the expected topic and then return back the below response
-                    var responseData = new SubscriptionValidationResponse()
-                    {
-                        ValidationResponse = subscriptionValidationEventData.ValidationCode,
-                    };
-
-                    return Ok(responseData);
-                }
-                else if (eventGridEvent.Data is EventGridEventData eventGridEventData)
+                foreach (var eventGridEvent in eventGridEvents)
                 {
-                    if (!Guid.TryParse(eventGridEventData.ItemId, out Guid contentId))
+                    if (!Guid.TryParse(eventGridEvent.Id, out Guid eventId))
                     {
-                        throw new InvalidDataException($"Invalid Guid for EventGridEvent.Data.ItemId '{eventGridEventData.ItemId}'");
+                        throw new InvalidDataException($"Invalid Guid for EventGridEvent.Id '{eventGridEvent.Id}'");
                     }
 
-                    var cacheOperation = acceptedEventTypes[eventGridEvent.EventType];
+                    if (eventGridEvent.Data is SubscriptionValidationEventData subscriptionValidationEventData)
+                    {
+                        logger.LogInformation($"Got SubscriptionValidation event data, validationCode: {subscriptionValidationEventData!.ValidationCode},  validationUrl: {subscriptionValidationEventData.ValidationUrl}, topic: {eventGridEvent.Topic}");
 
-                    logger.LogInformation($"Got Event Id: {eventId}: {eventGridEvent.EventType}: Cache operation: {cacheOperation} {eventGridEventData.Api}");
+                        // Do any additional validation (as required) such as validating that the Azure resource ID of the topic matches
+                        // the expected topic and then return back the below response
+                        var responseData = new SubscriptionValidationResponse()
+                        {
+                            ValidationResponse = subscriptionValidationEventData.ValidationCode,
+                        };
 
-                    var result = await webhookService.ProcessMessageAsync(cacheOperation, eventId, contentId, eventGridEventData.Api!).ConfigureAwait(false);
+                        return Ok(responseData);
+                    }
+                    else if (eventGridEvent.Data is EventGridEventData eventGridEventData)
+                    {
+                        if (!Guid.TryParse(eventGridEventData.ItemId, out Guid contentId))
+                        {
+                            throw new InvalidDataException($"Invalid Guid for EventGridEvent.Data.ItemId '{eventGridEventData.ItemId}'");
+                        }
 
-                    LogResult(eventId, contentId, result);
+                        var cacheOperation = acceptedEventTypes[eventGridEvent.EventType];
+
+                        logger.LogInformation($"Got Event Id: {eventId}: {eventGridEvent.EventType}: Cache operation: {cacheOperation} {eventGridEventData.Api}");
+
+                        var result = await webhookService.ProcessMessageAsync(cacheOperation, eventId, contentId, eventGridEventData.Api!).ConfigureAwait(false);
+
+                        LogResult(eventId, contentId, result);
+                    }
+                    else
+                    {
+                        throw new InvalidDataException($"Invalid event type '{eventGridEvent.EventType}' received for Event Id: {eventId}, should be one of '{string.Join(",", acceptedEventTypes.Keys)}'");
+                    }
                 }
-                else
-                {
-                    throw new InvalidDataException($"Invalid event type '{eventGridEvent.EventType}' received for Event Id: {eventId}, should be one of '{string.Join(",", acceptedEventTypes.Keys)}'");
-                }
+
+                return Ok();
             }
-
-            return Ok();
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                logger.LogError(ex.ToString());
+                return new StatusCodeResult((int)HttpStatusCode.InternalServerError);
+            }
         }
 
         private void LogResult(Guid eventId, Guid contentPageId, HttpStatusCode result)

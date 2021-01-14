@@ -24,8 +24,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         public static IEnumerable<object[]> PagesDocumentRouteDataOk => new List<object[]>
         {
-            new object[] { "/pages/{documentId}", ConfigurationSetKeyHelper.ConfigurationSetKey, nameof(PagesController.Document), 1, 0 },
-            new object[] { "/pages/{documentId}", Guid.NewGuid(), nameof(PagesController.Document), 0, 1 },
+            new object[] { "/pages/{documentId}", ConfigurationSetKeyHelper.ConfigurationSetKey, nameof(PagesController.Document), 1 },
+            new object[] { "/pages/{documentId}", Guid.NewGuid(), nameof(PagesController.Document), 1 },
         };
 
         [Theory]
@@ -35,10 +35,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             // Arrange
             var controller = BuildController(route);
             var expectedConfigurationSetResult = new ConfigurationSetModel() { PhoneNumber = "1234", LinesOpenText = "lines are open" };
-            var expectedEmailResult = new EmailModel() { Body = "<h1>A document</h1>" };
 
             A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedConfigurationSetResult);
-            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedEmailResult);
 
             // Act
             var result = await RunControllerAction(controller, documentId, actionMethod).ConfigureAwait(false);
@@ -46,22 +44,19 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             // Assert
             Assert.IsType<OkObjectResult>(result);
             A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappened(2, Times.Exactly);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(PagesDocumentRouteDataOk))]
-        public async Task PagesControllerCallsContentPageServiceUsingPagesDocumentRouteForOkResult(string route, Guid documentId, string actionMethod, int configurationSetCount, int emailCount)
+        public async Task PagesControllerCallsContentPageServiceUsingPagesDocumentRouteForOkResult(string route, Guid documentId, string actionMethod, int configurationSetCount)
         {
             // Arrange
             var controller = BuildController(route);
             var expectedConfigurationSetResult = new ConfigurationSetModel() { PhoneNumber = "1234", LinesOpenText = "lines are open" };
-            var expectedEmailResult = new EmailModel() { Body = "<h1>A document</h1>" };
 
             A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedConfigurationSetResult);
-            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedEmailResult);
 
             // Act
             var result = await RunControllerAction(controller, documentId, actionMethod).ConfigureAwait(false);
@@ -69,7 +64,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             // Assert
             Assert.IsType<OkObjectResult>(result);
             A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappened(configurationSetCount, Times.Exactly);
-            A.CallTo(() => FakeEmailDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappened(emailCount, Times.Exactly);
 
             controller.Dispose();
         }
@@ -89,7 +83,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new PagesController(Logger, FakeSessionStateService, FakeConfigurationSetDocumentService, FakeEmailDocumentService, FakeMapper)
+            return new PagesController(Logger, FakeSessionStateService, FakeConfigurationSetDocumentService, FakeMapper)
             {
                 ControllerContext = new ControllerContext
                 {

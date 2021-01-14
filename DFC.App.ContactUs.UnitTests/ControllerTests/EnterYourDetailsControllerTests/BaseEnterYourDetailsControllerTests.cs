@@ -25,9 +25,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
             FakeRoutingService = A.Fake<IRoutingService>();
-            FakeSendGridEmailService = A.Fake<ISendGridEmailService<ContactUsEmailRequestModel>>();
+            FakeNotifyEmailService = A.Fake<INotifyEmailService<ContactUsEmailRequestModel>>();
             FakeFamApiRoutingOptions = A.Fake<FamApiRoutingOptions>();
-            FakeTemplateService = A.Fake<ITemplateService>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -52,13 +51,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
 
         protected AutoMapper.IMapper FakeMapper { get; }
 
-        protected ISendGridEmailService<ContactUsEmailRequestModel> FakeSendGridEmailService { get; }
+        protected INotifyEmailService<ContactUsEmailRequestModel> FakeNotifyEmailService { get; }
 
         protected IRoutingService FakeRoutingService { get; }
 
         protected FamApiRoutingOptions FakeFamApiRoutingOptions { get; }
-
-        protected ITemplateService FakeTemplateService { get; }
 
         protected EnterYourDetailsController BuildEnterYourDetailsController(string mediaTypeName)
         {
@@ -66,7 +63,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new EnterYourDetailsController(Logger, FakeMapper, FakeSessionStateService, FakeRoutingService, FakeSendGridEmailService, FakeFamApiRoutingOptions, FakeTemplateService)
+            var controller = new EnterYourDetailsController(Logger, FakeMapper, FakeSessionStateService, FakeRoutingService, FakeNotifyEmailService, FakeFamApiRoutingOptions)
             {
                 ControllerContext = new ControllerContext()
                 {

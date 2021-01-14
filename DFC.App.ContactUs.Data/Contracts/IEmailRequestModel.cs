@@ -8,16 +8,16 @@ namespace DFC.App.ContactUs.Data.Contracts
 
         public string? FamilyName { get; set; }
 
+        public string? TelephoneNumber { get; set; }
+
         public string? Subject { get; set; }
 
         public string? FromEmailAddress { get; set; }
 
         public string? ToEmailAddress { get; set; }
 
-        public string? Body { get; set; }
+        public bool IsCallBack { get; set; }
 
-        public string? BodyNoHtml { get; set; }
-
-        public Dictionary<string, string?> TokenValueMappings { get; }
+        public Dictionary<string, dynamic> PersonalisationMappings { get; }
     }
 }

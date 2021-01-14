@@ -86,6 +86,15 @@
     "NoReplyEmailAddress": {
       "type": "string"
     },
+    "ProblemsEmailAddress": {
+      "type": "string"
+    },
+    "FeebackEmailAddress": {
+      "type": "string"
+    },
+    "OtherEmailAddress": {
+      "type": "string"
+    },
     "SubscriptionApiEndpointUrl": {
       "type": "string"
     },
@@ -108,6 +117,21 @@
         "type": "string"
     },
     "ApiName": {
+        "type": "string"
+    },
+    "SubscriptionSettingsFilterIncludeEventTypes3": {
+        "type": "string"
+    },
+    "SubscriptionSettingsFilterIncludeEventTypes4": {
+        "type": "string"
+    },
+    "NotifyOptionsApiKey": {
+        "type": "securestring"
+    },
+    "NotifyOptionsByEmailTemplateId": {
+        "type": "string"
+    },
+    "NotifyOptionsCallMeBackTemplateId": {
         "type": "string"
     }
   },
@@ -327,8 +351,52 @@
                 "value": "[parameters('NoReplyEmailAddress')]"
               },
               {
+                "name": "FamApiRoutingOptions__Timeout",
+                "value": "00:00:10"
+              },
+              {
+                "name": "FamApiRoutingOptions__ProblemsEmailAddress",
+                "value": "[parameters('ProblemsEmailAddress')]"
+              },
+              {
+                "name": "FamApiRoutingOptions__FeebackEmailAddress",
+                "value": "[parameters('FeebackEmailAddress')]"
+              },
+              {
+                "name": "FamApiRoutingOptions__OtherEmailAddress",
+                "value": "[parameters('OtherEmailAddress')]"
+              },
+              {
                 "name": "Configuration__ApplicationName",
                 "value": "[parameters('ApplicationName')]"
+              },
+              {
+                "name": "Configuration__NotifyOptions__ApiKey",
+                "value": "[parameters('NotifyOptionsApiKey')]"
+              },
+              {
+                "name": "Configuration__NotifyOptions__ByEmailTemplateId",
+                "value": "[parameters('NotifyOptionsByEmailTemplateId')]"
+              },
+              {
+                "name": "Configuration__NotifyOptions__CallMeBackTemplateId",
+                "value": "[parameters('NotifyOptionsCallMeBackTemplateId')]"
+              },
+              {
+                "name": "Configuration__NotifyOptions__Policies__HttpCircuitBreaker__DurationOfBreak",
+                "value": "00:00:30"
+              },
+              {
+                "name": "Configuration__NotifyOptions__Policies__HttpCircuitBreaker__ExceptionsAllowedBeforeBreaking",
+                "value": 3
+              },
+              {
+                "name": "Configuration__NotifyOptions__Policies__HttpRetry__BackoffPower",
+                "value": 2
+              },
+              {
+                "name": "Configuration__NotifyOptions__Policies__HttpRetry__Count",
+                "value": 3
               },
               {
                 "name": "SubscriptionSettings__SubscriptionServiceEndpoint",
@@ -351,6 +419,14 @@
                 "value": "deleted"
               },
               {
+                "name": "SubscriptionSettings__Filter__IncludeEventTypes__3",
+                "value": "[parameters('SubscriptionSettingsFilterIncludeEventTypes3')]"
+              },
+              {
+                "name": "SubscriptionSettings__Filter__IncludeEventTypes__4",
+                "value": "[parameters('SubscriptionSettingsFilterIncludeEventTypes4')]"
+              },
+              {
                 "name": "SubscriptionSettings__Filter__PropertyContainsFilters__0__Key",
                 "value": "subject"
               },
@@ -361,7 +437,19 @@
               {
                 "name": "SubscriptionSettings__Filter__PropertyContainsFilters__0__Values__1",
                 "value": "e11a1195-801d-479b-84b6-f5e443abfb86"
-              }
+              },
+              {
+                "name": "SubscriptionSettings__SubscriptionRegistrationDelay",
+                "value": "00:02:00"
+              },
+              {
+                "name": "WEBSITE_RUN_FROM_PACKAGE",
+                "value": "1"
+              },
+              {
+                "name": "WEBSITE_ADD_SITENAME_BINDINGS_IN_APPHOST_CONFIG",
+                "value": "1"
+              }              
             ]
           }
         }

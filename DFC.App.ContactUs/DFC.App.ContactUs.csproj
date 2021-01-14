@@ -46,7 +46,6 @@
     <ProjectReference Include="..\DFC.App.ContactUs.Services.AreaRoutingService\DFC.App.ContactUs.Services.AreaRoutingService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.CacheContentService\DFC.App.ContactUs.Services.CacheContentService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.EmailService\DFC.App.ContactUs.Services.EmailService.csproj" />
-    <ProjectReference Include="..\DFC.App.ContactUs.Services.EmailTemplateService\DFC.App.ContactUs.Services.EmailTemplateService.csproj" />
   </ItemGroup>
 
 
