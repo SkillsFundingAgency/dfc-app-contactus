@@ -30,6 +30,12 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
             }
         }
 
+        [When(@"I select the final callback date radio option")]
+        public void WhenISelectTheFinalCallbackRadioOption()
+        {
+            this.Context.GetWebDriver().FindElement(By.Id("TodayPlus5-option")).Click();
+        }
+
         [When(@"I click the checkbox option (.*)")]
         public void WhenIClickTheCheckboxOption(string checkboxLabel)
         {

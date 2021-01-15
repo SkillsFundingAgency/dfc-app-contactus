@@ -20,20 +20,17 @@ namespace DFC.App.ContactUs.Services.CacheContentService
         private readonly ILogger<WebhooksService> logger;
         private readonly AutoMapper.IMapper mapper;
         private readonly ICmsApiService cmsApiService;
-        private readonly IDocumentService<EmailModel> emailDocumentService;
         private readonly IDocumentService<ConfigurationSetModel> configurationSetDocumentService;
 
         public WebhooksService(
             ILogger<WebhooksService> logger,
             AutoMapper.IMapper mapper,
             ICmsApiService cmsApiService,
-            IDocumentService<EmailModel> emailDocumentService,
             IDocumentService<ConfigurationSetModel> configurationSetDocumentService)
         {
             this.logger = logger;
             this.mapper = mapper;
             this.cmsApiService = cmsApiService;
-            this.emailDocumentService = emailDocumentService;
             this.configurationSetDocumentService = configurationSetDocumentService;
         }
 
@@ -42,14 +39,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             switch (webhookCacheOperation)
             {
                 case WebhookCacheOperation.Delete:
-                    if (contentId.Equals(ConfigurationSetKeyHelper.ConfigurationSetKey))
-                    {
-                        return await DeleteConfigurationSetAsync(contentId).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        return await DeleteEmailContentAsync(contentId).ConfigureAwait(false);
-                    }
+                    return await DeleteConfigurationSetAsync(contentId).ConfigureAwait(false);
 
                 case WebhookCacheOperation.CreateOrUpdate:
                     if (!Uri.TryCreate(apiEndpoint, UriKind.Absolute, out Uri? url))
@@ -57,14 +47,7 @@ namespace DFC.App.ContactUs.Services.CacheContentService
                         throw new InvalidDataException($"Invalid Api url '{apiEndpoint}' received for Event Id: {eventId}");
                     }
 
-                    if (contentId.Equals(ConfigurationSetKeyHelper.ConfigurationSetKey))
-                    {
-                        return await ProcessConfigurationSetAsync(url).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        return await ProcessEmailContentAsync(url).ConfigureAwait(false);
-                    }
+                    return await ProcessConfigurationSetAsync(url).ConfigureAwait(false);
 
                 default:
                     logger.LogError($"Event Id: {eventId} got unknown cache operation - {webhookCacheOperation}");
@@ -92,36 +75,9 @@ namespace DFC.App.ContactUs.Services.CacheContentService
             return contentResult;
         }
 
-        public async Task<HttpStatusCode> ProcessEmailContentAsync(Uri url)
-        {
-            var apiDataModel = await cmsApiService.GetItemAsync<EmailApiDataModel>(url).ConfigureAwait(false);
-            var emailModel = mapper.Map<EmailModel>(apiDataModel);
-
-            if (emailModel == null)
-            {
-                return HttpStatusCode.NoContent;
-            }
-
-            if (!TryValidateModel(emailModel))
-            {
-                return HttpStatusCode.BadRequest;
-            }
-
-            var contentResult = await emailDocumentService.UpsertAsync(emailModel).ConfigureAwait(false);
-
-            return contentResult;
-        }
-
         public async Task<HttpStatusCode> DeleteConfigurationSetAsync(Guid contentId)
         {
             var result = await configurationSetDocumentService.DeleteAsync(contentId).ConfigureAwait(false);
-
-            return result ? HttpStatusCode.OK : HttpStatusCode.NoContent;
-        }
-
-        public async Task<HttpStatusCode> DeleteEmailContentAsync(Guid contentId)
-        {
-            var result = await emailDocumentService.DeleteAsync(contentId).ConfigureAwait(false);
 
             return result ? HttpStatusCode.OK : HttpStatusCode.NoContent;
         }

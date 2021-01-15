@@ -27,24 +27,23 @@ namespace DFC.App.ContactUs.Models
 
         public string? ToEmailAddress { get; set; }
 
-        public string? Body { get; set; }
+        public bool IsCallBack { get; set; }
 
-        public string? BodyNoHtml { get; set; }
-
-        public Dictionary<string, string?> TokenValueMappings
+        public Dictionary<string, dynamic> PersonalisationMappings
         {
             get
             {
-                return new Dictionary<string, string?>
+                return new Dictionary<string, dynamic>
                 {
-                    { nameof(GivenName), GivenName },
-                    { nameof(FamilyName), FamilyName },
-                    { nameof(FromEmailAddress), FromEmailAddress },
-                    { nameof(TelephoneNumber), TelephoneNumber },
-                    { nameof(DateOfBirth), DateOfBirth.HasValue ? DateOfBirth.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : null },
-                    { nameof(Postcode), Postcode },
-                    { nameof(Query), Query },
-                    { nameof(CallbackDateTime), CallbackDateTime },
+                    { nameof(Subject), Subject! },
+                    { nameof(GivenName), GivenName! },
+                    { nameof(FamilyName), FamilyName! },
+                    { nameof(FromEmailAddress), FromEmailAddress! },
+                    { nameof(TelephoneNumber),  string.IsNullOrEmpty(TelephoneNumber) ? string.Empty : TelephoneNumber },
+                    { nameof(DateOfBirth), DateOfBirth.HasValue ? DateOfBirth.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : string.Empty },
+                    { nameof(Postcode), Postcode! },
+                    { nameof(Query), Query! },
+                    { nameof(CallbackDateTime), CallbackDateTime! },
                 };
             }
         }

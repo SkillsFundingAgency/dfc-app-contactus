@@ -30,20 +30,6 @@ namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
         }
 
         [Fact]
-        public void AutoMapperProfileConfigurationForEmailModelProfileReturnSuccess()
-        {
-            // Arrange
-            factory.CreateClient();
-            var mapper = factory.Server.Host.Services.GetRequiredService<IMapper>();
-
-            // Act
-            mapper.ConfigurationProvider.AssertConfigurationIsValid<EmailModelProfile>();
-
-            // Assert
-            Assert.True(true);
-        }
-
-        [Fact]
         public void AutoMapperProfileConfigurationForEConfigurationSetModelProfileReturnSuccess()
         {
             // Arrange

@@ -26,13 +26,11 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
         private readonly IMapper fakeMapper;
 
-        private readonly ISendGridEmailService<ContactUsEmailRequestModel> fakeSendGridEmailService;
+        private readonly INotifyEmailService<ContactUsEmailRequestModel> fakeNotifyEmailService;
 
         private readonly IRoutingService fakeRoutingService;
 
         private readonly FamApiRoutingOptions fakeFamApiRoutingOptions;
-
-        private readonly ITemplateService fakeTemplateService;
 
         public SessionStateGetTests()
         {
@@ -40,9 +38,8 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             fakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
             fakeMapper = A.Fake<AutoMapper.IMapper>();
             fakeRoutingService = A.Fake<IRoutingService>();
-            fakeSendGridEmailService = A.Fake<ISendGridEmailService<ContactUsEmailRequestModel>>();
+            fakeNotifyEmailService = A.Fake<INotifyEmailService<ContactUsEmailRequestModel>>();
             fakeFamApiRoutingOptions = A.Fake<FamApiRoutingOptions>();
-            fakeTemplateService = A.Fake<ITemplateService>();
         }
 
         [Fact]
@@ -112,7 +109,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new EnterYourDetailsController(logger, fakeMapper, fakeSessionStateService, fakeRoutingService, fakeSendGridEmailService, fakeFamApiRoutingOptions, fakeTemplateService)
+            var controller = new EnterYourDetailsController(logger, fakeMapper, fakeSessionStateService, fakeRoutingService, fakeNotifyEmailService, fakeFamApiRoutingOptions)
             {
                 ControllerContext = new ControllerContext()
                 {

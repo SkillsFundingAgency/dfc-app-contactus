@@ -9,7 +9,6 @@ using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.Services.AreaRoutingService;
 using DFC.App.ContactUs.Services.CacheContentService;
 using DFC.App.ContactUs.Services.EmailService;
-using DFC.App.ContactUs.Services.EmailTemplateService;
 using DFC.Compui.Cosmos;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
@@ -24,9 +23,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SendGrid;
-using SendGrid.Helpers.Reliability;
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.ContactUs
@@ -36,7 +32,7 @@ namespace DFC.App.ContactUs
     {
         private const string CosmosDbContentPagesConfigAppSettings = "Configuration:CosmosDbConnections:ContentPages";
         private const string CosmosDbSessionStateConfigAppSettings = "Configuration:CosmosDbConnections:SessionState";
-        private const string SendGridAppSettings = "Configuration:SendGrid";
+        private const string NotifyOptionsAppSettings = "Configuration:NotifyOptions";
 
         private readonly IConfiguration configuration;
         private readonly IWebHostEnvironment env;
@@ -77,18 +73,13 @@ namespace DFC.App.ContactUs
             var cosmosDbConnectionContentPages = configuration.GetSection(CosmosDbContentPagesConfigAppSettings).Get<CosmosDbConnection>();
             var cosmosDbConnectionSessionState = configuration.GetSection(CosmosDbSessionStateConfigAppSettings).Get<CosmosDbConnection>();
             services.AddDocumentServices<ConfigurationSetModel>(cosmosDbConnectionContentPages, env.IsDevelopment());
-            services.AddDocumentServices<EmailModel>(cosmosDbConnectionContentPages, env.IsDevelopment());
             services.AddSessionStateServices<SessionDataModel>(cosmosDbConnectionSessionState, env.IsDevelopment());
 
             services.AddApplicationInsightsTelemetry();
             services.AddHttpContextAccessor();
             services.AddSingleton<ValidationHtmlAttributeProvider, CustomValidationHtmlAttributeProvider>();
-            services.AddSingleton(ConfigureSendGridClient());
-            services.AddTransient<IMergeEmailContentService, MergeEmailContentService>();
-            services.AddTransient<ISendGridEmailService<ContactUsEmailRequestModel>, SendGridEmailService<ContactUsEmailRequestModel>>();
-            services.AddTransient<ITemplateService, TemplateService>();
+            services.AddTransient<INotifyEmailService<ContactUsEmailRequestModel>, NotifyEmailService<ContactUsEmailRequestModel>>();
             services.AddTransient<IConfigurationSetReloadService, ConfigurationSetReloadService>();
-            services.AddTransient<IEmailCacheReloadService, EmailCacheReloadService>();
             services.AddTransient<IWebhooksService, WebhooksService>();
 
             services.AddAutoMapper(typeof(Startup).Assembly);
@@ -97,7 +88,6 @@ namespace DFC.App.ContactUs
             services.AddSingleton(configuration.GetSection(nameof(FamApiRoutingOptions)).Get<FamApiRoutingOptions>() ?? new FamApiRoutingOptions());
             services.AddHostedServiceTelemetryWrapper();
             services.AddHostedService<ConfigurationSetBackgroundService>();
-            services.AddHostedService<EmailCacheReloadBackgroundService>();
             services.AddSubscriptionBackgroundService(configuration);
 
             const string AppSettingsPolicies = "Policies";
@@ -110,6 +100,14 @@ namespace DFC.App.ContactUs
                 .AddPolicies(policyRegistry, nameof(FamApiRoutingOptions), policyOptions)
                 .AddHttpClient<IRoutingService, RoutingService, FamApiRoutingOptions>(configuration, nameof(FamApiRoutingOptions), nameof(PolicyOptions.HttpRetry), nameof(PolicyOptions.HttpCircuitBreaker));
 
+            services.AddSingleton(configuration.GetSection(NotifyOptionsAppSettings).Get<NotifyOptions>() ?? new NotifyOptions());
+
+            var notifyPolicyOptions = configuration.GetSection($"{NotifyOptionsAppSettings}:Policies").Get<PolicyOptions>() ?? new PolicyOptions();
+            services.AddPolicies(policyRegistry, nameof(NotifyClientProxy), notifyPolicyOptions);
+            services.AddHttpClient<INotifyClientProxy, NotifyClientProxy>()
+            .AddPolicyHandlerFromRegistry($"{nameof(NotifyClientProxy)}_{nameof(notifyPolicyOptions.HttpRetry)}")
+            .AddPolicyHandlerFromRegistry($"{nameof(NotifyClientProxy)}_{nameof(notifyPolicyOptions.HttpCircuitBreaker)}");
+
             services.AddMvc(config =>
                 {
                     config.RespectBrowserAcceptHeader = true;
@@ -117,22 +115,6 @@ namespace DFC.App.ContactUs
                 })
                 .AddNewtonsoftJson()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-        }
-
-        public ISendGridClient ConfigureSendGridClient()
-        {
-            var sendGridSettings = configuration.GetSection(SendGridAppSettings).Get<SendGridSettings>() ?? new SendGridSettings();
-            var sendGridClient = new SendGridClient(new SendGridClientOptions
-            {
-                ApiKey = sendGridSettings.ApiKey,
-                ReliabilitySettings = new ReliabilitySettings(
-                    sendGridSettings.DefaultNumberOfRetries,
-                    TimeSpan.FromSeconds(sendGridSettings.DefaultMinimumBackOff),
-                    TimeSpan.FromSeconds(sendGridSettings.DefaultMaximumBackOff),
-                    TimeSpan.FromSeconds(sendGridSettings.DeltaBackOff)),
-            });
-
-            return sendGridClient;
         }
     }
 }
