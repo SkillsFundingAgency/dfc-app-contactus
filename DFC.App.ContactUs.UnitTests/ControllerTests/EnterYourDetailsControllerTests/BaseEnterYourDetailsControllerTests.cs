@@ -26,7 +26,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
             FakeMapper = A.Fake<AutoMapper.IMapper>();
             FakeRoutingService = A.Fake<IRoutingService>();
             FakeNotifyEmailService = A.Fake<INotifyEmailService<ContactUsEmailRequestModel>>();
-            FakeFamApiRoutingOptions = A.Fake<FamApiRoutingOptions>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -55,15 +54,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
 
         protected IRoutingService FakeRoutingService { get; }
 
-        protected FamApiRoutingOptions FakeFamApiRoutingOptions { get; }
-
         protected EnterYourDetailsController BuildEnterYourDetailsController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new EnterYourDetailsController(Logger, FakeMapper, FakeSessionStateService, FakeRoutingService, FakeNotifyEmailService, FakeFamApiRoutingOptions)
+            var controller = new EnterYourDetailsController(Logger, FakeMapper, FakeSessionStateService, FakeRoutingService, FakeNotifyEmailService)
             {
                 ControllerContext = new ControllerContext()
                 {
