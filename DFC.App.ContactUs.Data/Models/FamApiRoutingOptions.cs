@@ -8,12 +8,12 @@ namespace DFC.App.ContactUs.Data.Models
     {
         public string AreaRoutingEndpoint { get; set; } = "futureaccessmodel/arearouting/api/areas?location=";
 
-        public string FallbackEmailToAddresses { get; set; } = "digital.first.careers@gmail.com";
+        public string FallbackEmailToAddresses { get; set; } = string.Empty;
 
-        public string ProblemsEmailAddress { get; set; } = "no-reply@nationalcareers.service.gov.uk";
+        public string ProblemsEmailAddress { get; set; } = string.Empty;
 
-        public string FeebackEmailAddress { get; set; } = "no-reply@nationalcareers.service.gov.uk";
+        public string FeebackEmailAddress { get; set; } = string.Empty;
 
-        public string OtherEmailAddress { get; set; } = "no-reply@nationalcareers.service.gov.uk";
+        public string OtherEmailAddress { get; set; } = string.Empty;
     }
 }
