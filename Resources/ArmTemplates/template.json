@@ -105,34 +105,43 @@
       "type": "string"
     },
     "ApimResourceGroup": {
-        "type": "string"
+      "type": "string"
     },
     "ApimLoggerName": {
-        "type": "string"
+      "type": "string"
     },
     "ApimProductInstanceName": {
-        "type": "string"
+      "type": "string"
     },
     "ApimServiceName": {
-        "type": "string"
+      "type": "string"
     },
     "ApiName": {
-        "type": "string"
+      "type": "string"
     },
     "SubscriptionSettingsFilterIncludeEventTypes3": {
-        "type": "string"
+      "type": "string"
     },
     "SubscriptionSettingsFilterIncludeEventTypes4": {
-        "type": "string"
+      "type": "string"
     },
     "NotifyOptionsApiKey": {
-        "type": "securestring"
+      "type": "securestring"
     },
     "NotifyOptionsByEmailTemplateId": {
-        "type": "string"
+      "type": "string"
     },
     "NotifyOptionsCallMeBackTemplateId": {
-        "type": "string"
+      "type": "string"
+    },
+    "ExceptionCountThreshold": {
+      "type": "string"
+    },
+    "CPUPercentageThreshold": {
+      "type": "string"
+    },
+    "MemoryPercentageThreshold": {
+      "type": "string"
     }
   },
   "variables": {
@@ -449,12 +458,12 @@
               {
                 "name": "WEBSITE_ADD_SITENAME_BINDINGS_IN_APPHOST_CONFIG",
                 "value": "1"
-              }              
+              }
             ]
           }
         }
       },
-      "dependsOn": ["[variables('webAppInsightsName')]"]
+      "dependsOn": [ "[variables('webAppInsightsName')]" ]
     },
     {
       "name": "[variables('CosmosDbDatabaseName')]",
@@ -515,7 +524,7 @@
           }
         }
       },
-      "dependsOn": ["[variables('CosmosDbDatabaseName')]"]
+      "dependsOn": [ "[variables('CosmosDbDatabaseName')]" ]
     },
     {
       "apiVersion": "2017-05-10",
@@ -549,13 +558,13 @@
           }
         }
       },
-      "dependsOn": ["[variables('CosmosDbDatabaseName')]"]
+      "dependsOn": [ "[variables('CosmosDbDatabaseName')]" ]
     },
     {
       "apiVersion": "2019-05-01",
       "name": "[concat(variables('webAppInsightsName'), '-metric-exceptions')]",
       "type": "Microsoft.Resources/deployments",
-      "dependsOn": ["[variables('webAppInsightsName')]"],
+      "dependsOn": [ "[variables('webAppInsightsName')]" ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -579,7 +588,7 @@
             "value": "GreaterThan"
           },
           "threshold": {
-            "value": "0"
+            "value": "[parameters('ExceptionCountThreshold')]"
           },
           "aggregation": {
             "value": "Count"
@@ -630,6 +639,112 @@
           }
         }
       }
+    },
+    {
+      "apiVersion": "2019-05-01",
+      "name": "[concat(variables('AppServicePlanName'), '-CPUPercentage')]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "enabled": {
+            "value": "[parameters('enableAlerts')]"
+          },
+          "alertName": {
+            "value": "[concat(variables('AppServicePlanName'), '-metric-CPUPercentage')]"
+          },
+          "alertSeverity": {
+            "value": 3
+          },
+          "metricName": {
+            "value": "CpuPercentage"
+          },
+          "operator": {
+            "value": "GreaterThanOrEqual"
+          },
+          "threshold": {
+            "value": "[parameters('CPUPercentageThreshold')]"
+          },
+          "aggregation": {
+            "value": "Average"
+          },
+          "windowSize": {
+            "value": "PT5M"
+          },
+          "evaluationFrequency": {
+            "value": "PT1M"
+          },
+          "actionGroupName": {
+            "value": "[variables('ActionGroupName')]"
+          },
+          "actionGroupResourceGroup": {
+            "value": "[parameters('appSharedResourceGroup')]"
+          },
+          "resourceId": {
+            "value": "[resourceId('Microsoft.Web/serverFarms', variables('AppServicePlanName'))]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[variables('AppServicePlanName')]"
+      ]
+    },
+    {
+      "apiVersion": "2019-05-01",
+      "name": "[concat(variables('AppServicePlanName'), '-MemoryPercentage')]",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'Application-Insights/metric-alerts.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "enabled": {
+            "value": "[parameters('enableAlerts')]"
+          },
+          "alertName": {
+            "value": "[concat(variables('AppServicePlanName'), '-metric-MemoryPercentage')]"
+          },
+          "alertSeverity": {
+            "value": 3
+          },
+          "metricName": {
+            "value": "MemoryPercentage"
+          },
+          "operator": {
+            "value": "GreaterThanOrEqual"
+          },
+          "threshold": {
+            "value": "[parameters('MemoryPercentageThreshold')]"
+          },
+          "aggregation": {
+            "value": "Average"
+          },
+          "windowSize": {
+            "value": "PT5M"
+          },
+          "evaluationFrequency": {
+            "value": "PT1M"
+          },
+          "actionGroupName": {
+            "value": "[variables('ActionGroupName')]"
+          },
+          "actionGroupResourceGroup": {
+            "value": "[parameters('appSharedResourceGroup')]"
+          },
+          "resourceId": {
+            "value": "[resourceId('Microsoft.Web/serverFarms', variables('AppServicePlanName'))]"
+          }
+        }
+      },
+      "dependsOn": [
+        "[variables('AppServicePlanName')]"
+      ]
     }
   ],
   "outputs": {}
