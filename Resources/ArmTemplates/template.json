@@ -80,9 +80,6 @@
     "FallbackEmailToAddresses": {
       "type": "string"
     },
-    "NoReplyEmailAddress": {
-      "type": "string"
-    },
     "ProblemsEmailAddress": {
       "type": "string"
     },
@@ -347,10 +344,6 @@
               {
                 "name": "FamApiRoutingOptions__FallbackEmailToAddresses",
                 "value": "[parameters('FallbackEmailToAddresses')]"
-              },
-              {
-                "name": "FamApiRoutingOptions__NoReplyEmailAddress",
-                "value": "[parameters('NoReplyEmailAddress')]"
               },
               {
                 "name": "FamApiRoutingOptions__Timeout",
