@@ -50,9 +50,6 @@
         "ApplicationName": {
             "value": "anothervalue"
         },
-        "SendGridKey": {
-            "value": "987456"
-        },
         "FallbackEmailToAddresses": {
             "value": "foo@contso.com"
         },

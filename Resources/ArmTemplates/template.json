@@ -77,9 +77,6 @@
     "ApimFutureAccessModelKey": {
       "type": "string"
     },
-    "SendGridKey": {
-      "type": "string"
-    },
     "FallbackEmailToAddresses": {
       "type": "string"
     },
@@ -338,10 +335,6 @@
               {
                 "name": "ChatOptions__ShowWebchatIframe",
                 "value": "[parameters('ChatOptionsShowWebchatIframe')]"
-              },
-              {
-                "name": "Configuration__SendGrid__ApiKey",
-                "value": "[parameters('SendGridKey')]"
               },
               {
                 "name": "FamApiRoutingOptions__ApiKey",

@@ -68,9 +68,6 @@
         "ApimFutureAccessModelKey": {
             "value": "__ApimFutureAccessModelKey__"
         },
-        "SendGridKey": {
-            "value": "__SendGridKey__"
-        },
         "FallbackEmailToAddresses": {
             "value": "__FallbackEmailToAddresses__"
         },
