@@ -50,14 +50,8 @@
         "ApplicationName": {
             "value": "anothervalue"
         },
-        "SendGridKey": {
-            "value": "987456"
-        },
         "FallbackEmailToAddresses": {
             "value": "foo@contso.com"
-        },
-        "NoReplyEmailAddress": {
-            "value": "no-replyfoo@contso.com"
         },
         "ProblemsEmailAddress": {
             "value": "Problems@contso.com"

@@ -77,13 +77,7 @@
     "ApimFutureAccessModelKey": {
       "type": "string"
     },
-    "SendGridKey": {
-      "type": "string"
-    },
     "FallbackEmailToAddresses": {
-      "type": "string"
-    },
-    "NoReplyEmailAddress": {
       "type": "string"
     },
     "ProblemsEmailAddress": {
@@ -340,10 +334,6 @@
                 "value": "[parameters('ChatOptionsShowWebchatIframe')]"
               },
               {
-                "name": "Configuration__SendGrid__ApiKey",
-                "value": "[parameters('SendGridKey')]"
-              },
-              {
                 "name": "FamApiRoutingOptions__ApiKey",
                 "value": "[parameters('ApimFutureAccessModelKey')]"
               },
@@ -354,10 +344,6 @@
               {
                 "name": "FamApiRoutingOptions__FallbackEmailToAddresses",
                 "value": "[parameters('FallbackEmailToAddresses')]"
-              },
-              {
-                "name": "FamApiRoutingOptions__NoReplyEmailAddress",
-                "value": "[parameters('NoReplyEmailAddress')]"
               },
               {
                 "name": "FamApiRoutingOptions__Timeout",
