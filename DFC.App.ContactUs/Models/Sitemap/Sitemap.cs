@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace DFC.App.ContactUs.Models
 {
-    [XmlRoot("urlset", Namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")]
+    [XmlRoot("urlset", Namespace = "https://www.sitemaps.org/schemas/sitemap/0.9")]
     public class Sitemap
     {
         private readonly ArrayList map;
@@ -69,7 +69,7 @@ namespace DFC.App.ContactUs.Models
         {
             using var fs = new FileStream(path, FileMode.Create);
             var ns = new XmlSerializerNamespaces();
-            ns.Add("image", "http://www.google.com/schemas/sitemap-image/1.1");
+            ns.Add("image", "https://www.google.com/schemas/sitemap-image/1.1");
 
             var xs = new XmlSerializer(typeof(Sitemap));
             xs.Serialize(fs, this, ns);
@@ -79,7 +79,7 @@ namespace DFC.App.ContactUs.Models
         {
             using var sw = new StringWriter();
             var ns = new XmlSerializerNamespaces();
-            ns.Add("image", "http://www.google.com/schemas/sitemap-image/1.1");
+            ns.Add("image", "https://www.google.com/schemas/sitemap-image/1.1");
 
             var xs = new XmlSerializer(typeof(Sitemap));
             xs.Serialize(sw, this, ns);

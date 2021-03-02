@@ -2,7 +2,7 @@
 
 namespace DFC.App.ContactUs.Models
 {
-    [XmlType(Namespace = "http://www.google.com/schemas/sitemap-image/1.1")]
+    [XmlType(Namespace = "https://www.google.com/schemas/sitemap-image/1.1")]
     public class SitemapImage
     {
         [XmlElement("loc")]
