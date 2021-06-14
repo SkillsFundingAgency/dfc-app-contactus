@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.Models
         [XmlElement("priority")]
         public double? Priority { get; set; }
 
-        [XmlElement("image", Namespace = "https://www.google.com/schemas/sitemap-image/1.1")]
+        [XmlElement("image", Namespace = "http://www.google.com/schemas/sitemap-image/1.1")]
         public List<SitemapImage>? Images { get; set; }
 
         public bool ShouldSerializeChangeFrequency()
