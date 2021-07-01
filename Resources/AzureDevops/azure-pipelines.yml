@@ -49,6 +49,12 @@ stages:
             targetPath: "$(Build.SourcesDirectory)/DFC.App.ContactUs/OpenAPIDocs"
             artifactName: ${{ variables.SolutionBaseName }}.OpenAPIDocs
 
+        - task: PublishPipelineArtifact@1
+          displayName: Publish Apim Policy
+          inputs:
+            targetPath: "$(System.DefaultWorkingDirectory)/Notify"
+            artifactName: ${{ variables.SolutionBaseName }}.Notify
+
     - job: PublishApimPolicy
       displayName: Publish Apim Policy
       steps:
