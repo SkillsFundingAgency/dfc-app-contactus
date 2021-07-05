@@ -58,6 +58,19 @@ stages:
           targetPath: "$(System.DefaultWorkingDirectory)/Resources/ApimPolicy"
           artifactName: ${{ variables.SolutionBaseName }}.ApimPolicies
 
+    #Build and test application
+    - job: BuildDotNetCore
+      displayName: Build-DotNetCore
+      steps:
+      - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-dotnetcore-build-sonar.yml@dfc-devops
+        parameters:
+          SolutionBaseName: $(SolutionBaseName)
+          BuildPlatform: $(BuildPlatform)
+          BuildConfiguration: $(BuildConfiguration)
+          DotNetCoreVersion: 3.1.101
+          PublishWebApp: true
+          TestSuffix: UnitTests
+
       - task: NuGetCommand@2
         displayName: "Pack and version Notify28 nuget file"
         inputs:      
@@ -73,20 +86,7 @@ stages:
         inputs:
           targetPath: "$(System.DefaultWorkingDirectory)/Notify2.8.0"
           artifactName: ${{ variables.SolutionBaseName }}.Notify28
-
-    #Build and test application
-    - job: BuildDotNetCore
-      displayName: Build-DotNetCore
-      steps:
-      - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-dotnetcore-build-sonar.yml@dfc-devops
-        parameters:
-          SolutionBaseName: $(SolutionBaseName)
-          BuildPlatform: $(BuildPlatform)
-          BuildConfiguration: $(BuildConfiguration)
-          DotNetCoreVersion: 3.1.101
-          PublishWebApp: true
-          TestSuffix: UnitTests
-
+    
     #Build UI functional Tests
     - job: Builduifunctionaltests
       displayName: Build UI functional tests
