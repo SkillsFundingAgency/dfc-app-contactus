@@ -49,12 +49,11 @@ stages:
             targetPath: "$(Build.SourcesDirectory)/DFC.App.ContactUs/OpenAPIDocs"
             artifactName: ${{ variables.SolutionBaseName }}.OpenAPIDocs
 
-        - task: PowerShell@2
-          displayName: "Pack and version nuget file"
-          inputs:      
-            targetType: inline
-            script: |
-              dotnet pack Notify/DFC.Api.Notify/DFC.Api.Notify.csproj.nuspec -c Release -o $(build.artifactstagingdirectory)\\packages /p:Version=2.8.0
+        - task: PublishPipelineArtifact@1
+          displayName: Publish Notify28
+          inputs:
+            targetPath: "$(System.DefaultWorkingDirectory)/Notify2.8.0"
+            artifactName: ${{ variables.SolutionBaseName }}.Notify28
 
         # And publish it so we can release it in a separate release definition
         - task: PublishBuildArtifacts@1
@@ -71,7 +70,7 @@ stages:
         inputs:
           targetPath: "$(System.DefaultWorkingDirectory)/Resources/ApimPolicy"
           artifactName: ${{ variables.SolutionBaseName }}.ApimPolicies
-    
+
     #Build and test application
     - job: BuildDotNetCore
       displayName: Build-DotNetCore
