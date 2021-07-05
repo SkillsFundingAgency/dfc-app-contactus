@@ -10,9 +10,9 @@
     <description>Notify Ver 2.8.0</description>
   </metadata>
   <files>
-    <file src="src\net462\Notify.dll" target="src\net462\Notify.dll" />
-    <file src="src\netcoreapp2.0\Notify.dll" target="src\netcoreapp2.0\Notify.dll" />
-    <file src="src\netstandard2.0\Notify.dll" target="src\netstandard2.0\Notify.dll" />
-    <file src="src\netstandard2.0\Notify.xml" target="src\netstandard2.0\Notify.xml" />
+    <file lib="lib\net462\Notify.dll" target="lib\net462\Notify.dll" />
+    <file src="lib\netcoreapp2.0\Notify.dll" target="lib\netcoreapp2.0\Notify.dll" />
+    <file src="lib\netstandard2.0\Notify.dll" target="lib\netstandard2.0\Notify.dll" />
+    <file src="lib\netstandard2.0\Notify.xml" target="lib\netstandard2.0\Notify.xml" />
   </files>
 </package>
