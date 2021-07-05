@@ -54,14 +54,7 @@ stages:
           inputs:      
             targetType: inline
             script: |
-              dotnet restore Notify/DFC.Api.Notify/DFC.Api.Notify.csproj
-
-        - task: PowerShell@2
-          displayName: "Pack and version nuget file"
-          inputs:      
-            targetType: inline
-            script: |
-              dotnet pack Notify/DFC.Api.Notify/DFC.Api.Notify.csproj --no-build --no-restore -c Release -o $(build.artifactstagingdirectory)\\packages /p:Version=2.8.0
+              dotnet pack Notify/DFC.Api.Notify/DFC.Api.Notify.csproj.nuspec -c Release -o $(build.artifactstagingdirectory)\\packages /p:Version=2.8.0
 
         # And publish it so we can release it in a separate release definition
         - task: PublishBuildArtifacts@1
