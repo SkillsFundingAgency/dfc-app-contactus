@@ -49,19 +49,20 @@ stages:
             targetPath: "$(Build.SourcesDirectory)/DFC.App.ContactUs/OpenAPIDocs"
             artifactName: ${{ variables.SolutionBaseName }}.OpenAPIDocs
 
+        - task: NuGetCommand@2
+          displayName: "Pack and version Notify28 nuget file"
+          inputs:      
+            command: pack
+            packagesToPack: 'Notify/DFC.Api.Notify/DFC.Api.Notify.csproj.nuspec' # Required when command == Pack
+            packDestination: '$(System.DefaultWorkingDirectory)/Notify2.8.0' # Optional
+            versioningScheme: byBuildNumber
+            basePath: 'Notify/DFC.Api.Notify/DFC.Api.Notify.csproj.nuspec'
+
         - task: PublishPipelineArtifact@1
           displayName: Publish Notify28
           inputs:
             targetPath: "$(System.DefaultWorkingDirectory)/Notify2.8.0"
             artifactName: ${{ variables.SolutionBaseName }}.Notify28
-
-        - task: PowerShell@2
-          displayName: "Pack and version nuget file"
-          inputs:      
-            targetType: inline
-            script: |
-              nuget pack Notify/DFC.Api.Notify/DFC.Api.Notify.csproj.nuspec
-
 
     - job: PublishApimPolicy
       displayName: Publish Apim Policy
