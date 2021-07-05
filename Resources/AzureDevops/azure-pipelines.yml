@@ -55,13 +55,6 @@ stages:
             targetPath: "$(System.DefaultWorkingDirectory)/Notify2.8.0"
             artifactName: ${{ variables.SolutionBaseName }}.Notify28
 
-        # And publish it so we can release it in a separate release definition
-        - task: PublishBuildArtifacts@1
-          displayName:  "Publish build artifacts"
-          inputs:
-            ArtifactName: "Packages"
-            PathtoPublish: "$(build.artifactstagingdirectory)\\packages"
-
     - job: PublishApimPolicy
       displayName: Publish Apim Policy
       steps:
