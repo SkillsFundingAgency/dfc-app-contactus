@@ -55,7 +55,8 @@ stages:
             command: pack
             packagesToPack: 'Notify/DFC.Api.Notify/DFC.Api.Notify.csproj.nuspec' # Required when command == Pack
             packDestination: '$(System.DefaultWorkingDirectory)/Notify2.8.0' # Optional
-            versioningScheme: off
+            versioningScheme: byEnvVar
+            versionEnvVar: $(GitVersion.MajorMinorPatch)
             basePath: 'Notify/DFC.Api.Notify'
 
         - task: PublishPipelineArtifact@1
