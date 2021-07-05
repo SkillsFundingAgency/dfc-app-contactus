@@ -60,7 +60,7 @@ stages:
           inputs:      
             targetType: inline
             script: |
-              dotnet pack Notify/DFC.Api.Notify/DFC.Api.Notify.csproj.nuspec -o $(build.artifactstagingdirectory)\\packages /p:Version=2.8.0
+              nuget pack Notify/DFC.Api.Notify/DFC.Api.Notify.csproj.nuspec
 
 
     - job: PublishApimPolicy
