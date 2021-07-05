@@ -55,6 +55,14 @@ stages:
             targetPath: "$(System.DefaultWorkingDirectory)/Notify2.8.0"
             artifactName: ${{ variables.SolutionBaseName }}.Notify28
 
+        - task: PowerShell@2
+          displayName: "Pack and version nuget file"
+          inputs:      
+            targetType: inline
+            script: |
+              dotnet pack Notify/DFC.Api.Notify/DFC.Api.Notify.csproj.nuspec -o $(build.artifactstagingdirectory)\\packages /p:Version=2.8.0
+
+
     - job: PublishApimPolicy
       displayName: Publish Apim Policy
       steps:
