@@ -13,41 +13,41 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests
         public const string SendUsLetterArticleName = HomeController.SendUsLetterCanonicalName;
         public const string AlternativeArticleName = "alternative-name";
 
-        private const string EventTypePublished = "published";
-        private const string WebhookApiUrl = "api/webhook/ReceiveEvents";
+        //private const string EventTypePublished = "published";
+        //private const string WebhookApiUrl = "api/webhook/ReceiveEvents";
 
         public static void SeedDefaultArticles(CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory)
         {
-            var eventGridEventDataItems = new List<EventGridEventData>()
-            {
-                new EventGridEventData()
-                {
-                    ItemId = "3627EDA0-A5EF-405F-BD91-349FCAD91105",
-                    DisplayText = "Send us a letter",
-                },
-                new EventGridEventData()
-                {
-                    ItemId = "46CB08FD-613E-4E72-8C08-39A8B256844E",
-                    DisplayText = "Thank you for contacting us",
-                },
-                new EventGridEventData()
-                {
-                    ItemId = "EDFC8852-9820-4F29-B006-9FBD46CAB646",
-                    DisplayText = "test-grid-4-x-3",
-                },
-            };
+            //var eventGridEventDataItems = new List<EventGridEventData>()
+            //{
+            //    new EventGridEventData()
+            //    {
+            //        ItemId = "3627EDA0-A5EF-405F-BD91-349FCAD91105",
+            //        DisplayText = "Send us a letter",
+            //    },
+            //    new EventGridEventData()
+            //    {
+            //        ItemId = "46CB08FD-613E-4E72-8C08-39A8B256844E",
+            //        DisplayText = "Thank you for contacting us",
+            //    },
+            //    new EventGridEventData()
+            //    {
+            //        ItemId = "EDFC8852-9820-4F29-B006-9FBD46CAB646",
+            //        DisplayText = "test-grid-4-x-3",
+            //    },
+            //};
 
-            var client = factory?.CreateClient();
+            //var client = factory?.CreateClient();
 
-            client!.DefaultRequestHeaders.Accept.Clear();
+            //client!.DefaultRequestHeaders.Accept.Clear();
 
-            foreach (var eventGridEventData in eventGridEventDataItems)
-            {
-                eventGridEventData.Api = "https://localhost:44354/home/item/contact-us/" + eventGridEventData.ItemId;
-                var eventGridEvents = BuildValidEventGridEvent(EventTypePublished, eventGridEventData);
-                var uri = new Uri("/" + WebhookApiUrl, UriKind.Relative);
-                var result = client.PostAsync(uri, eventGridEvents, new JsonMediaTypeFormatter()).GetAwaiter().GetResult();
-            }
+            //foreach (var eventGridEventData in eventGridEventDataItems)
+            //{
+            //    eventGridEventData.Api = "https://localhost:44354/home/item/contact-us/" + eventGridEventData.ItemId;
+            //    var eventGridEvents = BuildValidEventGridEvent(EventTypePublished, eventGridEventData);
+            //    var uri = new Uri("/" + WebhookApiUrl, UriKind.Relative);
+            //    var result = client.PostAsync(uri, eventGridEvents, new JsonMediaTypeFormatter()).GetAwaiter().GetResult();
+            //}
         }
 
         private static EventGridEvent[] BuildValidEventGridEvent<TModel>(string eventType, TModel data)
