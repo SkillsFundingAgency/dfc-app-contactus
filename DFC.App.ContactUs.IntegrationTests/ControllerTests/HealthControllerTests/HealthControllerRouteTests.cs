@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FakeItEasy;
+using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Text;
@@ -35,9 +36,10 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HealthControllerTes
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
-            var client = factory.CreateClient();
+            var client = factory.CreateClientWithWebHostBuilder();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Text.Html));
+            A.CallTo(() => this.factory.MockCosmosRepo.PingAsync()).Returns(true);
 
             // Act
             var response = await client.GetAsync(uri).ConfigureAwait(false);
@@ -53,9 +55,10 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HealthControllerTes
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
-            var client = factory.CreateClient();
+            var client = factory.CreateClientWithWebHostBuilder();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+            A.CallTo(() => this.factory.MockCosmosRepo.PingAsync()).Returns(true);
 
             // Act
             var response = await client.GetAsync(uri).ConfigureAwait(false);
@@ -71,7 +74,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HealthControllerTes
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
-            var client = factory.CreateClient();
+            var client = factory.CreateClientWithWebHostBuilder();
             client.DefaultRequestHeaders.Accept.Clear();
 
             // Act
