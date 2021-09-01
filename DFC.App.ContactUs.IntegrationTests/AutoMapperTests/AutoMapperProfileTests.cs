@@ -15,11 +15,11 @@ namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
             this.factory = factory;
         }
 
-        [Fact(Skip = "Needs code refactor")]
+        [Fact]
         public void AutoMapperProfileConfigurationForChatOptionsProfileReturnSuccess()
         {
             // Arrange
-            factory.CreateClientWithWebHostBuilder();
+            factory.CreateClient();
             var mapper = factory.Server.Host.Services.GetRequiredService<IMapper>();
 
             // Act
@@ -29,11 +29,11 @@ namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
             Assert.True(true);
         }
 
-        [Fact(Skip = "Needs code refactor")]
+        [Fact]
         public void AutoMapperProfileConfigurationForEConfigurationSetModelProfileReturnSuccess()
         {
             // Arrange
-            factory.CreateClientWithWebHostBuilder();
+            factory.CreateClient();
             var mapper = factory.Server.Host.Services.GetRequiredService<IMapper>();
 
             // Act
@@ -43,11 +43,11 @@ namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
             Assert.True(true);
         }
 
-        [Fact(Skip = "Needs code refactor")]
+        [Fact]
         public void AutoMapperProfileConfigurationForEnterYourDetailsBodyViewModelProfileReturnSuccess()
         {
             // Arrange
-            factory.CreateClientWithWebHostBuilder();
+            factory.CreateClient();
             var mapper = factory.Server.Host.Services.GetRequiredService<IMapper>();
 
             // Act
@@ -57,11 +57,12 @@ namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
             Assert.True(true);
         }
 
-        [Fact(Skip = "Needs code refactor")]
+        //[Fact(Skip = "Needs code refactor")]
+        [Fact]
         public void AutoMapperProfileConfigurationForAllProfilesReturnSuccess()
         {
             // Arrange
-            factory.CreateClientWithWebHostBuilder();
+            factory.CreateClient();
             var mapper = factory.Server.Host.Services.GetRequiredService<IMapper>();
 
             // Act
