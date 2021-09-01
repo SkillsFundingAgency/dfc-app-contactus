@@ -34,7 +34,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.WebhooksControllerT
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 
             // Act
-            var response = await client.PostAsJsonAsync(uri, eventGridEvents).ConfigureAwait(false);
+            var response = await client.PostAsJsonAsync(uri, eventGridEvents);
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -52,7 +52,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.WebhooksControllerT
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 
             // Act
-            var response = await client.PostAsJsonAsync(uri, eventGridEvents).ConfigureAwait(false);
+            var response = await client.PostAsJsonAsync(uri, eventGridEvents);
 
             // Assert
             response.EnsureSuccessStatusCode();

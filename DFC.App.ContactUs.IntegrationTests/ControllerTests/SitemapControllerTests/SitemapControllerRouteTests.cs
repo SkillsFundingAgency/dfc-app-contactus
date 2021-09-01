@@ -32,7 +32,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.SitemapControllerTe
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Xml));
 
             // Act
-            var response = await client.GetAsync(uri).ConfigureAwait(false);
+            var response = await client.GetAsync(uri);
 
             // Assert
             response.EnsureSuccessStatusCode();
