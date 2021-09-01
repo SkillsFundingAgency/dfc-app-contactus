@@ -28,7 +28,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HomeControllerTests
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
-            var client = factory.CreateClientWithWebHostBuilder();
+            var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
 
             // Act

@@ -27,7 +27,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.RobotControllerTest
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
-            var client = factory.CreateClientWithWebHostBuilder();
+            var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Text.Plain));
 

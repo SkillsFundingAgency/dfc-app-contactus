@@ -27,7 +27,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.SitemapControllerTe
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
-            var client = factory.CreateClientWithWebHostBuilder();
+            var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Xml));
 
