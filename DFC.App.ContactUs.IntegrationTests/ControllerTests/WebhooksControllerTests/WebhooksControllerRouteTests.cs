@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.WebhooksControllerT
             string expectedValidationCode = Guid.NewGuid().ToString();
             var eventGridEvents = BuildValidEventGridEvent(Microsoft.Azure.EventGrid.EventTypes.EventGridSubscriptionValidationEvent, new SubscriptionValidationEventData(expectedValidationCode, "https://somewhere.com"));
             var uri = new Uri(WebhookApiUrl, UriKind.Relative);
-            var client = factory.CreateClient();
+            var client = factory.CreateClientWithWebHostBuilder();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 
@@ -47,7 +47,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.WebhooksControllerT
             // Arrange
             var eventGridEvents = BuildValidEventGridEvent(EventTypePublished, new EventGridEventData { ItemId = Guid.NewGuid().ToString(), Api = "https://somewhere.com", });
             var uri = new Uri(WebhookApiUrl, UriKind.Relative);
-            var client = factory.CreateClient();
+            var client = factory.CreateClientWithWebHostBuilder();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 

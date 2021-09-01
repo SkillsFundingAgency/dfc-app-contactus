@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FakeItEasy;
+using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Text;
@@ -15,16 +16,12 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
         public PagesControllerRouteTests(CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory)
         {
             this.factory = factory;
-
-            DataSeeding.SeedDefaultArticles(factory);
         }
 
         public static IEnumerable<object[]> PagesContentRouteData => new List<object[]>
         {
             new object[] { "/" },
             new object[] { "/pages" },
-            new object[] { $"/pages/{DataSeeding.SendUsLetterArticleName}" },
-            new object[] { "/pages/health" },
             new object[] { "/pages/home" },
             new object[] { "/pages/home/htmlhead" },
             new object[] { "/pages/home/breadcrumb" },
@@ -49,9 +46,10 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
-            var client = factory.CreateClient();
+            var client = factory.CreateClientWithWebHostBuilder();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Text.Html));
+            A.CallTo(() => factory.MockCosmosRepo.GetAllAsync(A<string>.Ignored)).Returns(factory.GetContentPageModels());
 
             // Act
             var response = await client.GetAsync(uri).ConfigureAwait(false);
@@ -67,9 +65,10 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
-            var client = factory.CreateClient();
+            var client = factory.CreateClientWithWebHostBuilder();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+            A.CallTo(() => factory.MockCosmosRepo.GetAllAsync(A<string>.Ignored)).Returns(factory.GetContentPageModels());
 
             // Act
             var response = await client.GetAsync(uri).ConfigureAwait(false);
