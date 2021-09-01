@@ -32,7 +32,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HomeControllerTests
             client.DefaultRequestHeaders.Accept.Clear();
 
             // Act
-            var response = await client.GetAsync(uri).ConfigureAwait(false);
+            var response = await client.GetAsync(uri);
 
             // Assert
             response.EnsureSuccessStatusCode();
