@@ -16,8 +16,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HealthControllerTes
         public HealthControllerRouteTests(CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory)
         {
             this.factory = factory;
-
-            DataSeeding.SeedDefaultArticles(factory);
         }
 
         public static IEnumerable<object[]> HealthContentRouteData => new List<object[]>

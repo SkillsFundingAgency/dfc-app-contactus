@@ -14,8 +14,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.SitemapControllerTe
         public SitemapControllerRouteTests(CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory)
         {
             this.factory = factory;
-
-            DataSeeding.SeedDefaultArticles(factory);
         }
 
         public static IEnumerable<object[]> SitemapRouteData => new List<object[]>
@@ -29,7 +27,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.SitemapControllerTe
         {
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
-            var client = factory.CreateClient();
+            var client = factory.CreateClientWithWebHostBuilder();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Xml));
 
