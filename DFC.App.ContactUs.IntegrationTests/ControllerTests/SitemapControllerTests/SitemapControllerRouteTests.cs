@@ -14,8 +14,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.SitemapControllerTe
         public SitemapControllerRouteTests(CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory)
         {
             this.factory = factory;
-
-            DataSeeding.SeedDefaultArticles(factory);
         }
 
         public static IEnumerable<object[]> SitemapRouteData => new List<object[]>
@@ -34,7 +32,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.SitemapControllerTe
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Xml));
 
             // Act
-            var response = await client.GetAsync(uri).ConfigureAwait(false);
+            var response = await client.GetAsync(uri);
 
             // Assert
             response.EnsureSuccessStatusCode();
