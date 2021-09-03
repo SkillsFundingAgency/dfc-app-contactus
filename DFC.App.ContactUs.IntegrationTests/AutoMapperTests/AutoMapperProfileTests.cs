@@ -57,6 +57,7 @@ namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
             Assert.True(true);
         }
 
+        //[Fact(Skip = "Needs code refactor")]
         [Fact]
         public void AutoMapperProfileConfigurationForAllProfilesReturnSuccess()
         {
