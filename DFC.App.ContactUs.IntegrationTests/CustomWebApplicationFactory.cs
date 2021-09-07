@@ -60,12 +60,6 @@ namespace DFC.App.ContactUs.IntegrationTests
 
             builder.ConfigureTestServices(services =>
             {
-                var configuration = new ConfigurationBuilder()
-                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                    .Build();
-
-                services.AddSingleton<IConfiguration>(configuration);
-
                 services.AddTransient(sp => MockCosmosRepo);
                 services.AddTransient(sp => MockSessionStateService);
 
