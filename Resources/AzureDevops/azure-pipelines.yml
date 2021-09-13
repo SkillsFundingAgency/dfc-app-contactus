@@ -95,13 +95,3 @@ stages:
           BuildPlatform: $(BuildPlatform)
           BuildConfiguration: $(BuildConfiguration)
           DotNetCoreVersion: 3.1.101
-
-    - job: Buildintegrationtests
-      displayName: Build integration tests
-      steps:
-      - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-sonar.yml@dfc-devops
-        parameters:
-          SolutionBaseName: $(SolutionBaseName).IntegrationTests
-          BuildPlatform: $(BuildPlatform)
-          BuildConfiguration: $(BuildConfiguration)
-          DotNetCoreVersion: '3.1.100'
