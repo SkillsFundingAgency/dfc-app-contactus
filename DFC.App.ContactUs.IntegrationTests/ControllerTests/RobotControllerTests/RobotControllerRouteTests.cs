@@ -14,8 +14,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.RobotControllerTest
         public RobotControllerRouteTests(CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory)
         {
             this.factory = factory;
-
-            DataSeeding.SeedDefaultArticles(factory);
         }
 
         public static IEnumerable<object[]> RobotRouteData => new List<object[]>
@@ -34,7 +32,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.RobotControllerTest
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Text.Plain));
 
             // Act
-            var response = await client.GetAsync(uri).ConfigureAwait(false);
+            var response = await client.GetAsync(uri);
 
             // Assert
             response.EnsureSuccessStatusCode();
