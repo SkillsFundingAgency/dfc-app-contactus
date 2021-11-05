@@ -48,7 +48,7 @@ By default, the appsettings include local Azure Cosmos Emulator configurations u
 
 This app using the FAM API for Postcode routing. To make use of it you will require an APIM API key for that service.
 
-This app also uses SendGrid to send email messages. The configuration section "SendGrid" contains settings used for SendGrid. As a minimum, add your SendGrid API key.
+This app also uses Gov.Notify to send email messages. The configuration section "NotifyOptions" contains settings used for Gov.Notify. As a minimum, add your Gov.Notify API key.
 
 ## Running locally
 
