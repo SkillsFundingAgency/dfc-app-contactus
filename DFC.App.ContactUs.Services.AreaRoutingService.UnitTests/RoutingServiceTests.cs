@@ -28,7 +28,6 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
             OtherEmailAddress = "otherEmail",
         };
 
-
         [Theory]
         [InlineData(Category.Feedback, "feedbackEmail")]
         [InlineData(Category.Website, "problemEmail")]
@@ -88,7 +87,6 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
             result.Should().Be(FamApiRoutingOptions.FallbackEmailToAddresses);
         }
 
-
         [Fact]
         public void UnsupportedCategoryCauseException()
         {
@@ -99,7 +97,7 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
             Func<Task> act = async () => await routingService.GetEmailToSendTo(ValidPostcode, Category.None).ConfigureAwait(false);
 
             // assert
-            act.Should().Throw<InvalidEnumArgumentException>();
+            act.Should().ThrowExactlyAsync<InvalidEnumArgumentException>();
         }
     }
 }
