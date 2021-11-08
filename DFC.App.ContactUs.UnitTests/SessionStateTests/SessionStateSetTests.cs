@@ -67,6 +67,35 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             controller.Dispose();
         }
 
+        [Theory]
+        [InlineData(HttpStatusCode.NotFound)]
+        public async Task SessionStateSetWithSaveSessionStateFailureReturnsSuccessForCallback(HttpStatusCode saveStatusCode)
+        {
+            // Arrange
+            var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
+            var viewModel = new HomeBodyViewModel
+            {
+                SelectedOption = HomeOption.Callback,
+            };
+            var controller = BuildHomeController(MediaTypeNames.Text.Html);
+
+            controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
+
+            A.CallTo(() => fakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
+            A.CallTo(() => fakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).Returns(saveStatusCode);
+
+            // Act
+            var result = await controller.HomeBody(viewModel).ConfigureAwait(false);
+
+            // Assert
+            A.CallTo(() => fakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).MustHaveHappenedOnceExactly();
+
+            var redirectResult = Assert.IsType<ViewResult>(result);
+
+            controller.Dispose();
+        }
+
         [Fact]
         public async Task SessionStateSetWithEmptySessionIdHeaderReturnsSuccessForCallback()
         {
