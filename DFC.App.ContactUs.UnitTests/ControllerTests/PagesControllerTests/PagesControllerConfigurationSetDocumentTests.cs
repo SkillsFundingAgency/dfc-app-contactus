@@ -1,5 +1,4 @@
-﻿using DFC.App.ContactUs.Data.Helpers;
-using DFC.App.ContactUs.Data.Models;
+﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +21,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var controller = BuildPagesController(mediaTypeName);
             var expectedModel = new DocumentViewModel
             {
-                Id = ConfigurationSetKeyHelper.ConfigurationSetKey,
+                Id = Guid.NewGuid(),
                 Title = "A title",
                 PartitionKey = "partition-key",
                 Url = new Uri("https://somewhere.com", UriKind.Absolute),
@@ -31,7 +30,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ConfigurationSetModel>.Ignored)).Returns(expectedModel);
 
             // Act
-            var result = await controller.Document(expectedModel.Id).ConfigureAwait(false);
+            var result = await controller.Document().ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ConfigurationSetModel>.Ignored)).MustHaveHappenedOnceExactly();
@@ -55,7 +54,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ConfigurationSetModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
 
             // Act
-            var result = await controller.Document(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false);
+            var result = await controller.Document().ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ConfigurationSetModel>.Ignored)).MustHaveHappenedOnceExactly();
@@ -77,7 +76,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ConfigurationSetModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
 
             // Act
-            var result = await controller.Document(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false);
+            var result = await controller.Document().ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ConfigurationSetModel>.Ignored)).MustHaveHappenedOnceExactly();

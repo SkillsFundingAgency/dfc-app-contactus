@@ -49,15 +49,15 @@ namespace DFC.App.ContactUs.Controllers
         }
 
         [HttpGet]
-        [Route("pages/{documentId}/document")]
-        public async Task<IActionResult> Document(Guid documentId)
+        [Route("pages/document")]
+        public async Task<IActionResult> Document()
         {
             var viewModel = mapper.Map<DocumentViewModel>(ConfigurationSet);
             var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(ConfigurationSet);
 
             viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
 
-            Logger.LogInformation($"{nameof(Document)} has succeeded for: {documentId}");
+            Logger.LogInformation($"{nameof(Document)} has succeeded");
 
             return this.NegotiateContentResult(viewModel);
         }

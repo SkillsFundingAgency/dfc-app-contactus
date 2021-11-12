@@ -1,7 +1,5 @@
 ﻿using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Enums;
-using DFC.App.ContactUs.Data.Helpers;
-using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;

@@ -10,8 +10,6 @@ using DFC.App.ContactUs.Services.EmailService;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using DFC.Compui.Telemetry;
-using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
-using DFC.Content.Pkg.Netcore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -76,16 +74,15 @@ namespace DFC.App.ContactUs
             services.AddTransient<INotifyEmailService<ContactUsEmailRequestModel>, NotifyEmailService<ContactUsEmailRequestModel>>();
 
             services.AddAutoMapper(typeof(Startup).Assembly);
-            services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
             services.AddSingleton(configuration.GetSection(nameof(FamApiRoutingOptions)).Get<FamApiRoutingOptions>() ?? new FamApiRoutingOptions());
             services.AddHostedServiceTelemetryWrapper();
+            services.AddTransient<IApiService, ApiService>();
+            services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
 
             const string AppSettingsPolicies = "Policies";
             var policyOptions = configuration.GetSection(AppSettingsPolicies).Get<PolicyOptions>() ?? new PolicyOptions();
             var policyRegistry = services.AddPolicyRegistry();
-
-            services.AddApiServices(configuration, policyRegistry);
 
             services
                 .AddPolicies(policyRegistry, nameof(FamApiRoutingOptions), policyOptions)
