@@ -21,16 +21,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var expectedConfigurationSetResults = A.Dummy<ConfigurationSetModel>();
             using var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedConfigurationSetResults);
-            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<ConfigurationSetModel>.Ignored)).Returns(A.Fake<IndexDocumentViewModel>());
-
             // Act
             var result = await controller.Index().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<ConfigurationSetModel>.Ignored)).MustHaveHappenedOnceExactly();
-
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsAssignableFrom<IndexViewModel>(viewResult.ViewData.Model);
 
@@ -45,16 +39,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var expectedConfigurationSetResults = A.Dummy<ConfigurationSetModel>();
             using var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedConfigurationSetResults);
-            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<ConfigurationSetModel>.Ignored)).Returns(A.Fake<IndexDocumentViewModel>());
-
             // Act
             var result = await controller.Index().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<ConfigurationSetModel>.Ignored)).MustHaveHappenedOnceExactly();
-
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             var model = Assert.IsAssignableFrom<IndexViewModel>(jsonResult.Value);
 
@@ -69,16 +57,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var expectedConfigurationSetResults = A.Dummy<ConfigurationSetModel>();
             using var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedConfigurationSetResults);
-            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<ConfigurationSetModel>.Ignored)).Returns(A.Fake<IndexDocumentViewModel>());
-
             // Act
             var result = await controller.Index().ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeMapper.Map<IndexDocumentViewModel>(A<ConfigurationSetModel>.Ignored)).MustHaveHappenedOnceExactly();
-
             var statusResult = Assert.IsType<StatusCodeResult>(result);
 
             A.Equals((int)HttpStatusCode.NotAcceptable, statusResult.StatusCode);

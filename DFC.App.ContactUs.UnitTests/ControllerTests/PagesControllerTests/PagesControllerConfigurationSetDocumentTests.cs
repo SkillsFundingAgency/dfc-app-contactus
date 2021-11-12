@@ -26,17 +26,14 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
                 Title = "A title",
                 PartitionKey = "partition-key",
                 Url = new Uri("https://somewhere.com", UriKind.Absolute),
-                ConfigurationSetBodyViewModel = new ConfigurationSetBodyViewModel { PhoneNumber = "1234", LinesOpenText = "lines are open" },
                 LastReviewed = DateTime.Now,
             };
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ConfigurationSetModel>.Ignored)).Returns(expectedModel);
 
             // Act
             var result = await controller.Document(expectedModel.Id).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ConfigurationSetModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -55,42 +52,16 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var expectedResult = A.Fake<ConfigurationSetModel>();
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ConfigurationSetModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
 
             // Act
             var result = await controller.Document(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ConfigurationSetModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
             _ = Assert.IsAssignableFrom<DocumentViewModel>(jsonResult.Value);
-
-            controller.Dispose();
-        }
-
-        [Theory]
-        [MemberData(nameof(JsonMediaTypes))]
-        [MemberData(nameof(HtmlMediaTypes))]
-        public async Task PagesControllerDocumentReturnsNoContentWhenNoData(string mediaTypeName)
-        {
-            // Arrange
-            ConfigurationSetModel? expectedResult = null;
-            var controller = BuildPagesController(mediaTypeName);
-
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedResult);
-
-            // Act
-            var result = await controller.Document(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false);
-
-            // Assert
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
-
-            var statusResult = Assert.IsType<NoContentResult>(result);
-
-            A.Equals((int)HttpStatusCode.NoContent, statusResult.StatusCode);
 
             controller.Dispose();
         }
@@ -103,14 +74,12 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var expectedResult = A.Fake<ConfigurationSetModel>();
             var controller = BuildPagesController(mediaTypeName);
 
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ConfigurationSetModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
 
             // Act
             var result = await controller.Document(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<ConfigurationSetModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var statusResult = Assert.IsType<StatusCodeResult>(result);

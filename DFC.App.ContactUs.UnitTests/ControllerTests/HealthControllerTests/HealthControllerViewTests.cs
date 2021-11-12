@@ -16,10 +16,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
         public async Task HealthControllerViewHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            bool expectedResult = true;
             var controller = BuildHealthController(mediaTypeName);
-
-            A.CallTo(() => FakeContentPageService.PingAsync()).Returns(expectedResult);
 
             // Act
             var result = await controller.HealthView().ConfigureAwait(false);
@@ -36,10 +33,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
         public async Task HealthControllerViewJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            bool expectedResult = true;
             var controller = BuildHealthController(mediaTypeName);
-
-            A.CallTo(() => FakeContentPageService.PingAsync()).Returns(expectedResult);
 
             // Act
             var result = await controller.HealthView().ConfigureAwait(false);
@@ -56,10 +50,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
         public async Task HealthControllerHealthViewReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            bool expectedResult = true;
             var controller = BuildHealthController(mediaTypeName);
-
-            A.CallTo(() => FakeContentPageService.PingAsync()).Returns(expectedResult);
 
             // Act
             var result = await controller.HealthView().ConfigureAwait(false);

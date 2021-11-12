@@ -42,15 +42,12 @@ namespace DFC.App.ContactUs.AutoMapperProfiles
             CreateMap<ConfigurationSetModel, DocumentViewModel>()
                 .ForMember(d => d.HtmlHead, s => s.MapFrom(a => a))
                 .ForMember(d => d.Breadcrumb, s => s.Ignore())
-                .ForMember(d => d.ConfigurationSetBodyViewModel, s => s.MapFrom(a => a))
                 .ForMember(d => d.EmailBodyViewModel, s => s.Ignore());
 
             CreateMap<ConfigurationSetModel, HtmlHeadViewModel>()
                 .ForMember(d => d.CanonicalUrl, s => s.Ignore())
                 .ForMember(d => d.Description, s => s.Ignore())
                 .ForMember(d => d.Keywords, s => s.Ignore());
-
-            CreateMap<ConfigurationSetModel, ConfigurationSetBodyViewModel>();
 
             CreateMap<ConfigurationSetModel, BreadcrumbItemModel>()
                 .ForMember(d => d.Route, s => s.Ignore());

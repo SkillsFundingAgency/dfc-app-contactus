@@ -36,14 +36,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var controller = BuildController(route);
             var expectedConfigurationSetResult = new ConfigurationSetModel() { PhoneNumber = "1234", LinesOpenText = "lines are open" };
 
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedConfigurationSetResult);
-
             // Act
             var result = await RunControllerAction(controller, documentId, actionMethod).ConfigureAwait(false);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
             controller.Dispose();
         }
@@ -56,14 +53,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var controller = BuildController(route);
             var expectedConfigurationSetResult = new ConfigurationSetModel() { PhoneNumber = "1234", LinesOpenText = "lines are open" };
 
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedConfigurationSetResult);
-
             // Act
             var result = await RunControllerAction(controller, documentId, actionMethod).ConfigureAwait(false);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappened(configurationSetCount, Times.Exactly);
 
             controller.Dispose();
         }
@@ -83,7 +77,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new PagesController(Logger, FakeSessionStateService, FakeConfigurationSetDocumentService, FakeMapper)
+            return new PagesController(Logger, FakeSessionStateService, FakeMapper)
             {
                 ControllerContext = new ControllerContext
                 {

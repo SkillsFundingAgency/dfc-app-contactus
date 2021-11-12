@@ -6,7 +6,6 @@ using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.HttpClientPolicies;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.Services.AreaRoutingService;
-using DFC.App.ContactUs.Services.CacheContentService;
 using DFC.App.ContactUs.Services.EmailService;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
@@ -76,7 +75,6 @@ namespace DFC.App.ContactUs
             services.AddHttpContextAccessor();
             services.AddSingleton<ValidationHtmlAttributeProvider, CustomValidationHtmlAttributeProvider>();
             services.AddTransient<INotifyEmailService<ContactUsEmailRequestModel>, NotifyEmailService<ContactUsEmailRequestModel>>();
-            services.AddTransient<IWebhooksService, WebhooksService>();
 
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());

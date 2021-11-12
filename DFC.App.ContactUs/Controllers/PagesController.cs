@@ -1,9 +1,7 @@
-﻿using DFC.App.ContactUs.Data.Helpers;
-using DFC.App.ContactUs.Data.Models;
+﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
-using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -15,16 +13,13 @@ namespace DFC.App.ContactUs.Controllers
 {
     public class PagesController : BasePagesController<PagesController>
     {
-        private readonly IDocumentService<ConfigurationSetModel> configurationSetDocumentService;
         private readonly AutoMapper.IMapper mapper;
 
         public PagesController(
             ILogger<PagesController> logger,
             ISessionStateService<SessionDataModel> sessionStateService,
-            IDocumentService<ConfigurationSetModel> configurationSetDocumentService,
             AutoMapper.IMapper mapper) : base(logger, sessionStateService)
         {
-            this.configurationSetDocumentService = configurationSetDocumentService;
             this.mapper = mapper;
         }
 
@@ -48,13 +43,6 @@ namespace DFC.App.ContactUs.Controllers
                 },
             };
 
-            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false);
-
-            if (configurationSetModel != null)
-            {
-                viewModel.Documents.Add(mapper.Map<IndexDocumentViewModel>(configurationSetModel));
-            }
-
             Logger.LogInformation($"{nameof(Index)} has succeeded");
 
             return this.NegotiateContentResult(viewModel);
@@ -64,22 +52,14 @@ namespace DFC.App.ContactUs.Controllers
         [Route("pages/{documentId}/document")]
         public async Task<IActionResult> Document(Guid documentId)
         {
-            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(documentId).ConfigureAwait(false);
-            if (configurationSetModel != null)
-            {
-                var viewModel = mapper.Map<DocumentViewModel>(configurationSetModel);
-                var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(configurationSetModel);
+            var viewModel = mapper.Map<DocumentViewModel>(ConfigurationSet);
+            var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(ConfigurationSet);
 
-                viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
+            viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
 
-                Logger.LogInformation($"{nameof(Document)} has succeeded for: {documentId}");
+            Logger.LogInformation($"{nameof(Document)} has succeeded for: {documentId}");
 
-                return this.NegotiateContentResult(viewModel);
-            }
-
-            Logger.LogWarning($"{nameof(Document)} has returned no content for: {documentId}");
-
-            return NoContent();
+            return this.NegotiateContentResult(viewModel);
         }
     }
 }

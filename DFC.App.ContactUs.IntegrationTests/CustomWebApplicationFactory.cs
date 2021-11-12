@@ -65,7 +65,6 @@ namespace DFC.App.ContactUs.IntegrationTests
 
                 services.AddTransient<INotifyClientProxy, FakeNotifyClientProxy>();
                 services.AddTransient<ISubscriptionRegistrationService, FakeSubscriptionRegistrationService>();
-                services.AddTransient<IWebhooksService, FakeWebhooksService>();
             });
         }
     }

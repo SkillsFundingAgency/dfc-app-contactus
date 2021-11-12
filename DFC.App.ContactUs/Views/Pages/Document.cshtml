@@ -28,10 +28,6 @@
         </li>
     </ul>
     <div class="govuk-tabs__panel" id="tab-content">
-        @if (Model.ConfigurationSetBodyViewModel != null)
-        {
-            <partial name="ConfigurationSetBody" model=@Model.ConfigurationSetBodyViewModel />
-        }
         @if (Model.EmailBodyViewModel != null)
         {
             <partial name="EmailBody" model=@Model.EmailBodyViewModel />

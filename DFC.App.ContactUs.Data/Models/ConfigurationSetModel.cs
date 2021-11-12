@@ -21,7 +21,7 @@ namespace DFC.App.ContactUs.Data.Models
         [Required]
         public Uri? Url { get; set; }
 
-        public string? PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; } = DefaultPhoneNumber;
 
         public string? LinesOpenText { get; set; }
 
