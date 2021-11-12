@@ -9,7 +9,6 @@ using DFC.App.ContactUs.Services.AreaRoutingService;
 using DFC.App.ContactUs.Services.EmailService;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
-using DFC.Compui.Subscriptions.Pkg.Netstandard.Extensions;
 using DFC.Compui.Telemetry;
 using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
 using DFC.Content.Pkg.Netcore.Extensions;
@@ -81,7 +80,6 @@ namespace DFC.App.ContactUs
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
             services.AddSingleton(configuration.GetSection(nameof(FamApiRoutingOptions)).Get<FamApiRoutingOptions>() ?? new FamApiRoutingOptions());
             services.AddHostedServiceTelemetryWrapper();
-            services.AddSubscriptionBackgroundService(configuration);
 
             const string AppSettingsPolicies = "Policies";
             var policyOptions = configuration.GetSection(AppSettingsPolicies).Get<PolicyOptions>() ?? new PolicyOptions();

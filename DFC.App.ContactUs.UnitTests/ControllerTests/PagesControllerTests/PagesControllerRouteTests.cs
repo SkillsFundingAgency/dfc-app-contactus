@@ -1,7 +1,5 @@
 ﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Data.Helpers;
-using DFC.App.ContactUs.Data.Models;
-using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
@@ -34,7 +32,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             var controller = BuildController(route);
-            var expectedConfigurationSetResult = new ConfigurationSetModel() { PhoneNumber = "1234", LinesOpenText = "lines are open" };
 
             // Act
             var result = await RunControllerAction(controller, documentId, actionMethod).ConfigureAwait(false);
@@ -51,7 +48,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             // Arrange
             var controller = BuildController(route);
-            var expectedConfigurationSetResult = new ConfigurationSetModel() { PhoneNumber = "1234", LinesOpenText = "lines are open" };
 
             // Act
             var result = await RunControllerAction(controller, documentId, actionMethod).ConfigureAwait(false);

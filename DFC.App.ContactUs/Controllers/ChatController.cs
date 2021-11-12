@@ -42,7 +42,7 @@ namespace DFC.App.ContactUs.Controllers
                 ChatViewBodyModel = mapper.Map<ChatViewBodyModel>(chatOptions),
             };
 
-            viewModel.ChatViewBodyModel.PhoneNumber = ConfigurationSetModel.DefaultPhoneNumber;
+            viewModel.ChatViewBodyModel.PhoneNumber = ConfigurationSet.PhoneNumber;
             viewModel.ChatViewBodyModel.HowCanWeHelpLink = $"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}";
 
             Logger.LogWarning($"{nameof(ChatView)} has returned content");
