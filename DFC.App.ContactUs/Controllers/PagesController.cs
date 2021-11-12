@@ -5,26 +5,21 @@ using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Controllers
 {
     public class PagesController : BasePagesController<PagesController>
     {
-        private readonly AutoMapper.IMapper mapper;
-
         public PagesController(
             ILogger<PagesController> logger,
-            ISessionStateService<SessionDataModel> sessionStateService,
-            AutoMapper.IMapper mapper) : base(logger, sessionStateService)
+            ISessionStateService<SessionDataModel> sessionStateService) : base(logger, sessionStateService)
         {
-            this.mapper = mapper;
         }
 
         [HttpGet]
         [Route("/")]
         [Route("pages")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var viewModel = new IndexViewModel()
             {
@@ -48,7 +43,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("pages/document")]
-        public async Task<IActionResult> Document()
+        public IActionResult Document()
         {
             var viewModel = new DocumentViewModel();
             var breadcrumbItemModel = new BreadcrumbItemModel();

@@ -1,12 +1,10 @@
-﻿using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.Extensions;
+﻿using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Controllers
 {
@@ -24,7 +22,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("pages/chat")]
-        public async Task<IActionResult> ChatView()
+        public IActionResult ChatView()
         {
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
@@ -81,7 +79,7 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("pages/chat/body")]
-        public async Task<IActionResult> ChatBody()
+        public IActionResult ChatBody()
         {
             var viewModel = mapper.Map<ChatViewBodyModel>(chatOptions);
 

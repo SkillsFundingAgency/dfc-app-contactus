@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
@@ -26,13 +25,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(PagesIndexRouteDataOk))]
-        public async Task PagesControllerCallsContentPageServiceUsingPagesIndexRouteForOkResult(string route, string actionMethod)
+        public void PagesControllerCallsContentPageServiceUsingPagesIndexRouteForOkResult(string route, string actionMethod)
         {
             // Arrange
             var controller = BuildController(route);
 
             // Act
-            var result = await RunControllerAction(controller, actionMethod).ConfigureAwait(false);
+            var result = RunControllerAction(controller, actionMethod);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
@@ -42,13 +41,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(PagesDocumentRouteDataOk))]
-        public async Task PagesControllerCallsContentPageServiceUsingPagesDocumentRouteForOkResult(string route, string actionMethod)
+        public void PagesControllerCallsContentPageServiceUsingPagesDocumentRouteForOkResult(string route, string actionMethod)
         {
             // Arrange
             var controller = BuildController(route);
 
             // Act
-            var result = await RunControllerAction(controller, actionMethod).ConfigureAwait(false);
+            var result = RunControllerAction(controller, actionMethod);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
@@ -56,12 +55,12 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             controller.Dispose();
         }
 
-        private static async Task<IActionResult> RunControllerAction(PagesController controller, string actionName)
+        private static IActionResult RunControllerAction(PagesController controller, string actionName)
         {
             return actionName switch
             {
-                nameof(PagesController.Document) => await controller.Document().ConfigureAwait(false),
-                _ => await controller.Index().ConfigureAwait(false),
+                nameof(PagesController.Document) => controller.Document(),
+                _ => controller.Index(),
             };
         }
 
@@ -71,7 +70,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new PagesController(Logger, FakeSessionStateService, FakeMapper)
+            return new PagesController(Logger, FakeSessionStateService)
             {
                 ControllerContext = new ControllerContext
                 {

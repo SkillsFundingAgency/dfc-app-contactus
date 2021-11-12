@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
@@ -13,13 +12,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
     public class HealthControllerHealthTests : BaseHealthControllerTests
     {
         [Fact]
-        public async Task HealthControllerHealthReturnsSuccessWhenHealthy()
+        public void HealthControllerHealthReturnsSuccessWhenHealthy()
         {
             // Arrange
             var controller = BuildHealthController(MediaTypeNames.Application.Json);
 
             // Act
-            var result = await controller.Health().ConfigureAwait(false);
+            var result = controller.Health();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);

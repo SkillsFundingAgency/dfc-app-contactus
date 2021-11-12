@@ -19,7 +19,8 @@ namespace DFC.App.ContactUs.Controllers
         public const string ThankyouForContactingUsCanonicalName = "thank-you-for-contacting-us";
 
         public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService) : base(logger, sessionStateService)
-        { }
+        {
+        }
 
         [HttpGet]
         [Route("pages/home")]

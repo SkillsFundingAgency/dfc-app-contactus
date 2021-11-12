@@ -2,7 +2,6 @@ using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
@@ -12,13 +11,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async Task PagesControllerIndexHtmlReturnsSuccess(string mediaTypeName)
+        public void PagesControllerIndexHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             using var controller = BuildPagesController(mediaTypeName);
 
             // Act
-            var result = await controller.Index().ConfigureAwait(false);
+            var result = controller.Index();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -29,13 +28,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async Task PagesControllerIndexJsonReturnsSuccess(string mediaTypeName)
+        public void PagesControllerIndexJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             using var controller = BuildPagesController(mediaTypeName);
 
             // Act
-            var result = await controller.Index().ConfigureAwait(false);
+            var result = controller.Index();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
@@ -46,13 +45,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public async Task PagesControllerIndexReturnsNotAcceptable(string mediaTypeName)
+        public void PagesControllerIndexReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             using var controller = BuildPagesController(mediaTypeName);
 
             // Act
-            var result = await controller.Index().ConfigureAwait(false);
+            var result = controller.Index();
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

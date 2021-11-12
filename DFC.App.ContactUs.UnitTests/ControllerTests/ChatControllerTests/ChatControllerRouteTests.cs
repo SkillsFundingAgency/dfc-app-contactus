@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
@@ -22,13 +21,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 
         [Theory]
         [MemberData(nameof(RouteDataOk))]
-        public async Task ChatControllerUsingPagesViewRouteForOkResult(string route, string actionMethod)
+        public void ChatControllerUsingPagesViewRouteForOkResult(string route, string actionMethod)
         {
             // Arrange
             var controller = BuildController(route);
 
             // Act
-            var result = await RunControllerAction(controller, actionMethod).ConfigureAwait(false);
+            var result = RunControllerAction(controller, actionMethod);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
@@ -36,13 +35,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
             controller.Dispose();
         }
 
-        private async Task<IActionResult> RunControllerAction(ChatController controller, string actionName)
+        private IActionResult RunControllerAction(ChatController controller, string actionName)
         {
             return actionName switch
             {
                 nameof(ChatController.ChatHtmlHead) => controller.ChatHtmlHead(),
                 nameof(ChatController.ChatBreadcrumb) => controller.ChatBreadcrumb(),
-                _ => await controller.ChatBody().ConfigureAwait(false),
+                _ => controller.ChatBody(),
             };
         }
 

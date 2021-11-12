@@ -3,7 +3,6 @@ using DFC.App.ContactUs.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Controllers
 {
@@ -21,16 +20,16 @@ namespace DFC.App.ContactUs.Controllers
 
         [HttpGet]
         [Route("pages/health")]
-        public async Task<IActionResult> HealthView()
+        public IActionResult HealthView()
         {
-            var result = await Health().ConfigureAwait(false);
+            var result = Health();
 
             return result;
         }
 
         [HttpGet]
         [Route("health")]
-        public async Task<IActionResult> Health()
+        public IActionResult Health()
         {
             logger.LogInformation($"{nameof(Health)} has been called");
 
