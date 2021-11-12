@@ -40,11 +40,7 @@ namespace DFC.App.ContactUs.Controllers
                     Title = ContactUsPageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
-                HomeBodyViewModel = new HomeBodyViewModel
-                {
-                    PhoneNumber = ConfigurationSet.PhoneNumber,
-                    LinesOpenText = ConfigurationSet.LinesOpenText,
-                },
+                HomeBodyViewModel = new HomeBodyViewModel(),
             };
 
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
@@ -97,9 +93,6 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = model,
             };
 
-            viewModel.HomeBodyViewModel!.PhoneNumber = ConfigurationSet.PhoneNumber;
-            viewModel.HomeBodyViewModel.LinesOpenText = ConfigurationSet.LinesOpenText;
-
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
 
             return this.NegotiateContentResult(viewModel);
@@ -144,11 +137,7 @@ namespace DFC.App.ContactUs.Controllers
         {
             await DeleteSessionStateAsync().ConfigureAwait(false);
 
-            var viewModel = new HomeBodyViewModel()
-            {
-                PhoneNumber = ConfigurationSet.PhoneNumber,
-                LinesOpenText = ConfigurationSet.LinesOpenText,
-            };
+            var viewModel = new HomeBodyViewModel();
 
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");
 
@@ -185,11 +174,7 @@ namespace DFC.App.ContactUs.Controllers
                 }
             }
 
-            viewModel = new HomeBodyViewModel()
-            {
-                PhoneNumber = ConfigurationSet.PhoneNumber,
-                LinesOpenText = ConfigurationSet.LinesOpenText,
-            };
+            viewModel = new HomeBodyViewModel();
 
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");
 

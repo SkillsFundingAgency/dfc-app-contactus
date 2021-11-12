@@ -1,11 +1,9 @@
-﻿using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.Extensions;
+﻿using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -52,8 +50,8 @@ namespace DFC.App.ContactUs.Controllers
         [Route("pages/document")]
         public async Task<IActionResult> Document()
         {
-            var viewModel = mapper.Map<DocumentViewModel>(ConfigurationSet);
-            var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(ConfigurationSet);
+            var viewModel = new DocumentViewModel();
+            var breadcrumbItemModel = new BreadcrumbItemModel();
 
             viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
 

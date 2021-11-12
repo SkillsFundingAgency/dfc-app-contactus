@@ -28,8 +28,6 @@ namespace DFC.App.ContactUs.Controllers
             SessionStateService = sessionStateService;
         }
 
-        protected ConfigurationSetModel ConfigurationSet { get; private set; } = new ConfigurationSetModel();
-
         protected ILogger<TController> Logger { get; private set; }
 
         protected ISessionStateService<SessionDataModel> SessionStateService { get; private set; }

@@ -23,7 +23,6 @@ Clone the project and open the solution in Visual Studio 2019.
 
 |Item	|Purpose|
 |-------|-------|
-|Azure Cosmos DB | Document storage |
 |DFC.Compui.Sessionstate|Session State storage in Cosmos|
 
 ## Local Config Files

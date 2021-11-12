@@ -42,7 +42,6 @@ namespace DFC.App.ContactUs.Controllers
                 ChatViewBodyModel = mapper.Map<ChatViewBodyModel>(chatOptions),
             };
 
-            viewModel.ChatViewBodyModel.PhoneNumber = ConfigurationSet.PhoneNumber;
             viewModel.ChatViewBodyModel.HowCanWeHelpLink = $"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}";
 
             Logger.LogWarning($"{nameof(ChatView)} has returned content");
@@ -86,7 +85,6 @@ namespace DFC.App.ContactUs.Controllers
         {
             var viewModel = mapper.Map<ChatViewBodyModel>(chatOptions);
 
-            viewModel.PhoneNumber = ConfigurationSet.PhoneNumber;
             viewModel.HowCanWeHelpLink = $"/{RegistrationPath}/{HowCanWeHelpController.ThisViewCanonicalName}";
 
             Logger.LogInformation($"{nameof(ChatBody)} has returned content");

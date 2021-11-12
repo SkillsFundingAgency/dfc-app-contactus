@@ -1,9 +1,6 @@
-using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
@@ -18,7 +15,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public async Task PagesControllerIndexHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var expectedConfigurationSetResults = A.Dummy<ConfigurationSetModel>();
             using var controller = BuildPagesController(mediaTypeName);
 
             // Act
@@ -36,7 +32,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public async Task PagesControllerIndexJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var expectedConfigurationSetResults = A.Dummy<ConfigurationSetModel>();
             using var controller = BuildPagesController(mediaTypeName);
 
             // Act
@@ -54,7 +49,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public async Task PagesControllerIndexReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            var expectedConfigurationSetResults = A.Dummy<ConfigurationSetModel>();
             using var controller = BuildPagesController(mediaTypeName);
 
             // Act
