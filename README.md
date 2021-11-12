@@ -6,10 +6,6 @@ This project provides a Contact Us app for use in the Composite UI (Shell applic
 
 Details of the Composite UI application may be found here https://github.com/SkillsFundingAgency/dfc-composite-shell
 
-This Contact Us app returns:
-
-* Contact Us documents
-
 The Contact Us app also provisions the following for consumption by the Composite UI:
 
 * Sitemap.xml for all Contact Us documents
@@ -29,7 +25,6 @@ Clone the project and open the solution in Visual Studio 2019.
 |-------|-------|
 |Azure Cosmos DB | Document storage |
 |DFC.Compui.Sessionstate|Session State storage in Cosmos|
-|DFC.Compui.Cosmos|Content page storage in Cosmos|
 
 ## Local Config Files
 

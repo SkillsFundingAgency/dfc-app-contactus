@@ -3,13 +3,11 @@ using DFC.App.ContactUs.Attributes;
 using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
-using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.HttpClientPolicies;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.Services.AreaRoutingService;
 using DFC.App.ContactUs.Services.CacheContentService;
 using DFC.App.ContactUs.Services.EmailService;
-using DFC.Compui.Cosmos;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using DFC.Compui.Subscriptions.Pkg.Netstandard.Extensions;
@@ -31,7 +29,6 @@ namespace DFC.App.ContactUs
     [ExcludeFromCodeCoverage]
     public class Startup
     {
-        private const string CosmosDbContentPagesConfigAppSettings = "Configuration:CosmosDbConnections:ContentPages";
         private const string CosmosDbSessionStateConfigAppSettings = "Configuration:CosmosDbConnections:SessionState";
         private const string NotifyOptionsAppSettings = "Configuration:NotifyOptions";
 
@@ -71,17 +68,14 @@ namespace DFC.App.ContactUs
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var cosmosDbConnectionContentPages = configuration.GetSection(CosmosDbContentPagesConfigAppSettings).Get<CosmosDbConnection>();
             var cosmosDbConnectionSessionState = configuration.GetSection(CosmosDbSessionStateConfigAppSettings).Get<CosmosDbConnection>();
             var cosmosRetryOptions = new RetryOptions { MaxRetryAttemptsOnThrottledRequests = 20, MaxRetryWaitTimeInSeconds = 60 };
-            services.AddDocumentServices<ConfigurationSetModel>(cosmosDbConnectionContentPages, env.IsDevelopment(), cosmosRetryOptions);
             services.AddSessionStateServices<SessionDataModel>(cosmosDbConnectionSessionState, env.IsDevelopment());
 
             services.AddApplicationInsightsTelemetry();
             services.AddHttpContextAccessor();
             services.AddSingleton<ValidationHtmlAttributeProvider, CustomValidationHtmlAttributeProvider>();
             services.AddTransient<INotifyEmailService<ContactUsEmailRequestModel>, NotifyEmailService<ContactUsEmailRequestModel>>();
-            services.AddTransient<IConfigurationSetReloadService, ConfigurationSetReloadService>();
             services.AddTransient<IWebhooksService, WebhooksService>();
 
             services.AddAutoMapper(typeof(Startup).Assembly);
@@ -89,7 +83,6 @@ namespace DFC.App.ContactUs
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
             services.AddSingleton(configuration.GetSection(nameof(FamApiRoutingOptions)).Get<FamApiRoutingOptions>() ?? new FamApiRoutingOptions());
             services.AddHostedServiceTelemetryWrapper();
-            services.AddHostedService<ConfigurationSetBackgroundService>();
             services.AddSubscriptionBackgroundService(configuration);
 
             const string AppSettingsPolicies = "Policies";
