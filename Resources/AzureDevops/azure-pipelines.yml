@@ -55,12 +55,6 @@ stages:
             targetPath: "$(Build.SourcesDirectory)/Resources/Scripts"
             artifactName: ${{ variables.SolutionBaseName }}.Scripts
 
-        - task: PublishPipelineArtifact@1
-          displayName: Publish OpenAPI docs to Pipeline Artifact
-          inputs:
-            targetPath: "$(Build.SourcesDirectory)/DFC.App.ContactUs/OpenAPIDocs"
-            artifactName: ${{ variables.SolutionBaseName }}.OpenAPIDocs
-
     - job: PublishApimPolicy
       displayName: Publish Apim Policy
       steps:
