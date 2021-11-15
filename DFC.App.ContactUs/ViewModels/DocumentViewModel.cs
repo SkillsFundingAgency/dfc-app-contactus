@@ -31,8 +31,6 @@ namespace DFC.App.ContactUs.ViewModels
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy HH:mm:ss}")]
         public DateTime LastCached { get; set; }
 
-        public ConfigurationSetBodyViewModel? ConfigurationSetBodyViewModel { get; set; }
-
         public EmailBodyViewModel? EmailBodyViewModel { get; set; }
     }
 }

@@ -20,7 +20,6 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="DFC.Compui.Sessionstate" Version="1.0.15" />
-    <PackageReference Include="DFC.Compui.Subscriptions" Version="1.0.96" />
     <PackageReference Include="DFC.Compui.Telemetry" Version="1.0.31" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.18.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.21" />
@@ -42,7 +41,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.ContactUs.Data\DFC.App.ContactUs.Data.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.AreaRoutingService\DFC.App.ContactUs.Services.AreaRoutingService.csproj" />
-    <ProjectReference Include="..\DFC.App.ContactUs.Services.CacheContentService\DFC.App.ContactUs.Services.CacheContentService.csproj" />
     <ProjectReference Include="..\DFC.App.ContactUs.Services.EmailService\DFC.App.ContactUs.Services.EmailService.csproj" />
   </ItemGroup>
 

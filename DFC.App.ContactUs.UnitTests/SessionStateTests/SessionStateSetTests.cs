@@ -25,13 +25,11 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
         private readonly ISessionStateService<SessionDataModel> fakeSessionStateService;
 
-        private readonly IDocumentService<ConfigurationSetModel> fakeConfigurationSetDocumentService;
 
         public SessionStateSetTests()
         {
             logger = A.Fake<ILogger<HomeController>>();
             fakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
-            fakeConfigurationSetDocumentService = A.Fake<IDocumentService<ConfigurationSetModel>>();
         }
 
         [Theory]
@@ -150,7 +148,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(logger, fakeSessionStateService, fakeConfigurationSetDocumentService)
+            var controller = new HomeController(logger, fakeSessionStateService)
             {
                 ControllerContext = new ControllerContext()
                 {

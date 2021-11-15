@@ -35,7 +35,6 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
         private readonly FamApiRoutingOptions fakeFamApiRoutingOptions;
 
-    
         public SessionStateDeleteTests()
         {
             logger = A.Fake<ILogger<EnterYourDetailsController>>();

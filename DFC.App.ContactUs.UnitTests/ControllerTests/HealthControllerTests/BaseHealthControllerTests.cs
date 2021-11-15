@@ -15,7 +15,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
     {
         public BaseHealthControllerTests()
         {
-            FakeContentPageService = A.Fake<IDocumentService<ConfigurationSetModel>>();
             FakeLogger = A.Fake<ILogger<HealthController>>();
         }
 
@@ -35,8 +34,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
             new string[] { MediaTypeNames.Application.Json },
         };
 
-        protected IDocumentService<ConfigurationSetModel> FakeContentPageService { get; }
-
         protected ILogger<HealthController> FakeLogger { get; }
 
         protected HealthController BuildHealthController(string mediaTypeName)
@@ -45,7 +42,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HealthController(FakeLogger, FakeContentPageService)
+            var controller = new HealthController(FakeLogger)
             {
                 ControllerContext = new ControllerContext()
                 {
