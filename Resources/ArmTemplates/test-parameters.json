@@ -17,9 +17,6 @@
         "Environment": {
             "value": "FOO"
         },
-        "cosmosDbCollectionName": {
-            "value": "a-test-collection"
-        },
         "cosmosSessionDbCollectionName": {
             "value": "another-test-collection"
         },
@@ -68,12 +65,6 @@
         "OtherEmailAddress": {
             "value": "Other@contso.com"
         },
-        "SubscriptionApiEndpointUrl": {
-            "value": "https://url"
-        },
-        "ApplicationWebhookReceiverEndpointUrl": {
-            "value": "https://url"
-        },
         "aspSize": {
             "value": "2"
         },
@@ -82,9 +73,6 @@
         },
         "aspInstances": {
             "value": 2
-        },
-        "contentUrl": {
-            "value": "https://url"
         },
         "ApimResourceGroup": {
             "value": "dfc-dev-shared-rg"
@@ -100,12 +88,6 @@
         },
         "ApiName": {
             "value": "contactus"
-        },
-        "SubscriptionSettingsFilterIncludeEventTypes3": {
-            "value": "value"
-        },
-        "SubscriptionSettingsFilterIncludeEventTypes4": {
-            "value": "anothervalue"
         },
         "NotifyOptionsApiKey": {
             "value": "value"
