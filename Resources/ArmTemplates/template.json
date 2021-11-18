@@ -71,9 +71,6 @@
     "ApimFutureAccessModelKey": {
       "type": "string"
     },
-    "SendGridKey": {
-      "type": "string"
-    },
     "FallbackEmailToAddresses": {
       "type": "string"
     },
@@ -287,10 +284,6 @@
                 "value": "[parameters('ChatOptionsShowWebchatIframe')]"
               },
               {
-                "name": "Configuration__SendGrid__ApiKey",
-                "value": "[parameters('SendGridKey')]"
-              },
-              {
                 "name": "FamApiRoutingOptions__ApiKey",
                 "value": "[parameters('ApimFutureAccessModelKey')]"
               },
@@ -394,6 +387,9 @@
           },
           "databaseNeedsCreation": {
             "value": "[parameters('contactusAppDatabaseNeedsCreation')]"
+          },
+          "DefaultTimeToLive": {
+            "value": "-1"
           }
         }
       }
