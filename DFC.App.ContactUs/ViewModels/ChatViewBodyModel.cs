@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DFC.App.ContactUs.Data;
+using System;
 
 namespace DFC.App.ContactUs.ViewModels
 {
@@ -6,7 +7,7 @@ namespace DFC.App.ContactUs.ViewModels
     {
         public Uri? ChatUrl { get; set; }
 
-        public string? PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; } = Constants.DefaultPhoneNumber;
 
         public string? HowCanWeHelpLink { get; set; }
 

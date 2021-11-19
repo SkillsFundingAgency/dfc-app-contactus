@@ -1,37 +1,25 @@
-﻿using DFC.App.ContactUs.Data.Helpers;
-using DFC.App.ContactUs.Data.Models;
-using DFC.App.ContactUs.Extensions;
+﻿using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
-using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DFC.App.ContactUs.Controllers
 {
     public class PagesController : BasePagesController<PagesController>
     {
-        private readonly IDocumentService<ConfigurationSetModel> configurationSetDocumentService;
-        private readonly AutoMapper.IMapper mapper;
-
         public PagesController(
             ILogger<PagesController> logger,
-            ISessionStateService<SessionDataModel> sessionStateService,
-            IDocumentService<ConfigurationSetModel> configurationSetDocumentService,
-            AutoMapper.IMapper mapper) : base(logger, sessionStateService)
+            ISessionStateService<SessionDataModel> sessionStateService) : base(logger, sessionStateService)
         {
-            this.configurationSetDocumentService = configurationSetDocumentService;
-            this.mapper = mapper;
         }
 
         [HttpGet]
         [Route("/")]
         [Route("pages")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var viewModel = new IndexViewModel()
             {
@@ -48,38 +36,23 @@ namespace DFC.App.ContactUs.Controllers
                 },
             };
 
-            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false);
-
-            if (configurationSetModel != null)
-            {
-                viewModel.Documents.Add(mapper.Map<IndexDocumentViewModel>(configurationSetModel));
-            }
-
             Logger.LogInformation($"{nameof(Index)} has succeeded");
 
             return this.NegotiateContentResult(viewModel);
         }
 
         [HttpGet]
-        [Route("pages/{documentId}/document")]
-        public async Task<IActionResult> Document(Guid documentId)
+        [Route("pages/document")]
+        public IActionResult Document()
         {
-            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(documentId).ConfigureAwait(false);
-            if (configurationSetModel != null)
-            {
-                var viewModel = mapper.Map<DocumentViewModel>(configurationSetModel);
-                var breadcrumbItemModel = mapper.Map<BreadcrumbItemModel>(configurationSetModel);
+            var viewModel = new DocumentViewModel();
+            var breadcrumbItemModel = new BreadcrumbItemModel();
 
-                viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
+            viewModel.Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel);
 
-                Logger.LogInformation($"{nameof(Document)} has succeeded for: {documentId}");
+            Logger.LogInformation($"{nameof(Document)} has succeeded");
 
-                return this.NegotiateContentResult(viewModel);
-            }
-
-            Logger.LogWarning($"{nameof(Document)} has returned no content for: {documentId}");
-
-            return NoContent();
+            return this.NegotiateContentResult(viewModel);
         }
     }
 }

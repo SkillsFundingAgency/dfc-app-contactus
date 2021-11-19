@@ -16,7 +16,7 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
     {
         public ValidationSteps(ScenarioContext context)
         {
-            this.Context = context;
+            Context = context;
         }
 
         private ScenarioContext Context { get; set; }
@@ -41,15 +41,13 @@ namespace DFC.App.ContactUs.UI.FunctionalTests.StepDefinitions
                     break;
             }
 
-            this.Context.GetHelperLibrary<AppSettings>().WebDriverWaitHelper.WaitForElementToContainText(locator, pageName);
+            Context.GetHelperLibrary<AppSettings>().WebDriverWaitHelper.WaitForElementToContainText(locator, pageName);
         }
 
         [Then(@"I am taken to the webchat iFrame")]
         public void ThenIAmTakenToTheWebchatIFrame()
         {
-            this.Context.GetHelperLibrary<AppSettings>().WebDriverWaitHelper.WaitForElementToBeDisplayed(By.ClassName("dfc-app-contact-us-IframeContainer"));
-
+            Context.GetHelperLibrary<AppSettings>().WebDriverWaitHelper.WaitForElementToBeDisplayed(By.ClassName("dfc-app-contact-us-IframeContainer"));
         }
-
     }
 }

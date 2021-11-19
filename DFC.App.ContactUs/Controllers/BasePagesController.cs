@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Data.Enums;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
 using DFC.Compui.Sessionstate;
@@ -76,10 +77,18 @@ namespace DFC.App.ContactUs.Controllers
             {
                 Logger.LogInformation($"Getting the session state - compositeSessionId = {compositeSessionId}");
 
-                return await SessionStateService.GetAsync(compositeSessionId.Value).ConfigureAwait(false);
-            }
+                var sessionStateModel = await SessionStateService.GetAsync(compositeSessionId.Value).ConfigureAwait(false);
+                if (sessionStateModel != null)
+                {
+                    return sessionStateModel;
+                }
 
-            Logger.LogError($"Error getting the session state - compositeSessionId = {compositeSessionId}");
+                Logger.LogError($"Error getting the session state - compositeSessionId = {compositeSessionId}");
+            }
+            else
+            {
+                Logger.LogWarning("compositeSessionId is null - unable to retrieve session state");
+            }
 
             return default;
         }
@@ -101,10 +110,17 @@ namespace DFC.App.ContactUs.Controllers
 
                 var result = await SessionStateService.SaveAsync(sessionStateModel).ConfigureAwait(false);
 
-                return result == HttpStatusCode.OK || result == HttpStatusCode.Created;
-            }
+                if (result == HttpStatusCode.OK || result == HttpStatusCode.Created)
+                {
+                    return true;
+                }
 
-            Logger.LogError($"Error saving the session state - compositeSessionId = {compositeSessionId}");
+                Logger.LogError($"Error saving the session state - compositeSessionId = {compositeSessionId}");
+            }
+            else
+            {
+                Logger.LogWarning("compositeSessionId is null - unable to save session state");
+            }
 
             return false;
         }
@@ -116,10 +132,18 @@ namespace DFC.App.ContactUs.Controllers
             {
                 Logger.LogInformation($"Deleting the session state - compositeSessionId = {compositeSessionId}");
 
-                return await SessionStateService.DeleteAsync(compositeSessionId.Value).ConfigureAwait(false);
-            }
+                var deleted = await SessionStateService.DeleteAsync(compositeSessionId.Value).ConfigureAwait(false);
+                if (deleted)
+                {
+                    return true;
+                }
 
-            Logger.LogError($"Error deleting the session state - compositeSessionId = {compositeSessionId}");
+                Logger.LogError($"Error deleting the session state - compositeSessionId = {compositeSessionId}");
+            }
+            else
+            {
+                Logger.LogWarning("compositeSessionId is null - unable to delete session state");
+            }
 
             return false;
         }

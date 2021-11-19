@@ -1,11 +1,8 @@
 ﻿using DFC.App.ContactUs.Data.Enums;
-using DFC.App.ContactUs.Data.Helpers;
-using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
-using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,11 +18,8 @@ namespace DFC.App.ContactUs.Controllers
         public const string SendUsLetterCanonicalName = "send-us-a-letter";
         public const string ThankyouForContactingUsCanonicalName = "thank-you-for-contacting-us";
 
-        private readonly IDocumentService<ConfigurationSetModel> configurationSetDocumentService;
-
-        public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService, IDocumentService<ConfigurationSetModel> configurationSetDocumentService) : base(logger, sessionStateService)
+        public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService) : base(logger, sessionStateService)
         {
-            this.configurationSetDocumentService = configurationSetDocumentService;
         }
 
         [HttpGet]
@@ -34,7 +28,6 @@ namespace DFC.App.ContactUs.Controllers
         {
             await DeleteSessionStateAsync().ConfigureAwait(false);
 
-            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false) ?? new ConfigurationSetModel();
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
                 Route = ThisViewCanonicalName,
@@ -48,11 +41,7 @@ namespace DFC.App.ContactUs.Controllers
                     Title = ContactUsPageTitleSuffix,
                 },
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
-                HomeBodyViewModel = new HomeBodyViewModel
-                {
-                    PhoneNumber = configurationSetModel?.PhoneNumber ?? ConfigurationSetModel.DefaultPhoneNumber,
-                    LinesOpenText = configurationSetModel?.LinesOpenText,
-                },
+                HomeBodyViewModel = new HomeBodyViewModel(),
             };
 
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
@@ -105,10 +94,6 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = model,
             };
 
-            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false) ?? new ConfigurationSetModel();
-            viewModel.HomeBodyViewModel!.PhoneNumber = configurationSetModel?.PhoneNumber ?? ConfigurationSetModel.DefaultPhoneNumber;
-            viewModel.HomeBodyViewModel.LinesOpenText = configurationSetModel?.LinesOpenText;
-
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
 
             return this.NegotiateContentResult(viewModel);
@@ -153,12 +138,7 @@ namespace DFC.App.ContactUs.Controllers
         {
             await DeleteSessionStateAsync().ConfigureAwait(false);
 
-            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false) ?? new ConfigurationSetModel();
-            var viewModel = new HomeBodyViewModel()
-            {
-                PhoneNumber = configurationSetModel?.PhoneNumber ?? ConfigurationSetModel.DefaultPhoneNumber,
-                LinesOpenText = configurationSetModel?.LinesOpenText,
-            };
+            var viewModel = new HomeBodyViewModel();
 
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");
 
@@ -195,12 +175,7 @@ namespace DFC.App.ContactUs.Controllers
                 }
             }
 
-            var configurationSetModel = await configurationSetDocumentService.GetByIdAsync(ConfigurationSetKeyHelper.ConfigurationSetKey).ConfigureAwait(false) ?? new ConfigurationSetModel();
-            viewModel = new HomeBodyViewModel()
-            {
-                PhoneNumber = configurationSetModel?.PhoneNumber ?? ConfigurationSetModel.DefaultPhoneNumber,
-                LinesOpenText = configurationSetModel?.LinesOpenText,
-            };
+            viewModel = new HomeBodyViewModel();
 
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");
 

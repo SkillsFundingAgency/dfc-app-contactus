@@ -1,14 +1,9 @@
 ﻿using DFC.App.ContactUs.Controllers;
-using DFC.App.ContactUs.Data.Helpers;
-using DFC.App.ContactUs.Data.Models;
-using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
-using System;
 using System.Collections.Generic;
 using System.Net.Mime;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
@@ -18,62 +13,54 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
     {
         public static IEnumerable<object[]> PagesIndexRouteDataOk => new List<object[]>
         {
-            new object[] { "/", Guid.Empty, nameof(PagesController.Index) },
-            new object[] { "/pages", Guid.Empty, nameof(PagesController.Index) },
+            new object[] { "/", nameof(PagesController.Index) },
+            new object[] { "/pages", nameof(PagesController.Index) },
         };
 
         public static IEnumerable<object[]> PagesDocumentRouteDataOk => new List<object[]>
         {
-            new object[] { "/pages/{documentId}", ConfigurationSetKeyHelper.ConfigurationSetKey, nameof(PagesController.Document), 1 },
-            new object[] { "/pages/{documentId}", Guid.NewGuid(), nameof(PagesController.Document), 1 },
+            new object[] { "/pages/{documentId}", nameof(PagesController.Document) },
+            new object[] { "/pages/{documentId}", nameof(PagesController.Document) },
         };
 
         [Theory]
         [MemberData(nameof(PagesIndexRouteDataOk))]
-        public async Task PagesControllerCallsContentPageServiceUsingPagesIndexRouteForOkResult(string route, Guid documentId, string actionMethod)
+        public void PagesControllerCallsContentPageServiceUsingPagesIndexRouteForOkResult(string route, string actionMethod)
         {
             // Arrange
             var controller = BuildController(route);
-            var expectedConfigurationSetResult = new ConfigurationSetModel() { PhoneNumber = "1234", LinesOpenText = "lines are open" };
-
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedConfigurationSetResult);
 
             // Act
-            var result = await RunControllerAction(controller, documentId, actionMethod).ConfigureAwait(false);
+            var result = RunControllerAction(controller, actionMethod);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(PagesDocumentRouteDataOk))]
-        public async Task PagesControllerCallsContentPageServiceUsingPagesDocumentRouteForOkResult(string route, Guid documentId, string actionMethod, int configurationSetCount)
+        public void PagesControllerCallsContentPageServiceUsingPagesDocumentRouteForOkResult(string route, string actionMethod)
         {
             // Arrange
             var controller = BuildController(route);
-            var expectedConfigurationSetResult = new ConfigurationSetModel() { PhoneNumber = "1234", LinesOpenText = "lines are open" };
-
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).Returns(expectedConfigurationSetResult);
 
             // Act
-            var result = await RunControllerAction(controller, documentId, actionMethod).ConfigureAwait(false);
+            var result = RunControllerAction(controller, actionMethod);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
-            A.CallTo(() => FakeConfigurationSetDocumentService.GetByIdAsync(A<Guid>.Ignored, A<string>.Ignored)).MustHaveHappened(configurationSetCount, Times.Exactly);
 
             controller.Dispose();
         }
 
-        private static async Task<IActionResult> RunControllerAction(PagesController controller, Guid documentId, string actionName)
+        private static IActionResult RunControllerAction(PagesController controller, string actionName)
         {
             return actionName switch
             {
-                nameof(PagesController.Document) => await controller.Document(documentId).ConfigureAwait(false),
-                _ => await controller.Index().ConfigureAwait(false),
+                nameof(PagesController.Document) => controller.Document(),
+                _ => controller.Index(),
             };
         }
 
@@ -83,7 +70,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new PagesController(Logger, FakeSessionStateService, FakeConfigurationSetDocumentService, FakeMapper)
+            return new PagesController(Logger, FakeSessionStateService)
             {
                 ControllerContext = new ControllerContext
                 {

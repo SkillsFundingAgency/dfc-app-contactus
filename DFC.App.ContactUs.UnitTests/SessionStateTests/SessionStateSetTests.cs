@@ -25,13 +25,11 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
         private readonly ISessionStateService<SessionDataModel> fakeSessionStateService;
 
-        private readonly IDocumentService<ConfigurationSetModel> fakeConfigurationSetDocumentService;
 
         public SessionStateSetTests()
         {
             logger = A.Fake<ILogger<HomeController>>();
             fakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
-            fakeConfigurationSetDocumentService = A.Fake<IDocumentService<ConfigurationSetModel>>();
         }
 
         [Theory]
@@ -63,6 +61,35 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             var redirectResult = Assert.IsType<RedirectResult>(result);
             Assert.Equal(expectedRedirectUrl, redirectResult.Url);
             Assert.False(redirectResult.Permanent);
+
+            controller.Dispose();
+        }
+
+        [Theory]
+        [InlineData(HttpStatusCode.NotFound)]
+        public async Task SessionStateSetWithSaveSessionStateFailureReturnsSuccessForCallback(HttpStatusCode saveStatusCode)
+        {
+            // Arrange
+            var fakeSessionStateModel = A.Fake<SessionStateModel<SessionDataModel>>();
+            var viewModel = new HomeBodyViewModel
+            {
+                SelectedOption = HomeOption.Callback,
+            };
+            var controller = BuildHomeController(MediaTypeNames.Text.Html);
+
+            controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
+
+            A.CallTo(() => fakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(fakeSessionStateModel);
+            A.CallTo(() => fakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).Returns(saveStatusCode);
+
+            // Act
+            var result = await controller.HomeBody(viewModel).ConfigureAwait(false);
+
+            // Assert
+            A.CallTo(() => fakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeSessionStateService.SaveAsync(A<SessionStateModel<SessionDataModel>>.Ignored)).MustHaveHappenedOnceExactly();
+
+            var redirectResult = Assert.IsType<ViewResult>(result);
 
             controller.Dispose();
         }
@@ -121,7 +148,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(logger, fakeSessionStateService, fakeConfigurationSetDocumentService)
+            var controller = new HomeController(logger, fakeSessionStateService)
             {
                 ControllerContext = new ControllerContext()
                 {

@@ -1,6 +1,6 @@
+using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Enums;
 using DFC.App.ContactUs.Data.Models;
-using DFC.Content.Pkg.Netcore.Data.Contracts;
 using FakeItEasy;
 using FluentAssertions;
 using System;
@@ -27,7 +27,6 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
             FeebackEmailAddress = "feedbackEmail",
             OtherEmailAddress = "otherEmail",
         };
-
 
         [Theory]
         [InlineData(Category.Feedback, "feedbackEmail")]
@@ -88,7 +87,6 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
             result.Should().Be(FamApiRoutingOptions.FallbackEmailToAddresses);
         }
 
-
         [Fact]
         public void UnsupportedCategoryCauseException()
         {
@@ -99,7 +97,7 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
             Func<Task> act = async () => await routingService.GetEmailToSendTo(ValidPostcode, Category.None).ConfigureAwait(false);
 
             // assert
-            act.Should().Throw<InvalidEnumArgumentException>();
+            act.Should().ThrowExactlyAsync<InvalidEnumArgumentException>();
         }
     }
 }

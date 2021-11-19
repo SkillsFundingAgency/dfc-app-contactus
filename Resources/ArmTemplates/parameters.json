@@ -38,9 +38,6 @@
                 "comment": "Bug in tokenisation task prevents referencing Release.EnvironmentName directly.  https://github.com/TotalALM/VSTS-Tasks/issues/29"
             }
         },
-        "cosmosDbCollectionName": {
-            "value": "__cosmosDbCollectionName__"
-        },
         "cosmosSessionDbCollectionName": {
             "value": "__cosmosSessionDbCollectionName__"
         },
@@ -68,9 +65,6 @@
         "ApimFutureAccessModelKey": {
             "value": "__ApimFutureAccessModelKey__"
         },
-        "SendGridKey": {
-            "value": "__SendGridKey__"
-        },
         "FallbackEmailToAddresses": {
             "value": "__FallbackEmailToAddresses__"
         },
@@ -86,15 +80,6 @@
         "OtherEmailAddress": {
             "value": "__OtherEmailAddress__"
         },
-        "SubscriptionApiEndpointUrl": {
-            "value": "__SubscriptionApiEndpointUrl__"
-        },
-        "ApplicationWebhookReceiverEndpointUrl": {
-            "value": "__ApplicationWebhookReceiverEndpointUrl__"
-        },
-        "contentUrl": {
-            "value": "__contentUrl__"
-        },
         "ApimResourceGroup": {
             "value": "__SharedResourceGroupName__"
         },
@@ -109,12 +94,6 @@
         },
         "ApiName": {
             "value": "__ApiName__"
-        },
-        "SubscriptionSettingsFilterIncludeEventTypes3": {
-            "value": "__SubscriptionSettingsFilterIncludeEventTypes3__"
-        },
-        "SubscriptionSettingsFilterIncludeEventTypes4": {
-            "value": "__SubscriptionSettingsFilterIncludeEventTypes4__"
         },
         "NotifyOptionsApiKey": {
             "value": "__NotifyOptionsApiKey__"
