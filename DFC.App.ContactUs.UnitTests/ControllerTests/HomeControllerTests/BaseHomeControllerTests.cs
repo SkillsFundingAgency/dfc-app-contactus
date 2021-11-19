@@ -22,7 +22,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         {
             Logger = A.Fake<ILogger<HomeController>>();
             FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
-            FakeConfigurationSetDocumentService = A.Fake<IDocumentService<ConfigurationSetModel>>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -45,15 +44,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
         protected ISessionStateService<SessionDataModel> FakeSessionStateService { get; }
 
-        protected IDocumentService<ConfigurationSetModel> FakeConfigurationSetDocumentService { get; }
-
         protected HomeController BuildHomeController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(Logger, FakeSessionStateService, FakeConfigurationSetDocumentService)
+            var controller = new HomeController(Logger, FakeSessionStateService)
             {
                 ControllerContext = new ControllerContext()
                 {

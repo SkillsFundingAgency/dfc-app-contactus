@@ -103,7 +103,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
         {
             // Arrange
             const bool expectedSendEmailResult = true;
-            RoutingDetailModel? expectedRoutingDetailModel = null;
             string expectedRedirectUrl = $"/{RegistrationPath}/{HomeController.ThankyouForContactingUsCanonicalName}";
             var viewModel = ValidModelBuilders.BuildValidEnterYourDetailsBodyViewModel();
             var controller = BuildEnterYourDetailsController(MediaTypeNames.Text.Html);

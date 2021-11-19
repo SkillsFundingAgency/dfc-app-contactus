@@ -3,7 +3,6 @@ using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
@@ -13,16 +12,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async Task HealthControllerViewHtmlReturnsSuccess(string mediaTypeName)
+        public void HealthControllerViewHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            bool expectedResult = true;
             var controller = BuildHealthController(mediaTypeName);
 
-            A.CallTo(() => FakeContentPageService.PingAsync()).Returns(expectedResult);
-
             // Act
-            var result = await controller.HealthView().ConfigureAwait(false);
+            var result = controller.HealthView();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -33,16 +29,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async Task HealthControllerViewJsonReturnsSuccess(string mediaTypeName)
+        public void HealthControllerViewJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            bool expectedResult = true;
             var controller = BuildHealthController(mediaTypeName);
 
-            A.CallTo(() => FakeContentPageService.PingAsync()).Returns(expectedResult);
-
             // Act
-            var result = await controller.HealthView().ConfigureAwait(false);
+            var result = controller.HealthView();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
@@ -53,16 +46,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public async Task HealthControllerHealthViewReturnsNotAcceptable(string mediaTypeName)
+        public void HealthControllerHealthViewReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            bool expectedResult = true;
             var controller = BuildHealthController(mediaTypeName);
 
-            A.CallTo(() => FakeContentPageService.PingAsync()).Returns(expectedResult);
-
             // Act
-            var result = await controller.HealthView().ConfigureAwait(false);
+            var result = controller.HealthView();
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

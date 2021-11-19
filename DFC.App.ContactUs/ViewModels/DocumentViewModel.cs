@@ -20,15 +20,16 @@ namespace DFC.App.ContactUs.ViewModels
         public Uri? Url { get; set; }
 
         [Display(Name = "Last Reviewed")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy HH:mm:ss}")]
         public DateTime LastReviewed { get; set; }
 
         [Display(Name = "Created Date")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy HH:mm:ss}")]
         public DateTime CreatedDate { get; set; }
 
         [Display(Name = "Last Cached")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy HH:mm:ss}")]
         public DateTime LastCached { get; set; }
-
-        public ConfigurationSetBodyViewModel? ConfigurationSetBodyViewModel { get; set; }
 
         public EmailBodyViewModel? EmailBodyViewModel { get; set; }
     }

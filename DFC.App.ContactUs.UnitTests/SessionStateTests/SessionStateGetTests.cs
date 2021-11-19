@@ -103,6 +103,29 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             controller.Dispose();
         }
 
+        [Fact]
+        public async Task SessionStateGetWithValidSessionIdHeaderReturnsNoSessionStateForCallback()
+        {
+            // Arrange
+            SessionStateModel<SessionDataModel>? nullSessionStateModel = null;
+            var controller = BuildEnterYourDetailsController(MediaTypeNames.Text.Html);
+
+            controller.Request.Headers.Add(ConstantStrings.CompositeSessionIdHeaderName, Guid.NewGuid().ToString());
+
+            A.CallTo(() => fakeSessionStateService.GetAsync(A<Guid>.Ignored)).Returns(nullSessionStateModel);
+
+            // Act
+            var result = await controller.EnterYourDetailsBody().ConfigureAwait(false);
+
+            // Assert
+            A.CallTo(() => fakeSessionStateService.GetAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+            _ = Assert.IsAssignableFrom<EnterYourDetailsBodyViewModel>(viewResult.ViewData.Model);
+
+            controller.Dispose();
+        }
+
         private EnterYourDetailsController BuildEnterYourDetailsController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();

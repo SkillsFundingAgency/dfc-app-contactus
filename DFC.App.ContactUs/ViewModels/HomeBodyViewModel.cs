@@ -1,4 +1,5 @@
-﻿using DFC.App.ContactUs.Enums;
+﻿using DFC.App.ContactUs.Data;
+using DFC.App.ContactUs.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.ContactUs.ViewModels
@@ -7,9 +8,7 @@ namespace DFC.App.ContactUs.ViewModels
     {
         public const string SelectedOptionValidationError = "Choose an option";
 
-        public string? PhoneNumber { get; set; }
-
-        public string? LinesOpenText { get; set; }
+        public string? PhoneNumber { get; set; } = Constants.DefaultPhoneNumber;
 
         [Required(ErrorMessage = SelectedOptionValidationError)]
         [Range((int)HomeOption.Webchat, (int)HomeOption.Sendletter, ErrorMessage = SelectedOptionValidationError)]

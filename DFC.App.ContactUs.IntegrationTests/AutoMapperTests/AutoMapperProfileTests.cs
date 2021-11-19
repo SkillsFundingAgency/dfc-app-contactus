@@ -30,20 +30,6 @@ namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
         }
 
         [Fact]
-        public void AutoMapperProfileConfigurationForEConfigurationSetModelProfileReturnSuccess()
-        {
-            // Arrange
-            factory.CreateClient();
-            var mapper = factory.Server.Host.Services.GetRequiredService<IMapper>();
-
-            // Act
-            mapper.ConfigurationProvider.AssertConfigurationIsValid<ConfigurationSetModelProfile>();
-
-            // Assert
-            Assert.True(true);
-        }
-
-        [Fact]
         public void AutoMapperProfileConfigurationForEnterYourDetailsBodyViewModelProfileReturnSuccess()
         {
             // Arrange

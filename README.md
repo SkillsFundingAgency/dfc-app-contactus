@@ -6,10 +6,6 @@ This project provides a Contact Us app for use in the Composite UI (Shell applic
 
 Details of the Composite UI application may be found here https://github.com/SkillsFundingAgency/dfc-composite-shell
 
-This Contact Us app returns:
-
-* Contact Us documents
-
 The Contact Us app also provisions the following for consumption by the Composite UI:
 
 * Sitemap.xml for all Contact Us documents
@@ -27,9 +23,7 @@ Clone the project and open the solution in Visual Studio 2019.
 
 |Item	|Purpose|
 |-------|-------|
-|Azure Cosmos DB | Document storage |
 |DFC.Compui.Sessionstate|Session State storage in Cosmos|
-|DFC.Compui.Cosmos|Content page storage in Cosmos|
 
 ## Local Config Files
 
@@ -48,7 +42,7 @@ By default, the appsettings include local Azure Cosmos Emulator configurations u
 
 This app using the FAM API for Postcode routing. To make use of it you will require an APIM API key for that service.
 
-This app also uses SendGrid to send email messages. The configuration section "SendGrid" contains settings used for SendGrid. As a minimum, add your SendGrid API key.
+This app also uses Gov.Notify to send email messages. The configuration section "NotifyOptions" contains settings used for Gov.Notify. As a minimum, add your Gov.Notify API key.
 
 ## Running locally
 

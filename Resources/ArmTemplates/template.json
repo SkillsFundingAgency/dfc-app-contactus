@@ -34,12 +34,6 @@
     "cosmosDbKey": {
       "type": "securestring"
     },
-    "cosmosDbCollectionName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the collection to create"
-      }
-    },
     "cosmosSessionDbCollectionName": {
       "type": "string",
       "metadata": {
@@ -77,9 +71,6 @@
     "ApimFutureAccessModelKey": {
       "type": "string"
     },
-    "SendGridKey": {
-      "type": "string"
-    },
     "FallbackEmailToAddresses": {
       "type": "string"
     },
@@ -95,15 +86,6 @@
     "OtherEmailAddress": {
       "type": "string"
     },
-    "SubscriptionApiEndpointUrl": {
-      "type": "string"
-    },
-    "ApplicationWebhookReceiverEndpointUrl": {
-      "type": "string"
-    },
-    "contentUrl": {
-      "type": "string"
-    },
     "ApimResourceGroup": {
       "type": "string"
     },
@@ -117,12 +99,6 @@
       "type": "string"
     },
     "ApiName": {
-      "type": "string"
-    },
-    "SubscriptionSettingsFilterIncludeEventTypes3": {
-      "type": "string"
-    },
-    "SubscriptionSettingsFilterIncludeEventTypes4": {
       "type": "string"
     },
     "NotifyOptionsApiKey": {
@@ -280,26 +256,6 @@
                 "value": "Information"
               },
               {
-                "name": "Configuration__CosmosDbConnections__ContentPages__AccessKey",
-                "value": "[parameters('cosmosDbKey')]"
-              },
-              {
-                "name": "Configuration__CosmosDbConnections__ContentPages__EndpointUrl",
-                "value": "[variables('cosmosDbEndpoint')]"
-              },
-              {
-                "name": "Configuration__CosmosDbConnections__ContentPages__DatabaseId",
-                "value": "[variables('cosmosDbDatabaseName')]"
-              },
-              {
-                "name": "Configuration__CosmosDbConnections__ContentPages__CollectionId",
-                "value": "[parameters('cosmosDbCollectionName')]"
-              },
-              {
-                "name": "Configuration__CosmosDbConnections__ContentPages__PartitionKey",
-                "value": "[variables('cosmosDbCollectionPartitionKey')]"
-              },
-              {
                 "name": "Configuration__CosmosDbConnections__SessionState__AccessKey",
                 "value": "[parameters('cosmosDbKey')]"
               },
@@ -320,28 +276,12 @@
                 "value": "[variables('cosmosDbCollectionPartitionKey')]"
               },
               {
-                "name": "CmsApiClientOptions__Timeout",
-                "value": "00:00:30"
-              },
-              {
-                "name": "CmsApiClientOptions__BaseAddress",
-                "value": "[parameters('contentUrl')]"
-              },
-              {
-                "name": "CmsApiClientOptions__SummaryEndpoint",
-                "value": ""
-              },
-              {
                 "name": "ChatOptions__ChatUrl",
                 "value": "[parameters('chatOptionsChatUrl')]"
               },
               {
                 "name": "ChatOptions__ShowWebchatIframe",
                 "value": "[parameters('ChatOptionsShowWebchatIframe')]"
-              },
-              {
-                "name": "Configuration__SendGrid__ApiKey",
-                "value": "[parameters('SendGridKey')]"
               },
               {
                 "name": "FamApiRoutingOptions__ApiKey",
@@ -408,50 +348,6 @@
                 "value": 3
               },
               {
-                "name": "SubscriptionSettings__SubscriptionServiceEndpoint",
-                "value": "[parameters('SubscriptionApiEndpointUrl')]"
-              },
-              {
-                "name": "SubscriptionSettings__Endpoint",
-                "value": "[parameters('ApplicationWebhookReceiverEndpointUrl')]"
-              },
-              {
-                "name": "SubscriptionSettings__Filter__IncludeEventTypes__0",
-                "value": "published"
-              },
-              {
-                "name": "SubscriptionSettings__Filter__IncludeEventTypes__1",
-                "value": "unpublished"
-              },
-              {
-                "name": "SubscriptionSettings__Filter__IncludeEventTypes__2",
-                "value": "deleted"
-              },
-              {
-                "name": "SubscriptionSettings__Filter__IncludeEventTypes__3",
-                "value": "[parameters('SubscriptionSettingsFilterIncludeEventTypes3')]"
-              },
-              {
-                "name": "SubscriptionSettings__Filter__IncludeEventTypes__4",
-                "value": "[parameters('SubscriptionSettingsFilterIncludeEventTypes4')]"
-              },
-              {
-                "name": "SubscriptionSettings__Filter__PropertyContainsFilters__0__Key",
-                "value": "subject"
-              },
-              {
-                "name": "SubscriptionSettings__Filter__PropertyContainsFilters__0__Values__0",
-                "value": "e11a1137-01ca-446a-b60f-0de5ad5321cc"
-              },
-              {
-                "name": "SubscriptionSettings__Filter__PropertyContainsFilters__0__Values__1",
-                "value": "e11a1195-801d-479b-84b6-f5e443abfb86"
-              },
-              {
-                "name": "SubscriptionSettings__SubscriptionRegistrationDelay",
-                "value": "00:02:00"
-              },
-              {
                 "name": "WEBSITE_RUN_FROM_PACKAGE",
                 "value": "1"
               },
@@ -494,37 +390,6 @@
           }
         }
       }
-    },
-    {
-      "apiVersion": "2017-05-10",
-      "name": "[parameters('cosmosDbCollectionName')]",
-      "type": "Microsoft.Resources/deployments",
-      "resourceGroup": "[parameters('CosmosDbResourceGroup')]",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[concat(variables('BuildingBlocksDfcBaseUrl'), 'CosmosDb/cosmos-collection.json')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "accountName": {
-            "value": "[parameters('cosmosDbName')]"
-          },
-          "databaseName": {
-            "value": "[variables('cosmosDbDatabaseName')]"
-          },
-          "collectionName": {
-            "value": "[parameters('cosmosDbCollectionName')]"
-          },
-          "provisionRequestUnits": {
-            "value": false
-          },
-          "partitionKey": {
-            "value": "[variables('cosmosDbCollectionPartitionKey')]"
-          }
-        }
-      },
-      "dependsOn": [ "[variables('CosmosDbDatabaseName')]" ]
     },
     {
       "apiVersion": "2017-05-10",
