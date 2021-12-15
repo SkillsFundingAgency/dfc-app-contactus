@@ -8,21 +8,21 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsControllerTests
 {
     [Trait("Category", "EnterYourDetails Controller Unit Tests")]
-    public class EnterYourDetailsControllerHtmlHeadTests : BaseEnterYourDetailsControllerTests
+    public class EnterYourDetailsControllerHeadTests : BaseEnterYourDetailsControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void EnterYourDetailsControllerHtmlHeadHtmlReturnsSuccess(string mediaTypeName)
+        public void EnterYourDetailsControllerHeadHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildEnterYourDetailsController(mediaTypeName);
 
             // Act
-            var result = controller.EnterYourDetailsHtmlHead();
+            var result = controller.EnterYourDetailsHead();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<HtmlHeadViewModel>(viewResult.ViewData.Model);
+            var model = Assert.IsAssignableFrom<HeadViewModel>(viewResult.ViewData.Model);
 
             model.CanonicalUrl.Should().NotBeNull();
 
@@ -31,17 +31,17 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void EnterYourDetailsControllerHtmlHeadJsonReturnsSuccess(string mediaTypeName)
+        public void EnterYourDetailsControllerHeadJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildEnterYourDetailsController(mediaTypeName);
 
             // Act
-            var result = controller.EnterYourDetailsHtmlHead();
+            var result = controller.EnterYourDetailsHead();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            var model = Assert.IsAssignableFrom<HtmlHeadViewModel>(jsonResult.Value);
+            var model = Assert.IsAssignableFrom<HeadViewModel>(jsonResult.Value);
 
             model.CanonicalUrl.Should().NotBeNull();
 
@@ -50,13 +50,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void EnterYourDetailsControllerHtmlHeadReturnsNotAcceptable(string mediaTypeName)
+        public void EnterYourDetailsControllerHeadReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             var controller = BuildEnterYourDetailsController(mediaTypeName);
 
             // Act
-            var result = controller.EnterYourDetailsHtmlHead();
+            var result = controller.EnterYourDetailsHead();
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

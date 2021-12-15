@@ -8,21 +8,21 @@ using Xunit;
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 {
     [Trait("Category", "Home Controller Unit Tests")]
-    public class HomeControllerHtmlHeadTests : BaseHomeControllerTests
+    public class HomeControllerHeadTests : BaseHomeControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void HomeControllerHtmlHeadHtmlReturnsSuccess(string mediaTypeName)
+        public void HomeControllerHeadHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildHomeController(mediaTypeName);
 
             // Act
-            var result = controller.HomeHtmlHead();
+            var result = controller.HomeHead();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<HtmlHeadViewModel>(viewResult.ViewData.Model);
+            var model = Assert.IsAssignableFrom<HeadViewModel>(viewResult.ViewData.Model);
 
             model.CanonicalUrl.Should().NotBeNull();
 
@@ -31,17 +31,17 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void HomeControllerHtmlHeadJsonReturnsSuccess(string mediaTypeName)
+        public void HomeControllerHeadJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var controller = BuildHomeController(mediaTypeName);
 
             // Act
-            var result = controller.HomeHtmlHead();
+            var result = controller.HomeHead();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            var model = Assert.IsAssignableFrom<HtmlHeadViewModel>(jsonResult.Value);
+            var model = Assert.IsAssignableFrom<HeadViewModel>(jsonResult.Value);
 
             model.CanonicalUrl.Should().NotBeNull();
 
@@ -50,13 +50,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void HomeControllerHtmlHeadReturnsNotAcceptable(string mediaTypeName)
+        public void HomeControllerHeadReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             var controller = BuildHomeController(mediaTypeName);
 
             // Act
-            var result = controller.HomeHtmlHead();
+            var result = controller.HomeHead();
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);

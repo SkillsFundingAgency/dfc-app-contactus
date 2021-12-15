@@ -2,7 +2,7 @@
 
 namespace DFC.App.ContactUs.ViewModels
 {
-    public class HtmlHeadViewModel
+    public class HeadViewModel
     {
         public string? Title { get; set; }
 
