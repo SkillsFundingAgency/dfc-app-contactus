@@ -38,7 +38,7 @@ namespace DFC.App.ContactUs.Controllers
             };
             var viewModel = new EnterYourDetailsViewModel()
             {
-                HtmlHead = new HtmlHeadViewModel
+                Head = new HeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                     Title = "Enter your details" + PageTitleSuffix,
@@ -79,7 +79,7 @@ namespace DFC.App.ContactUs.Controllers
             };
             var viewModel = new EnterYourDetailsViewModel()
             {
-                HtmlHead = new HtmlHeadViewModel
+                Head = new HeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                     Title = "Enter your details" + PageTitleSuffix,
@@ -94,16 +94,16 @@ namespace DFC.App.ContactUs.Controllers
         }
 
         [HttpGet]
-        [Route("pages/enter-your-details/htmlhead")]
-        public IActionResult EnterYourDetailsHtmlHead()
+        [Route("pages/enter-your-details/head")]
+        public IActionResult EnterYourDetailsHead()
         {
-            var viewModel = new HtmlHeadViewModel()
+            var viewModel = new HeadViewModel()
             {
                 CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                 Title = "Enter your details" + PageTitleSuffix,
             };
 
-            Logger.LogInformation($"{nameof(EnterYourDetailsHtmlHead)} has returned content");
+            Logger.LogInformation($"{nameof(EnterYourDetailsHead)} has returned content");
 
             return this.NegotiateContentResult(viewModel);
         }

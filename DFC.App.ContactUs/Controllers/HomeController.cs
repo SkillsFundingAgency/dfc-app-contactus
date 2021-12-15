@@ -35,7 +35,7 @@ namespace DFC.App.ContactUs.Controllers
             };
             var viewModel = new HomeViewModel()
             {
-                HtmlHead = new HtmlHeadViewModel
+                Head = new HeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}", UriKind.RelativeOrAbsolute),
                     Title = ContactUsPageTitleSuffix,
@@ -85,7 +85,7 @@ namespace DFC.App.ContactUs.Controllers
             };
             var viewModel = new HomeViewModel()
             {
-                HtmlHead = new HtmlHeadViewModel
+                Head = new HeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}", UriKind.RelativeOrAbsolute),
                     Title = ContactUsPageTitleSuffix,
@@ -100,17 +100,17 @@ namespace DFC.App.ContactUs.Controllers
         }
 
         [HttpGet]
-        [Route("pages/home/htmlhead")]
-        [Route("pages/htmlhead")]
-        public IActionResult HomeHtmlHead()
+        [Route("pages/home/head")]
+        [Route("pages/head")]
+        public IActionResult HomeHead()
         {
-            var viewModel = new HtmlHeadViewModel()
+            var viewModel = new HeadViewModel()
             {
                 CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}", UriKind.RelativeOrAbsolute),
                 Title = ContactUsPageTitleSuffix,
             };
 
-            Logger.LogInformation($"{nameof(HomeHtmlHead)} has returned content");
+            Logger.LogInformation($"{nameof(HomeHead)} has returned content");
 
             return this.NegotiateContentResult(viewModel);
         }

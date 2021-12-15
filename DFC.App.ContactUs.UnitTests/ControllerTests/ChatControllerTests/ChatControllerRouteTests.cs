@@ -14,7 +14,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
             new object[] { $"/pages/{ChatController.ThisViewCanonicalName}",  nameof(ChatController.ChatView) },
-            new object[] { $"/pages/{ChatController.ThisViewCanonicalName}/htmlhead",  nameof(ChatController.ChatHtmlHead) },
+            new object[] { $"/pages/{ChatController.ThisViewCanonicalName}/head",  nameof(ChatController.ChatHead) },
             new object[] { $"/pages/{ChatController.ThisViewCanonicalName}/breadcrumb",  nameof(ChatController.ChatBreadcrumb) },
             new object[] { $"/pages/{ChatController.ThisViewCanonicalName}/body",  nameof(ChatController.ChatBody) },
         };
@@ -39,7 +39,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
         {
             return actionName switch
             {
-                nameof(ChatController.ChatHtmlHead) => controller.ChatHtmlHead(),
+                nameof(ChatController.ChatHead) => controller.ChatHead(),
                 nameof(ChatController.ChatBreadcrumb) => controller.ChatBreadcrumb(),
                 _ => controller.ChatBody(),
             };

@@ -5,24 +5,24 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Xunit;
 
-namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTests
+namespace DFC.App.ContactUs.UnitTests.ControllerTests.ChatControllerTests
 {
-    [Trait("Category", "HowCanWeHelp Controller Unit Tests")]
-    public class HowCanWeHelpControllerHtmlHeadTests : BaseHowCanWeHelpControllerTests
+    [Trait("Category", "Chat Controller Unit Tests")]
+    public class ChatControllerHeadTests : BaseChatControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void HowCanWeHelpControllerHtmlHeadHtmlReturnsSuccess(string mediaTypeName)
+        public void ChatControllerHeadHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildHowCanWeHelpController(mediaTypeName);
+            var controller = BuildChatController(mediaTypeName);
 
             // Act
-            var result = controller.HowCanWeHelpHtmlHead();
+            var result = controller.ChatHead();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<HtmlHeadViewModel>(viewResult.ViewData.Model);
+            var model = Assert.IsAssignableFrom<HeadViewModel>(viewResult.ViewData.Model);
 
             model.CanonicalUrl.Should().NotBeNull();
 
@@ -31,17 +31,17 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTest
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void HowCanWeHelpControllerHtmlHeadJsonReturnsSuccess(string mediaTypeName)
+        public void ChatControllerHeadJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildHowCanWeHelpController(mediaTypeName);
+            var controller = BuildChatController(mediaTypeName);
 
             // Act
-            var result = controller.HowCanWeHelpHtmlHead();
+            var result = controller.ChatHead();
 
             // Assert
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            var model = Assert.IsAssignableFrom<HtmlHeadViewModel>(jsonResult.Value);
+            var model = Assert.IsAssignableFrom<HeadViewModel>(jsonResult.Value);
 
             model.CanonicalUrl.Should().NotBeNull();
 
@@ -50,13 +50,13 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTest
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void HowCanWeHelpControllerHtmlHeadReturnsNotAcceptable(string mediaTypeName)
+        public void ChatControllerHeadReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildHowCanWeHelpController(mediaTypeName);
+            var controller = BuildChatController(mediaTypeName);
 
             // Act
-            var result = controller.HowCanWeHelpHtmlHead();
+            var result = controller.ChatHead();
 
             // Assert
             var statusResult = Assert.IsType<StatusCodeResult>(result);
