@@ -15,7 +15,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTest
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
             new object[] { $"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}",  nameof(HowCanWeHelpController.HowCanWeHelpView) },
-            new object[] { $"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}/htmlhead",  nameof(HowCanWeHelpController.HowCanWeHelpHtmlHead) },
+            new object[] { $"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}/head",  nameof(HowCanWeHelpController.HowCanWeHelpHead) },
             new object[] { $"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}/breadcrumb", nameof(HowCanWeHelpController.HowCanWeHelpBreadcrumb) },
             new object[] { $"/{LocalPath}/{HowCanWeHelpController.ThisViewCanonicalName}/body", nameof(HowCanWeHelpController.HowCanWeHelpBody) },
         };
@@ -40,7 +40,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HowCanWeHelpControllerTest
         {
             return actionName switch
             {
-                nameof(HowCanWeHelpController.HowCanWeHelpHtmlHead) => controller.HowCanWeHelpHtmlHead(),
+                nameof(HowCanWeHelpController.HowCanWeHelpHead) => controller.HowCanWeHelpHead(),
                 nameof(HowCanWeHelpController.HowCanWeHelpBreadcrumb) => controller.HowCanWeHelpBreadcrumb(),
                 _ => await controller.HowCanWeHelpBody().ConfigureAwait(false),
             };

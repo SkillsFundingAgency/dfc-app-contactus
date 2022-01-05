@@ -31,7 +31,7 @@ namespace DFC.App.ContactUs.Controllers
             };
             var viewModel = new ChatViewModel()
             {
-                HtmlHead = new HtmlHeadViewModel
+                Head = new HeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/chat", UriKind.RelativeOrAbsolute),
                     Title = "Webchat" + PageTitleSuffix,
@@ -48,16 +48,16 @@ namespace DFC.App.ContactUs.Controllers
         }
 
         [HttpGet]
-        [Route("pages/chat/htmlhead")]
-        public IActionResult ChatHtmlHead()
+        [Route("pages/chat/head")]
+        public IActionResult ChatHead()
         {
-            var viewModel = new HtmlHeadViewModel()
+            var viewModel = new HeadViewModel()
             {
                 CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{WebchatRegistrationPath}/chat", UriKind.RelativeOrAbsolute),
                 Title = "Webchat" + PageTitleSuffix,
             };
 
-            Logger.LogInformation($"{nameof(ChatHtmlHead)} has returned content");
+            Logger.LogInformation($"{nameof(ChatHead)} has returned content");
 
             return this.NegotiateContentResult(viewModel);
         }

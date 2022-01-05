@@ -2,7 +2,7 @@
 {
     public class HowCanWeHelpViewModel
     {
-        public HtmlHeadViewModel? HtmlHead { get; set; }
+        public HeadViewModel? Head { get; set; }
 
         public BreadcrumbViewModel? Breadcrumb { get; set; }
 

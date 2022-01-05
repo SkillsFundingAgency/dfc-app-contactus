@@ -2,9 +2,9 @@
 @{
     Layout = "_LocalLayout";
 
-    if (!string.IsNullOrWhiteSpace(Model.HtmlHead?.Title))
+    if (!string.IsNullOrWhiteSpace(Model.Head?.Title))
     {
-        ViewData["Title"] = Model.HtmlHead.Title;
+        ViewData["Title"] = Model.Head.Title;
     }
 }
 
