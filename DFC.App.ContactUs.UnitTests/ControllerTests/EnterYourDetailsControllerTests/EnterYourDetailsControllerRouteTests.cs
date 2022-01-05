@@ -15,7 +15,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
             new object[] { $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}",  nameof(EnterYourDetailsController.EnterYourDetailsView) },
-            new object[] { $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}/htmlhead",  nameof(EnterYourDetailsController.EnterYourDetailsHtmlHead) },
+            new object[] { $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}/head",  nameof(EnterYourDetailsController.EnterYourDetailsHead) },
             new object[] { $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}/breadcrumb", nameof(EnterYourDetailsController.EnterYourDetailsBreadcrumb) },
             new object[] { $"/{LocalPath}/{EnterYourDetailsController.ThisViewCanonicalName}/body", nameof(EnterYourDetailsController.EnterYourDetailsBody) },
         };
@@ -40,7 +40,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.EnterYourDetailsController
         {
             return actionName switch
             {
-                nameof(EnterYourDetailsController.EnterYourDetailsHtmlHead) => controller.EnterYourDetailsHtmlHead(),
+                nameof(EnterYourDetailsController.EnterYourDetailsHead) => controller.EnterYourDetailsHead(),
                 nameof(EnterYourDetailsController.EnterYourDetailsBreadcrumb) => controller.EnterYourDetailsBreadcrumb(),
                 _ => await controller.EnterYourDetailsBody().ConfigureAwait(false),
             };

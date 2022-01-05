@@ -16,7 +16,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         public static IEnumerable<object[]> RouteDataOk => new List<object[]>
         {
             new object[] { $"/{LocalPath}/{HomeController.ThisViewCanonicalName}", nameof(HomeController.HomeView) },
-            new object[] { $"/{LocalPath}/{HomeController.ThisViewCanonicalName}/htmlhead", nameof(HomeController.HomeHtmlHead) },
+            new object[] { $"/{LocalPath}/{HomeController.ThisViewCanonicalName}/head", nameof(HomeController.HomeHead) },
             new object[] { $"/{LocalPath}/{HomeController.ThisViewCanonicalName}/breadcrumb", nameof(HomeController.HomeBreadcrumb) },
             new object[] { $"/{LocalPath}/{HomeController.ThisViewCanonicalName}/body", nameof(HomeController.HomeBody) },
         };
@@ -41,7 +41,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
         {
             return actionName switch
             {
-                nameof(HomeController.HomeHtmlHead) => controller.HomeHtmlHead(),
+                nameof(HomeController.HomeHead) => controller.HomeHead(),
                 nameof(HomeController.HomeBreadcrumb) => controller.HomeBreadcrumb(),
                 _ => await controller.HomeBody().ConfigureAwait(false),
             };

@@ -32,7 +32,7 @@ namespace DFC.App.ContactUs.Controllers
             };
             var viewModel = new HowCanWeHelpViewModel()
             {
-                HtmlHead = new HtmlHeadViewModel
+                Head = new HeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                     Title = Title + PageTitleSuffix,
@@ -80,7 +80,7 @@ namespace DFC.App.ContactUs.Controllers
             };
             var viewModel = new HowCanWeHelpViewModel()
             {
-                HtmlHead = new HtmlHeadViewModel
+                Head = new HeadViewModel
                 {
                     CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{LocalPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                     Title = Title + PageTitleSuffix,
@@ -95,16 +95,16 @@ namespace DFC.App.ContactUs.Controllers
         }
 
         [HttpGet]
-        [Route("pages/how-can-we-help/htmlhead")]
-        public IActionResult HowCanWeHelpHtmlHead()
+        [Route("pages/how-can-we-help/head")]
+        public IActionResult HowCanWeHelpHead()
         {
-            var viewModel = new HtmlHeadViewModel()
+            var viewModel = new HeadViewModel()
             {
                 CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
                 Title = Title + PageTitleSuffix,
             };
 
-            Logger.LogInformation($"{nameof(HowCanWeHelpHtmlHead)} has returned content");
+            Logger.LogInformation($"{nameof(HowCanWeHelpHead)} has returned content");
 
             return this.NegotiateContentResult(viewModel);
         }
