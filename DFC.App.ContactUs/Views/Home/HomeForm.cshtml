@@ -20,16 +20,19 @@
                 </li>
             </ul>
         </blockquote>
-        <p>
+        <p class="govuk-body">
+            We're closed Sunday, Christmas Day and New Year's Day.
+        </p>
+        <p class ="govuk-body">
             Calls are free from landlines and most mobile numbers. Please check for <a class="govuk-link" href="https://www.gov.uk/call-charges">possible call charges and freephone numbers</a>.
         </p>
         <p class="govuk-body">
             If you do not want to call us, you can also:
         </p>
 
-        @Html.EditorFor(model => model.SelectedOption)
+            @Html.EditorFor(model => model.SelectedOption)
 
-    </fieldset>
+</fieldset>
     <br />
     <button id="HomeContinueButton" class="govuk-button" data-module="govuk-button">
         Continue
