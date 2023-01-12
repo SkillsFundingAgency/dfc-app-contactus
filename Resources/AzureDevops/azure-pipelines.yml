@@ -58,7 +58,7 @@ stages:
           SolutionBaseName: $(SolutionBaseName)
           BuildPlatform: $(BuildPlatform)
           BuildConfiguration: $(BuildConfiguration)
-          DotNetCoreVersion: 3.1.101
+          DotNetCoreVersion: '3.1.100'
           PublishWebApp: true
           TestSuffix: UnitTests
           IntegrationTestSuffix: IntegrationTests
@@ -73,4 +73,4 @@ stages:
           SolutionBaseName: $(SolutionBaseName).UI.FunctionalTests
           BuildPlatform: $(BuildPlatform)
           BuildConfiguration: $(BuildConfiguration)
-          DotNetCoreVersion: 3.1.101
+          DotNetCoreVersion: '3.1.100'
