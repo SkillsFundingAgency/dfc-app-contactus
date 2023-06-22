@@ -21,6 +21,8 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService
 
         public async Task<string?> GetAsync(HttpClient? httpClient, Uri url, string acceptHeader)
         {
+            logger.LogInformation($"{nameof(GetAsync)} has been called");
+
             _ = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 
             logger.LogInformation($"Loading data from {url}");
@@ -58,6 +60,8 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService
 
         public async Task<HttpStatusCode> PostAsync(HttpClient? httpClient, Uri url)
         {
+            logger.LogInformation($"{nameof(PostAsync)} has been called");
+
             _ = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 
             logger.LogInformation($"Posting to {url}");
@@ -90,6 +94,8 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService
         public async Task<HttpStatusCode> PostAsync<TModel>(HttpClient? httpClient, Uri url, TModel model)
             where TModel : class
         {
+            logger.LogInformation($"{nameof(PostAsync)} has been called with model {nameof(model)}");
+
             _ = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 
             logger.LogInformation($"Posting data to {url}");
@@ -122,6 +128,8 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService
 
         public async Task<HttpStatusCode> DeleteAsync(HttpClient? httpClient, Uri url)
         {
+            logger.LogInformation($"{nameof(DeleteAsync)} has been called");
+
             _ = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
 
             logger.LogInformation($"Deleting data from {url}");
