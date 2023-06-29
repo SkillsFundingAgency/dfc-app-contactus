@@ -68,9 +68,6 @@
         "FallbackEmailToAddresses": {
             "value": "__FallbackEmailToAddresses__"
         },
-        "NoReplyEmailAddress": {
-            "value": "__NoReplyEmailAddress__"
-        },
         "ProblemsEmailAddress": {
             "value": "__ProblemsEmailAddress__"
         },

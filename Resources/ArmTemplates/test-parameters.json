@@ -50,9 +50,6 @@
         "FallbackEmailToAddresses": {
             "value": "foo@contso.com"
         },
-        "NoReplyEmailAddress": {
-            "value": "no-replyfoo@contso.com"
-        },
         "ProblemsEmailAddress": {
             "value": "Problems@contso.com"
         },
