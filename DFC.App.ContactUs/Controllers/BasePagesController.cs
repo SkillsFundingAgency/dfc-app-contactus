@@ -72,6 +72,8 @@ namespace DFC.App.ContactUs.Controllers
 
         protected async Task<SessionStateModel<SessionDataModel>?> GetSessionStateAsync()
         {
+            Logger.LogInformation($"{nameof(SessionDataModel)} has been called");
+
             var compositeSessionId = Request.CompositeSessionId();
             if (compositeSessionId.HasValue)
             {
@@ -80,6 +82,8 @@ namespace DFC.App.ContactUs.Controllers
                 var sessionStateModel = await SessionStateService.GetAsync(compositeSessionId.Value).ConfigureAwait(false);
                 if (sessionStateModel != null)
                 {
+                    Logger.LogInformation($"The session state has been received - compositeSessionId = {compositeSessionId}");
+
                     return sessionStateModel;
                 }
 
@@ -95,6 +99,8 @@ namespace DFC.App.ContactUs.Controllers
 
         protected async Task<bool> SetSessionStateAsync(Category category, string? moreDetail = null, bool isCallback = false)
         {
+            Logger.LogInformation($"{nameof(SetSessionStateAsync)} has been called");
+
             var compositeSessionId = Request.CompositeSessionId();
             if (compositeSessionId.HasValue)
             {
@@ -112,6 +118,8 @@ namespace DFC.App.ContactUs.Controllers
 
                 if (result == HttpStatusCode.OK || result == HttpStatusCode.Created)
                 {
+                    Logger.LogInformation($"The session state has been saved - compositeSessionId = {compositeSessionId}");
+
                     return true;
                 }
 
@@ -127,6 +135,8 @@ namespace DFC.App.ContactUs.Controllers
 
         protected async Task<bool> DeleteSessionStateAsync()
         {
+            Logger.LogInformation($"{nameof(DeleteSessionStateAsync)} has been called");
+
             var compositeSessionId = Request.CompositeSessionId();
             if (compositeSessionId.HasValue)
             {
@@ -135,6 +145,8 @@ namespace DFC.App.ContactUs.Controllers
                 var deleted = await SessionStateService.DeleteAsync(compositeSessionId.Value).ConfigureAwait(false);
                 if (deleted)
                 {
+                    Logger.LogInformation($"The session state has been deleted - compositeSessionId = {compositeSessionId}");
+
                     return true;
                 }
 
