@@ -15,15 +15,19 @@ namespace DFC.App.ContactUs.Controllers
         public const string ThisViewCanonicalName = "how-can-we-help";
 
         private const string Title = "How can we help?";
+        private readonly ILogger<HowCanWeHelpController> logger;
 
         public HowCanWeHelpController(ILogger<HowCanWeHelpController> logger, ISessionStateService<SessionDataModel> sessionStateService) : base(logger, sessionStateService)
         {
+            this.logger = logger;
         }
 
         [HttpGet]
         [Route("pages/how-can-we-help")]
         public async Task<IActionResult> HowCanWeHelpView()
         {
+            logger.LogInformation($"{nameof(HowCanWeHelpView)} has been called");
+
             var sessionStateModel = await GetSessionStateAsync().ConfigureAwait(false);
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
@@ -47,6 +51,7 @@ namespace DFC.App.ContactUs.Controllers
             };
 
             Logger.LogWarning($"{nameof(HowCanWeHelpView)} has returned content");
+            Logger.LogWarning($"{nameof(HowCanWeHelpViewModel)} model has been generated");
 
             return this.NegotiateContentResult(viewModel);
         }
@@ -55,6 +60,8 @@ namespace DFC.App.ContactUs.Controllers
         [Route("pages/how-can-we-help")]
         public async Task<IActionResult> HowCanWeHelpView(HowCanWeHelpBodyViewModel? model)
         {
+            logger.LogInformation($"{nameof(HowCanWeHelpView)} has been called");
+
             if (model != null && ModelState.IsValid)
             {
                 switch (model.SelectedCategory)
@@ -90,6 +97,7 @@ namespace DFC.App.ContactUs.Controllers
             };
 
             Logger.LogWarning($"{nameof(HowCanWeHelpView)} has returned content");
+            Logger.LogWarning($"{nameof(HowCanWeHelpViewModel)} model has been generated");
 
             return this.NegotiateContentResult(viewModel);
         }
@@ -98,6 +106,8 @@ namespace DFC.App.ContactUs.Controllers
         [Route("pages/how-can-we-help/head")]
         public IActionResult HowCanWeHelpHead()
         {
+            logger.LogInformation($"{nameof(HowCanWeHelpHead)} has been called");
+
             var viewModel = new HeadViewModel()
             {
                 CanonicalUrl = new Uri($"{Request.GetBaseAddress()}{RegistrationPath}/{ThisViewCanonicalName}", UriKind.RelativeOrAbsolute),
@@ -105,6 +115,7 @@ namespace DFC.App.ContactUs.Controllers
             };
 
             Logger.LogInformation($"{nameof(HowCanWeHelpHead)} has returned content");
+            Logger.LogWarning($"{nameof(HeadViewModel)} model has been generated");
 
             return this.NegotiateContentResult(viewModel);
         }
@@ -112,6 +123,8 @@ namespace DFC.App.ContactUs.Controllers
         [Route("pages/how-can-we-help/breadcrumb")]
         public IActionResult HowCanWeHelpBreadcrumb()
         {
+            logger.LogInformation($"{nameof(HowCanWeHelpBreadcrumb)} has been called");
+
             var breadcrumbItemModel = new BreadcrumbItemModel
             {
                 Route = ThisViewCanonicalName,
@@ -120,6 +133,7 @@ namespace DFC.App.ContactUs.Controllers
             var viewModel = BuildBreadcrumb(RegistrationPath, breadcrumbItemModel);
 
             Logger.LogInformation($"{nameof(HowCanWeHelpBreadcrumb)} has returned content");
+            Logger.LogWarning($"{nameof(BreadcrumbItemModel)} model has been generated");
 
             return this.NegotiateContentResult(viewModel);
         }
@@ -128,6 +142,8 @@ namespace DFC.App.ContactUs.Controllers
         [Route("pages/how-can-we-help/body")]
         public async Task<IActionResult> HowCanWeHelpBody()
         {
+            logger.LogInformation($"{nameof(HowCanWeHelpBody)} has been called");
+
             var sessionStateModel = await GetSessionStateAsync().ConfigureAwait(false);
             var viewModel = new HowCanWeHelpBodyViewModel
             {
@@ -137,6 +153,7 @@ namespace DFC.App.ContactUs.Controllers
             };
 
             Logger.LogInformation($"{nameof(HowCanWeHelpBody)} has returned content");
+            Logger.LogWarning($"{nameof(HowCanWeHelpBodyViewModel)} model has been generated");
 
             return this.NegotiateContentResult(viewModel);
         }
@@ -145,6 +162,8 @@ namespace DFC.App.ContactUs.Controllers
         [Route("pages/how-can-we-help/body")]
         public async Task<IActionResult> HowCanWeHelpBody(HowCanWeHelpBodyViewModel? viewModel)
         {
+            logger.LogInformation($"{nameof(HowCanWeHelpBody)} has been called");
+
             if (viewModel != null && ModelState.IsValid)
             {
                 switch (viewModel.SelectedCategory)
@@ -164,6 +183,7 @@ namespace DFC.App.ContactUs.Controllers
             }
 
             Logger.LogInformation($"{nameof(HowCanWeHelpBody)} has returned content");
+            Logger.LogWarning($"{nameof(HowCanWeHelpBody)} model has been generated");
 
             return this.NegotiateContentResult(viewModel);
         }

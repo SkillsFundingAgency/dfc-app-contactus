@@ -1,8 +1,10 @@
+using Castle.Core.Logging;
 using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Enums;
 using DFC.App.ContactUs.Data.Models;
 using FakeItEasy;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using System;
 using System.ComponentModel;
 using System.Net.Http;
@@ -17,6 +19,7 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
 
         private readonly IApiDataProcessorService fakeApiDataProcessorService = A.Fake<IApiDataProcessorService>();
         private readonly HttpClient fakeHttpClient = A.Fake<HttpClient>();
+        private readonly ILogger<RoutingService> logger = A.Fake<ILogger<RoutingService>>();
 
         private FamApiRoutingOptions FamApiRoutingOptions => new FamApiRoutingOptions
         {
@@ -35,7 +38,7 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
         public async Task ForDirectCategoriesReturnsCorrrectEmail(Category selectedCategory, string expectedEmail)
         {
             // arrange
-            var routingService = new RoutingService(FamApiRoutingOptions, fakeApiDataProcessorService, fakeHttpClient);
+            var routingService = new RoutingService(FamApiRoutingOptions, fakeApiDataProcessorService, fakeHttpClient, logger);
 
             // act
             var result = await routingService.GetEmailToSendTo(ValidPostcode, selectedCategory).ConfigureAwait(false);
@@ -57,7 +60,7 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
             };
             A.CallTo(() => fakeApiDataProcessorService.GetAsync<RoutingDetailModel>(A<HttpClient>.Ignored, A<Uri>.Ignored)).Returns(routingDetailModel);
 
-            var routingService = new RoutingService(FamApiRoutingOptions, fakeApiDataProcessorService, fakeHttpClient);
+            var routingService = new RoutingService(FamApiRoutingOptions, fakeApiDataProcessorService, fakeHttpClient, logger);
 
             // act
             var result = await routingService.GetEmailToSendTo(ValidPostcode, selectedCategory).ConfigureAwait(false);
@@ -77,7 +80,7 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
             };
             A.CallTo(() => fakeApiDataProcessorService.GetAsync<RoutingDetailModel>(A<HttpClient>.Ignored, A<Uri>.Ignored)).Returns(routingDetailModel);
 
-            var routingService = new RoutingService(FamApiRoutingOptions, fakeApiDataProcessorService, fakeHttpClient);
+            var routingService = new RoutingService(FamApiRoutingOptions, fakeApiDataProcessorService, fakeHttpClient, logger);
 
             // act
             var result = await routingService.GetEmailToSendTo(ValidPostcode, Category.AdviceGuidance).ConfigureAwait(false);
@@ -91,7 +94,7 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
         public void UnsupportedCategoryCauseException()
         {
             // arrange
-            var routingService = new RoutingService(FamApiRoutingOptions, fakeApiDataProcessorService, fakeHttpClient);
+            var routingService = new RoutingService(FamApiRoutingOptions, fakeApiDataProcessorService, fakeHttpClient, logger);
 
             // act
             Func<Task> act = async () => await routingService.GetEmailToSendTo(ValidPostcode, Category.None).ConfigureAwait(false);
