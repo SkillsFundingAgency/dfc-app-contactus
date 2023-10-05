@@ -3,11 +3,13 @@ using DFC.App.ContactUs.Attributes;
 using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
+using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.HttpClientPolicies;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.Services;
 using DFC.App.ContactUs.Services.AreaRoutingService;
 using DFC.App.ContactUs.Services.EmailService;
+using DFC.Compui.Cosmos;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using DFC.Compui.Subscriptions.Pkg.Netstandard.Extensions;
@@ -33,7 +35,7 @@ namespace DFC.App.ContactUs
     [ExcludeFromCodeCoverage]
     public class Startup
     {
-        public const string StaticCosmosDbConfigAppSettings = "Configuration:CosmosDbConnections:StaticContent";
+        public const string StaticCosmosDbConfigAppSettings = "Configuration:CosmosDbConnections:SharedContent";
         private const string CosmosDbSessionStateConfigAppSettings = "Configuration:CosmosDbConnections:SessionState";
         private const string NotifyOptionsAppSettings = "Configuration:NotifyOptions";
 
@@ -97,7 +99,7 @@ namespace DFC.App.ContactUs
             services.AddTransient<Data.Contracts.IApiService, ApiService>();
             services.AddTransient<Data.Contracts.IApiDataProcessorService, ApiDataProcessorService>();
             //services.AddHostedService<StaticContentReloadBackgroundService>();
-            //services.AddSubscriptionBackgroundService(configuration);
+            services.AddSubscriptionBackgroundService(configuration);
 
             const string AppSettingsPolicies = "Policies";
             var policyOptions = configuration.GetSection(AppSettingsPolicies).Get<PolicyOptions>() ?? new PolicyOptions();

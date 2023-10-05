@@ -3,6 +3,7 @@ using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Models;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
+using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         {
             Logger = A.Fake<ILogger<HomeController>>();
             FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
+            FakeStaticContentDocumentService = A.Fake<IDocumentService<StaticContentItemModel>>();
+            FakeCmsApiClientOptions = A.Fake<CmsApiClientOptions>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -44,13 +47,17 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
         protected ISessionStateService<SessionDataModel> FakeSessionStateService { get; }
 
+        protected IDocumentService<StaticContentItemModel> FakeStaticContentDocumentService { get; }
+
+        protected CmsApiClientOptions FakeCmsApiClientOptions { get; }
+
         protected HomeController BuildHomeController(string mediaTypeName)
         {
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(Logger, FakeSessionStateService)
+            var controller = new HomeController(Logger, FakeSessionStateService, FakeStaticContentDocumentService, FakeCmsApiClientOptions)
             {
                 ControllerContext = new ControllerContext()
                 {
