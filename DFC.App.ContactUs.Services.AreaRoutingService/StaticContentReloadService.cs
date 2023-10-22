@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DFC.App.ContactUs.Services
+namespace DFC.App.ContactUs.Services.AreaRoutingService
 {
     public class StaticContentReloadService : IStaticContentReloadService
     {

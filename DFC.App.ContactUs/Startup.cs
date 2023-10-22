@@ -6,7 +6,6 @@ using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.HttpClientPolicies;
 using DFC.App.ContactUs.Models;
-using DFC.App.ContactUs.Services;
 using DFC.App.ContactUs.Services.AreaRoutingService;
 using DFC.App.ContactUs.Services.EmailService;
 using DFC.Compui.Cosmos;
@@ -27,8 +26,9 @@ using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
+using ContentPackageContracts = DFC.Content.Pkg.Netcore.Data.Contracts;
+using ContentPackageServices = DFC.Content.Pkg.Netcore.Services;
 
 namespace DFC.App.ContactUs
 {
@@ -47,8 +47,6 @@ namespace DFC.App.ContactUs
             this.configuration = configuration;
             this.env = env;
         }
-
-        //public IConfiguration Configuration { get; }
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper)
         {
@@ -96,9 +94,11 @@ namespace DFC.App.ContactUs
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
             services.AddSingleton(configuration.GetSection(nameof(FamApiRoutingOptions)).Get<FamApiRoutingOptions>() ?? new FamApiRoutingOptions());
             services.AddHostedServiceTelemetryWrapper();
-            services.AddTransient<Data.Contracts.IApiService, ApiService>();
-            services.AddTransient<Data.Contracts.IApiDataProcessorService, ApiDataProcessorService>();
-            //services.AddHostedService<StaticContentReloadBackgroundService>();
+            services.AddTransient<ContentPackageContracts.IApiService, ContentPackageServices.ApiProcessorService.ApiService>();
+            services.AddTransient<ContentPackageContracts.IApiDataProcessorService, ContentPackageServices.ApiProcessorService.ApiDataProcessorService>();
+            services.AddTransient<IApiCacheService, ContentPackageServices.ApiCacheService>();
+            services.AddTransient<IContentTypeMappingService, ContentPackageServices.ContentTypeMappingService>();
+            services.AddHostedService<StaticContentReloadBackgroundService>();
             services.AddSubscriptionBackgroundService(configuration);
 
             const string AppSettingsPolicies = "Policies";
