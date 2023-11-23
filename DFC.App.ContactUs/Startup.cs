@@ -15,9 +15,11 @@ using DFC.Compui.Sessionstate;
 using DFC.Compui.Subscriptions.Pkg.Netstandard.Extensions;
 
 using DFC.Compui.Telemetry;
+using DFC.Compui.Telemetry.HostedService;
 using DFC.Content.Pkg.Netcore.Data.Contracts;
 using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
 using DFC.Content.Pkg.Netcore.Extensions;
+using DFC.Content.Pkg.Netcore.Services.ApiProcessorService;
 using DFC.Content.Pkg.Netcore.Services.CmsApiProcessorService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +29,7 @@ using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
 
@@ -96,9 +99,16 @@ namespace DFC.App.ContactUs
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
             services.AddSingleton(configuration.GetSection(nameof(FamApiRoutingOptions)).Get<FamApiRoutingOptions>() ?? new FamApiRoutingOptions());
             services.AddHostedServiceTelemetryWrapper();
-            services.AddTransient<Data.Contracts.IApiService, ApiService>();
-            services.AddTransient<Data.Contracts.IApiDataProcessorService, ApiDataProcessorService>();
-            //services.AddHostedService<StaticContentReloadBackgroundService>();
+            services.AddTransient<IApiService, ApiService>();
+            services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
+
+        //    private readonly ILogger<StaticContentReloadBackgroundService> logger;
+        //private readonly CmsApiClientOptions cmsApiClientOptions;
+        //private readonly IStaticContentReloadService staticContentReloadService;
+        //private readonly IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper;
+
+
+            services.AddHostedService<StaticContentReloadBackgroundService>();
             services.AddSubscriptionBackgroundService(configuration);
 
             const string AppSettingsPolicies = "Policies";

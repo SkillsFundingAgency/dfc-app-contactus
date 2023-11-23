@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+	  <TargetFramework>net6.0</TargetFramework>
     <CodeAnalysisRuleSet>../DFC.Digital.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <ProjectGuid>{4714657d-b7bc-481e-8232-1418577bbb2e}</ProjectGuid>
     <Nullable>enable</Nullable>
@@ -13,7 +13,7 @@
 
   <ItemGroup>
 	  <PackageReference Include="DFC.Compui.Cosmos" Version="1.0.67" />
-	  <PackageReference Include="DFC.Content.Pkg.Netcore" Version="1.0.109" />
+	  <PackageReference Include="DFC.Content.Pkg.Netcore" Version="2.0.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.2">
       <PrivateAssets>all</PrivateAssets>
