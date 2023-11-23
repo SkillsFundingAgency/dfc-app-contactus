@@ -13,12 +13,11 @@ using DFC.Compui.Cosmos;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using DFC.Compui.Subscriptions.Pkg.Netstandard.Extensions;
-
 using DFC.Compui.Telemetry;
-using DFC.Compui.Telemetry.HostedService;
 using DFC.Content.Pkg.Netcore.Data.Contracts;
 using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
 using DFC.Content.Pkg.Netcore.Extensions;
+using DFC.Content.Pkg.Netcore.Services;
 using DFC.Content.Pkg.Netcore.Services.ApiProcessorService;
 using DFC.Content.Pkg.Netcore.Services.CmsApiProcessorService;
 using Microsoft.AspNetCore.Builder;
@@ -29,8 +28,6 @@ using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.ContactUs
@@ -94,6 +91,7 @@ namespace DFC.App.ContactUs
             services.AddDocumentServices<StaticContentItemModel>(staticContentDbConnection, env.IsDevelopment(), cosmosRetryOptions);
             services.AddTransient<ICmsApiService, CmsApiService>();
             services.AddTransient<IStaticContentReloadService, StaticContentReloadService>();
+            services.AddTransient<IContentTypeMappingService, ContentTypeMappingService>();
 
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddSingleton(configuration.GetSection(nameof(ChatOptions)).Get<ChatOptions>() ?? new ChatOptions());
@@ -101,12 +99,7 @@ namespace DFC.App.ContactUs
             services.AddHostedServiceTelemetryWrapper();
             services.AddTransient<IApiService, ApiService>();
             services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
-
-        //    private readonly ILogger<StaticContentReloadBackgroundService> logger;
-        //private readonly CmsApiClientOptions cmsApiClientOptions;
-        //private readonly IStaticContentReloadService staticContentReloadService;
-        //private readonly IHostedServiceTelemetryWrapper hostedServiceTelemetryWrapper;
-
+            services.AddTransient<IApiCacheService, ApiCacheService>();
 
             services.AddHostedService<StaticContentReloadBackgroundService>();
             services.AddSubscriptionBackgroundService(configuration);
