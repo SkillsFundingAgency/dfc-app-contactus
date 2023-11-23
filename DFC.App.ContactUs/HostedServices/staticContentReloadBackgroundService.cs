@@ -41,24 +41,24 @@ namespace DFC.App.ContactUs.HostedServices
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            //if (cmsApiClientOptions.BaseAddress != null)
-            //{
-            //    logger.LogInformation("Static content reload executing");
+            if (cmsApiClientOptions.BaseAddress != null)
+            {
+                logger.LogInformation("Static content reload executing");
 
-            //    var task = hostedServiceTelemetryWrapper.Execute(() => staticContentReloadService.Reload(stoppingToken), nameof(StaticContentReloadBackgroundService));
+                var task = hostedServiceTelemetryWrapper.Execute(() => staticContentReloadService.Reload(stoppingToken), nameof(StaticContentReloadBackgroundService));
 
-            //    if (!task.IsCompletedSuccessfully)
-            //    {
-            //        logger.LogInformation("Static content reload didn't complete successfully");
-            //        if (task.Exception != null)
-            //        {
-            //            logger.LogError(task.Exception.ToString());
-            //            throw task.Exception;
-            //        }
-            //    }
+                if (!task.IsCompletedSuccessfully)
+                {
+                    logger.LogInformation("Static content reload didn't complete successfully");
+                    if (task.Exception != null)
+                    {
+                        logger.LogError(task.Exception.ToString());
+                        throw task.Exception;
+                    }
+                }
 
-            //    return task;
-            //}
+                return task;
+            }
 
             return Task.CompletedTask;
         }
