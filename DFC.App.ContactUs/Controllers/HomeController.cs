@@ -151,6 +151,8 @@ namespace DFC.App.ContactUs.Controllers
 
             var viewModel = new HomeBodyViewModel();
 
+            viewModel.SpeakToAnAdviser = await staticContentDocumentService.GetByIdAsync(new Guid(cmsApiClientOptions.ContentIds)).ConfigureAwait(false);
+
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");
 
             return this.NegotiateContentResult(viewModel);
