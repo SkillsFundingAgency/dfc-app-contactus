@@ -67,7 +67,7 @@ namespace DFC.App.ContactUs.Services
 
         public async Task<HttpStatusCode> ProcessContentAsync(Uri url)
         {
-            var apiDataModel = await cmsApiService.GetItemAsync<SharedContentItemApiDataModel>(url);
+            var apiDataModel = await cmsApiService.GetItemAsync<StaticContentItemApiDataModel>(url);
             var staticContentItemModel = mapper.Map<StaticContentItemModel>(apiDataModel);
 
             if (staticContentItemModel == null)
