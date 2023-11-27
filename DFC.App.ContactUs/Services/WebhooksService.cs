@@ -1,20 +1,18 @@
-﻿using System;
+﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Enums;
+using DFC.App.ContactUs.Data.Models;
+using DFC.App.ContactUs.Data.Models.CmsApiModels;
+using DFC.Compui.Cosmos.Contracts;
+using DFC.Content.Pkg.Netcore.Data.Contracts;
+using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-
-using DFC.App.ContactUs.Data.Contracts;
-using DFC.App.ContactUs.Data.Enums;
-using DFC.App.ContactUs.Data.Models.CmsApiModels;
-using DFC.App.ContactUs.Data.Models.ContentModels;
-using DFC.Compui.Cosmos.Contracts;
-using DFC.Content.Pkg.Netcore.Data.Contracts;
-using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
-
-using Microsoft.Extensions.Logging;
 
 namespace DFC.App.ContactUs.Services
 {
@@ -23,7 +21,7 @@ namespace DFC.App.ContactUs.Services
         private readonly ILogger<WebhooksService> logger;
         private readonly AutoMapper.IMapper mapper;
         private readonly ICmsApiService cmsApiService;
-        private readonly IDocumentService<SharedContentItemModel> sharedContentItemDocumentService;
+        private readonly IDocumentService<StaticContentItemModel> staticContentItemDocumentService;
         private readonly Guid sharedContentId;
 
         public WebhooksService(
@@ -31,12 +29,12 @@ namespace DFC.App.ContactUs.Services
             AutoMapper.IMapper mapper,
             CmsApiClientOptions cmsApiClientOptions,
             ICmsApiService cmsApiService,
-            IDocumentService<SharedContentItemModel> sharedContentItemDocumentService)
+            IDocumentService<StaticContentItemModel> sharedContentItemDocumentService)
         {
             this.logger = logger;
             this.mapper = mapper;
             this.cmsApiService = cmsApiService;
-            this.sharedContentItemDocumentService = sharedContentItemDocumentService;
+            this.staticContentItemDocumentService = sharedContentItemDocumentService;
             sharedContentId = Guid.Parse(cmsApiClientOptions?.ContentIds);
         }
 
@@ -70,31 +68,31 @@ namespace DFC.App.ContactUs.Services
         public async Task<HttpStatusCode> ProcessContentAsync(Uri url)
         {
             var apiDataModel = await cmsApiService.GetItemAsync<SharedContentItemApiDataModel>(url);
-            var sharedContentItemModel = mapper.Map<SharedContentItemModel>(apiDataModel);
+            var staticContentItemModel = mapper.Map<StaticContentItemModel>(apiDataModel);
 
-            if (sharedContentItemModel == null)
+            if (staticContentItemModel == null)
             {
                 return HttpStatusCode.NoContent;
             }
 
-            if (!TryValidateModel(sharedContentItemModel))
+            if (!TryValidateModel(staticContentItemModel))
             {
                 return HttpStatusCode.BadRequest;
             }
 
-            var contentResult = await sharedContentItemDocumentService.UpsertAsync(sharedContentItemModel);
+            var contentResult = await staticContentItemDocumentService.UpsertAsync(staticContentItemModel);
 
             return contentResult;
         }
 
         public async Task<HttpStatusCode> DeleteContentAsync(Guid contentId)
         {
-            var result = await sharedContentItemDocumentService.DeleteAsync(contentId);
+            var result = await staticContentItemDocumentService.DeleteAsync(contentId);
 
             return result ? HttpStatusCode.OK : HttpStatusCode.NoContent;
         }
 
-        public bool TryValidateModel(SharedContentItemModel? sharedContentItemModel)
+        public bool TryValidateModel(StaticContentItemModel? sharedContentItemModel)
         {
             _ = sharedContentItemModel ?? throw new ArgumentNullException(nameof(sharedContentItemModel));
 

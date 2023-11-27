@@ -1,18 +1,16 @@
-﻿using System;
+﻿using DFC.App.ContactUs.Data.Contracts;
+using DFC.App.ContactUs.Data.Enums;
+using DFC.App.ContactUs.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.EventGrid;
+using Microsoft.Azure.EventGrid.Models;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-
-using DFC.App.ContactUs.Data.Contracts;
-using DFC.App.ContactUs.Data.Enums;
-using DFC.App.ContactUs.Models;
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.EventGrid;
-using Microsoft.Azure.EventGrid.Models;
-using Microsoft.Extensions.Logging;
 
 namespace DFC.App.ContactUs.Controllers
 {
