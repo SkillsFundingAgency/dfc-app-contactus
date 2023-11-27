@@ -14,7 +14,7 @@ using Microsoft.Azure.EventGrid;
 using Microsoft.Azure.EventGrid.Models;
 using Microsoft.Extensions.Logging;
 
-namespace DFC.App.SkillsHealthCheck.Controllers
+namespace DFC.App.ContactUs.Controllers
 {
     [Route("api/webhook")]
     public class WebhooksController : Controller
