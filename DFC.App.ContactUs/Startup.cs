@@ -102,6 +102,7 @@ namespace DFC.App.ContactUs
             services.AddTransient<IApiCacheService, ApiCacheService>();
 
             services.AddHostedService<StaticContentReloadBackgroundService>();
+            services.AddTransient<IWebhooksService, WebhooksService>();
             services.AddSubscriptionBackgroundService(configuration);
 
             const string AppSettingsPolicies = "Policies";
