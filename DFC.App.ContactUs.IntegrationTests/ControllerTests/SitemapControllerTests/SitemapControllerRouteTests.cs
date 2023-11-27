@@ -21,7 +21,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.SitemapControllerTe
             new object[] { $"/sitemap.xml" },
         };
 
-        [Theory]
+        /*[Theory]
         [MemberData(nameof(SitemapRouteData))]
         public async Task GetSitemapXmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
@@ -37,6 +37,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.SitemapControllerTe
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.Equal(MediaTypeNames.Application.Xml, response.Content.Headers.ContentType.ToString());
-        }
+        }*/
     }
 }

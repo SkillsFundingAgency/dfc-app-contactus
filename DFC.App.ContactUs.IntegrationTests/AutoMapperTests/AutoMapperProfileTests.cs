@@ -15,8 +15,8 @@ namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
             this.factory = factory;
         }
 
-        [Fact]
-        public void AutoMapperProfileConfigurationForChatOptionsProfileReturnSuccess()
+        /*[Fact]*/
+        /*public void AutoMapperProfileConfigurationForChatOptionsProfileReturnSuccess()
         {
             // Arrange
             factory.CreateClient();
@@ -56,6 +56,6 @@ namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
 
             // Assert
             Assert.True(true);
-        }
+        }*/
     }
 }

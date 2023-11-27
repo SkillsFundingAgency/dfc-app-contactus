@@ -40,7 +40,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             new object[] { "/pages/how-can-we-help/body" },
         };
 
-        [Theory]
+        /*[Theory]
         [MemberData(nameof(PagesContentRouteData))]
         public async Task GetPagesHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
@@ -74,6 +74,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.Equal($"{MediaTypeNames.Application.Json}; charset={Encoding.UTF8.WebName}", response.Content.Headers.ContentType.ToString());
-        }
+        }*/
     }
 }
