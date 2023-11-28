@@ -83,6 +83,9 @@
     "subscriptionUrl": {
       "type": "string"
     },
+    "apimCompositeApiKey": {
+      "type": "securestring"
+  },
     "ApimProxyAddress": {
       "type": "string"
     },

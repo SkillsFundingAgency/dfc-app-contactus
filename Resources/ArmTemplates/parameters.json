@@ -62,6 +62,9 @@
     "enableAlerts": {
       "value": "__EnableAzureMonitorAlerting__"
     },
+    "apimCompositeApiKey": {
+        "value": "__apimCompositeKey__"
+    },
     "SubscriptionSettingsEndpoint": {
       "value": "__SubscriptionSettingsEndpoint__"
     },
