@@ -15,7 +15,7 @@
         "value": "__aseResourceGroup__"
       },
       "aspInstances": {
-        "value": "__aspInstances__"
+        "value": __aspInstances__
       },
       "aspTier": {
         "value": "__aspTier__"
@@ -24,7 +24,7 @@
         "value": "__aspSize__"
       },
       "cosmosDBCollectionName": {
-        "value": "__cosmosDBCollectionName__"
+        "value": "__cosmosDbCollectionName__"
       },
       "CosmosDbResourceGroup": {
         "value": "__appSharedResourceGroup__"

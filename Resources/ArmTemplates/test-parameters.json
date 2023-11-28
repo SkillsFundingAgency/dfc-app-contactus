@@ -11,8 +11,8 @@
       "cosmosDBName": {
         "value": "dfc-dev-app-sharedresources-cdb"
       },
-      "cosmosDBCollectionName": {
-        "value": "cosmosDBCollectionName"
+      "cosmosDbCollectionName": {
+        "value": "cosmosDbCollectionName"
       },
       "cosmosDbKey": {
         "value": "not-a-real-key"
