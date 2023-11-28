@@ -45,19 +45,19 @@
         "value": "__cosmosSessionDbCollectionName__"
       },
       "contactusAppDatabaseNeedsCreation": {
-        "value": "__CosmosDbDatabaseDoesntExist__"
+        "value": __CosmosDbDatabaseDoesntExist__
       },
       "contactusAppDatabaseThroughput": {
-        "value": "__contactusAppDatabaseThroughput__"
+        "value": __contactusAppDatabaseThroughput__
       },
       "chatOptionsChatUrl": {
         "value": "__chatOptionsChatUrl__"
       },
       "ChatOptionsShowWebchatIframe": {
-        "value": "__ChatOptionsShowWebchatIframe__"
+        "value": __ChatOptionsShowWebchatIframe__
       },
       "enableAlerts": {
-        "value": "__EnableAzureMonitorAlerting__"
+        "value": __EnableAzureMonitorAlerting__
       },
       "SubscriptionSettingsEndpoint": {
         "value": "__SubscriptionSettingsEndpoint__"
