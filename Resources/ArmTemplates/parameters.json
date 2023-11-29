@@ -1,153 +1,138 @@
 {
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
-  "parameters": {
-    "apimCompositeApiKey": {
-      "value": "__apimCompositeApiKey__"
-    },
-    "appSharedResourceGroup": {
-      "value": "__appSharedResourceGroup__"
-    },
-    "appSharedStorageAccountName": {
-      "value": "__appSharedStorageAccountName__"
-    },
-    "aseHostingEnvironmentName": {
-      "value": "__AseServiceName__"
-    },
-    "aseResourceGroup": {
-      "value": "__aseResourceGroup__"
-    },
-    "aspInstances": {
-      "value": "__aspInstances__"
-    },
-    "cmsTimeout": {
-      "value": "__cmsTimeout__"
-    },
-    "cmsApiKey": {
-      "value": "__cmsApiKey__"
-    },
-    "cmsBaseAddress": {
-      "value": "__cmsBaseAddress__"
-    },
-    "cmsStaticContentEndpoint": {
-      "value": "__cmsStaticContentEndpoint__"
-    },
-    "cmsContentIds": {
-      "value": "__cmsContentIds__"
-    },
-    "aspTier": {
-      "value": "__aspTier__"
-    },
-    "aspSize": {
-      "value": "__aspSize__"
-    },
-    "cosmosDBCollectionName": {
-      "value": "__cosmosDbCollectionName__"
-    },
-    "CosmosDbResourceGroup": {
-      "value": "__appSharedResourceGroup__"
-    },
-    "cosmosDBName": {
-      "value": "__appSharedCosmosDBName__"
-    },
-    "cosmosDbKey": {
-      "value": "__appSharedCosmosPrimaryKey__"
-    },
-    "environment": {
-      "value": "__ReleaseEnvironmentName__",
-      "metadata": {
-        "comment": "Bug in tokenisation task prevents referencing Release.EnvironmentName directly.  https://github.com/TotalALM/VSTS-Tasks/issues/29"
+    "parameters": {
+      "apimCompositeApiKey": {
+        "value": "__apimCompositeApiKey__"
+      },
+      "appSharedResourceGroup": {
+        "value": "__appSharedResourceGroup__"
+      },
+      "appSharedStorageAccountName": {
+        "value": "__appSharedStorageAccountName__"
+      },
+      "aseHostingEnvironmentName": {
+        "value": "__AseServiceName__"
+      },
+      "aseResourceGroup": {
+        "value": "__aseResourceGroup__"
+      },
+      "aspInstances": {
+        "value": __aspInstances__
+      },
+      "aspTier": {
+        "value": "__aspTier__"
+      },
+      "aspSize": {
+        "value": "__aspSize__"
+      },
+      "cosmosDBCollectionName": {
+        "value": "__cosmosDbCollectionName__"
+      },
+      "CosmosDbResourceGroup": {
+        "value": "__appSharedResourceGroup__"
+      },
+      "cosmosDBName": {
+        "value": "__appSharedCosmosDBName__"
+      },
+      "cosmosDbKey": {
+        "value": "__appSharedCosmosPrimaryKey__"
+      },
+      "environment": {
+        "value": "__ReleaseEnvironmentName__",
+        "metadata": {
+          "comment": "Bug in tokenisation task prevents referencing Release.EnvironmentName directly.  https://github.com/TotalALM/VSTS-Tasks/issues/29"
+        }
+      },
+      "cosmosSessionDbCollectionName": {
+        "value": "__cosmosSessionDbCollectionName__"
+      },
+      "contactusAppDatabaseNeedsCreation": {
+        "value": __CosmosDbDatabaseDoesntExist__
+      },
+      "contactusAppDatabaseThroughput": {
+        "value": __contactusAppDatabaseThroughput__
+      },
+      "chatOptionsChatUrl": {
+        "value": "__chatOptionsChatUrl__"
+      },
+      "ChatOptionsShowWebchatIframe": {
+        "value": __ChatOptionsShowWebchatIframe__
+      },
+      "enableAlerts": {
+        "value": __EnableAzureMonitorAlerting__
+      },
+      "SubscriptionSettingsEndpoint": {
+        "value": "__SubscriptionSettingsEndpoint__"
+      },
+      "SubscriptionSettingsFilterIncludeEventTypes3": {
+        "value": "__SubscriptionSettingsFilterIncludeEventTypes3__"
+      },
+      "SubscriptionSettingsFilterIncludeEventTypes4": {
+        "value": "__SubscriptionSettingsFilterIncludeEventTypes4__"
+      },
+      "SubscriptionSettingsFilterPropertyContainsFilters0Values0": {
+        "value": "__SubscriptionSettingsFilterPropertyContainsFilters0Values0__"
+      },
+      "subscriptionUrl": {
+        "value": "__subscriptionUrl__"
+      },
+      "ApimProxyAddress": {
+        "value": "__ApimProxyAddress__"
+      },
+      "ApplicationName": {
+        "value": "__ApplicationName__"
+      },
+      "ApimFutureAccessModelKey": {
+        "value": "__ApimFutureAccessModelKey__"
+      },
+      "FallbackEmailToAddresses": {
+        "value": "__FallbackEmailToAddresses__"
+      },
+      "NoReplyEmailAddress": {
+        "value": "__NoReplyEmailAddress__"
+      },
+      "ProblemsEmailAddress": {
+        "value": "__ProblemsEmailAddress__"
+      },
+      "FeebackEmailAddress": {
+        "value": "__FeebackEmailAddress__"
+      },
+      "OtherEmailAddress": {
+        "value": "__OtherEmailAddress__"
+      },
+      "ApimResourceGroup": {
+        "value": "__SharedResourceGroupName__"
+      },
+      "ApimLoggerName": {
+        "value": "__ApimLoggerName__"
+      },
+      "ApimProductInstanceName": {
+        "value": "__ApimProductInstanceName__"
+      },
+      "ApimServiceName": {
+        "value": "__ApimServiceName__"
+      },
+      "ApiName": {
+        "value": "__ApiName__"
+      },
+      "NotifyOptionsApiKey": {
+        "value": "__NotifyOptionsApiKey__"
+      },
+      "NotifyOptionsByEmailTemplateId": {
+        "value": "__NotifyOptionsByEmailTemplateId__"
+      },
+      "NotifyOptionsCallMeBackTemplateId": {
+        "value": "__NotifyOptionsCallMeBackTemplateId__"
+      },
+      "ExceptionCountThreshold": {
+        "value": "__ExceptionCountThreshold__"
+      },
+      "MemoryPercentageThreshold": {
+        "value": "__MemoryPercentageThreshold__"
+      },
+      "CPUPercentageThreshold": {
+        "value": "__CPUPercentageThreshold__"
       }
-    },
-    "cosmosSessionDbCollectionName": {
-      "value": "__cosmosSessionDbCollectionName__"
-    },
-    "contactusAppDatabaseNeedsCreation": {
-      "value": "__CosmosDbDatabaseDoesntExist__"
-    },
-    "contactusAppDatabaseThroughput": {
-      "value": "__contactusAppDatabaseThroughput__"
-    },
-    "chatOptionsChatUrl": {
-      "value": "__chatOptionsChatUrl__"
-    },
-    "ChatOptionsShowWebchatIframe": {
-      "value": "__ChatOptionsShowWebchatIframe__"
-    },
-    "enableAlerts": {
-      "value": "__EnableAzureMonitorAlerting__"
-    },
-    "SubscriptionSettingsEndpoint": {
-      "value": "__SubscriptionSettingsEndpoint__"
-    },
-    "SubscriptionSettingsFilterIncludeEventTypes3": {
-      "value": "__SubscriptionSettingsFilterIncludeEventTypes3__"
-    },
-    "SubscriptionSettingsFilterIncludeEventTypes4": {
-      "value": "__SubscriptionSettingsFilterIncludeEventTypes4__"
-    },
-    "SubscriptionSettingsFilterPropertyContainsFilters0Values0": {
-      "value": "__SubscriptionSettingsFilterPropertyContainsFilters0Values0__"
-    },
-    "subscriptionUrl": {
-      "value": "__subscriptionUrl__"
-    },
-    "ApimProxyAddress": {
-      "value": "__ApimProxyAddress__"
-    },
-    "ApplicationName": {
-      "value": "__ApplicationName__"
-    },
-    "ApimFutureAccessModelKey": {
-      "value": "__ApimFutureAccessModelKey__"
-    },
-    "FallbackEmailToAddresses": {
-      "value": "__FallbackEmailToAddresses__"
-    },
-    "NoReplyEmailAddress": {
-      "value": "__NoReplyEmailAddress__"
-    },
-    "ProblemsEmailAddress": {
-      "value": "__ProblemsEmailAddress__"
-    },
-    "FeebackEmailAddress": {
-      "value": "__FeebackEmailAddress__"
-    },
-    "OtherEmailAddress": {
-      "value": "__OtherEmailAddress__"
-    },
-    "ApimResourceGroup": {
-      "value": "__SharedResourceGroupName__"
-    },
-    "ApimLoggerName": {
-      "value": "__ApimLoggerName__"
-    },
-    "ApimProductInstanceName": {
-      "value": "__ApimProductInstanceName__"
-    },
-    "ApimServiceName": {
-      "value": "__ApimServiceName__"
-    },
-    "ApiName": {
-      "value": "__ApiName__"
-    },
-    "NotifyOptionsApiKey": {
-      "value": "__NotifyOptionsApiKey__"
-    },
-    "NotifyOptionsByEmailTemplateId": {
-      "value": "__NotifyOptionsByEmailTemplateId__"
-    },
-    "NotifyOptionsCallMeBackTemplateId": {
-      "value": "__NotifyOptionsCallMeBackTemplateId__"
-    },
-    "ExceptionCountThreshold": {
-      "value": "__ExceptionCountThreshold__"
-    },
-    "MemoryPercentageThreshold": {
-      "value": "__MemoryPercentageThreshold__"
-    },
-    "CPUPercentageThreshold": {
-      "value": "__CPUPercentageThreshold__"
     }
-  }
   }

@@ -1,144 +1,129 @@
 {
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
-  "parameters": {
-    "appSharedResourceGroup": {
-      "value": "dfc-dev-app-sharedresources-rg"
-    },
-    "appSharedStorageAccountName": {
-      "value": "dfcdevappsharedstr"
-    },
-    "cosmosDBName": {
-      "value": "dfc-dev-app-sharedresources-cdb"
-    },
-    "cosmosDbCollectionName": {
-      "value": "cosmosDbCollectionName"
-    },
-    "cosmosDbKey": {
-      "value": "not-a-real-key"
-    },
-    "Environment": {
-      "value": "FOO"
-    },
-    "cmsTimeout": {
-      "value": "00:00:30"
-    },
-    "cmsApiKey": {
-      "value": "testkey"
-    },
-    "cmsBaseAddress": {
-      "value": "https://url"
-    },
-    "cmsStaticContentEndpoint": {
-      "value": "/shared-content/"
-    },
-    "cmsContentIds": {
-      "value": "12345"
-    },
-    "cosmosSessionDbCollectionName": {
-      "value": "another-test-collection"
-    },
-    "CosmosDbResourceGroup": {
-      "value": "dfc-dev-app-sharedresources-rg"
-    },
-    "contactusAppDatabaseNeedsCreation": {
-      "value": true
-    },
-    "contactusAppDatabaseThroughput": {
-      "value": 2
-    },
-    "chatOptionsChatUrl": {
-      "value": "https://url"
-    },
-    "ChatOptionsShowWebchatIframe": {
-      "value": false
-    },
-    "enableAlerts": {
-      "value": false
-    },
-    "ApimProxyAddress": {
-      "value": "https://url"
-    },
-    "ApimFutureAccessModelKey": {
-      "value": "123456789"
-    },
-    "ApplicationName": {
-      "value": "anothervalue"
-    },
-    "FallbackEmailToAddresses": {
-      "value": "foo@contso.com"
-    },
-    "NoReplyEmailAddress": {
-      "value": "no-replyfoo@contso.com"
-    },
-    "ProblemsEmailAddress": {
-      "value": "Problems@contso.com"
-    },
-    "FeebackEmailAddress": {
-      "value": "Feeback@contso.com"
-    },
-    "OtherEmailAddress": {
-      "value": "Other@contso.com"
-    },
-    "aspSize": {
-      "value": "2"
-    },
-    "aspTier": {
-      "value": "Standard"
-    },
-    "aspInstances": {
-      "value": 2
-    },
-    "ApimResourceGroup": {
-      "value": "dfc-dev-shared-rg"
-    },
-    "ApimLoggerName": {
-      "value": "composite-ui-logger"
-    },
-    "ApimProductInstanceName": {
-      "value": "composite-ui"
-    },
-    "ApimServiceName": {
-      "value": "dfc-dev-shared-apim"
-    },
-    "ApiName": {
-      "value": "contactus"
-    },
-    "NotifyOptionsApiKey": {
-      "value": "value"
-    },
-    "NotifyOptionsByEmailTemplateId": {
-      "value": "value"
-    },
-    "NotifyOptionsCallMeBackTemplateId": {
-      "value": "value"
-    },
-    "ExceptionCountThreshold": {
-      "value": "0"
-    },
-    "MemoryPercentageThreshold": {
-      "value": "0"
-    },
-    "CPUPercentageThreshold": {
-      "value": "0"
-    },
-    "SubscriptionSettingsEndpoint": {
-      "value": "SubscriptionSettingsEndpoint"
-    },
-    "SubscriptionSettingsFilterIncludeEventTypes3": {
-      "value": "SubscriptionSettingsFilterIncludeEventTypes3"
-    },
-    "SubscriptionSettingsFilterIncludeEventTypes4": {
-      "value": "SubscriptionSettingsFilterIncludeEventTypes4"
-    },
-    "SubscriptionSettingsFilterPropertyContainsFilters0Values0": {
-      "value": "SubscriptionSettingsFilterPropertyContainsFilters0Values0"
-    },
-    "subscriptionUrl": {
-      "value": "subscriptionUrl"
-    },
-    "apimCompositeApiKey": {
-      "value": "apimCompositeApiKey"
+    "parameters": {
+      "appSharedResourceGroup": {
+        "value": "dfc-dev-app-sharedresources-rg"
+      },
+      "appSharedStorageAccountName": {
+        "value": "dfcdevappsharedstr"
+      },
+      "cosmosDBName": {
+        "value": "dfc-dev-app-sharedresources-cdb"
+      },
+      "cosmosDbCollectionName": {
+        "value": "cosmosDbCollectionName"
+      },
+      "cosmosDbKey": {
+        "value": "not-a-real-key"
+      },
+      "Environment": {
+        "value": "FOO"
+      },
+      "cosmosSessionDbCollectionName": {
+        "value": "another-test-collection"
+      },
+      "CosmosDbResourceGroup": {
+        "value": "dfc-dev-app-sharedresources-rg"
+      },
+      "contactusAppDatabaseNeedsCreation": {
+        "value": true
+      },
+      "contactusAppDatabaseThroughput": {
+        "value": 2
+      },
+      "chatOptionsChatUrl": {
+        "value": "https://url"
+      },
+      "ChatOptionsShowWebchatIframe": {
+        "value": false
+      },
+      "enableAlerts": {
+        "value": false
+      },
+      "ApimProxyAddress": {
+        "value": "https://url"
+      },
+      "ApimFutureAccessModelKey": {
+        "value": "123456789"
+      },
+      "ApplicationName": {
+        "value": "anothervalue"
+      },
+      "FallbackEmailToAddresses": {
+        "value": "foo@contso.com"
+      },
+      "NoReplyEmailAddress": {
+        "value": "no-replyfoo@contso.com"
+      },
+      "ProblemsEmailAddress": {
+        "value": "Problems@contso.com"
+      },
+      "FeebackEmailAddress": {
+        "value": "Feeback@contso.com"
+      },
+      "OtherEmailAddress": {
+        "value": "Other@contso.com"
+      },
+      "aspSize": {
+        "value": "2"
+      },
+      "aspTier": {
+        "value": "Standard"
+      },
+      "aspInstances": {
+        "value": 2
+      },
+      "ApimResourceGroup": {
+        "value": "dfc-dev-shared-rg"
+      },
+      "ApimLoggerName": {
+        "value": "composite-ui-logger"
+      },
+      "ApimProductInstanceName": {
+        "value": "composite-ui"
+      },
+      "ApimServiceName": {
+        "value": "dfc-dev-shared-apim"
+      },
+      "ApiName": {
+        "value": "contactus"
+      },
+      "NotifyOptionsApiKey": {
+        "value": "value"
+      },
+      "NotifyOptionsByEmailTemplateId": {
+        "value": "value"
+      },
+      "NotifyOptionsCallMeBackTemplateId": {
+        "value": "value"
+      },
+      "ExceptionCountThreshold": {
+        "value": "0"
+      },
+      "MemoryPercentageThreshold": {
+        "value": "0"
+      },
+      "CPUPercentageThreshold": {
+        "value": "0"
+      },
+      "SubscriptionSettingsEndpoint": {
+        "value": "SubscriptionSettingsEndpoint"
+      },
+      "SubscriptionSettingsFilterIncludeEventTypes3": {
+        "value": "SubscriptionSettingsFilterIncludeEventTypes3"
+      },
+      "SubscriptionSettingsFilterIncludeEventTypes4": {
+        "value": "SubscriptionSettingsFilterIncludeEventTypes4"
+      },
+      "SubscriptionSettingsFilterPropertyContainsFilters0Values0": {
+        "value": "SubscriptionSettingsFilterPropertyContainsFilters0Values0"
+      },
+      "subscriptionUrl": {
+        "value": "subscriptionUrl"
+      }, 
+      "apimCompositeApiKey": {
+        "value": "apimCompositeApiKey"
     }
-  }
+    }
   }
