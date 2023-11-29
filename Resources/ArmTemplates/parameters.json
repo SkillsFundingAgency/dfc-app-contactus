@@ -5,6 +5,21 @@
       "apimCompositeApiKey": {
         "value": "__apimCompositeApiKey__"
       },
+      "cmsTimeout": {
+      "value": "__cmsTimeout__"
+    },
+    "cmsApiKey": {
+      "value": "__cmsApiKey__"
+    },
+    "cmsBaseAddress": {
+      "value": "__cmsBaseAddress__"
+    },
+    "cmsStaticContentEndpoint": {
+      "value": "__cmsStaticContentEndpoint__"
+    },
+    "cmsContentIds": {
+      "value": "__cmsContentIds__"
+    },
       "appSharedResourceGroup": {
         "value": "__appSharedResourceGroup__"
       },

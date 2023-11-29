@@ -43,6 +43,21 @@
         "description": "The name of the collection to create"
       }
     },
+    "cmsTimeout": {
+      "type": "string"
+    },
+    "cmsApiKey": {
+      "type": "string"
+    },
+    "cmsBaseAddress": {
+      "type": "string"
+    },
+    "cmsStaticContentEndpoint": {
+      "type": "string"
+    },
+    "cmsContentIds": {
+      "type": "string"
+    },
     "ApplicationName": {
       "type": "string"
     },
@@ -85,7 +100,7 @@
     },
     "apimCompositeApiKey": {
       "type": "securestring"
-  },
+    },
     "ApimProxyAddress": {
       "type": "string"
     },
@@ -263,6 +278,26 @@
               {
                 "name": "MSDEPLOY_RENAME_LOCKED_FILES",
                 "value": "1"
+              },
+              {
+                "name": "CmsApiClientOptions__Timeout",
+                "value": "[parameters('cmsTimeout')]"
+              },
+              {
+                "name": "CmsApiClientOptions__ApiKey",
+                "value": "[parameters('cmsApiKey')]"
+              },
+              {
+                "name": "CmsApiClientOptions__BaseAddress",
+                "value": "[parameters('cmsBaseAddress')]"
+              },
+              {
+                "name": "CmsApiClientOptions__StaticContentEndpoint",
+                "value": "[parameters('cmsStaticContentEndpoint')]"
+              },
+              {
+                "name": "CmsApiClientOptions__ContentIds",
+                "value": "[parameters('cmsContentIds')]"
               },
               {
                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
