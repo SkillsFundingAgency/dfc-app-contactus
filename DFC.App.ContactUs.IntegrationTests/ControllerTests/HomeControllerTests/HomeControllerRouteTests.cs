@@ -22,7 +22,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HomeControllerTests
             new object[] { "/Home/Error" },
         };
 
-        /*[Theory]
+        [Theory]
         [MemberData(nameof(HomeContentRouteData))]
         public async Task GetHomeHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
@@ -37,6 +37,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HomeControllerTests
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.Equal($"{MediaTypeNames.Text.Html}; charset={Encoding.UTF8.WebName}", response.Content.Headers.ContentType.ToString());
-        }*/
+        }
     }
 }

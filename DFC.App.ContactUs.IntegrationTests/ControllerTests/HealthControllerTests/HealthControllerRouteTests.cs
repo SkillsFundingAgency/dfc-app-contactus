@@ -27,7 +27,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HealthControllerTes
             new object[] { "/health/ping" },
         };
 
-        /*[Theory]
+        [Theory]
         [MemberData(nameof(HealthContentRouteData))]
         public async Task GetHealthHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
@@ -78,6 +78,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HealthControllerTes
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.Equal(System.Net.HttpStatusCode.OK, response.StatusCode);
-        }*/
+        }
     }
 }

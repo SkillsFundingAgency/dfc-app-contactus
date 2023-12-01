@@ -1,5 +1,4 @@
-﻿using FakeItEasy;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Text;
@@ -9,11 +8,11 @@ using Xunit;
 namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTests
 {
     [Trait("Category", "Integration")]
-    public class PagesControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.ContactUs.Startup>>
+    public class PagesControllerRouteTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private readonly CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory;
+        private readonly CustomWebApplicationFactory<Startup> factory;
 
-        public PagesControllerRouteTests(CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory)
+        public PagesControllerRouteTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
         }
@@ -40,7 +39,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             new object[] { "/pages/how-can-we-help/body" },
         };
 
-        /*[Theory]
+        [Theory]
         [MemberData(nameof(PagesContentRouteData))]
         public async Task GetPagesHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
@@ -74,6 +73,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.Equal($"{MediaTypeNames.Application.Json}; charset={Encoding.UTF8.WebName}", response.Content.Headers.ContentType.ToString());
-        }*/
+        }
     }
 }

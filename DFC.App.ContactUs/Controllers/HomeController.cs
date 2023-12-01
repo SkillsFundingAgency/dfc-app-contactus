@@ -54,6 +54,7 @@ namespace DFC.App.ContactUs.Controllers
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
                 HomeBodyViewModel = new HomeBodyViewModel(),
             };
+
             viewModel.HomeBodyViewModel.SpeakToAnAdviser = await staticContentDocumentService.GetByIdAsync(new Guid(cmsApiClientOptions.ContentIds)).ConfigureAwait(false);
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
 

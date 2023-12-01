@@ -48,8 +48,6 @@ namespace DFC.App.ContactUs
             this.env = env;
         }
 
-        //public IConfiguration Configuration { get; }
-
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMapper mapper)
         {
             if (env.IsDevelopment())

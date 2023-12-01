@@ -21,7 +21,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.RobotControllerTest
             new object[] { "/robots.txt" },
         };
 
-        /*[Theory]
+        [Theory]
         [MemberData(nameof(RobotRouteData))]
         public async Task GetRobotTextContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
@@ -37,6 +37,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.RobotControllerTest
             // Assert
             response.EnsureSuccessStatusCode();
             Assert.Equal(MediaTypeNames.Text.Plain, response.Content.Headers.ContentType.ToString());
-        }*/
+        }
     }
 }
