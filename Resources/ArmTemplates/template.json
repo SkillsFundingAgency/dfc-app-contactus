@@ -449,7 +449,11 @@
               {
                 "name": "SubscriptionSettings__Filter__AdvancedFilters__0__Values__0",
                 "value": "/content/sharedcontent/"
-              }
+              },
+              {
+                "name": "SubscriptionSettings__Filter__AdvancedFilters__0__Type",
+                "value": "StringContains"
+				      }
             ]
           }
         }
