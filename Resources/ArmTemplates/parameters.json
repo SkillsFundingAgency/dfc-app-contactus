@@ -80,15 +80,7 @@
       "SubscriptionSettingsEndpoint": {
         "value": "__SubscriptionSettingsEndpoint__"
       },
-      "SubscriptionSettingsFilterIncludeEventTypes3": {
-        "value": "__SubscriptionSettingsFilterIncludeEventTypes3__"
-      },
-      "SubscriptionSettingsFilterIncludeEventTypes4": {
-        "value": "__SubscriptionSettingsFilterIncludeEventTypes4__"
-      },
-      "SubscriptionSettingsFilterPropertyContainsFilters0Values0": {
-        "value": "__SubscriptionSettingsFilterPropertyContainsFilters0Values0__"
-      },
+
       "subscriptionUrl": {
         "value": "__subscriptionUrl__"
       },

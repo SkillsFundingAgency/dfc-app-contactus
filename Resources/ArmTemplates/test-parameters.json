@@ -125,15 +125,6 @@
       "SubscriptionSettingsEndpoint": {
         "value": "SubscriptionSettingsEndpoint"
       },
-      "SubscriptionSettingsFilterIncludeEventTypes3": {
-        "value": "SubscriptionSettingsFilterIncludeEventTypes3"
-      },
-      "SubscriptionSettingsFilterIncludeEventTypes4": {
-        "value": "SubscriptionSettingsFilterIncludeEventTypes4"
-      },
-      "SubscriptionSettingsFilterPropertyContainsFilters0Values0": {
-        "value": "SubscriptionSettingsFilterPropertyContainsFilters0Values0"
-      },
       "subscriptionUrl": {
         "value": "subscriptionUrl"
       }, 

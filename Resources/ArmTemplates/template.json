@@ -86,15 +86,6 @@
     "SubscriptionSettingsEndpoint": {
       "type": "string"
     },
-    "SubscriptionSettingsFilterIncludeEventTypes3": {
-      "type": "string"
-    },
-    "SubscriptionSettingsFilterIncludeEventTypes4": {
-      "type": "string"
-    },
-    "SubscriptionSettingsFilterPropertyContainsFilters0Values0": {
-      "type": "string"
-    },
     "subscriptionUrl": {
       "type": "string"
     },
@@ -444,14 +435,6 @@
                 "value": "deleted"
               },
               {
-                "name": "SubscriptionSettings__Filter__IncludeEventTypes__3",
-                "value": "[parameters('SubscriptionSettingsFilterIncludeEventTypes3')]"
-              },
-              {
-                "name": "SubscriptionSettings__Filter__IncludeEventTypes__4",
-                "value": "[parameters('SubscriptionSettingsFilterIncludeEventTypes4')]"
-              },
-              {
                 "name": "SubscriptionSettings__Endpoint",
                 "value": "[concat(parameters('SubscriptionSettingsEndpoint'),'/api/webhook/ReceiveEvents?subscription-key=',parameters('apimCompositeApiKey'))]"
               },
@@ -460,12 +443,12 @@
                 "value": "[concat(parameters('subscriptionUrl'),'/api/Execute')]"
               },
               {
-                "name": "SubscriptionSettings__Filter__PropertyContainsFilters__0__Key",
+                "name": "SubscriptionSettings__Filter__AdvancedFilters__0__Property",
                 "value": "subject"
               },
               {
-                "name": "SubscriptionSettings__Filter__PropertyContainsFilters__0__Values__0",
-                "value": "[parameters('SubscriptionSettingsFilterPropertyContainsFilters0Values0')]"
+                "name": "SubscriptionSettings__Filter__AdvancedFilters__0__Values__0",
+                "value": "/content/sharedcontent/"
               }
             ]
           }
