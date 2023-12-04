@@ -41,8 +41,8 @@
       "aspSize": {
         "value": "__aspSize__"
       },
-      "cosmosDBCollectionName": {
-        "value": "__cosmosDbCollectionName__"
+      "cosmosDbSharedCollectionName": {
+        "value": "__cosmosDbSharedCollectionName__"
       },
       "CosmosDbResourceGroup": {
         "value": "__appSharedResourceGroup__"
