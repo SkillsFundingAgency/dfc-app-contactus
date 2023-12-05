@@ -10,7 +10,8 @@ namespace DFC.App.ContactUs.ViewModels
         public const string SelectedOptionValidationError = "Choose an option";
 
         public string? PhoneNumber { get; set; } = Constants.DefaultPhoneNumber;
-        public StaticContentItemModel SpeakToAnAdviser { get; set; }
+
+        public StaticContentItemModel? SpeakToAnAdviser { get; set; }
 
         [Required(ErrorMessage = SelectedOptionValidationError)]
         [Range((int)HomeOption.Webchat, (int)HomeOption.Sendletter, ErrorMessage = SelectedOptionValidationError)]

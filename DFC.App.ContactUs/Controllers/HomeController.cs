@@ -24,7 +24,7 @@ namespace DFC.App.ContactUs.Controllers
         private readonly CmsApiClientOptions cmsApiClientOptions;
 
         public HomeController(
-            ILogger<HomeController> logger, 
+            ILogger<HomeController> logger,
             ISessionStateService<SessionDataModel> sessionStateService,
             IDocumentService<StaticContentItemModel> staticContentDocumentService,
             CmsApiClientOptions cmsApiClientOptions) : base(logger, sessionStateService)
