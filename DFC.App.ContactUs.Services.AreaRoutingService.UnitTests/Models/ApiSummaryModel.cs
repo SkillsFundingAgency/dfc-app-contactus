@@ -1,4 +1,4 @@
-﻿using DFC.App.ContactUs.Data.Contracts;
+﻿using DFC.Content.Pkg.Netcore.Data.Contracts;
 using System;
 
 namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests.Models

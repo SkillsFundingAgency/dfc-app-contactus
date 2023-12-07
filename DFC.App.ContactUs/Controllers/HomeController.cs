@@ -1,8 +1,11 @@
 ﻿using DFC.App.ContactUs.Data.Enums;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
+using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -17,9 +20,17 @@ namespace DFC.App.ContactUs.Controllers
         public const string ThisViewCanonicalName = "home";
         public const string SendUsLetterCanonicalName = "send-us-a-letter";
         public const string ThankyouForContactingUsCanonicalName = "thank-you-for-contacting-us";
+        private readonly IDocumentService<StaticContentItemModel> staticContentDocumentService;
+        private readonly CmsApiClientOptions cmsApiClientOptions;
 
-        public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService) : base(logger, sessionStateService)
+        public HomeController(
+            ILogger<HomeController> logger,
+            ISessionStateService<SessionDataModel> sessionStateService,
+            IDocumentService<StaticContentItemModel> staticContentDocumentService,
+            CmsApiClientOptions cmsApiClientOptions) : base(logger, sessionStateService)
         {
+            this.staticContentDocumentService = staticContentDocumentService;
+            this.cmsApiClientOptions = cmsApiClientOptions;
         }
 
         [HttpGet]
@@ -44,6 +55,7 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = new HomeBodyViewModel(),
             };
 
+            viewModel.HomeBodyViewModel.SpeakToAnAdviser = await staticContentDocumentService.GetByIdAsync(new Guid(cmsApiClientOptions.ContentIds)).ConfigureAwait(false);
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
 
             return this.NegotiateContentResult(viewModel);
@@ -139,6 +151,8 @@ namespace DFC.App.ContactUs.Controllers
             await DeleteSessionStateAsync().ConfigureAwait(false);
 
             var viewModel = new HomeBodyViewModel();
+
+            viewModel.SpeakToAnAdviser = await staticContentDocumentService.GetByIdAsync(new Guid(cmsApiClientOptions.ContentIds)).ConfigureAwait(false);
 
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");
 
