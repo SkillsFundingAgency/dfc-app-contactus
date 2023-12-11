@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "apimCompositeKey": {
-        "value": "__apimCompositeApiKey__"
+        "value": "__apimCompositeKey__"
       },
       "cmsTimeout": {
       "value": "__cmsTimeout__"

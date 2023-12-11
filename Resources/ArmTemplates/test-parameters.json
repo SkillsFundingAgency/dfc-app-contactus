@@ -128,7 +128,7 @@
     "subscriptionUrl": {
       "value": "subscriptionUrl"
     },
-    "apimCompositeApiKey": {
+    "apimCompositeKey": {
       "value": "apimCompositeKey"
     }
   }
