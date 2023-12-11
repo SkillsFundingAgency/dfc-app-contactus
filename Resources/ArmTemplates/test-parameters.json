@@ -26,9 +26,6 @@
     "cmsApiKey": {
       "value": "testkey"
     },
-    "SubscriptionSettingsApimKey": {
-      "value":  "empty"
-    }
     "cmsBaseAddress": {
       "value": "https://url"
     },

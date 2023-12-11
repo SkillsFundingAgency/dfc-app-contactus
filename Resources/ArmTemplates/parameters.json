@@ -80,9 +80,6 @@
       "SubscriptionSettingsEndpoint": {
         "value": "__SubscriptionSettingsEndpoint__"
       },
-      "SubscriptionSettingsApimKey": {
-        "value": "__SubscriptionSettingsApimKey__"
-      },
 
       "subscriptionUrl": {
         "value": "__subscriptionUrl__"
