@@ -89,7 +89,7 @@
     "subscriptionUrl": {
       "type": "string"
     },
-    "apimCompositeApiKey": {
+    "apimCompositeKey": {
       "type": "securestring"
     },
     "ApimProxyAddress": {
@@ -436,7 +436,7 @@
               },
               {
                 "name": "SubscriptionSettings__Endpoint",
-                "value": "[concat(parameters('SubscriptionSettingsEndpoint'),'/api/webhook/ReceiveEvents?subscription-key=',parameters('apimCompositeApiKey'))]"
+                "value": "[concat(parameters('SubscriptionSettingsEndpoint'),'/api/webhook/ReceiveEvents?subscription-key=',parameters('apimCompositeKey'))]"
               },
               {
                 "name": "SubscriptionSettings__SubscriptionServiceEndpoint",

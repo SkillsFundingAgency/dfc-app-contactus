@@ -129,7 +129,7 @@
       "value": "subscriptionUrl"
     },
     "apimCompositeApiKey": {
-      "value": "apimCompositeApiKey"
+      "value": "apimCompositeKey"
     }
   }
   }
