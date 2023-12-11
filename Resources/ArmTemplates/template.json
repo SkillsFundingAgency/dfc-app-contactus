@@ -89,7 +89,7 @@
     "subscriptionUrl": {
       "type": "string"
     },
-    "apimCompositeApiKey": {
+    "SubscriptionSettingsEndpointKey": {
       "type": "securestring"
     },
     "ApimProxyAddress": {
@@ -97,6 +97,9 @@
     },
     "ApimFutureAccessModelKey": {
       "type": "string"
+    },
+    "apimCompositeApiKey": {
+      "type" : "string"
     },
     "FallbackEmailToAddresses": {
       "type": "string"
@@ -436,7 +439,7 @@
               },
               {
                 "name": "SubscriptionSettings__Endpoint",
-                "value": "[concat(parameters('SubscriptionSettingsEndpoint'),'/api/webhook/ReceiveEvents')]"
+                "value": "[concat(parameters('SubscriptionSettingsEndpoint'),'/api/webhook/ReceiveEvents?subscription-key=',parameters('apimCompositeApiKey'))]"
               },
               {
                 "name": "SubscriptionSettings__SubscriptionServiceEndpoint",
