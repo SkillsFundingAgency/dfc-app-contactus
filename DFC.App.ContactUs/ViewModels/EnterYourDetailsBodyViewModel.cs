@@ -19,7 +19,7 @@ namespace DFC.App.ContactUs.ViewModels
 
         private const string RegExForName = "^[a-zA-Z ]+(([',.\\-][a-zA-Z ])?[a-zA-Z ]*)*$";
         private const string RegExForPostcode = "^([bB][fF][pP][oO]\\s{0,1}[0-9]{1,4}|[gG][iI][rR]\\s{0,1}0[aA][aA]|[a-pr-uwyzA-PR-UWYZ]([0-9]{1,2}|([a-hk-yA-HK-Y][0-9]|[a-hk-yA-HK-Y][0-9]([0-9]|[abehmnprv-yABEHMNPRV-Y]))|[0-9][a-hjkps-uwA-HJKPS-UW])\\s{0,1}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2})$";
-        private const string RegExForExcludePostcode = "^(?!ab|bt|cf|ch5|ch6|ch7|ch8|dd|dg|eh|fk|g[0-9]|gy|hs|im|iv|je|ka|kw|ky|ld|ll|ml|np|pa|ph|sa|sy|td|ze)+.*$";
+
         private const string RegExForEmailAddress = "^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
         private const string RegExForTelephoneNumber = "^[ +(0-9]?([ \\-()0-9])+([ 0-9])*$";
 
@@ -166,7 +166,7 @@ namespace DFC.App.ContactUs.ViewModels
         [Required(ErrorMessage = "Enter your postcode")]
         [StringLength(8, ErrorMessage = StringLengthValidationError)]
         [CustomUKPostcodeValidator(ErrorMessage = "{0}")]
-        /*[RegularExpression(RegExForPostcode, ErrorMessage = "{0} must be an English or BFPO postcode")]*/
+        [RegularExpression(RegExForPostcode, ErrorMessage = "{0} must be an English or BFPO postcode")]
         [DataType("Postcode")]
         public string? Postcode { get; set; }
 
