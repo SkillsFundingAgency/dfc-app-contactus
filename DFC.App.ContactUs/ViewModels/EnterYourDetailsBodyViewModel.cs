@@ -166,6 +166,7 @@ namespace DFC.App.ContactUs.ViewModels
         [Required(ErrorMessage = "Enter your postcode")]
         [StringLength(8, ErrorMessage = StringLengthValidationError)]
         [CustomUKPostcodeValidator(ErrorMessage = "{0}")]
+        /*[RegularExpression(RegExForPostcode, ErrorMessage = "{0} must be an English or BFPO postcode")]*/
         [DataType("Postcode")]
         public string? Postcode { get; set; }
 

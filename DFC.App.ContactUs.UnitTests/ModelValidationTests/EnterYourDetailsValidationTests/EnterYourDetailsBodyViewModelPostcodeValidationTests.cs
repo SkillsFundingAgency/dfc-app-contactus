@@ -22,6 +22,12 @@ namespace DFC.App.ContactUs.UnitTests.ModelValidationTests.EnterYourDetailsValid
             new string[] { "CV1" },
             new string[] { "N1 11a" },
             new string[] { "nw1-2aa" },
+            new string[] { "AB10 1AB" }, /*Aberdeen*/
+            new string[] { "EH1 1AE" }, /*Edinburgh*/
+            new string[] { "BT1 1AR" }, /*Belfast*/
+            new string[] { "CF10 1AA" }, /*Cardiff*/
+            new string[] { "LL30 1AB" }, /*Llandudno*/
+            new string[] { "SA1 1AF" }, /*Swansea*/
         };
 
         [Fact]
