@@ -3,10 +3,12 @@ using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Common.SharedContent.Pkg.Netcore;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -17,6 +19,7 @@ namespace DFC.App.ContactUs.Controllers
         public const string ThisViewCanonicalName = "home";
         public const string SendUsLetterCanonicalName = "send-us-a-letter";
         public const string ThankyouForContactingUsCanonicalName = "thank-you-for-contacting-us";
+        public const string ContactUsStaxId = "c0117ac7-115a-4bc1-9350-3fb4b00c7857";
 
         public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService) : base(logger, sessionStateService)
         {
@@ -43,6 +46,12 @@ namespace DFC.App.ContactUs.Controllers
                 Breadcrumb = BuildBreadcrumb(LocalPath, breadcrumbItemModel),
                 HomeBodyViewModel = new HomeBodyViewModel(),
             };
+
+            var cacheKey = "sharedcontent-" + ContactUsStaxId;
+            GraphQlActions graphQl = new GraphQlActions();
+            List<string> parameters = new List<string>();
+
+            viewModel.HomeBodyViewModel.ContactUs = graphQl.GetDataAsync("shared-html", parameters);
 
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
 
