@@ -50,9 +50,15 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = new HomeBodyViewModel(),
             };
 
-            var sharedhtml = await sharedContentRedisInterface.GetDataAsync<SharedHtml>("sharedContent/" + ContactUsStaxId);
+            try {
+                var sharedhtml = await sharedContentRedisInterface.GetDataAsync<SharedHtml>("sharedContent/" + ContactUsStaxId);
 
-            viewModel.HomeBodyViewModel.ContactUs = sharedhtml.Html;
+                viewModel.HomeBodyViewModel.ContactUs = sharedhtml.Html;
+            }
+            catch
+            {
+                viewModel.HomeBodyViewModel.ContactUs = "";
+            }
 
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
 
