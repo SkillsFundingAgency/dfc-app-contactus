@@ -51,7 +51,7 @@ namespace DFC.App.ContactUs.Controllers
             GraphQlActions graphQl = new GraphQlActions();
             List<string> parameters = new List<string>();
 
-            viewModel.HomeBodyViewModel.ContactUs = graphQl.GetDataAsync("shared-html", parameters);
+            viewModel.HomeBodyViewModel.ContactUs = await graphQl.GetDataAsync("shared-html", parameters);
 
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
 
