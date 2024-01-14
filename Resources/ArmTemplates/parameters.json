@@ -112,6 +112,21 @@
         },
         "CPUPercentageThreshold": {
             "value": "__CPUPercentageThreshold__"
+        },
+        "CmsTokenEndPointUrl": {
+            "value": "__CmsTokenEndPointUrl__"
+        },
+        "CmsGraphApiUrl": {
+            "value": "__CmsGraphApiUrl__"
+        },
+        "CmsClientId": {
+            "value": "__CmsClientId__"
+        },
+        "CmsClientSecret": {
+            "value": "__CmsClientSecret__"
+        },
+        "CmsRedisCacheConnectionString": {
+            "value": "__CmsRedisCacheConnectionString__"
         }
     }
 }

@@ -103,6 +103,21 @@
         },
         "CPUPercentageThreshold": {
             "value": "0"
+        },
+        "CmsTokenEndPointUrl": {
+            "value": "url.com"
+        },
+        "CmsGraphApiUrl": {
+            "value": "url.com"
+        },
+        "CmsClientId": {
+            "value": "testid"
+        },
+        "CmsClientSecret": {
+            "value": "testsecret"
+        },
+        "CmsRedisCacheConnectionString": {
+            "value": "teststring"
         }
     }
 }

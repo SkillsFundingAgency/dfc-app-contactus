@@ -3,7 +3,8 @@ using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
-using DFC.Common.SharedContent.Pkg.Netcore;
+using DFC.Common.SharedContent.Pkg.Netcore.Interfaces;
+using DFC.Common.SharedContent.Pkg.Netcore.Model.ContentItems.SharedHtml;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -20,9 +21,11 @@ namespace DFC.App.ContactUs.Controllers
         public const string SendUsLetterCanonicalName = "send-us-a-letter";
         public const string ThankyouForContactingUsCanonicalName = "thank-you-for-contacting-us";
         public const string ContactUsStaxId = "c0117ac7-115a-4bc1-9350-3fb4b00c7857";
+        private readonly ISharedContentRedisInterface sharedContentRedisInterface;
 
-        public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService) : base(logger, sessionStateService)
+        public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService, ISharedContentRedisInterface sharedContentRedisInterface) : base(logger, sessionStateService)
         {
+            this.sharedContentRedisInterface = sharedContentRedisInterface;
         }
 
         [HttpGet]
@@ -47,11 +50,9 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = new HomeBodyViewModel(),
             };
 
-            var cacheKey = "sharedcontent-" + ContactUsStaxId;
-            GraphQlActions graphQl = new GraphQlActions();
-            List<string> parameters = new List<string>();
+            var sharedhtml = await sharedContentRedisInterface.GetDataAsync<SharedHtml>("sharedContent/" + ContactUsStaxId);
 
-            viewModel.HomeBodyViewModel.ContactUs = await graphQl.GetDataAsync("shared-html", parameters);
+            viewModel.HomeBodyViewModel.ContactUs = sharedhtml.Html;
 
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
 
