@@ -1,6 +1,7 @@
 ﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Models;
+using DFC.Common.SharedContent.Pkg.Netcore.Interfaces;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using FakeItEasy;
@@ -49,8 +50,9 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             var httpContext = new DefaultHttpContext();
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
+            var FakeSharedContentRedisInterface = A.Fake<ISharedContentRedisInterface>();
 
-            var controller = new HomeController(Logger, FakeSessionStateService)
+            var controller = new HomeController(Logger, FakeSessionStateService, FakeSharedContentRedisInterface)
             {
                 ControllerContext = new ControllerContext()
                 {
