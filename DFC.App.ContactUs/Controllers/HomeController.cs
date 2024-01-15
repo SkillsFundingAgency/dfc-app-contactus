@@ -21,11 +21,11 @@ namespace DFC.App.ContactUs.Controllers
         public const string SendUsLetterCanonicalName = "send-us-a-letter";
         public const string ThankyouForContactingUsCanonicalName = "thank-you-for-contacting-us";
         public const string ContactUsStaxId = "c0117ac7-115a-4bc1-9350-3fb4b00c7857";
-        private readonly ISharedContentRedisInterface sharedContentRedisInterface;
+        private readonly ISharedContentRedisInterface sharedContentRedis;
 
-        public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService, ISharedContentRedisInterface sharedContentRedisInterface) : base(logger, sessionStateService)
+        public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService, ISharedContentRedisInterface sharedContentRedis) : base(logger, sessionStateService)
         {
-            this.sharedContentRedisInterface = sharedContentRedisInterface;
+            this.sharedContentRedis = sharedContentRedis;
         }
 
         [HttpGet]
@@ -51,7 +51,7 @@ namespace DFC.App.ContactUs.Controllers
             };
 
             try {
-                var sharedhtml = await sharedContentRedisInterface.GetDataAsync<SharedHtml>("sharedContent/" + ContactUsStaxId);
+                var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>("sharedContent/" + ContactUsStaxId);
 
                 viewModel.HomeBodyViewModel.ContactUs = sharedhtml.Html;
             }
