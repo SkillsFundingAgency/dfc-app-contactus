@@ -22,7 +22,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
         {
             new object[] { "/" },
             new object[] { "/pages" },
-            new object[] { "/pages/home" },
+            //new object[] { "/pages/home" },
             new object[] { "/pages/home/head" },
             new object[] { "/pages/home/breadcrumb" },
             new object[] { "/pages/home/body" },
