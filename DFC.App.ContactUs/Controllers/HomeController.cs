@@ -57,7 +57,7 @@ namespace DFC.App.ContactUs.Controllers
             }
             catch (Exception e)
             {
-                viewModel.HomeBodyViewModel.ContactUs = "<h1> Error Retrieving Data from Redis<h1><p>"+ e.ToString() +"</p>";
+                viewModel.HomeBodyViewModel.ContactUs = "";
             }
 
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
@@ -155,6 +155,17 @@ namespace DFC.App.ContactUs.Controllers
             await DeleteSessionStateAsync().ConfigureAwait(false);
 
             var viewModel = new HomeBodyViewModel();
+
+            try
+            {
+                var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>("sharedContent/" + ContactUsStaxId);
+
+                viewModel.ContactUs = sharedhtml.Html;
+            }
+            catch (Exception e)
+            {
+                viewModel.ContactUs = "";
+            }
 
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");
 
