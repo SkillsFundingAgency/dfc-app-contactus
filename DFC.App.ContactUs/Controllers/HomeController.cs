@@ -50,11 +50,15 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = new HomeBodyViewModel(),
             };
 
-
+            try {
                 var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>("sharedContent/" + ContactUsStaxId);
 
                 viewModel.HomeBodyViewModel.ContactUs = sharedhtml.Html;
-            
+            }
+            catch (Exception e)
+            {
+                viewModel.HomeBodyViewModel.ContactUs = "<h1> Error Retrieving Data from Redis<h1><p>"+ e.ToString() +"</p>";
+            }
 
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
 
