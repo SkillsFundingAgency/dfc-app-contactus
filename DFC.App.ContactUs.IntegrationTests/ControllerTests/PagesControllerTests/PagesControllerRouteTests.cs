@@ -1,4 +1,7 @@
-﻿using FakeItEasy;
+﻿using DFC.Common.SharedContent.Pkg.Netcore.Model.ContentItems.SharedHtml;
+using DFC.Common.SharedContent.Pkg.Netcore.Model.Response;
+using FakeItEasy;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Net.Mime;
@@ -22,7 +25,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
         {
             new object[] { "/" },
             new object[] { "/pages" },
-            //new object[] { "/pages/home" },
+            new object[] { "/pages/home" },
             new object[] { "/pages/home/head" },
             new object[] { "/pages/home/breadcrumb" },
             new object[] { "/pages/home/body" },
@@ -45,6 +48,14 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
         public async Task GetPagesHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
+            var sharedHtml = new SharedHtml()
+            {
+                Html = "<p>Test</p>"
+            };
+            this.factory.MockSharedContentRedis.Setup(
+                x => x.GetDataAsync<SharedHtml>(
+                    It.IsAny<string>()))
+            .ReturnsAsync(sharedHtml);
             var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
@@ -63,6 +74,14 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
         public async Task GetPagesJsonContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
+            var sharedHtml = new SharedHtml()
+            {
+                Html = "<p>Test</p>"
+            };
+            this.factory.MockSharedContentRedis.Setup(
+                x => x.GetDataAsync<SharedHtml>(
+                    It.IsAny<string>()))
+            .ReturnsAsync(sharedHtml);
             var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();

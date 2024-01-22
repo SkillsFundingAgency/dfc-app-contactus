@@ -150,16 +150,9 @@ namespace DFC.App.ContactUs.Controllers
 
             var viewModel = new HomeBodyViewModel();
 
-            try
-            {
-                var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>("sharedContent/" + ContactUsStaxId);
+            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>("sharedContent/" + ContactUsStaxId);
 
-                viewModel.ContactUs = sharedhtml.Html;
-            }
-            catch (Exception e)
-            {
-                viewModel.ContactUs = "";
-            }
+            viewModel.ContactUs = sharedhtml.Html;
 
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");
 
