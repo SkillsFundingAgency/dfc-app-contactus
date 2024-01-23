@@ -43,7 +43,6 @@ namespace DFC.App.ContactUs.Controllers
         {
             using var reader = new StreamReader(Request.Body, Encoding.UTF8);
             string requestContent = await reader.ReadToEndAsync();
-            logger.LogInformation($"Received events: {requestContent}");
 
             var eventGridSubscriber = new EventGridSubscriber();
             foreach (var key in acceptedEventTypes.Keys)
