@@ -89,7 +89,7 @@
     "subscriptionUrl": {
       "type": "string"
     },
-    "apimCompositeApiKey": {
+    "apimCompositeKey": {
       "type": "securestring"
     },
     "ApimProxyAddress": {
@@ -145,6 +145,12 @@
     },
     "MemoryPercentageThreshold": {
       "type": "string"
+    },
+    "workspaceName": {
+      "type": "string"
+    },
+    "workspaceResourceGroup": {
+        "type": "string"
     }
   },
   "variables": {
@@ -205,6 +211,12 @@
           },
           "attachedService": {
             "value": ""
+          },
+          "workspaceName": {
+            "value": "[parameters('workspaceName')]"
+          },
+          "workspaceResourceGroup": {
+              "value": "[parameters('workspaceResourceGroup')]"
           }
         }
       }
@@ -436,7 +448,11 @@
               },
               {
                 "name": "SubscriptionSettings__Endpoint",
-                "value": "[concat(parameters('SubscriptionSettingsEndpoint'),'/api/webhook/ReceiveEvents')]"
+                "value": "[concat(parameters('SubscriptionSettingsEndpoint'),'/api/webhook/ReceiveEvents?subscription-key=',parameters('apimCompositeKey'))]"
+              },
+              {
+                "name": "SubscriptionSettings__SubscriptionRegistrationDelay",
+                "value": "00:02:00"
               },
               {
                 "name": "SubscriptionSettings__SubscriptionServiceEndpoint",
