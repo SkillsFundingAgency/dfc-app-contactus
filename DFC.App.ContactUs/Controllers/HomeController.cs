@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using DFC.App.ContactUs.Data.Models.CmsApiModels;
 
 namespace DFC.App.ContactUs.Controllers
 {
@@ -21,7 +22,7 @@ namespace DFC.App.ContactUs.Controllers
         public const string SendUsLetterCanonicalName = "send-us-a-letter";
         public const string ThankyouForContactingUsCanonicalName = "thank-you-for-contacting-us";
         private readonly IDocumentService<StaticContentItemModel> staticContentDocumentService;
-        private readonly CmsApiClientOptions cmsApiClientOptions;
+        private readonly Guid sharedContentItemGuid;
 
         public HomeController(
             ILogger<HomeController> logger,
@@ -30,7 +31,13 @@ namespace DFC.App.ContactUs.Controllers
             CmsApiClientOptions cmsApiClientOptions) : base(logger, sessionStateService)
         {
             this.staticContentDocumentService = staticContentDocumentService;
-            this.cmsApiClientOptions = cmsApiClientOptions;
+
+            if (cmsApiClientOptions?.ContentIds == null)
+            {
+                throw new ArgumentNullException(nameof(cmsApiClientOptions.ContentIds));
+            }
+
+            this.sharedContentItemGuid = new Guid(cmsApiClientOptions.ContentIds);
         }
 
         [HttpGet]
@@ -55,7 +62,8 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = new HomeBodyViewModel(),
             };
 
-            viewModel.HomeBodyViewModel.SpeakToAnAdviser = await staticContentDocumentService.GetByIdAsync(new Guid(cmsApiClientOptions.ContentIds)).ConfigureAwait(false);
+            viewModel.HomeBodyViewModel.SpeakToAnAdviser = await staticContentDocumentService
+                .GetByIdAsync(sharedContentItemGuid, StaticContentItemModel.DefaultPartitionKey).ConfigureAwait(false);
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
 
             return this.NegotiateContentResult(viewModel);
@@ -152,7 +160,10 @@ namespace DFC.App.ContactUs.Controllers
 
             var viewModel = new HomeBodyViewModel();
 
-            viewModel.SpeakToAnAdviser = await staticContentDocumentService.GetByIdAsync(new Guid(cmsApiClientOptions.ContentIds)).ConfigureAwait(false);
+            viewModel.SpeakToAnAdviser = await staticContentDocumentService.GetByIdAsync(
+                    sharedContentItemGuid,
+                    StaticContentItemModel.DefaultPartitionKey)
+                .ConfigureAwait(false);
 
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");
 

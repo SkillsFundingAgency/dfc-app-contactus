@@ -24,7 +24,10 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             Logger = A.Fake<ILogger<HomeController>>();
             FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
             FakeStaticContentDocumentService = A.Fake<IDocumentService<StaticContentItemModel>>();
-            FakeCmsApiClientOptions = A.Fake<CmsApiClientOptions>();
+            CmsApiClientOptions = new CmsApiClientOptions
+            {
+                ContentIds = Guid.NewGuid().ToString(),
+            };
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -49,7 +52,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
         protected IDocumentService<StaticContentItemModel> FakeStaticContentDocumentService { get; }
 
-        protected CmsApiClientOptions FakeCmsApiClientOptions { get; }
+        protected CmsApiClientOptions CmsApiClientOptions { get; }
 
         protected HomeController BuildHomeController(string mediaTypeName)
         {
@@ -57,7 +60,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(Logger, FakeSessionStateService, FakeStaticContentDocumentService, FakeCmsApiClientOptions)
+            var controller = new HomeController(Logger, FakeSessionStateService, FakeStaticContentDocumentService, CmsApiClientOptions)
             {
                 ControllerContext = new ControllerContext()
                 {

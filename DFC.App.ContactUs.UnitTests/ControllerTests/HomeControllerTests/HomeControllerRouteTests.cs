@@ -53,7 +53,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
 
-            return new HomeController(Logger, FakeSessionStateService, FakeStaticContentDocumentService, FakeCmsApiClientOptions)
+            return new HomeController(Logger, FakeSessionStateService, FakeStaticContentDocumentService, CmsApiClientOptions)
             {
                 ControllerContext = new ControllerContext
                 {

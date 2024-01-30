@@ -28,7 +28,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
         private readonly IDocumentService<StaticContentItemModel> fakeStaticContentDocumentService;
 
-        private readonly CmsApiClientOptions fakeCmsApiClientOptions;
+        private readonly CmsApiClientOptions cmsApiClientOptions;
 
 
         public SessionStateSetTests()
@@ -36,7 +36,10 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             logger = A.Fake<ILogger<HomeController>>();
             fakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
             fakeStaticContentDocumentService = A.Fake<IDocumentService<StaticContentItemModel>>();
-            fakeCmsApiClientOptions = A.Fake<CmsApiClientOptions>();
+            cmsApiClientOptions = new CmsApiClientOptions
+            {
+                ContentIds = Guid.NewGuid().ToString(),
+            };
         }
 
         [Theory]
@@ -155,7 +158,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(logger, fakeSessionStateService, fakeStaticContentDocumentService, fakeCmsApiClientOptions)
+            var controller = new HomeController(logger, fakeSessionStateService, fakeStaticContentDocumentService, cmsApiClientOptions)
             {
                 ControllerContext = new ControllerContext()
                 {
