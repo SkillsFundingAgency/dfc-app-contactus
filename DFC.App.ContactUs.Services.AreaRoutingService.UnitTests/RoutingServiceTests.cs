@@ -2,6 +2,7 @@ using Castle.Core.Logging;
 using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Enums;
 using DFC.App.ContactUs.Data.Models;
+using DFC.Content.Pkg.Netcore.Data.Contracts;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;

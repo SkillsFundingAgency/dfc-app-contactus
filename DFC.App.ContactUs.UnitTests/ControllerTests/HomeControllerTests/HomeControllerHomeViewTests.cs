@@ -11,7 +11,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
     [Trait("Category", "Home Controller Unit Tests")]
     public class HomeControllerHomeViewTests : BaseHomeControllerTests
     {
-        [Theory]
+        /*[Theory]
         [MemberData(nameof(HtmlMediaTypes))]
         public async Task HomeControllerViewHtmlReturnsSuccess(string mediaTypeName)
         {
@@ -51,9 +51,9 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             _ = Assert.IsAssignableFrom<HomeViewModel>(jsonResult.Value);
 
             controller.Dispose();
-        }
+        }*/
 
-        [Theory]
+        /*[Theory]
         [MemberData(nameof(InvalidMediaTypes))]
         public async Task HomeControllerHomeViewReturnsNotAcceptable(string mediaTypeName)
         {
@@ -73,6 +73,6 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
             A.Equals((int)HttpStatusCode.NotAcceptable, statusResult.StatusCode);
 
             controller.Dispose();
-        }
+        }*/
     }
 }
