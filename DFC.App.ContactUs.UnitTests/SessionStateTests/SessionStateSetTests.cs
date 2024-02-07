@@ -5,6 +5,7 @@ using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
+using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,11 +26,20 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
         private readonly ISessionStateService<SessionDataModel> fakeSessionStateService;
 
+        private readonly IDocumentService<StaticContentItemModel> fakeStaticContentDocumentService;
+
+        private readonly CmsApiClientOptions cmsApiClientOptions;
+
 
         public SessionStateSetTests()
         {
             logger = A.Fake<ILogger<HomeController>>();
             fakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
+            fakeStaticContentDocumentService = A.Fake<IDocumentService<StaticContentItemModel>>();
+            cmsApiClientOptions = new CmsApiClientOptions
+            {
+                ContentIds = Guid.NewGuid().ToString(),
+            };
         }
 
         [Theory]
@@ -148,7 +158,7 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(logger, fakeSessionStateService)
+            var controller = new HomeController(logger, fakeSessionStateService, fakeStaticContentDocumentService, cmsApiClientOptions)
             {
                 ControllerContext = new ControllerContext()
                 {

@@ -43,6 +43,13 @@ namespace DFC.App.ContactUs.Controllers
                 Priority = 1,
             });
 
+            sitemap.Add(new SitemapLocation
+            {
+                Url = $"{sitemapUrlPrefix}/webchat/chat",
+                Priority = 0.5,
+                ChangeFrequency = SitemapLocation.ChangeFrequencies.Monthly,
+            });
+
             if (!sitemap.Locations.Any())
             {
                 return NoContent();
