@@ -1,5 +1,6 @@
-﻿using DFC.App.ContactUs.Data.Contracts;
-using DFC.App.ContactUs.Services.AreaRoutingService.UnitTests.Models;
+﻿using DFC.App.ContactUs.Services.AreaRoutingService.UnitTests.Models;
+using DFC.Content.Pkg.Netcore.Data.Contracts;
+using DFC.Content.Pkg.Netcore.Services.ApiProcessorService;
 using FakeItEasy;
 using Newtonsoft.Json;
 using System;
@@ -7,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
+using DFC.App.ContactUs.Services.AreaRoutingService.UnitTests.Models;
 
 namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
 {
@@ -42,14 +44,14 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
         public async Task ApiDataProcessorServiceGetReturnsNullForNoData()
         {
             // arrange
-            ApiSummaryModel? expectedResult = null;
+            IApiDataModel? expectedResult = null;
 
             A.CallTo(() => fakeApiService.GetAsync(A<HttpClient>.Ignored, A<Uri>.Ignored, A<string>.Ignored)).Returns(string.Empty);
 
             var apiDataProcessorService = new ApiDataProcessorService(fakeApiService);
 
             // act
-            var result = await apiDataProcessorService.GetAsync<ApiSummaryModel>(A.Fake<HttpClient>(), new Uri("https://somewhere.com")).ConfigureAwait(false);
+            var result = await apiDataProcessorService.GetAsync<IApiDataModel>(A.Fake<HttpClient>(), new Uri("https://somewhere.com")).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => fakeApiService.GetAsync(A<HttpClient>.Ignored, A<Uri>.Ignored, A<string>.Ignored)).MustHaveHappenedOnceExactly();
@@ -63,7 +65,9 @@ namespace DFC.App.ContactUs.Services.AreaRoutingService.UnitTests
             var apiDataProcessorService = new ApiDataProcessorService(fakeApiService);
 
             // act
-            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () => await apiDataProcessorService.GetAsync<ApiSummaryModel>(null, new Uri("https://somewhere.com")).ConfigureAwait(false)).ConfigureAwait(false);
+            var exceptionResult = await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+                await apiDataProcessorService.GetAsync<IApiDataModel>
+                    (null, new Uri("https://somewhere.com")).ConfigureAwait(false)).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => fakeApiService.GetAsync(A<HttpClient>.Ignored, A<Uri>.Ignored, A<string>.Ignored)).MustNotHaveHappened();

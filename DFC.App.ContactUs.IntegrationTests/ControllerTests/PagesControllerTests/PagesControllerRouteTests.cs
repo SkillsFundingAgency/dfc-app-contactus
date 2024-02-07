@@ -12,11 +12,11 @@ using Xunit;
 namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTests
 {
     [Trait("Category", "Integration")]
-    public class PagesControllerRouteTests : IClassFixture<CustomWebApplicationFactory<DFC.App.ContactUs.Startup>>
+    public class PagesControllerRouteTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private readonly CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory;
+        private readonly CustomWebApplicationFactory<Startup> factory;
 
-        public PagesControllerRouteTests(CustomWebApplicationFactory<DFC.App.ContactUs.Startup> factory)
+        public PagesControllerRouteTests(CustomWebApplicationFactory<Startup> factory)
         {
             this.factory = factory;
         }

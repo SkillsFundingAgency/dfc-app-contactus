@@ -1,4 +1,5 @@
 ﻿using DFC.App.ContactUs.Data;
+﻿using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Enums;
 using System.ComponentModel.DataAnnotations;
 

@@ -1,10 +1,13 @@
 ﻿using DFC.App.ContactUs.Data.Enums;
+using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
 using DFC.Common.SharedContent.Pkg.Netcore.Interfaces;
 using DFC.Common.SharedContent.Pkg.Netcore.Model.ContentItems.SharedHtml;
+using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
+using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using DFC.App.ContactUs.Data.Models.CmsApiModels;
 
 namespace DFC.App.ContactUs.Controllers
 {
