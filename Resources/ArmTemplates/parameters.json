@@ -158,6 +158,9 @@
         "workspaceResourceGroup": {
         "value": "__sharedLogAnalyticsResourceGroup__"
         },
+        "cosmosDbSharedCollectionName": {
+            "value": "__cosmosDbSharedCollectionName__"
+          }
     }
   }
 }

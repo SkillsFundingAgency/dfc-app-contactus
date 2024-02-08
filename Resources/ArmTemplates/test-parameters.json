@@ -148,6 +148,9 @@
         },
         "workspaceResourceGroup": {
             "value": "aResourceGroup"
+        },
+        "cosmosDbSharedCollectionName": {
+            "value": "cosmosDbSharedCollectionName"
         }
     }
 }
