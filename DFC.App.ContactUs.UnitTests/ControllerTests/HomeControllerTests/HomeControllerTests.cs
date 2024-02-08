@@ -5,6 +5,7 @@ using DFC.App.ContactUs.Models;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
+using DFC.Common.SharedContent.Pkg.Netcore.Interfaces;
 using FakeItEasy;
 using Microsoft.Extensions.Logging;
 using Xunit;
@@ -25,10 +26,11 @@ public class HomeControllerTests
         {
             ContentIds = null,
         };
+        var fakeSharedContentRedisInterface = A.Fake<ISharedContentRedisInterface>();
 
         // Act
         var ex = Assert.Throws<ArgumentNullException>(() =>
-            new HomeController(logger, fakeSessionStateService, fakeStaticContentDocumentService, fakeClientApiOptions));
+            new HomeController(logger, fakeSessionStateService, fakeSharedContentRedisInterface));
 
         // Assert
         Assert.Equal("Value cannot be null. (Parameter 'ContentIds')", ex.Message);
