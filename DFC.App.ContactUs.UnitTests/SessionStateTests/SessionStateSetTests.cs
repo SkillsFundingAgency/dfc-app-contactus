@@ -3,6 +3,7 @@ using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Common.SharedContent.Pkg.Netcore.Interfaces;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
@@ -158,7 +159,10 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(logger, fakeSessionStateService, fakeStaticContentDocumentService, cmsApiClientOptions)
+            var fakeSharedContentRedisInterface = A.Fake<ISharedContentRedisInterface>();
+
+            var controller = new HomeController(logger, fakeSessionStateService, fakeSharedContentRedisInterface)
+
             {
                 ControllerContext = new ControllerContext()
                 {

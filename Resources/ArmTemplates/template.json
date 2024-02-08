@@ -146,6 +146,20 @@
     "MemoryPercentageThreshold": {
       "type": "string"
     },
+    "CmsRedisCacheConnectionString": {
+      "type": "string"
+    },
+    "CmsClientSecret": {
+      "type": "string"
+    },
+    "CmsClientId": {
+      "type": "string"
+    },
+    "CmsGraphApiUrl": {
+      "type": "string"
+    },
+    "CmsTokenEndPointUrl": {
+      "type": "string"
     "workspaceName": {
       "type": "string"
     },
@@ -435,6 +449,25 @@
                 "value": "1"
               },
               {
+                "name": "Cms__TokenEndPointUrl",
+                "value": "[parameters('CmsTokenEndpointUrl')]"
+              },
+              {
+                "name": "Cms__GraphApiUrl",
+                "value": "[parameters('CmsGraphApiUrl')]"
+              },
+              {
+                "name": "Cms__ClientId",
+                "value": "[parameters('CmsClientId')]"
+              },
+              {
+                "name": "Cms__ClientSecret",
+                "value": "[parameters('CmsClientSecret')]"
+              },
+              {
+                "name": "Cms__RedisCacheConnectionString",
+                "value": "[parameters('CmsRedisCacheConnectionString')]"
+              }
                 "name": "SubscriptionSettings__Filter__IncludeEventTypes__0",
                 "value": "published"
               },
