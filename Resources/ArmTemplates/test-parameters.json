@@ -118,6 +118,36 @@
         },
         "CmsRedisCacheConnectionString": {
             "value": "teststring"
+        },
+        "cmsTimeout": {
+            "value": "00:00:30"
+        },
+        "cmsApiKey": {
+        "value": "testkey"
+        },
+        "cmsBaseAddress": {
+        "value": "https://url"
+        },
+        "cmsStaticContentEndpoint": {
+        "value": "/shared-content/"
+        },
+        "cmsContentIds": {
+        "value": "12345"
+        },
+        "SubscriptionSettingsEndpoint": {
+        "value": "SubscriptionSettingsEndpoint"
+        },
+        "subscriptionUrl": {
+        "value": "subscriptionUrl"
+        },
+        "apimCompositeKey": {
+        "value": "apimCompositeKey"
+        },
+        "workspaceName": {
+        "value": "aTestLogAnalyticsAccount"
+        },
+        "workspaceResourceGroup": {
+            "value": "aResourceGroup"
         }
     }
 }

@@ -127,7 +127,37 @@
         },
         "CmsRedisCacheConnectionString": {
             "value": "__CmsRedisCacheConnectionString__"
-        }
+        },
+        "cmsTimeout": {
+            "value": "__cmsTimeout__"
+        },
+        "cmsApiKey": {
+        "value": "__cmsApiKey__"
+        },
+        "cmsBaseAddress": {
+        "value": "__cmsBaseAddress__"
+        },
+        "cmsStaticContentEndpoint": {
+        "value": "__cmsStaticContentEndpoint__"
+        },
+        "cmsContentIds": {
+        "value": "__cmsContentIds__"
+        },
+        "SubscriptionSettingsEndpoint": {
+        "value": "__SubscriptionSettingsEndpoint__"
+        },
+        "subscriptionUrl": {
+        "value": "__subscriptionUrl__"
+        },
+        "apimCompositeKey": {
+        "value": "__apimCompositeKey__"
+        },
+        "workspaceName": {
+        "value": "__sharedLogAnalyticsWorkspace__"
+        },
+        "workspaceResourceGroup": {
+        "value": "__sharedLogAnalyticsResourceGroup__"
+        },
     }
   }
 }
