@@ -160,6 +160,7 @@
     },
     "CmsTokenEndPointUrl": {
       "type": "string"
+    },
     "workspaceName": {
       "type": "string"
     },
