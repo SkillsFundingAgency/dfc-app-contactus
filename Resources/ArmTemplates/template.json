@@ -468,7 +468,8 @@
               {
                 "name": "Cms__RedisCacheConnectionString",
                 "value": "[parameters('CmsRedisCacheConnectionString')]"
-              }
+              },
+              {
                 "name": "SubscriptionSettings__Filter__IncludeEventTypes__0",
                 "value": "published"
               },
