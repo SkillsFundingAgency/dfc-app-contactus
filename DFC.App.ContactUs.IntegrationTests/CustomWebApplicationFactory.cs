@@ -46,14 +46,14 @@ namespace DFC.App.ContactUs.IntegrationTests
 
             builder.ConfigureTestServices(services =>
             {
-                services.AddSingleton(new CmsApiClientOptions()
-                {
-                    ApiKey = "123",
-                    BaseAddress = new Uri("https://localhost:8081"),
-                    ContentIds = Guid.NewGuid().ToString(),
-                    StaticContentEndpoint = "/sharedcontent/",
-                    Timeout = TimeSpan.FromSeconds(30)
-                });
+                //services.AddSingleton(new CmsApiClientOptions()
+                //{
+                //    ApiKey = "123",
+                //    BaseAddress = new Uri("https://localhost:8081"),
+                //    ContentIds = Guid.NewGuid().ToString(),
+                //    StaticContentEndpoint = "/sharedcontent/",
+                //    Timeout = TimeSpan.FromSeconds(30)
+                //});
 
                 services.AddTransient(sp => MockSessionStateService);
 
