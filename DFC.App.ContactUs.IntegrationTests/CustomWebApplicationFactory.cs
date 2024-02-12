@@ -45,8 +45,7 @@ namespace DFC.App.ContactUs.IntegrationTests
             });
 
             builder.ConfigureTestServices(services =>
-            {
-                //services.AddSingleton(new CmsApiClientOptions()
+            {                //services.AddSingleton(new CmsApiClientOptions()
                 //{
                 //    ApiKey = "123",
                 //    BaseAddress = new Uri("https://localhost:8081"),
@@ -55,10 +54,11 @@ namespace DFC.App.ContactUs.IntegrationTests
                 //    Timeout = TimeSpan.FromSeconds(30)
                 //});
 
+
                 services.AddTransient(sp => MockSessionStateService);
 
                 services.AddTransient<INotifyClientProxy, FakeNotifyClientProxy>();
-              
+
                 services.AddScoped<ISharedContentRedisInterface>(_ => MockSharedContentRedis.Object);
             });
         }
