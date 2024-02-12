@@ -37,23 +37,27 @@ namespace DFC.App.ContactUs.IntegrationTests
         {
             builder?.ConfigureServices(services =>
             {
+                //var configuration = new ConfigurationBuilder()
+                //    .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"), optional: true, reloadOnChange: true)
+                //    .Build();
+
                 var configuration = new ConfigurationBuilder()
-                    .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"), optional: true, reloadOnChange: true)
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                     .Build();
 
                 services.AddSingleton<IConfiguration>(configuration);
             });
 
             builder.ConfigureTestServices(services =>
-            {                //services.AddSingleton(new CmsApiClientOptions()
-                //{
-                //    ApiKey = "123",
-                //    BaseAddress = new Uri("https://localhost:8081"),
-                //    ContentIds = Guid.NewGuid().ToString(),
-                //    StaticContentEndpoint = "/sharedcontent/",
-                //    Timeout = TimeSpan.FromSeconds(30)
-                //});
-
+            {
+                services.AddSingleton(new CmsApiClientOptions()
+                {
+                    ApiKey = "123",
+                    BaseAddress = new Uri("https://localhost:8081"),
+                    ContentIds = Guid.NewGuid().ToString(),
+                    StaticContentEndpoint = "/sharedcontent/",
+                    Timeout = TimeSpan.FromSeconds(30)
+                });
 
                 services.AddTransient(sp => MockSessionStateService);
 

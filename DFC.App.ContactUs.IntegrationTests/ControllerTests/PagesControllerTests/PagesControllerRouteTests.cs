@@ -82,8 +82,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
                 x => x.GetDataAsync<SharedHtml>(
                     It.IsAny<string>()))
             .ReturnsAsync(sharedHtml);
-            //var uri = new Uri(url, UriKind.Relative);
-            var uri = new Uri("/", UriKind.Relative);
+            var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
