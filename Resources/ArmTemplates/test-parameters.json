@@ -103,6 +103,54 @@
         },
         "CPUPercentageThreshold": {
             "value": "0"
+        },
+        "CmsTokenEndPointUrl": {
+            "value": "url.com"
+        },
+        "CmsGraphApiUrl": {
+            "value": "url.com"
+        },
+        "CmsClientId": {
+            "value": "testid"
+        },
+        "CmsClientSecret": {
+            "value": "testsecret"
+        },
+        "CmsRedisCacheConnectionString": {
+            "value": "teststring"
+        },
+        "cmsTimeout": {
+            "value": "00:00:30"
+        },
+        "cmsApiKey": {
+        "value": "testkey"
+        },
+        "cmsBaseAddress": {
+        "value": "https://url"
+        },
+        "cmsStaticContentEndpoint": {
+        "value": "/shared-content/"
+        },
+        "cmsContentIds": {
+        "value": "12345"
+        },
+        "SubscriptionSettingsEndpoint": {
+        "value": "SubscriptionSettingsEndpoint"
+        },
+        "subscriptionUrl": {
+        "value": "subscriptionUrl"
+        },
+        "apimCompositeKey": {
+        "value": "apimCompositeKey"
+        },
+        "workspaceName": {
+        "value": "aTestLogAnalyticsAccount"
+        },
+        "workspaceResourceGroup": {
+            "value": "aResourceGroup"
+        },
+        "cosmosDbSharedCollectionName": {
+            "value": "cosmosDbSharedCollectionName"
         }
     }
 }
