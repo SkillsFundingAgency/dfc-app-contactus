@@ -28,7 +28,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HealthControllerTes
             new object[] { "/health/ping" },
         };
 
-        [Theory(Skip = "Currently causing and error")]
+        [Theory(Skip = "Currently causing an error")]
         [MemberData(nameof(HealthContentRouteData))]
         public async Task GetHealthHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
@@ -46,7 +46,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HealthControllerTes
             Assert.Equal($"{MediaTypeNames.Text.Html}; charset={Encoding.UTF8.WebName}", response.Content.Headers.ContentType.ToString());
         }
 
-        [Theory(Skip = "Currently causing and error")]
+        [Theory(Skip = "Currently causing an error")]
         [MemberData(nameof(HealthContentRouteData))]
         public async Task GetHealthJsonContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
