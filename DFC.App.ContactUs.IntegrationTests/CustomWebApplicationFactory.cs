@@ -37,8 +37,12 @@ namespace DFC.App.ContactUs.IntegrationTests
         {
             builder?.ConfigureServices(services =>
             {
+                //var configuration = new ConfigurationBuilder()
+                //    .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"), optional: true, reloadOnChange: true)
+                //    .Build();
+
                 var configuration = new ConfigurationBuilder()
-                    .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"), optional: true, reloadOnChange: true)
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                     .Build();
 
                 services.AddSingleton<IConfiguration>(configuration);
@@ -58,7 +62,7 @@ namespace DFC.App.ContactUs.IntegrationTests
                 services.AddTransient(sp => MockSessionStateService);
 
                 services.AddTransient<INotifyClientProxy, FakeNotifyClientProxy>();
-              
+
                 services.AddScoped<ISharedContentRedisInterface>(_ => MockSharedContentRedis.Object);
             });
         }
