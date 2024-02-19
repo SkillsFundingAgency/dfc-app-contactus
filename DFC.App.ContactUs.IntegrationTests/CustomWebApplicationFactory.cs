@@ -37,10 +37,11 @@ namespace DFC.App.ContactUs.IntegrationTests
         {
             builder?.ConfigureServices(services =>
             {
-                var configuration = new ConfigurationBuilder()
+                 var configuration = new ConfigurationBuilder()
                     .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"), optional: true, reloadOnChange: true)
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                     .Build();
-
+                    
                 services.AddSingleton<IConfiguration>(configuration);
             });
 
