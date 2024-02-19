@@ -43,7 +43,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             new object[] { "/pages/how-can-we-help/body" },
         };
 
-        [Fact(Skip = "Currently causing an error")]
+        [Theory(Skip = "Currently causing an error")]
         [MemberData(nameof(PagesContentRouteData))]
         public async Task GetPagesHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
@@ -69,7 +69,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             Assert.Equal($"{MediaTypeNames.Text.Html}; charset={Encoding.UTF8.WebName}", response.Content.Headers.ContentType.ToString());
         }
 
-        [Fact(Skip = "Currently causing an error")]
+        [Theory(Skip = "Currently causing an error")]
         [MemberData(nameof(PagesContentRouteData))]
         public async Task GetPagesJsonContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
