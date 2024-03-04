@@ -160,6 +160,12 @@
         },
         "cosmosDbSharedCollectionName": {
             "value": "__cosmosDbSharedCollectionName__"
-          }
+        },
+          "WorkerThreads": {
+            "value": "__WorkerThreads__"
+        },
+        "IocpThreads": {
+            "value": "__IocpThreads__"
+        }
     }
   }

@@ -166,6 +166,12 @@
     },
     "workspaceResourceGroup": {
         "type": "string"
+    },
+    "WorkerThreads": {
+      "type": "string"
+    },
+    "IocpThreads": {
+        "type": "string"
     }
   },
   "variables": {
@@ -504,7 +510,15 @@
               {
                 "name": "SubscriptionSettings__Filter__AdvancedFilters__0__Type",
                 "value": "StringContains"
-				      }
+				      },
+              {
+                "name": "ThreadSettings__WorkerThreads",
+                "value": "[parameters('WorkerThreads')]"
+              },
+              {
+                 "name": "ThreadSettings__IocpThreads",
+                 "value": "[parameters('IocpThreads')]"
+              }
             ]
           }
         }

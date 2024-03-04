@@ -151,6 +151,12 @@
         },
         "cosmosDbSharedCollectionName": {
             "value": "cosmosDbSharedCollectionName"
+        },
+        "WorkerThreads": {
+            "value": "200"
+        },
+        "IocpThreads": {
+            "value": "200"
         }
     }
 }
