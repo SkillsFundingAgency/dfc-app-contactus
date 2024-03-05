@@ -4,6 +4,7 @@ using DFC.Common.SharedContent.Pkg.Netcore.Interfaces;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
@@ -56,8 +57,9 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
             var fakeSharedContentRedisInterface = A.Fake<ISharedContentRedisInterface>();
+            var fakeConfiguration = A.Fake<IConfiguration>();
 
-            return new HomeController(Logger, FakeSessionStateService, fakeSharedContentRedisInterface)
+            return new HomeController(Logger, FakeSessionStateService, fakeSharedContentRedisInterface, fakeConfiguration)
 
             {
                 ControllerContext = new ControllerContext

@@ -54,7 +54,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             };
             this.factory.MockSharedContentRedis.Setup(
                 x => x.GetDataAsync<SharedHtml>(
-                    It.IsAny<string>()))
+                    It.IsAny<string>(), "PUBSLIHED"))
             .ReturnsAsync(sharedHtml);
             var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
@@ -80,7 +80,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             };
             this.factory.MockSharedContentRedis.Setup(
                 x => x.GetDataAsync<SharedHtml>(
-                    It.IsAny<string>()))
+                    It.IsAny<string>().Insert, "PUBLISHED"))
             .ReturnsAsync(sharedHtml);
             var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();

@@ -161,11 +161,14 @@
     "CmsTokenEndPointUrl": {
       "type": "string"
     },
+    "contentMode": {
+      "type": "string"
+    },
     "workspaceName": {
       "type": "string"
     },
     "workspaceResourceGroup": {
-        "type": "string"
+      "type": "string"
     }
   },
   "variables": {
@@ -316,6 +319,10 @@
               {
                 "name": "CmsApiClientOptions__ContentIds",
                 "value": "[parameters('cmsContentIds')]"
+              },
+              {
+                "name": "contentMode__contentMode",
+                "value": "[parameters('contentMode')]"
               },
               {
                 "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
@@ -504,7 +511,7 @@
               {
                 "name": "SubscriptionSettings__Filter__AdvancedFilters__0__Type",
                 "value": "StringContains"
-				      }
+              }
             ]
           }
         }
