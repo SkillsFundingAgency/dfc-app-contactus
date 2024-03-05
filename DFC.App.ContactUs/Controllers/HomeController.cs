@@ -35,9 +35,9 @@ namespace DFC.App.ContactUs.Controllers
         {
             this.sharedContentRedis = sharedContentRedis;
             this.configuration = configuration;
-            status = configuration.GetConnectionString("contentMode.contentMode");
+            status = configuration.GetConnectionString("ContentMode:ContentMode");
 
-            if (status == string.Empty)
+            if (string.IsNullOrEmpty(status))
             {
                 status = "PUBLISHED";
             }

@@ -23,9 +23,6 @@
         "aspSize": {
             "value": "__aspSize__"
         },
-        "contentMode": {
-            "value": "__contentMode__"
-        },
         "CosmosDbResourceGroup": {
             "value": "__appSharedResourceGroup__"
         },
@@ -163,6 +160,9 @@
         },
         "cosmosDbSharedCollectionName": {
             "value": "__cosmosDbSharedCollectionName__"
-          }
+        },
+        "ContentMode": {
+            "value": "__contentMode__"
+        }
     }
   }
