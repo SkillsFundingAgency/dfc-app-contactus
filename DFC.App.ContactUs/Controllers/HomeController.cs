@@ -9,7 +9,9 @@ using DFC.Common.SharedContent.Pkg.Netcore.Model.ContentItems.SharedHtml;
 using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,10 +27,19 @@ namespace DFC.App.ContactUs.Controllers
         public const string ThankyouForContactingUsCanonicalName = "thank-you-for-contacting-us";
         public const string ContactUsStaxId = "c0117ac7-115a-4bc1-9350-3fb4b00c7857";
         private readonly ISharedContentRedisInterface sharedContentRedis;
+        private readonly IConfiguration configuration;
+        private string status;
 
-        public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService, ISharedContentRedisInterface sharedContentRedis) : base(logger, sessionStateService)
+        public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService, ISharedContentRedisInterface sharedContentRedis, IConfiguration configuration) : base(logger, sessionStateService)
         {
             this.sharedContentRedis = sharedContentRedis;
+            this.configuration = configuration;
+            status = configuration.GetConnectionString("ContentMode:ContentMode");
+
+            if (string.IsNullOrEmpty(status))
+            {
+                status = "PUBLISHED";
+            }
         }
 
         [HttpGet]
@@ -53,7 +64,7 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = new HomeBodyViewModel(),
             };
 
-            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>("SharedContent/" + ContactUsStaxId);
+            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>("SharedContent/" + ContactUsStaxId, status);
 
             viewModel.HomeBodyViewModel.ContactUs = sharedhtml.Html;
 
@@ -153,7 +164,7 @@ namespace DFC.App.ContactUs.Controllers
 
             var viewModel = new HomeBodyViewModel();
 
-            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>("SharedContent/" + ContactUsStaxId);
+            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>("SharedContent/" + ContactUsStaxId, status);
 
             viewModel.ContactUs = sharedhtml.Html;
 

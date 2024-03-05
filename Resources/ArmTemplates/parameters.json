@@ -160,6 +160,9 @@
         },
         "cosmosDbSharedCollectionName": {
             "value": "__cosmosDbSharedCollectionName__"
-          }
+        },
+        "ContentMode": {
+            "value": "__contentMode__"
+        }
     }
   }
