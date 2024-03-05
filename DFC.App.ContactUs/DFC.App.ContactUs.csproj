@@ -14,6 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\WebhooksService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
@@ -60,6 +64,7 @@
 
   <ItemGroup>
     <Folder Include="OpenApiDocs\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 
