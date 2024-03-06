@@ -3,7 +3,6 @@ using DFC.App.ContactUs.Attributes;
 using DFC.App.ContactUs.Data.Contracts;
 using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Extensions;
-using DFC.App.ContactUs.HostedServices;
 using DFC.App.ContactUs.HttpClientPolicies;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.Services;
@@ -47,7 +46,6 @@ namespace DFC.App.ContactUs
     [ExcludeFromCodeCoverage]
     public class Startup
     {
-        public const string StaticCosmosDbConfigAppSettings = "Configuration:CosmosDbConnections:SharedContent";
         private const string CosmosDbSessionStateConfigAppSettings = "Configuration:CosmosDbConnections:SessionState";
         private const string NotifyOptionsAppSettings = "Configuration:NotifyOptions";
         private const string RedisCacheConnectionStringAppSettings = "Cms:RedisCacheConnectionString";
@@ -120,9 +118,6 @@ namespace DFC.App.ContactUs
             services.AddTransient<INotifyEmailService<ContactUsEmailRequestModel>, NotifyEmailService<ContactUsEmailRequestModel>>();
 
             services.AddSingleton(configuration.GetSection(nameof(CmsApiClientOptions)).Get<CmsApiClientOptions>() ?? new CmsApiClientOptions());
-            var staticContentDbConnection = configuration.GetSection(StaticCosmosDbConfigAppSettings).Get<CosmosDbConnection>();
-            var cosmosRetryOptions = new RetryOptions { MaxRetryAttemptsOnThrottledRequests = 20, MaxRetryWaitTimeInSeconds = 60 };
-            services.AddDocumentServices<StaticContentItemModel>(staticContentDbConnection, env.IsDevelopment(), cosmosRetryOptions);
             services.AddTransient<ICmsApiService, CmsApiService>();
             services.AddTransient<IStaticContentReloadService, StaticContentReloadService>();
             services.AddTransient<IContentTypeMappingService, ContentTypeMappingService>();
@@ -134,9 +129,6 @@ namespace DFC.App.ContactUs
             services.AddTransient<IApiService, ApiService>();
             services.AddTransient<IApiDataProcessorService, ApiDataProcessorService>();
             services.AddTransient<IApiCacheService, ApiCacheService>();
-
-            services.AddHostedService<StaticContentReloadBackgroundService>();
-            services.AddTransient<IWebhooksService, WebhooksService>();
             services.AddSubscriptionBackgroundService(configuration);
 
             const string AppSettingsPolicies = "Policies";
