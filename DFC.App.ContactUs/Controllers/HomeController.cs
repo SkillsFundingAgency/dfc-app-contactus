@@ -34,7 +34,7 @@ namespace DFC.App.ContactUs.Controllers
         {
             this.sharedContentRedis = sharedContentRedis;
             this.configuration = configuration;
-            status = configuration.GetConnectionString("ContentMode:ContentMode");
+            status = configuration.GetSection("ContentMode:ContentMode").Get<string>();
 
             if (string.IsNullOrEmpty(status))
             {
