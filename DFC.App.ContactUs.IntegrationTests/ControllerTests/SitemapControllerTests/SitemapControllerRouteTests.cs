@@ -21,7 +21,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.SitemapControllerTe
             new object[] { $"/sitemap.xml" },
         };
 
-        [Theory(Skip = "Currently causing an error")]
+        [Theory]
         [MemberData(nameof(SitemapRouteData))]
         public async Task GetSitemapXmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {

@@ -22,7 +22,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HomeControllerTests
             new object[] { "/Home/Error" },
         };
 
-        [Theory(Skip = "Currently causing an error")]
+        [Theory]
         [MemberData(nameof(HomeContentRouteData))]
         public async Task GetHomeHtmlContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
