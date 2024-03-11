@@ -161,6 +161,12 @@
         "cosmosDbSharedCollectionName": {
             "value": "__cosmosDbSharedCollectionName__"
         },
+        "WorkerThreads": {
+            "value": "__WorkerThreads__"
+        },
+        "IocpThreads": {
+            "value": "__IocpThreads__"
+        },
         "ContentMode": {
             "value": "__contentMode__"
         }
