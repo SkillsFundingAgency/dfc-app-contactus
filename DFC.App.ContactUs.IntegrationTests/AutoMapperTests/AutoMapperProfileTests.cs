@@ -15,7 +15,7 @@ namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
             this.factory = factory;
         }
 
-       [Fact(Skip = "Currently causing an error")]
+       [Fact]
         public void AutoMapperProfileConfigurationForChatOptionsProfileReturnSuccess()
         {
             // Arrange
@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
             Assert.True(true);
         }
 
-        [Fact(Skip = "Currently causing an error")]
+        [Fact]
         public void AutoMapperProfileConfigurationForEnterYourDetailsBodyViewModelProfileReturnSuccess()
         {
             // Arrange
@@ -44,7 +44,7 @@ namespace DFC.App.ContactUs.IntegrationTests.AutoMapperTests
         }
 
 
-        [Fact(Skip = "Currently causing an error")]
+        [Fact]
         public void AutoMapperProfileConfigurationForAllProfilesReturnSuccess()
         {
             // Arrange

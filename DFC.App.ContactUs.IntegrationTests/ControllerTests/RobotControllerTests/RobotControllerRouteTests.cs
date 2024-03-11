@@ -21,7 +21,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.RobotControllerTest
             new object[] { "/robots.txt" },
         };
 
-       [Theory(Skip = "Currently causing an error")]
+       [Theory]
         [MemberData(nameof(RobotRouteData))]
         public async Task GetRobotTextContentEndpointsReturnSuccessAndCorrectContentType(string url)
         {
