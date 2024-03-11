@@ -25,6 +25,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         {
             Logger = A.Fake<ILogger<HomeController>>();
             FakeSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
+            FakeSharedContentRedisInterface = A.Fake<ISharedContentRedisInterface>();
             FakeStaticContentDocumentService = A.Fake<IDocumentService<StaticContentItemModel>>();
             CmsApiClientOptions = new CmsApiClientOptions
             {
@@ -51,6 +52,8 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
         protected ILogger<HomeController> Logger { get; }
 
         protected ISessionStateService<SessionDataModel> FakeSessionStateService { get; }
+
+        protected ISharedContentRedisInterface FakeSharedContentRedisInterface {  get; }
 
         protected IDocumentService<StaticContentItemModel> FakeStaticContentDocumentService { get; }
 
