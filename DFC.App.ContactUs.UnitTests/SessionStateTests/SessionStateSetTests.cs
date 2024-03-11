@@ -10,6 +10,7 @@ using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System;
@@ -160,8 +161,9 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
             var fakeSharedContentRedisInterface = A.Fake<ISharedContentRedisInterface>();
+            var fakeConfiguration = A.Fake<IConfiguration>();
 
-            var controller = new HomeController(logger, fakeSessionStateService, fakeSharedContentRedisInterface)
+            var controller = new HomeController(logger, fakeSessionStateService, fakeSharedContentRedisInterface, fakeConfiguration)
 
             {
                 ControllerContext = new ControllerContext()
