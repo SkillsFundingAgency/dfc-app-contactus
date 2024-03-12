@@ -43,38 +43,6 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.HealthControllerTes
             // Arrange
             var uri = new Uri(url, UriKind.Relative);
 
-            /*var configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .Build();
-
-            using var host = Host.CreateDefaultBuilder()
-                .ConfigureAppConfiguration(builder =>
-                {
-                    builder.Sources.Clear();
-                    builder.AddConfiguration(configuration);
-                })
-                .ConfigureWebHostDefaults(webHostBuilder =>
-                {
-                    webHostBuilder
-                    .UseTestServer()
-                    .UseStartup<Startup>()
-                    .Configure(app =>
-                    {
-                        app.UseRouting();
-                        app.UseEndpoints(endpoints =>
-                        {
-                            endpoints.MapHealthChecks(url);
-                        });
-                    })
-                    .ConfigureServices(services =>
-                    {
-                        services.AddSingleton<IConfiguration>(configuration);
-                        services.AddRouting();
-                        services.AddHealthChecks();
-                    });
-                })
-                .Build();*/
-
             using var host = new HostBuilder()
                 .ConfigureWebHost(webHostBuilder =>
                 {
