@@ -97,7 +97,6 @@ namespace DFC.App.ContactUs
                 throw new ArgumentNullException($"{nameof(RedisCacheConnectionStringAppSettings)} is missing or has an invalid value."));
 
             services.AddStackExchangeRedisCache(options => { options.Configuration = configuration.GetSection(RedisCacheConnectionStringAppSettings).Get<string>(); });
-
             services.AddSingleton<IConnectionMultiplexer>(option =>
             ConnectionMultiplexer.Connect(new ConfigurationOptions
             {
@@ -120,7 +119,6 @@ namespace DFC.App.ContactUs
                 var client = new GraphQLHttpClient(option, new NewtonsoftJsonSerializer());
                 return client;
             });
-
 
             services.AddSingleton<ISharedContentRedisInterfaceStrategy<SharedHtml>, SharedHtmlQueryStrategy>();
 
