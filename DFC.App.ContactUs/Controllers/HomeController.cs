@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using DFC.App.ContactUs.Data.Models.CmsApiModels;
+using Constants = DFC.Common.SharedContent.Pkg.Netcore.Constant.ApplicationKeys;
 
 namespace DFC.App.ContactUs.Controllers
 {
@@ -25,7 +25,6 @@ namespace DFC.App.ContactUs.Controllers
         public const string ThisViewCanonicalName = "home";
         public const string SendUsLetterCanonicalName = "send-us-a-letter";
         public const string ThankyouForContactingUsCanonicalName = "thank-you-for-contacting-us";
-        public const string ContactUsStaxId = "c0117ac7-115a-4bc1-9350-3fb4b00c7857";
         private readonly ISharedContentRedisInterface sharedContentRedis;
         private readonly IConfiguration configuration;
         private string status;
@@ -64,7 +63,7 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = new HomeBodyViewModel(),
             };
 
-            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>("SharedContent/" + ContactUsStaxId, status);
+            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>(Constants.ContactusSharedContent, status);
 
             viewModel.HomeBodyViewModel.ContactUs = sharedhtml.Html;
 
@@ -164,7 +163,7 @@ namespace DFC.App.ContactUs.Controllers
 
             var viewModel = new HomeBodyViewModel();
 
-            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>("SharedContent/" + ContactUsStaxId, status);
+            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>(Constants.ContactusSharedContent, status);
 
             viewModel.ContactUs = sharedhtml.Html;
 
