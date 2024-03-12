@@ -4,15 +4,19 @@ using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Common.SharedContent.Pkg.Netcore.Interfaces;
+using DFC.Common.SharedContent.Pkg.Netcore.Model.ContentItems.SharedHtml;
 using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
-using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using DFC.App.ContactUs.Data.Models.CmsApiModels;
+using Constants = DFC.Common.SharedContent.Pkg.Netcore.Constant.ApplicationKeys;
 
 namespace DFC.App.ContactUs.Controllers
 {
@@ -21,23 +25,20 @@ namespace DFC.App.ContactUs.Controllers
         public const string ThisViewCanonicalName = "home";
         public const string SendUsLetterCanonicalName = "send-us-a-letter";
         public const string ThankyouForContactingUsCanonicalName = "thank-you-for-contacting-us";
-        private readonly IDocumentService<StaticContentItemModel> staticContentDocumentService;
-        private readonly Guid sharedContentItemGuid;
+        private readonly ISharedContentRedisInterface sharedContentRedis;
+        private readonly IConfiguration configuration;
+        private string status;
 
-        public HomeController(
-            ILogger<HomeController> logger,
-            ISessionStateService<SessionDataModel> sessionStateService,
-            IDocumentService<StaticContentItemModel> staticContentDocumentService,
-            CmsApiClientOptions cmsApiClientOptions) : base(logger, sessionStateService)
+        public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService, ISharedContentRedisInterface sharedContentRedis, IConfiguration configuration) : base(logger, sessionStateService)
         {
-            this.staticContentDocumentService = staticContentDocumentService;
+            this.sharedContentRedis = sharedContentRedis;
+            this.configuration = configuration;
+            status = configuration.GetSection("ContentMode:ContentMode").Get<string>();
 
-            if (cmsApiClientOptions?.ContentIds == null)
+            if (string.IsNullOrEmpty(status))
             {
-                throw new ArgumentNullException(nameof(cmsApiClientOptions.ContentIds));
+                status = "PUBLISHED";
             }
-
-            this.sharedContentItemGuid = new Guid(cmsApiClientOptions.ContentIds);
         }
 
         [HttpGet]
@@ -62,8 +63,10 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = new HomeBodyViewModel(),
             };
 
-            viewModel.HomeBodyViewModel.SpeakToAnAdviser = await staticContentDocumentService
-                .GetByIdAsync(sharedContentItemGuid, StaticContentItemModel.DefaultPartitionKey).ConfigureAwait(false);
+            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>(Constants.ContactusSharedContent, status);
+
+            viewModel.HomeBodyViewModel.ContactUs = sharedhtml.Html;
+
             Logger.LogWarning($"{nameof(HomeView)} has returned content");
 
             return this.NegotiateContentResult(viewModel);
@@ -160,10 +163,9 @@ namespace DFC.App.ContactUs.Controllers
 
             var viewModel = new HomeBodyViewModel();
 
-            viewModel.SpeakToAnAdviser = await staticContentDocumentService.GetByIdAsync(
-                    sharedContentItemGuid,
-                    StaticContentItemModel.DefaultPartitionKey)
-                .ConfigureAwait(false);
+            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>(Constants.ContactusSharedContent, status);
+
+            viewModel.ContactUs = sharedhtml.Html;
 
             Logger.LogInformation($"{nameof(HomeBody)} has returned content");
 

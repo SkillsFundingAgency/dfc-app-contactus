@@ -4,12 +4,12 @@
     <partial name="_AppErrorSummary" />
 
     <fieldset class="govuk-fieldset" aria-describedby="form-hint">
-       @if (Model.SpeakToAnAdviser != null)
-{
-    <div class="app-related-items">
-        @Html.Raw(Model.SpeakToAnAdviser.Content)
-    </div>
-}
+        @if (Model.ContactUs != null)
+        {
+            <div class="app-related-items">
+                @Html.Raw(Model.ContactUs)
+            </div>
+        }
         <p class="govuk-body">
             If you do not want to call us, you can also:
         </p>
