@@ -1,8 +1,11 @@
 ﻿using DFC.App.ContactUs.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
@@ -12,16 +15,21 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
     {
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public void HealthControllerViewHtmlReturnsSuccess(string mediaTypeName)
+        public async Task HealthControllerViewHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildHealthController(mediaTypeName);
+            var service = CreateHealthChecksService(b =>
+            {
+                b.AddAsyncCheck("HealthyCheck", _ => Task.FromResult(HealthCheckResult.Healthy()));
+            });
+            var controller = BuildHealthController(mediaTypeName, service);
 
             // Act
-            var result = controller.HealthView();
+            var healthCheckResult = await service.CheckHealthAsync();
+            var controllerResult = await controller.Health().ConfigureAwait(false);
 
             // Assert
-            var viewResult = Assert.IsType<ViewResult>(result);
+            var viewResult = Assert.IsType<ViewResult>(controllerResult);
             _ = Assert.IsAssignableFrom<HealthViewModel>(viewResult.ViewData.Model);
 
             controller.Dispose();
@@ -29,16 +37,21 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public void HealthControllerViewJsonReturnsSuccess(string mediaTypeName)
+        public async Task HealthControllerViewJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildHealthController(mediaTypeName);
+            var service = CreateHealthChecksService(b =>
+            {
+                b.AddAsyncCheck("HealthyCheck", _ => Task.FromResult(HealthCheckResult.Healthy()));
+            });
+            var controller = BuildHealthController(mediaTypeName, service);
 
             // Act
-            var result = controller.HealthView();
+            var healthCheckResult = await service.CheckHealthAsync();
+            var controllerResult = await controller.Health().ConfigureAwait(false);
 
             // Assert
-            var jsonResult = Assert.IsType<OkObjectResult>(result);
+            var jsonResult = Assert.IsType<OkObjectResult>(controllerResult);
             _ = Assert.IsAssignableFrom<IList<HealthItemViewModel>>(jsonResult.Value);
 
             controller.Dispose();
@@ -46,16 +59,21 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HealthControllerTests
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public void HealthControllerHealthViewReturnsNotAcceptable(string mediaTypeName)
+        public async Task HealthControllerHealthViewReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
-            var controller = BuildHealthController(mediaTypeName);
+            var service = CreateHealthChecksService(b =>
+            {
+                b.AddAsyncCheck("HealthyCheck", _ => Task.FromResult(HealthCheckResult.Healthy()));
+            });
+            var controller = BuildHealthController(mediaTypeName, service);
 
             // Act
-            var result = controller.HealthView();
+            var healthCheckResult = await service.CheckHealthAsync();
+            var controllerResult = await controller.Health().ConfigureAwait(false);
 
             // Assert
-            var statusResult = Assert.IsType<StatusCodeResult>(result);
+            var statusResult = Assert.IsType<StatusCodeResult>(controllerResult);
 
             A.Equals((int)HttpStatusCode.NotAcceptable, statusResult.StatusCode);
 
