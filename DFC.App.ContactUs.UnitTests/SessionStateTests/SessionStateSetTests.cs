@@ -3,12 +3,14 @@ using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
+using DFC.Common.SharedContent.Pkg.Netcore.Interfaces;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System;
@@ -158,7 +160,11 @@ namespace DFC.App.ContactUs.UnitTests.SessionStateTests
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new HomeController(logger, fakeSessionStateService, fakeStaticContentDocumentService, cmsApiClientOptions)
+            var fakeSharedContentRedisInterface = A.Fake<ISharedContentRedisInterface>();
+            var fakeConfiguration = A.Fake<IConfiguration>();
+
+            var controller = new HomeController(logger, fakeSessionStateService, fakeSharedContentRedisInterface, fakeConfiguration)
+
             {
                 ControllerContext = new ControllerContext()
                 {

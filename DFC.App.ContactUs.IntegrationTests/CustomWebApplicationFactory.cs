@@ -2,6 +2,7 @@
 using DFC.App.ContactUs.IntegrationTests.Fakes;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.Services.EmailService;
+using DFC.Common.SharedContent.Pkg.Netcore.Interfaces;
 using DFC.Compui.Cosmos.Contracts;
 using DFC.Compui.Sessionstate;
 using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System;
 using System.IO;
 
@@ -22,8 +24,10 @@ namespace DFC.App.ContactUs.IntegrationTests
         public CustomWebApplicationFactory()
         {
             MockSessionStateService = A.Fake<ISessionStateService<SessionDataModel>>();
-            MockDocumentService = A.Fake<IDocumentService<StaticContentItemModel>>();
+            this.MockSharedContentRedis = new Mock<ISharedContentRedisInterface>();
         }
+
+        public Mock<ISharedContentRedisInterface> MockSharedContentRedis { get; set; }
 
         internal ISessionStateService<SessionDataModel> MockSessionStateService { get; set; }
 
@@ -33,10 +37,11 @@ namespace DFC.App.ContactUs.IntegrationTests
         {
             builder?.ConfigureServices(services =>
             {
-                var configuration = new ConfigurationBuilder()
+                 var configuration = new ConfigurationBuilder()
                     .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json"), optional: true, reloadOnChange: true)
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                     .Build();
-
+                    
                 services.AddSingleton<IConfiguration>(configuration);
             });
 
@@ -54,7 +59,8 @@ namespace DFC.App.ContactUs.IntegrationTests
                 services.AddTransient(sp => MockSessionStateService);
 
                 services.AddTransient<INotifyClientProxy, FakeNotifyClientProxy>();
-                services.AddTransient<IDocumentService<StaticContentItemModel>, FakeDocumentService>();
+              
+                services.AddScoped<ISharedContentRedisInterface>(_ => MockSharedContentRedis.Object);
             });
         }
     }

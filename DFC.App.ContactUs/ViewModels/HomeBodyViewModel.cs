@@ -11,7 +11,7 @@ namespace DFC.App.ContactUs.ViewModels
 
         public string? PhoneNumber { get; set; } = Constants.DefaultPhoneNumber;
 
-        public StaticContentItemModel? SpeakToAnAdviser { get; set; }
+        public string? ContactUs { get; set; }
 
         [Required(ErrorMessage = SelectedOptionValidationError)]
         [Range((int)HomeOption.Webchat, (int)HomeOption.Sendletter, ErrorMessage = SelectedOptionValidationError)]

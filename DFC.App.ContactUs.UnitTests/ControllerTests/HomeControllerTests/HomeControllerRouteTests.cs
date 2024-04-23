@@ -1,7 +1,11 @@
 ﻿using DFC.App.ContactUs.Controllers;
 using DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests;
+using DFC.Common.SharedContent.Pkg.Netcore.Interfaces;
+using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
@@ -52,8 +56,11 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.PagesControllerTests
             var httpContext = new DefaultHttpContext();
             httpContext.Request.Path = route;
             httpContext.Request.Headers[HeaderNames.Accept] = MediaTypeNames.Application.Json;
+            var fakeSharedContentRedisInterface = A.Fake<ISharedContentRedisInterface>();
+            var fakeConfiguration = A.Fake<IConfiguration>();
 
-            return new HomeController(Logger, FakeSessionStateService, FakeStaticContentDocumentService, CmsApiClientOptions)
+            return new HomeController(Logger, FakeSessionStateService, fakeSharedContentRedisInterface, fakeConfiguration)
+
             {
                 ControllerContext = new ControllerContext
                 {
