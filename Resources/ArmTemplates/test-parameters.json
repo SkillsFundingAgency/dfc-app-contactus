@@ -8,6 +8,12 @@
     "appSharedStorageAccountName": {
       "value": "dfcdevappsharedstr"
     },
+    "appServicePlanSuffix": {
+      "value": "-migrated"
+    },
+    "appServiceName": {
+      "value": "dfc-foo-app-contactus-as-ver"
+    },
     "cosmosDBName": {
       "value": "dfc-dev-app-sharedresources-cdb"
     },
@@ -62,15 +68,6 @@
     "OtherEmailAddress": {
       "value": "Other@contso.com"
     },
-    "aspSize": {
-      "value": "2"
-    },
-    "aspTier": {
-      "value": "Standard"
-    },
-    "aspInstances": {
-      "value": 2
-    },
     "ApimResourceGroup": {
       "value": "dfc-dev-shared-rg"
     },
@@ -96,12 +93,6 @@
       "value": "value"
     },
     "ExceptionCountThreshold": {
-      "value": "0"
-    },
-    "MemoryPercentageThreshold": {
-      "value": "0"
-    },
-    "CPUPercentageThreshold": {
       "value": "0"
     },
     "CmsTokenEndPointUrl": {
