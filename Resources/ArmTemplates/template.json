@@ -8,21 +8,10 @@
     "appSharedStorageAccountName": {
       "type": "string"
     },
-    "aseHostingEnvironmentName": {
-      "type": "string",
-      "defaultValue": ""
-    },
-    "aseResourceGroup": {
-      "type": "string",
-      "defaultValue": ""
-    },
-    "aspInstances": {
-      "type": "int"
-    },
-    "aspSize": {
+    "appServicePlanSuffix": {
       "type": "string"
     },
-    "aspTier": {
+    "appServiceName": {
       "type": "string"
     },
     "CosmosDbResourceGroup": {
@@ -140,12 +129,6 @@
     "ExceptionCountThreshold": {
       "type": "string"
     },
-    "CPUPercentageThreshold": {
-      "type": "string"
-    },
-    "MemoryPercentageThreshold": {
-      "type": "string"
-    },
     "CmsRedisCacheConnectionString": {
       "type": "string"
     },
@@ -180,13 +163,12 @@
   "variables": {
     "ApiName": "[concat(parameters('ApimProductInstanceName'), '-', parameters('ApiName'))]",
     "resourcePrefix": "[tolower(concat('dfc-', parameters('Environment'), '-app-contactus'))]",
-    "appServicePlanName": "[concat(variables('resourcePrefix'), '-asp')]",
+    "appServicePlanName": "[concat(variables('resourcePrefix'), parameters('appServicePlanSuffix'), '-asp')]",
     "appServicePlanResourceGroup": "[concat(variables('resourcePrefix'),'-rg')]",
     "buildingBlocksDfcBaseUrl": "https://raw.githubusercontent.com/SkillsFundingAgency/dfc-devops/master/ArmTemplates/",
     "cosmosDbCollectionPartitionKey": "/PartitionKey",
     "cosmosDbDatabaseName": "dfc-app-contactus",
     "cosmosDbEndpoint": "[concat('https://', parameters('cosmosDbName'), '.documents.azure.com:443/')]",
-    "webAppName": "[concat(variables('ResourcePrefix'), '-as')]",
     "webAppInsightsName": "[concat(variables('resourcePrefix'), '-ai')]",
     "ActionGroupName": "[concat('dfc-', replace(tolower(parameters('Environment')), '-draft', ''), '-app-sharedresources-actgrp')]"
   },
@@ -247,7 +229,7 @@
     },
     {
       "apiVersion": "2017-05-10",
-      "name": "[variables('WebAppName')]",
+      "name": "[parameters('appServiceName')]",
       "type": "Microsoft.Resources/deployments",
       "properties": {
         "mode": "Incremental",
@@ -257,7 +239,7 @@
         },
         "parameters": {
           "appServiceName": {
-            "value": "[variables('webAppName')]"
+            "value": "[parameters('appServiceName')]"
           },
           "appServicePlanName": {
             "value": "[variables('appServicePlanName')]"
