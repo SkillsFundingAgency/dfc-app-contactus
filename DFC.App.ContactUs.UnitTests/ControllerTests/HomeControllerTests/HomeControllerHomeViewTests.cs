@@ -24,7 +24,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
                 Html = "Test",
             };
 
-            var test = A.CallTo(() => FakeSharedContentRedisInterface.GetDataAsync<SharedHtml>("test", A<string>.Ignored)).Returns(sharedHtmlResponse);
+            var test = A.CallTo(() => FakeSharedContentRedisInterface.GetDataAsyncWithExpiry<SharedHtml>("test", A<string>.Ignored, 4)).Returns(sharedHtmlResponse);
 
 
             // Act
@@ -51,7 +51,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
                 Html = "Test",
             };
 
-            var test = A.CallTo(() => FakeSharedContentRedisInterface.GetDataAsync<SharedHtml>("test", A<string>.Ignored)).Returns(sharedHtmlResponse);
+            var test = A.CallTo(() => FakeSharedContentRedisInterface.GetDataAsyncWithExpiry<SharedHtml>("test", A<string>.Ignored, 4)).Returns(sharedHtmlResponse);
 
             // Act
             var result = await controller.HomeView().ConfigureAwait(false);
@@ -77,7 +77,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
                 Html = "Test",
             };
 
-            var test = A.CallTo(() => FakeSharedContentRedisInterface.GetDataAsync<SharedHtml>("test", A<string>.Ignored)).Returns(sharedHtmlResponse);
+            var test = A.CallTo(() => FakeSharedContentRedisInterface.GetDataAsyncWithExpiry<SharedHtml>("test", A<string>.Ignored, 4)).Returns(sharedHtmlResponse);
 
             // Act
             var result = await controller.HomeView().ConfigureAwait(false);

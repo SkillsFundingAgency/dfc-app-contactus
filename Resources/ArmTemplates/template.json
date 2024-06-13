@@ -148,15 +148,18 @@
       "type": "string"
     },
     "workspaceResourceGroup": {
-        "type": "string"
+      "type": "string"
     },
     "WorkerThreads": {
       "type": "string"
     },
     "IocpThreads": {
-        "type": "string"
+      "type": "string"
     },
     "ContentMode": {
+      "type": "string"
+    },
+    "Expiry": {
       "type": "string"
     }
   },
@@ -463,18 +466,22 @@
               {
                 "name": "SubscriptionSettings__Filter__AdvancedFilters__0__Type",
                 "value": "StringContains"
-				      },
+              },
               {
                 "name": "ThreadSettings__WorkerThreads",
                 "value": "[parameters('WorkerThreads')]"
               },
               {
-                 "name": "ThreadSettings__IocpThreads",
-                 "value": "[parameters('IocpThreads')]"
+                "name": "ThreadSettings__IocpThreads",
+                "value": "[parameters('IocpThreads')]"
               },
               {
                 "name": "ContentMode__ContentMode",
                 "value": "[parameters('ContentMode')]"
+              },
+              {
+                "name": "Cms__Expiry",
+                "value": "[parameters('Expiry')]"
               }
             ]
           }

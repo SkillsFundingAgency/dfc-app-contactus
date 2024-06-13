@@ -25,9 +25,11 @@ namespace DFC.App.ContactUs.Controllers
         public const string ThisViewCanonicalName = "home";
         public const string SendUsLetterCanonicalName = "send-us-a-letter";
         public const string ThankyouForContactingUsCanonicalName = "thank-you-for-contacting-us";
+        private const string ExpiryAppSettings = "Cms:Expiry";
         private readonly ISharedContentRedisInterface sharedContentRedis;
         private readonly IConfiguration configuration;
         private string status;
+        private double expiry = 4;
 
         public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService, ISharedContentRedisInterface sharedContentRedis, IConfiguration configuration) : base(logger, sessionStateService)
         {
@@ -38,6 +40,12 @@ namespace DFC.App.ContactUs.Controllers
             if (string.IsNullOrEmpty(status))
             {
                 status = "PUBLISHED";
+            }
+
+            if (this.configuration != null)
+            {
+                string expiryAppString = this.configuration.GetSection(ExpiryAppSettings).Get<string>();
+                this.expiry = double.Parse(string.IsNullOrEmpty(expiryAppString) ? "4" : expiryAppString);
             }
         }
 
@@ -63,7 +71,7 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = new HomeBodyViewModel(),
             };
 
-            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>(Constants.ContactusSharedContent, status);
+            var sharedhtml = await sharedContentRedis.GetDataAsyncWithExpiry<SharedHtml>(Constants.ContactUsSharedContent, status, expiry);
 
             viewModel.HomeBodyViewModel.ContactUs = sharedhtml.Html;
 
@@ -163,7 +171,7 @@ namespace DFC.App.ContactUs.Controllers
 
             var viewModel = new HomeBodyViewModel();
 
-            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>(Constants.ContactusSharedContent, status);
+            var sharedhtml = await sharedContentRedis.GetDataAsyncWithExpiry<SharedHtml>(Constants.ContactUsSharedContent, status, expiry);
 
             viewModel.ContactUs = sharedhtml.Html;
 
