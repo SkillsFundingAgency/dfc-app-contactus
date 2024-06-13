@@ -1,7 +1,7 @@
 {
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
+  "parameters": {
     "appSharedResourceGroup": {
       "value": "dfc-dev-app-sharedresources-rg"
     },
@@ -144,13 +144,16 @@
       "value": "cosmosDbSharedCollectionName"
     },
     "WorkerThreads": {
-       "value": "200"
+      "value": "200"
     },
     "IocpThreads": {
-       "value": "200"
+      "value": "200"
     },
     "ContentMode": {
       "value": "PUBLISHED"
+    },
+    "Expiry": {
+      "value": "4"
     }
   }
 }
