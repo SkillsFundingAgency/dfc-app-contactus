@@ -29,7 +29,7 @@ namespace DFC.App.ContactUs.Controllers
         private readonly ISharedContentRedisInterface sharedContentRedis;
         private readonly IConfiguration configuration;
         private string status;
-        private double expiry = 4;
+        private double expiryInHours = 4;
 
         public HomeController(ILogger<HomeController> logger, ISessionStateService<SessionDataModel> sessionStateService, ISharedContentRedisInterface sharedContentRedis, IConfiguration configuration) : base(logger, sessionStateService)
         {
@@ -45,7 +45,10 @@ namespace DFC.App.ContactUs.Controllers
             if (this.configuration != null)
             {
                 string expiryAppString = this.configuration.GetSection(ExpiryAppSettings).Get<string>();
-                this.expiry = double.Parse(string.IsNullOrEmpty(expiryAppString) ? "4" : expiryAppString);
+                if (double.TryParse(expiryAppString, out var expiryAppStringParseResult))
+                {
+                    expiryInHours = expiryAppStringParseResult;
+                }
             }
         }
 
@@ -71,7 +74,7 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = new HomeBodyViewModel(),
             };
 
-            var sharedhtml = await sharedContentRedis.GetDataAsyncWithExpiry<SharedHtml>(Constants.ContactUsSharedContent, status, expiry);
+            var sharedhtml = await sharedContentRedis.GetDataAsyncWithExpiry<SharedHtml>(Constants.ContactUsSharedContent, status, expiryInHours);
 
             viewModel.HomeBodyViewModel.ContactUs = sharedhtml.Html;
 
@@ -171,7 +174,7 @@ namespace DFC.App.ContactUs.Controllers
 
             var viewModel = new HomeBodyViewModel();
 
-            var sharedhtml = await sharedContentRedis.GetDataAsyncWithExpiry<SharedHtml>(Constants.ContactUsSharedContent, status, expiry);
+            var sharedhtml = await sharedContentRedis.GetDataAsyncWithExpiry<SharedHtml>(Constants.ContactUsSharedContent, status, expiryInHours);
 
             viewModel.ContactUs = sharedhtml.Html;
 
