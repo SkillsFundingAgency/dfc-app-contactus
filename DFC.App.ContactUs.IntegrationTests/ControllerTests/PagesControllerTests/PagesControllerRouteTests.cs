@@ -1,5 +1,4 @@
 ﻿using DFC.Common.SharedContent.Pkg.Netcore.Model.ContentItems.SharedHtml;
-using DFC.Common.SharedContent.Pkg.Netcore.Model.Response;
 using FakeItEasy;
 using Moq;
 using System;
@@ -52,10 +51,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             {
                 Html = "<p>Test</p>"
             };
-            this.factory.MockSharedContentRedis.Setup(
-                x => x.GetDataAsync<SharedHtml>(
-                    It.IsAny<string>(), "PUBLISHED"))
-            .ReturnsAsync(sharedHtml);
+            this.factory.MockSharedContentRedis.Setup(x => x.GetDataAsync<SharedHtml>(It.IsAny<string>(), "PUBLISHED", It.IsAny<double>())).ReturnsAsync(sharedHtml);
             var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();
@@ -78,10 +74,7 @@ namespace DFC.App.ContactUs.IntegrationTests.ControllerTests.PagesControllerTest
             {
                 Html = "<p>Test</p>"
             };
-            this.factory.MockSharedContentRedis.Setup(
-                x => x.GetDataAsync<SharedHtml>(
-                    It.IsAny<string>(), "PUBLISHED"))
-            .ReturnsAsync(sharedHtml);
+            this.factory.MockSharedContentRedis.Setup(x => x.GetDataAsync<SharedHtml>(It.IsAny<string>(), "PUBLISHED", It.IsAny<double>())).ReturnsAsync(sharedHtml);
             var uri = new Uri(url, UriKind.Relative);
             var client = factory.CreateClient();
             client.DefaultRequestHeaders.Accept.Clear();

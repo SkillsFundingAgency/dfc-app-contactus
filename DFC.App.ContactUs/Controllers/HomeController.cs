@@ -1,19 +1,15 @@
 ﻿using DFC.App.ContactUs.Data.Enums;
-using DFC.App.ContactUs.Data.Models;
 using DFC.App.ContactUs.Enums;
 using DFC.App.ContactUs.Extensions;
 using DFC.App.ContactUs.Models;
 using DFC.App.ContactUs.ViewModels;
 using DFC.Common.SharedContent.Pkg.Netcore.Interfaces;
 using DFC.Common.SharedContent.Pkg.Netcore.Model.ContentItems.SharedHtml;
-using DFC.Content.Pkg.Netcore.Data.Models.ClientOptions;
 using DFC.Compui.Sessionstate;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Constants = DFC.Common.SharedContent.Pkg.Netcore.Constant.ApplicationKeys;
@@ -63,7 +59,7 @@ namespace DFC.App.ContactUs.Controllers
                 HomeBodyViewModel = new HomeBodyViewModel(),
             };
 
-            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>(Constants.ContactusSharedContent, status);
+            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>(Constants.ContactUsSharedContent, status);
 
             viewModel.HomeBodyViewModel.ContactUs = sharedhtml.Html;
 
@@ -163,7 +159,7 @@ namespace DFC.App.ContactUs.Controllers
 
             var viewModel = new HomeBodyViewModel();
 
-            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>(Constants.ContactusSharedContent, status);
+            var sharedhtml = await sharedContentRedis.GetDataAsync<SharedHtml>(Constants.ContactUsSharedContent, status);
 
             viewModel.ContactUs = sharedhtml.Html;
 

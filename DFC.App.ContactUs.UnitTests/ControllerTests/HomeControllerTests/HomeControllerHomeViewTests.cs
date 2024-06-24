@@ -2,7 +2,6 @@
 using DFC.Common.SharedContent.Pkg.Netcore.Model.ContentItems.SharedHtml;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;
@@ -24,7 +23,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
                 Html = "Test",
             };
 
-            var test = A.CallTo(() => FakeSharedContentRedisInterface.GetDataAsync<SharedHtml>("test", A<string>.Ignored)).Returns(sharedHtmlResponse);
+            var test = A.CallTo(() => FakeSharedContentRedisInterface.GetDataAsync<SharedHtml>("test", A<string>.Ignored, A<double>.Ignored)).Returns(sharedHtmlResponse);
 
 
             // Act
@@ -51,7 +50,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
                 Html = "Test",
             };
 
-            var test = A.CallTo(() => FakeSharedContentRedisInterface.GetDataAsync<SharedHtml>("test", A<string>.Ignored)).Returns(sharedHtmlResponse);
+            var test = A.CallTo(() => FakeSharedContentRedisInterface.GetDataAsync<SharedHtml>("test", A<string>.Ignored, A<double>.Ignored)).Returns(sharedHtmlResponse);
 
             // Act
             var result = await controller.HomeView().ConfigureAwait(false);
@@ -77,7 +76,7 @@ namespace DFC.App.ContactUs.UnitTests.ControllerTests.HomeControllerTests
                 Html = "Test",
             };
 
-            var test = A.CallTo(() => FakeSharedContentRedisInterface.GetDataAsync<SharedHtml>("test", A<string>.Ignored)).Returns(sharedHtmlResponse);
+            var test = A.CallTo(() => FakeSharedContentRedisInterface.GetDataAsync<SharedHtml>("test", A<string>.Ignored, A<double>.Ignored)).Returns(sharedHtmlResponse);
 
             // Act
             var result = await controller.HomeView().ConfigureAwait(false);
