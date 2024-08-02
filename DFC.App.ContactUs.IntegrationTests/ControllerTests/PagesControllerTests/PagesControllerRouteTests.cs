@@ -1,5 +1,4 @@
 ﻿using DFC.Common.SharedContent.Pkg.Netcore.Model.ContentItems.SharedHtml;
-using DFC.Common.SharedContent.Pkg.Netcore.Model.Response;
 using FakeItEasy;
 using Moq;
 using System;
